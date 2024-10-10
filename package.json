@@ -4,11 +4,16 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
+    "test:chrome": "npx playwright test --project chromium",
+    "test:firefox": "npx playwright test --project firefox",
+    "test:webkit": "npx playwright test --project webkit",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier . --check",
     "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "report-create": "allure generate allure-results -o allure-report --clean",
+    "report-open": "npm run report-create && allure open allure-report"
   },
   "keywords": [],
   "author": "",
@@ -17,13 +22,17 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.12.0",
-    "@playwright/test": "^1.47.2",
+    "@playwright/test": "^1.48.0",
     "@types/node": "^22.7.4",
+    "allure-playwright": "^3.0.4",
     "dotenv": "^16.4.5",
     "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.10.0",
     "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.30.0"
   }
 }
