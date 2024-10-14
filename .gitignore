@@ -5,3 +5,6 @@ node_modules/
 /playwright/.cache/
 .env
 .DS_Store
+package-lock.json
+/allure-results/
+/allure-report/
