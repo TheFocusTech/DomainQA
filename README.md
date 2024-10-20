@@ -15,6 +15,8 @@
 6. Before committing and pushing code to the repository, please run the following command to ensure proper code formatting:
 ```npm run format```. This step is necessary to maintain consistent code style across the project.
 
+7. To create and open allure-report execute in terminal the following command ```npm run report-open```.
+
 **Attention!**
 
 QA Engineers are not allowed to install any libraries, plugins, etc. to avoid changing configuration files.

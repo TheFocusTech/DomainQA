@@ -1,9 +1,9 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
-import { tag, epic, feature, severity, description, step, tms, issue } from 'allure-js-commons';
+import { tags, epic, feature, severity, description, step, tms, issue } from 'allure-js-commons';
 
 test('TC_00_01_Has title', async ({ page }) => {
-    await tag('Title (keywords)');
+    await tags('Title (keywords)');
     await severity('critical');
     await description('Test description');
     await issue('/link1', 'Name QASE link ');
@@ -22,7 +22,7 @@ test('TC_00_01_Has title', async ({ page }) => {
 });
 
 test('TC_00_02_Get started link', async ({ page }) => {
-    await tag('Link (keywords)');
+    await tags('Link', 'Keywords');
     await severity('minor');
     await description('Test description');
     await issue('/link1', 'Name QASE link ');
