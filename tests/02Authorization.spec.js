@@ -18,16 +18,16 @@ test.describe('Authorization', () => {
         await homePage.clickLogin();
 
         await step('Verify user is on Login page', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
             await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
+            await loginPage.verifyLoginFormUI();
         });
-        await loginPage.verifyLoginFormUI();
-
         await loginPage.fillEmailAddressInput(process.env.USER_EMAIL);
         await loginPage.fillPasswordInput(process.env.USER_PASSWORD);
         await loginPage.clickLogin();
 
         await step('Verify user is logged in', async () => {
-            await expect(page).toHaveURL(process.env.URL);
+            await page.waitForURL(process.env.URL);
             await expect(homePage.myProfileButton).toBeVisible();
         });
     });
