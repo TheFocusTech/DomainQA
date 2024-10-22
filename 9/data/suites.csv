@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Oct 22 16:18:49 GMT 2024","Tue Oct 22 16:18:50 GMT 2024","743","chromium","","","","","TC_00_02_Get started link","Test description"
+"passed","Tue Oct 22 16:18:49 GMT 2024","Tue Oct 22 16:18:49 GMT 2024","604","chromium","","","","","TC_00_01_Has title","Test description"
+"broken","Tue Oct 22 16:18:17 GMT 2024","Tue Oct 22 16:18:48 GMT 2024","31281","chromium","","Authorization","","","TC_02_02 |  Verify user can login into their account without 2FA.","To verify user login process without 2FA."
