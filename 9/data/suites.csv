@@ -1,4 +1,4 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Tue Oct 22 17:36:28 GMT 2024","Tue Oct 22 17:36:28 GMT 2024","522","chromium","","","","","TC_00_01_Has title","Test description"
-"passed","Tue Oct 22 17:36:28 GMT 2024","Tue Oct 22 17:36:29 GMT 2024","757","chromium","","","","","TC_00_02_Get started link","Test description"
-"broken","Tue Oct 22 17:35:56 GMT 2024","Tue Oct 22 17:36:27 GMT 2024","31178","chromium","","Authorization","","","TC_02_02 |  Verify user can login into their account without 2FA.","To verify user login process without 2FA."
+"passed","Tue Oct 22 17:51:59 GMT 2024","Tue Oct 22 17:52:00 GMT 2024","794","chromium","","","","","TC_00_02_Get started link","Test description"
+"broken","Tue Oct 22 17:51:26 GMT 2024","Tue Oct 22 17:51:58 GMT 2024","31335","chromium","","Authorization","","","TC_02_02 |  Verify user can login into their account without 2FA.","To verify user login process without 2FA."
+"passed","Tue Oct 22 17:51:58 GMT 2024","Tue Oct 22 17:51:59 GMT 2024","582","chromium","","","","","TC_00_01_Has title","Test description"
