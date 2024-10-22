@@ -18,7 +18,7 @@ test.describe('Authorization', () => {
         await homePage.clickLogin();
 
         await step('Verify user is on Login page', async () => {
-            await expect(loginPage.page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
         });
         await loginPage.verifyLoginFormUI();
 
@@ -27,7 +27,7 @@ test.describe('Authorization', () => {
         await loginPage.clickLogin();
 
         await step('Verify user is logged in', async () => {
-            await expect(homePage.page).toHaveURL(process.env.URL);
+            await expect(page).toHaveURL(process.env.URL);
             await expect(homePage.myProfileButton).toBeVisible();
         });
     });
