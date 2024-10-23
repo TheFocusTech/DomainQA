@@ -8,8 +8,7 @@ export default class SignupPage {
         this.emailAddressInput = this.page.getByPlaceholder('example@gmail.com');
         this.checkboxRecieveEmails = this.page.locator('label').filter({ hasText: "I’d like to receive emails" }).locator('div');
         this.createAccountButton = this.page.getByRole('button', { name: 'Create account' });
-        this.errorMessageEmailExist = this.page.locator('p.field-control_field-control__text-error__NtUUK');
-      //  this.errorMessageEmailExist = this.page.locator('p.field-control_field-control__text-error__NtUUK', { hasText: 'This email is already registered' });
+        this.errorMessageEmailExist = this.page.locator("p[class*='text-error']");
     }
 
     async fillEmailAddressInput(email) {
