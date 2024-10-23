@@ -83,8 +83,6 @@ test.describe('Authorization', () => {
             await step('Verify user stays on Login page and error message is displayed.', async () => {
                 await expect(loginPage.errorMessageWrongCredentials).toBeVisible();
                 await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
-
-                await page.reload();
             });
         }
     });
