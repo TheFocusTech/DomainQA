@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Oct 23 14:46:08 GMT 2024","Wed Oct 23 14:46:13 GMT 2024","4819","chromium","","Authorization","","","TC_02_02 |  Verify user can login into their account without 2FA.","To verify user login process without 2FA."
+"passed","Wed Oct 23 14:45:58 GMT 2024","Wed Oct 23 14:46:06 GMT 2024","8473","chromium","","Registration","","","TC_01_02_01 | Verify user is not able to sign up with an existing email","Verify that registration fails when an existing email is used"
+"passed","Wed Oct 23 14:46:13 GMT 2024","Wed Oct 23 14:46:18 GMT 2024","5341","chromium","","Authorization","","","TC_02_01 | Verify login with invalid credentials.","To verify user is not able to login with empty and invalid credentials."
