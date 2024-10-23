@@ -19,7 +19,7 @@ export default class SignupPage {
         });
     }
     async selectCheckboxReceiveEmails() {
-        await step('Click checkbox "Receive Emails".', async () => {
+        await step('Click checkbox "Receive emails".', async () => {
             await this.checkboxRecieveEmails.click();
         });
     }
