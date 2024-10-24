@@ -31,7 +31,8 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.10.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "totp-generator": "^1.0.0"
   },
   "dependencies": {
     "allure-commandline": "^2.30.0"
