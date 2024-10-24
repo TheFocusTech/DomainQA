@@ -17,5 +17,9 @@ export const COLORS = {
 };
 
 export const NEW_PASSWORD = {
-    newPassword: `NEW_${process.env.USER_PASSWORD}`,
+    newPassword: `${process.env.USER_PASSWORD}`,
+};
+
+export const TOAST_MESSAGE = {
+    passwordChanged: 'Password changed successfully',
 };

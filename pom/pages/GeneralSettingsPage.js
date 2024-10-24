@@ -5,7 +5,6 @@ export default class GeneralSettingsPage {
         this.page = page;
 
         this.changeButton = this.page.getByRole('button', { name: 'Change' });
-        this.successfullyMessage = this.page.getByText('Password changed successfully');
     }
 
     async clickChangeButton() {

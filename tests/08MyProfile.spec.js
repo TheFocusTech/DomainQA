@@ -1,7 +1,7 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, NEW_PASSWORD } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, NEW_PASSWORD, TOAST_MESSAGE } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
@@ -9,8 +9,10 @@ test.describe('My profile', () => {
         page,
         homePage,
         loginPage,
+        headerComponent,
         generalSettingsPage,
         changePasswordModal,
+        toastComponent,
     }) => {
         await tags('My profile', 'Password');
         await severity('normal');
@@ -24,8 +26,8 @@ test.describe('My profile', () => {
             await loginUser(page, homePage, loginPage);
         });
 
-        await homePage.headerComponent.clickMyProfileButton();
-        await homePage.headerComponent.clickAccountSettingsLink();
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
         await generalSettingsPage.clickChangeButton();
 
         await step('Verify the "Current password" field is displayed.', async () => {
@@ -52,8 +54,8 @@ test.describe('My profile', () => {
         await changePasswordModal.fillRepeatNewPasswordField(NEW_PASSWORD.newPassword);
         await changePasswordModal.clickChangeButton();
 
-        await step('Verify the "Current Password" is changed to the "New password".', async () => {
-            await expect(generalSettingsPage.successfullyMessage).toBeVisible();
+        await step('Verify the toast message “Password changed successfully” appears.', async () => {
+            await expect(toastComponent.toastBody.getByText(TOAST_MESSAGE.passwordChanged)).toBeVisible;
         });
 
         await step(
