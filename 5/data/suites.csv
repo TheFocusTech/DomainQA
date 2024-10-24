@@ -1,7 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Sun Oct 20 21:33:17 GMT 2024","Sun Oct 20 21:33:21 GMT 2024","3615","webkit","","","","","TC_00_01_Has title","Test description"
-"passed","Sun Oct 20 21:33:16 GMT 2024","Sun Oct 20 21:33:16 GMT 2024","813","firefox","","","","","TC_00_02_Get started link","Test description"
-"passed","Sun Oct 20 21:33:13 GMT 2024","Sun Oct 20 21:33:13 GMT 2024","795","chromium","","","","","TC_00_02_Get started link","Test description"
-"passed","Sun Oct 20 21:33:14 GMT 2024","Sun Oct 20 21:33:15 GMT 2024","1376","firefox","","","","","TC_00_01_Has title","Test description"
-"passed","Sun Oct 20 21:33:23 GMT 2024","Sun Oct 20 21:33:24 GMT 2024","1396","webkit","","","","","TC_00_02_Get started link","Test description"
-"passed","Sun Oct 20 21:33:12 GMT 2024","Sun Oct 20 21:33:12 GMT 2024","619","chromium","","","","","TC_00_01_Has title","Test description"
