@@ -4,6 +4,7 @@ export const GOOGLE_DOC_LINK =
 export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
+    hostedZoneManagment: '/hosted-zones/management',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -14,4 +15,14 @@ export const INVALID_CREDS_AUTH = [
 
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
+};
+
+export const DNS_TYPE = {
+    A: 'A',
+    AAAA: 'AAAA',
+    CNAME: 'CNAME',
+    DS: 'DS',
+    MX: 'MX',
+    NS: 'NS',
+    TXT: 'TXT',
 };
