@@ -1,5 +1,5 @@
 import { step } from 'allure-js-commons';
-import HeaderComponent from '../components/Header';
+import HeaderComponent from '../components/HeaderComponent';
 
 export default class HomePage {
     constructor(page) {
