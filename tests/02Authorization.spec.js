@@ -28,7 +28,7 @@ test.describe('Authorization', () => {
 
         await step('Verify user is logged in', async () => {
             await page.waitForURL(process.env.URL);
-            await expect(homePage.myProfileButton).toBeVisible();
+            await expect(homePage.headerComponent.myProfileButton).toBeVisible();
         });
     });
 
