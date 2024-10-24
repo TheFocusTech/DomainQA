@@ -17,7 +17,10 @@ test.describe('Domain', () => {
         });
     });
 
-    test('TC_04_05_02 | Add new DNS-record modal was closed by Cancel button', async ({ page, hostedZoneDetailPage }) => {
+    test('TC_04_05_02 | Add new DNS-record modal was closed by Cancel button', async ({
+        page,
+        hostedZoneDetailPage,
+    }) => {
         await tags('Domain', 'Positive');
         await severity('critical');
         await description('Verify DNS Record with required fields');
