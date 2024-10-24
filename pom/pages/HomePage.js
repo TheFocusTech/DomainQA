@@ -5,7 +5,6 @@ export default class HomePage {
         this.page = page;
 
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
-        this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
     }
 
