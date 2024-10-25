@@ -23,7 +23,7 @@ test.describe('My profile', () => {
         await feature('Account settings');
 
         const currentPassword = PASSWORD.password;
-        const newPassword = PASSWORD.Password;
+        const newPassword = PASSWORD.password;
 
         await step('Preconditions:', async () => {
             await loginUser(page, homePage, loginPage);
