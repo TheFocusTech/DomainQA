@@ -10,7 +10,7 @@ export default class ChangePasswordModal {
         this.closeButton = this.page.getByLabel('Button');
         this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
         this.changeButton = this.page.locator('#root-portal button').filter({ hasText: 'Change' });
-        this.goodPasswordRules = this.page.locator('.rules_rule__icon--success___5a9K');
+        this.goodPasswordRule = this.page.locator('.rules_rule__icon--success___5a9K');
     }
 
     async fillCurrentPasswordField(password) {
