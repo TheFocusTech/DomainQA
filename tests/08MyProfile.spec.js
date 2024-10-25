@@ -1,7 +1,7 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, NEW_PASSWORD, TOAST_MESSAGE } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
@@ -21,6 +21,9 @@ test.describe('My profile', () => {
         await tms(`${GOOGLE_DOC_LINK}g7yno6cbuqi`, 'ATC_08_02_02');
         await epic('My profile');
         await feature('Account settings');
+
+        const currentPassword = PASSWORD.password;
+        const newPassword = PASSWORD.newPassword;
 
         await step('Preconditions:', async () => {
             await loginUser(page, homePage, loginPage);
@@ -49,9 +52,14 @@ test.describe('My profile', () => {
             await expect(changePasswordModal.changeButton).toBeVisible();
         });
 
-        await changePasswordModal.fillCurrentPasswordField(process.env.USER_PASSWORD);
-        await changePasswordModal.fillNewPasswordField(NEW_PASSWORD.newPassword);
-        await changePasswordModal.fillRepeatNewPasswordField(NEW_PASSWORD.newPassword);
+        await changePasswordModal.fillCurrentPasswordField(currentPassword);
+        await changePasswordModal.fillNewPasswordField(newPassword);
+        await changePasswordModal.fillRepeatNewPasswordField(newPassword);
+
+        await step('Verify the password is good.', async () => {
+            await expect(changePasswordModal.goodPasswordRules).toHaveCount(4);
+        });
+
         await changePasswordModal.clickChangeButton();
 
         await step('Verify the toast message “Password changed successfully” appears.', async () => {
@@ -62,9 +70,9 @@ test.describe('My profile', () => {
             'Postconditions: Change "New password" to "Current Password" and return to "Home Page"',
             async () => {
                 await generalSettingsPage.clickChangeButton();
-                await changePasswordModal.fillCurrentPasswordField(NEW_PASSWORD.newPassword);
-                await changePasswordModal.fillNewPasswordField(process.env.USER_PASSWORD);
-                await changePasswordModal.fillRepeatNewPasswordField(process.env.USER_PASSWORD);
+                await changePasswordModal.fillCurrentPasswordField(newPassword);
+                await changePasswordModal.fillNewPasswordField(currentPassword);
+                await changePasswordModal.fillRepeatNewPasswordField(currentPassword);
                 await changePasswordModal.clickChangeButton();
                 await page.goto('/');
             }
