@@ -57,7 +57,7 @@ test.describe('My profile', () => {
         await changePasswordModal.fillRepeatNewPasswordField(newPassword);
 
         await step('Verify the password is good.', async () => {
-            await expect(changePasswordModal.goodPasswordRules).toHaveCount(4);
+            await expect(changePasswordModal.goodPasswordRule).toHaveCount(4);
         });
 
         await changePasswordModal.clickChangeButton();
