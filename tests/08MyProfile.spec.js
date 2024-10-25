@@ -10,7 +10,7 @@ test.describe('My profile', () => {
         homePage,
         loginPage,
         headerComponent,
-        generalSettingsPage,
+        settingsGeneralPage,
         changePasswordModal,
         toastComponent,
     }) => {
@@ -31,7 +31,7 @@ test.describe('My profile', () => {
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
-        await generalSettingsPage.clickChangeButton();
+        await settingsGeneralPage.clickChangeButton();
 
         await step('Verify the "Current password" field is displayed.', async () => {
             await expect(changePasswordModal.currentPasswordField).toBeVisible();
@@ -69,7 +69,7 @@ test.describe('My profile', () => {
         await step(
             'Postconditions: Change "New password" to "Current Password" and return to "Home Page"',
             async () => {
-                await generalSettingsPage.clickChangeButton();
+                await settingsGeneralPage.clickChangeButton();
                 await changePasswordModal.fillCurrentPasswordField(newPassword);
                 await changePasswordModal.fillNewPasswordField(currentPassword);
                 await changePasswordModal.fillRepeatNewPasswordField(currentPassword);

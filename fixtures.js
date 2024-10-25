@@ -2,7 +2,7 @@ import { test as base } from '@playwright/test';
 import HomePage from './pom/pages/HomePage';
 import LoginPage from './pom/pages/LoginPage';
 import SignupPage from './pom/pages/SignupPage';
-import GeneralSettingsPage from './pom/pages/GeneralSettingsPage';
+import SettingsGeneralPage from './pom/pages/SettingsGeneralPage';
 import ChangePasswordModal from './pom/modalWindows/ChangePasswordModal';
 import HeaderComponent from './pom/components/HeaderComponent';
 import ToastComponent from './pom/components/ToastComponent';
@@ -20,8 +20,8 @@ export const test = base.extend({
     headerComponent: async ({ page }, use) => {
         await use(new HeaderComponent(page));
     },
-    generalSettingsPage: async ({ page }, use) => {
-        await use(new GeneralSettingsPage(page));
+    settingsGeneralPage: async ({ page }, use) => {
+        await use(new SettingsGeneralPage(page));
     },
     changePasswordModal: async ({ page }, use) => {
         await use(new ChangePasswordModal(page));
