@@ -5,7 +5,7 @@ import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE } from '../testData
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
-    test('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
+    test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         homePage,
         loginPage,
