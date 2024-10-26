@@ -17,6 +17,21 @@ export const COLORS = {
     red: 'rgb(242, 62, 62)',
 };
 
+export const PASSWORD = {
+    password: `${process.env.USER_PASSWORD}`,
+    newPassword: `NEW_${process.env.USER_PASSWORD}`,
+};
+
+export const TOAST_MESSAGE = {
+    passwordChanged: 'Password changed successfully',
+};
+
+export const NEGATIVE_EMAIL_DATA_SET = [
+    ['without @', 'test.test.gmail', 'Invalid email address'],
+    ['without domain', 'test@gmail', 'Invalid email address'],
+    ['domain less than 2 characters', 'test@gmail.s', 'Invalid email address'],
+];
+
 export const DNS_TYPE = {
     A: 'A',
     AAAA: 'AAAA',

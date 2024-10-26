@@ -4,7 +4,12 @@ import { description, tags, severity, epic, step, tms, issue } from 'allure-js-c
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS } from '../testData';
 
 test.describe('Authorization', () => {
-    test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({ page, homePage, loginPage }) => {
+    test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
+        page,
+        homePage,
+        loginPage,
+        headerComponent,
+    }) => {
         await tags('Authorization', 'Positive');
         await severity('critical');
         await description('To verify user login process without 2FA.');
@@ -28,7 +33,7 @@ test.describe('Authorization', () => {
 
         await step('Verify user is logged in', async () => {
             await page.waitForURL(process.env.URL);
-            await expect(homePage.myProfileButton).toBeVisible();
+            await expect(headerComponent.myProfileButton).toBeVisible();
         });
     });
 
