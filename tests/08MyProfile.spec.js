@@ -7,7 +7,6 @@ import { loginUser } from '../helpers/preconditions';
 test.describe('My profile', () => {
     test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
-        homePage,
         loginPage,
         headerComponent,
         settingsGeneralPage,
