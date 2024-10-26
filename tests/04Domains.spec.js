@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { URL_ENDPOINT } from '../testData';
 import { loginUser } from '../helpers/preconditions';
