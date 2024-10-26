@@ -6,6 +6,9 @@ export default class HomePage {
 
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
+        //this.domainSearchInput = page.locator('.search-domain_form__dZU0L.hero_hero__search__k9y_d');
+        this.domainSearchInput = page.getByPlaceholder('Search domain').first();
+        this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1)
     }
 
     async clickLogin() {
@@ -19,4 +22,17 @@ export default class HomePage {
             await this.signupButton.click();
         });
     }
+
+    async fillDomainSearchInput(nameDomain) {
+        await step('Fill in "Search domain" input field.', async () => {
+            await this.domainSearchInput.fill(nameDomain);
+        });
+    }
+
+    async clickSearchButton() {
+        await step('Click on "Search" button.', async () => {
+            await this.searchButton.click();
+        });
+    }  
+
 }
