@@ -15,19 +15,19 @@ export default class DnsRecordModal {
     }
 
     async clickSaveButton() {
-        await step('Click save button', async () => {
+        await step('Click save button.', async () => {
             await this.saveButton.click();
         });
     }
 
     async clickCancelButton() {
-        await step('Click cancel button', async () => {
+        await step('Click cancel button.', async () => {
             await this.cancelButton.click();
         });
     }
 
     async clickXButton() {
-        await step('Click X button', async () => {
+        await step('Click X button.', async () => {
             await this.iconButtonX.click();
         });
     }

@@ -8,6 +8,9 @@ import HeaderComponent from './pom/components/HeaderComponent';
 import ToastComponent from './pom/components/ToastComponent';
 import HostedZonesPage from './pom/pages/HostedZonesPage';
 import HostedZonesDetailPage from './pom/pages/HostedZonesDetailPage';
+import DnsRecordModal from './pom/modalWindows/DnsRecordModal';
+import CreateHostedZoneModal from './pom/modalWindows/CreateHostedZoneModal';
+import DeleteHostedZoneModal from './pom/modalWindows/DeleteHostedZoneModal';
 
 export const test = base.extend({
     homePage: async ({ page }, use) => {
@@ -36,5 +39,14 @@ export const test = base.extend({
     },
     hostedZonesDetailPage: async ({ page }, use) => {
         await use(new HostedZonesDetailPage(page));
+    },
+    dnsRecordModal: async ({ page }, use) => {
+        await use(new DnsRecordModal(page));
+    },
+    createHostedZoneModal: async ({ page }, use) => {
+        await use(new CreateHostedZoneModal(page));
+    },
+    deleteHostedZoneModal: async ({ page }, use) => {
+        await use(new DeleteHostedZoneModal(page));
     },
 });
