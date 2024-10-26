@@ -6,6 +6,7 @@ import SettingsGeneralPage from './pom/pages/SettingsGeneralPage';
 import ChangePasswordModal from './pom/modalWindows/ChangePasswordModal';
 import HeaderComponent from './pom/components/HeaderComponent';
 import ToastComponent from './pom/components/ToastComponent';
+import HostedZonesPage from './pom/pages/HostedZonesPage';
 
 export const test = base.extend({
     homePage: async ({ page }, use) => {
@@ -28,5 +29,9 @@ export const test = base.extend({
     },
     toastComponent: async ({ page }, use) => {
         await use(new ToastComponent(page));
+    },
+
+    hostedZonesPage: async ({ page }, use) => {
+        await use(new HostedZonesPage(page));
     },
 });
