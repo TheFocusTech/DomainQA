@@ -6,7 +6,6 @@ import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS } 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
         page,
-        homePage,
         loginPage,
         headerComponent,
     }) => {
@@ -20,7 +19,7 @@ test.describe('Authorization', () => {
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
         });
-        await homePage.clickLogin();
+        await headerComponent.clickLogin();
 
         await step('Verify user is on Login page', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
@@ -37,7 +36,7 @@ test.describe('Authorization', () => {
         });
     });
 
-    test('TC_02_01 | Verify login with invalid credentials.', async ({ page, homePage, loginPage }) => {
+    test('TC_02_01 | Verify login with invalid credentials.', async ({ page, headerComponent, loginPage }) => {
         await tags('Authorization', 'Negative');
         await severity('normal');
         await description('To verify user is not able to login with empty and invalid credentials.');
@@ -49,7 +48,7 @@ test.describe('Authorization', () => {
             await page.goto('/');
         });
 
-        await homePage.clickLogin();
+        await headerComponent.clickLogin();
 
         await step('Verify user is on Login page.', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.login);

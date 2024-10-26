@@ -6,6 +6,8 @@ export default class HeaderComponent {
 
         this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
+        this.loginButton = this.page.getByRole('link', { name: 'Log in' });
+        this.signupButton = this.page.getByRole('link', { name: 'Join now' });
     }
 
     async clickMyProfileButton() {
@@ -17,6 +19,18 @@ export default class HeaderComponent {
     async clickAccountSettingsLink() {
         await step('Click on the "Account Settings" link.', async () => {
             await this.accountSettingsLink.click();
+        });
+    }
+
+    async clickLogin() {
+        await step('Click on "Log in" button.', async () => {
+            await this.loginButton.click();
+        });
+    }
+
+    async clickSignup() {
+        await step('Click on "Join now" button.', async () => {
+            await this.signupButton.click();
         });
     }
 }
