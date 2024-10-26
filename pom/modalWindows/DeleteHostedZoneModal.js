@@ -4,8 +4,8 @@ export default class DeleteHostedZoneModal {
     constructor(page) {
         this.page = page;
 
-        this.cancelButton = this.page.locator('button[class="button-outline_"]');
-        this.deleteButton = this.page.locator('button[class*="button-negative_"]');
+        this.cancelButton = this.page.locator('#root-portal button').filter({ hasText: 'Cancel' });
+        this.deleteButton = this.page.locator('#root-portal button').filter({ hasText: 'Delete' });
     }
 
     async clickDeleteButton() {

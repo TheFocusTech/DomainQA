@@ -14,12 +14,21 @@ export const loginUser = async (page, headerComponent, loginPage) => {
 
 export const createHostedZone = async (page, hostedZonesPage, createHostedZoneModal) => {
     await step('Create Hosted Zones.', async () => {
-        await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZonesManagement}`, {
+        await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}`, {
             waitUntil: 'networkidle',
         });
         await hostedZonesPage.clickCreateHostedZoneButton();
         await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         await createHostedZoneModal.fillHostedZoneDomainNameInput(HOSTED_ZONE_DOMAIN_NAME);
         await createHostedZoneModal.clickCreateButton();
+    });
+};
+
+export const deleteHostedZone = async (hostedZonesPage, deleteHostedZoneModal) => {
+    await step('Delete Hosted Zone.', async () => {
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+        await deleteHostedZoneModal.clickDeleteButton();
+        await expect(hostedZonesPage.deleteHostedZoneModal).not.toBeVisible();
     });
 };

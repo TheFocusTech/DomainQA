@@ -6,7 +6,7 @@ export const HOSTED_ZONE_DOMAIN_NAME = '42.com';
 export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
-    hostedZonesManagement: '/hosted-zones/management',
+    hostedZones: '/hosted-zones/management',
 };
 
 export const INVALID_CREDS_AUTH = [

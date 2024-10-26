@@ -1,5 +1,4 @@
 import { step } from 'allure-js-commons';
-import { expect } from '@playwright/test';
 
 export default class HostedZonesDetailPage {
     constructor(page) {
@@ -19,18 +18,6 @@ export default class HostedZonesDetailPage {
     async clickAddRecordButton() {
         await step('Click "Add Record" button.', async () => {
             await this.addRecordButton.click();
-        });
-    }
-
-    async verifyModalDialogIsVisible() {
-        await step('Verify the modal dialog is visible.', async () => {
-            await expect(this.hostedZoneModal).toBeVisible();
-        });
-    }
-
-    async verifyModalDialogIsNotVisible() {
-        await step('Verify the modal dialog is not visible.', async () => {
-            await expect(this.hostedZoneModal).not.toBeVisible();
         });
     }
 }

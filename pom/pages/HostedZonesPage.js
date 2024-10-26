@@ -1,5 +1,4 @@
 import { step } from 'allure-js-commons';
-import { expect } from '@playwright/test';
 
 export default class HostedZonesPage {
     constructor(page) {
@@ -34,18 +33,6 @@ export default class HostedZonesPage {
     async clickDeleteButton() {
         await step('Click on "Create hosted zone" button.', async () => {
             await this.deleteButton.click();
-        });
-    }
-
-    async verifyDeleteHostedZoneModalIsVisible() {
-        await step('Verify "Delete hosted zone" is visible.', async () => {
-            await expect(this.deleteHostedZoneModal).toBeVisible();
-        });
-    }
-
-    async verifyDeleteHostedZoneModalIsNotVisible() {
-        await step('Verify "Delete hosted zone" is not visible.', async () => {
-            await expect(this.deleteHostedZoneModal).not.toBeVisible();
         });
     }
 }

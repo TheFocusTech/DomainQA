@@ -1,7 +1,8 @@
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { loginUser, createHostedZone } from '../helpers/preconditions';
+import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME } from '../testData';
+import { expect } from '@playwright/test';
 
 test.describe('Domain', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
@@ -30,7 +31,7 @@ test.describe('Domain', () => {
         });
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
-            await hostedZonesDetailPage.verifyModalDialogIsVisible();
+            await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
         });
 
         await step('Close "Add new DNS-record" by clicking Cancel.', async () => {
@@ -38,15 +39,11 @@ test.describe('Domain', () => {
         });
 
         await step('Verify "Add new DNS-record" modal is not visible.', async () => {
-            await hostedZonesDetailPage.verifyModalDialogIsNotVisible();
+            await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
         });
 
         await step('Open "Add new DNS-record" modal.', async () => {
             await hostedZonesDetailPage.clickAddRecordButton();
-        });
-
-        await step('Verify "Add new DNS-record" modal is visible.', async () => {
-            await hostedZonesDetailPage.verifyModalDialogIsVisible();
         });
 
         await step('Close dialog by clicking "X".', async () => {
@@ -54,17 +51,14 @@ test.describe('Domain', () => {
         });
 
         await step('Verify "Add new DNS-record" modal is not visible.', async () => {
-            await hostedZonesDetailPage.verifyModalDialogIsNotVisible();
+            await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
         });
     });
 
     test.afterEach(async ({ hostedZonesPage, hostedZonesDetailPage, deleteHostedZoneModal }) => {
         await step(`Delete hosted zone after usage.`, async () => {
             await hostedZonesDetailPage.clickBackToHostedZonesButton();
-            await hostedZonesPage.clickBreadcrumbMenuHostedZone();
-            await hostedZonesPage.clickDeleteButton();
-            await deleteHostedZoneModal.clickDeleteButton();
-            await hostedZonesPage.verifyDeleteHostedZoneModalIsNotVisible();
+            await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
         });
     });
 });
