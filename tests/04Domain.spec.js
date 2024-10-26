@@ -4,8 +4,8 @@ import { loginUser, createHostedZone } from '../helpers/preconditions';
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME } from '../testData';
 
 test.describe('Domain', () => {
-    test.beforeEach(async ({ page, homePage, loginPage, hostedZonesPage, createHostedZoneModal }) => {
-        await loginUser(page, homePage, loginPage);
+    test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
+        await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         await createHostedZone(page, hostedZonesPage, createHostedZoneModal);
 
@@ -66,7 +66,5 @@ test.describe('Domain', () => {
             await deleteHostedZoneModal.clickDeleteButton();
             await hostedZonesPage.verifyDeleteHostedZoneModalIsNotVisible();
         });
-
-        await step(`Delete hosted zone after usage.`, async () => {});
-    });
+    })
 });
