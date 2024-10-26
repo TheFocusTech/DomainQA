@@ -1,8 +1,8 @@
 import { API_ENDPOINT } from '../testData';
-import { getRandomDomainame } from './utils';
+import { getRandomDomainName } from './utils';
 
 export async function createHostedZoneAPI(request, headers) {
-    const domainName = await getRandomDomainame();
+    const domainName = await getRandomDomainName();
     const { 'dr.token': authToken, 'dr.scrf-token': xsrfToken, _csrf: csrfCookie } = headers;
     const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
         headers: {

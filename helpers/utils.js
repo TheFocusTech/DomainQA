@@ -5,7 +5,7 @@ export function generateVerificationCode(secretKey) {
     return { otp, expires };
 }
 
-export async function getRandomDomainame() {
+export async function getRandomDomainName() {
     const date = new Date().toISOString().replace(/\D/g, '').slice(0, 14);
     const domainName = `api-${date}.com`;
     return domainName;
