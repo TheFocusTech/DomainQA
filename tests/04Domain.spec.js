@@ -66,5 +66,5 @@ test.describe('Domain', () => {
             await deleteHostedZoneModal.clickDeleteButton();
             await hostedZonesPage.verifyDeleteHostedZoneModalIsNotVisible();
         });
-    })
+    });
 });
