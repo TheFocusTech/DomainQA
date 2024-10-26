@@ -1,7 +1,7 @@
 import { step } from 'allure-js-commons';
 import { expect } from '@playwright/test';
 
-export default class HostedZoneDetailPage {
+export default class HostedZonesDetailPage {
     constructor(page) {
         this.page = page;
 

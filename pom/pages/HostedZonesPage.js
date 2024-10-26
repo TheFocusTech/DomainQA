@@ -1,6 +1,6 @@
 import { step } from 'allure-js-commons';
 
-export default class HostedZonePage {
+export default class HostedZonesPage {
     constructor(page) {
         this.page = page;
     }

@@ -4,7 +4,7 @@ export const GOOGLE_DOC_LINK =
 export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
-    hostedZoneManagment: '/hosted-zones/management',
+    hostedZonesManagement: '/hosted-zones/management',
 };
 
 export const INVALID_CREDS_AUTH = [
