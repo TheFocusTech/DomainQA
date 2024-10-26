@@ -2,10 +2,10 @@ import { step } from 'allure-js-commons';
 import { expect } from '@playwright/test';
 import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
 
-export const loginUser = async (page, homePage, loginPage) => {
+export const loginUser = async (page, headerComponent, loginPage) => {
     await step('Login as a registered user', async () => {
         await page.goto('/');
-        await homePage.clickLogin();
+        await headerComponent.clickLogin();
         await loginPage.fillEmailAddressInput(process.env.USER_EMAIL);
         await loginPage.fillPasswordInput(process.env.USER_PASSWORD);
         await loginPage.clickLogin();
