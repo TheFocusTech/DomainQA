@@ -24,3 +24,9 @@ export const PASSWORD = {
 export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
 };
+
+export const NEGATIVE_EMAIL_DATA_SET = [
+    ['without @', 'test.test.gmail', 'Invalid email address'],
+    ['without domain', 'test@gmail', 'Invalid email address'],
+    ['domain less than 2 characters', 'test@gmail.s', 'Invalid email address'],
+];
