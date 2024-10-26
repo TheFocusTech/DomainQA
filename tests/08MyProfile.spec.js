@@ -7,7 +7,6 @@ import { loginUser } from '../helpers/preconditions';
 test.describe('My profile', () => {
     test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
-        homePage,
         loginPage,
         headerComponent,
         settingsGeneralPage,
@@ -26,7 +25,7 @@ test.describe('My profile', () => {
         const newPassword = PASSWORD.password;
 
         await step('Preconditions:', async () => {
-            await loginUser(page, homePage, loginPage);
+            await loginUser(page, headerComponent, loginPage);
         });
 
         await headerComponent.clickMyProfileButton();
