@@ -10,7 +10,7 @@ export default class SignupPage {
             .filter({ hasText: 'I’d like to receive emails' })
             .locator('div');
         this.createAccountButton = this.page.getByRole('button', { name: 'Create account' });
-        this.errorMessageEmailExist = this.page.locator("p[class*='text-error']");
+        this.errorMessageEmail = this.page.locator("p[class*='text-error']");
     }
 
     async fillEmailAddressInput(email) {
