@@ -5,7 +5,7 @@ import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, ERROR_DOMAIN } fro
 import { expect } from '@playwright/test';
 
 
-test.describe('Domains', () => {
+test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -62,6 +62,9 @@ test.describe('Domains', () => {
             await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
         });
     });
+});
+
+    test.describe('Search domains', () => {
 
     test('TC_04_09_01 | Verify user can search the registered domain', async ({
         page,
@@ -125,4 +128,5 @@ test.describe('Domains', () => {
         });
     });
 });
+
 

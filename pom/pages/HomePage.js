@@ -7,7 +7,6 @@ export default class HomePage {
         this.domainSearchInput = this.page.getByPlaceholder('Search domain').first();
         //this.domainSearchInput = this.page.locator("form[class^='search']").first();
         this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1);
-        //   this.domainTakenText = this.page.locator('.card-domain-purchase_card-domain-purchase__status__Dj7kC .tag_tag__text__l30BB');
     }
 
     async clickLogin() {
