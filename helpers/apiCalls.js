@@ -1,15 +1,20 @@
 import { API_ENDPOINT } from '../testData';
 import { getRandomDomainName } from './utils';
 
-export async function getHostedZonesAPI(request, headers) {
+function getAuthHeaders(headers) {
     const { 'dr.token': authToken, 'dr.scrf-token': xsrfToken, _csrf: csrfCookie } = headers;
-    const getHostedZonesResponse = await request.get(`${process.env.API_URL}/users/hosted-zones?`, {
-        // TODO:
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-            'x-csrf-token': xsrfToken,
-            Cookie: `_csrf=${csrfCookie}`,
-        },
+    return {
+        Authorization: `Bearer ${authToken}`,
+        'x-csrf-token': xsrfToken,
+        Cookie: `_csrf=${csrfCookie}`,
+    };
+}
+
+export async function getHostedZonesAPI(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+
+    const getHostedZonesResponse = await request.get(`${process.env.API_URL}${API_ENDPOINT.getHostedZones}`, {
+        headers: authHeaders,
     });
     if (!getHostedZonesResponse.ok()) {
         console.error(`Failed to get hosted zones: ${getHostedZonesResponse.statusText()}`);
@@ -22,14 +27,11 @@ export async function getHostedZonesAPI(request, headers) {
 }
 
 export async function createHostedZoneAPI(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
     const domainName = await getRandomDomainName();
-    const { 'dr.token': authToken, 'dr.scrf-token': xsrfToken, _csrf: csrfCookie } = headers;
+
     const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-            'x-csrf-token': xsrfToken,
-            Cookie: `_csrf=${csrfCookie}`,
-        },
+        headers: authHeaders,
         data: {
             domain: domainName,
         },
@@ -45,13 +47,10 @@ export async function createHostedZoneAPI(request, headers) {
 }
 
 export async function deleteHostedZoneAPI(request, id, headers) {
-    const { 'dr.token': authToken, 'dr.scrf-token': xsrfToken, _csrf: csrfCookie } = headers;
+    const authHeaders = getAuthHeaders(headers);
+
     const deleteResponse = await request.delete(`${process.env.API_URL}${API_ENDPOINT.deleteHostedZone}${id}`, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-            'x-csrf-token': xsrfToken,
-            Cookie: `_csrf=${csrfCookie}`,
-        },
+        headers: authHeaders,
     });
     if (!deleteResponse.ok()) {
         console.error(`Failed to delete hosted zone: ${deleteResponse.statusText()}`);

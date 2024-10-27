@@ -36,4 +36,5 @@ export const API_ENDPOINT = {
     login: '/auth/sign-in',
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
+    getHostedZones: '/users/hosted-zones?',
 };
