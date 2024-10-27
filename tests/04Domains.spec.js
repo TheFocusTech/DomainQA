@@ -4,7 +4,6 @@ import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/precon
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, ERROR_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
 
-
 test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
         await loginUser(page, headerComponent, loginPage);
@@ -64,8 +63,7 @@ test.describe('DNS Records', () => {
     });
 });
 
-    test.describe('Search domains', () => {
-
+test.describe('Search domains', () => {
     test('TC_04_09_01 | Verify user can search the registered domain', async ({
         page,
         homePage,
@@ -128,5 +126,3 @@ test.describe('DNS Records', () => {
         });
     });
 });
-
-
