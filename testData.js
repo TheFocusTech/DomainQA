@@ -34,6 +34,13 @@ export const NEGATIVE_EMAIL_DATA_SET = [
     ['domain less than 2 characters', 'test@gmail.s', 'Invalid email address'],
 ];
 
+export const API_ENDPOINT = {
+    login: '/auth/sign-in',
+    createHostedZone: '/users/hosted-zones',
+    deleteHostedZone: '/users/hosted-zones/',
+    getHostedZones: '/users/hosted-zones?',
+};
+
 export const DNS_TYPE = {
     A: 'A',
     AAAA: 'AAAA',
