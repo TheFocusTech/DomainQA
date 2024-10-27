@@ -39,7 +39,7 @@ export const API_ENDPOINT = {
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?',
-}
+};
 
 export const DNS_TYPE = {
     A: 'A',
