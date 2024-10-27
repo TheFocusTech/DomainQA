@@ -6,7 +6,7 @@ import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET } fro
 test.describe('Registration', () => {
     test('TC_01_02_01 | Verify user is not able to sign up with an existing email', async ({
         page,
-        homePage,
+        headerComponent,
         signupPage,
     }) => {
         await tags('Registration', 'Negative');
@@ -19,7 +19,7 @@ test.describe('Registration', () => {
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
         });
-        await homePage.clickSignup();
+        await headerComponent.clickSignup();
         await step('Verify user is on Sign up page.', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
         });
@@ -39,7 +39,7 @@ test.describe('Registration', () => {
     NEGATIVE_EMAIL_DATA_SET.forEach((typeEmailField) => {
         test(`TC_01_02_02 | Verify user is not able to sign up with an invalid email: ${typeEmailField[0]}`, async ({
             page,
-            homePage,
+            headerComponent,
             signupPage,
         }) => {
             await tags('Registration', 'Negative');
@@ -52,7 +52,7 @@ test.describe('Registration', () => {
             await step('Navigate to Home page.', async () => {
                 await page.goto('/');
             });
-            await homePage.clickSignup();
+            await headerComponent.clickSignup();
             await step('Verify user is on Sign up page.', async () => {
                 await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
             });
