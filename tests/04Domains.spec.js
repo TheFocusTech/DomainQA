@@ -4,13 +4,13 @@ import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/precon
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME } from '../testData';
 import { expect } from '@playwright/test';
 
-test.describe('Domain', () => {
+test.describe('Domains', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         await createHostedZone(page, hostedZonesPage, createHostedZoneModal);
 
-        await step(`Navigate to Hosted Zones/Managment for ${HOSTED_ZONE_DOMAIN_NAME}`, async () => {
+        await step(`Navigate to Hosted Zones/Management for ${HOSTED_ZONE_DOMAIN_NAME}`, async () => {
             await hostedZonesPage.clickOnHostedZoneName(HOSTED_ZONE_DOMAIN_NAME);
         });
     });
@@ -19,12 +19,12 @@ test.describe('Domain', () => {
         hostedZonesDetailPage,
         dnsRecordModal,
     }) => {
-        await tags('Domain', 'Positive');
+        await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify DNS Record with required fields');
         await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}2tly5p2ks4km`, 'ATC_04_10');
-        await epic('Domain');
+        await epic('Domains');
 
         await step('Open modal "Add new DNS-record".', async () => {
             await hostedZonesDetailPage.clickAddRecordButton();
