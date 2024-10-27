@@ -1,9 +1,12 @@
 export const QASE_LINK = 'https://app.qase.io/project/01?';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
+export const HOSTED_ZONE_DOMAIN_NAME = '42.com';
+
 export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
+    hostedZones: '/hosted-zones/management',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -30,3 +33,13 @@ export const NEGATIVE_EMAIL_DATA_SET = [
     ['without domain', 'test@gmail', 'Invalid email address'],
     ['domain less than 2 characters', 'test@gmail.s', 'Invalid email address'],
 ];
+
+export const DNS_TYPE = {
+    A: 'A',
+    AAAA: 'AAAA',
+    CNAME: 'CNAME',
+    DS: 'DS',
+    MX: 'MX',
+    NS: 'NS',
+    TXT: 'TXT',
+};
