@@ -30,3 +30,5 @@ export const NEGATIVE_EMAIL_DATA_SET = [
     ['without domain', 'test@gmail', 'Invalid email address'],
     ['domain less than 2 characters', 'test@gmail.s', 'Invalid email address'],
 ];
+
+export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';

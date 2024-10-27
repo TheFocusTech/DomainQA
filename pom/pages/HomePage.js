@@ -6,9 +6,10 @@ export default class HomePage {
 
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
-        //this.domainSearchInput = page.locator('.search-domain_form__dZU0L.hero_hero__search__k9y_d');
-        this.domainSearchInput = page.getByPlaceholder('Search domain').first();
-        this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1)
+        this.domainSearchInput = this.page.getByPlaceholder('Search domain').first();
+        //this.domainSearchInput = this.page.locator("form[class^='search']").first();
+        this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1);
+        //   this.domainTakenText = this.page.locator('.card-domain-purchase_card-domain-purchase__status__Dj7kC .tag_tag__text__l30BB');
     }
 
     async clickLogin() {
@@ -33,6 +34,5 @@ export default class HomePage {
         await step('Click on "Search" button.', async () => {
             await this.searchButton.click();
         });
-    }  
-
+    }
 }

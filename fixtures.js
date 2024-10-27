@@ -6,6 +6,9 @@ import SettingsGeneralPage from './pom/pages/SettingsGeneralPage';
 import ChangePasswordModal from './pom/modalWindows/ChangePasswordModal';
 import HeaderComponent from './pom/components/HeaderComponent';
 import ToastComponent from './pom/components/ToastComponent';
+import WhoisSearchResultPage from './pom/pages/WhoisSearchResultPage';
+import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
+import WhoisPage from './pom/pages/WhoisPage';
 
 export const test = base.extend({
     homePage: async ({ page }, use) => {
@@ -28,5 +31,14 @@ export const test = base.extend({
     },
     toastComponent: async ({ page }, use) => {
         await use(new ToastComponent(page));
+    },
+    whoisSearchResultPage: async ({ page }, use) => {
+        await use(new WhoisSearchResultPage(page));
+    },
+    domainAvailabilityPage: async ({ page }, use) => {
+        await use(new DomainAvailabilityPage(page));
+    },
+    whoisPage: async ({ page }, use) => {
+        await use(new WhoisPage(page));
     },
 });
