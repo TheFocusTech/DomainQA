@@ -1,5 +1,4 @@
 import { test } from '../fixtures';
-import { loginUser } from '../helpers/preconditions';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
@@ -68,14 +67,14 @@ test.describe('Domains', () => {
             await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
         });
     });
-  
+
     test.skip('TC_04_02 | Verify search by hosted zone name.', async ({
         page,
         request,
         homePage,
         loginPage,
         hostedZonesPage,
-      }) => {
+    }) => {
         await step('Preconditions: Login as a registered user', async () => {
             await loginUser(page, homePage, loginPage);
             await page.waitForURL(process.env.URL);
