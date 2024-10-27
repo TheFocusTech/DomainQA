@@ -11,11 +11,11 @@ export async function getRandomDomainName() {
     return domainName;
 }
 
-export const getCookies = async (page) => {
+export async function getCookies(page) {
     const cookies = await page.context().cookies();
     const headers = {};
     for (const cookie of cookies) {
         headers[cookie.name] = cookie.value;
     }
     return headers;
-};
+}

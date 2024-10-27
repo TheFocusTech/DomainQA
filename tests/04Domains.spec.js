@@ -18,7 +18,7 @@ test.describe('Domains', () => {
         loginPage,
         hostedZonesPage,
     }) => {
-        await step('Preconditions:', async () => {
+        await step('Preconditions: Login as a registered user', async () => {
             await loginUser(page, homePage, loginPage);
             await page.waitForURL(process.env.URL);
         });
