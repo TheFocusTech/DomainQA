@@ -1,8 +1,9 @@
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
-import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, ERROR_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
+
 
 test.describe('Domains', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
@@ -61,14 +62,7 @@ test.describe('Domains', () => {
             await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
         });
     });
-});
-import { test } from '../fixtures';
-import { expect } from '@playwright/test';
-import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, ERROR_DOMAIN } from '../testData';
-import { loginUser } from '../helpers/preconditions';
 
-test.describe('Domains', () => {
     test('TC_04_09_01 | Verify user can search the registered domain', async ({
         page,
         homePage,
@@ -131,3 +125,4 @@ test.describe('Domains', () => {
         });
     });
 });
+
