@@ -6,6 +6,11 @@ import SettingsGeneralPage from './pom/pages/SettingsGeneralPage';
 import ChangePasswordModal from './pom/modalWindows/ChangePasswordModal';
 import HeaderComponent from './pom/components/HeaderComponent';
 import ToastComponent from './pom/components/ToastComponent';
+import HostedZonesPage from './pom/pages/HostedZonesPage';
+import HostedZonesDetailPage from './pom/pages/HostedZonesDetailPage';
+import DnsRecordModal from './pom/modalWindows/DnsRecordModal';
+import CreateHostedZoneModal from './pom/modalWindows/CreateHostedZoneModal';
+import DeleteHostedZoneModal from './pom/modalWindows/DeleteHostedZoneModal';
 import WhoisSearchResultPage from './pom/pages/WhoisSearchResultPage';
 import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
@@ -31,6 +36,21 @@ export const test = base.extend({
     },
     toastComponent: async ({ page }, use) => {
         await use(new ToastComponent(page));
+    },
+    hostedZonesPage: async ({ page }, use) => {
+        await use(new HostedZonesPage(page));
+    },
+    hostedZonesDetailPage: async ({ page }, use) => {
+        await use(new HostedZonesDetailPage(page));
+    },
+    dnsRecordModal: async ({ page }, use) => {
+        await use(new DnsRecordModal(page));
+    },
+    createHostedZoneModal: async ({ page }, use) => {
+        await use(new CreateHostedZoneModal(page));
+    },
+    deleteHostedZoneModal: async ({ page }, use) => {
+        await use(new DeleteHostedZoneModal(page));
     },
     whoisSearchResultPage: async ({ page }, use) => {
         await use(new WhoisSearchResultPage(page));
