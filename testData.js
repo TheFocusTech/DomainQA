@@ -59,6 +59,10 @@ export const DNS_TYPE = {
     TXT: 'TXT',
 };
 
+export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
+
+export const CORRECT_DOMAIN = 'purrweb.com';
+
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
     HomePage: 'Millions of domains with the ulitmate privacy protection',

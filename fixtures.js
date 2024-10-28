@@ -11,6 +11,9 @@ import HostedZonesDetailPage from './pom/pages/HostedZonesDetailPage';
 import DnsRecordModal from './pom/modalWindows/DnsRecordModal';
 import CreateHostedZoneModal from './pom/modalWindows/CreateHostedZoneModal';
 import DeleteHostedZoneModal from './pom/modalWindows/DeleteHostedZoneModal';
+import WhoisSearchResultPage from './pom/pages/WhoisSearchResultPage';
+import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
+import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
 
@@ -50,6 +53,15 @@ export const test = base.extend({
     },
     deleteHostedZoneModal: async ({ page }, use) => {
         await use(new DeleteHostedZoneModal(page));
+    },
+    whoisSearchResultPage: async ({ page }, use) => {
+        await use(new WhoisSearchResultPage(page));
+    },
+    domainAvailabilityPage: async ({ page }, use) => {
+        await use(new DomainAvailabilityPage(page));
+    },
+    whoisPage: async ({ page }, use) => {
+        await use(new WhoisPage(page));
     },
     footerComponent: async ({ page }, use) => {
         await use(new FooterComponent(page));
