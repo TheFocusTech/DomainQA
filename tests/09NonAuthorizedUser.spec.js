@@ -28,7 +28,7 @@ test.describe('Non authorized user', () => {
     });
 
     accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }) => {
-        test(`TC_09_01|  Verify that non authorized use can navigate through  ${linkName} page`, async ({
+        test(`TC_09_01|  Verify that non authorized user can navigate through  ${linkName} page`, async ({
             page,
             headerComponent,
             pageTitleComponent,
