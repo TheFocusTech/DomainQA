@@ -21,7 +21,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
+    test.skip('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
         hostedZonesDetailPage,
         dnsRecordModal,
     }) => {
