@@ -14,6 +14,7 @@ import DeleteHostedZoneModal from './pom/modalWindows/DeleteHostedZoneModal';
 import WhoisSearchResultPage from './pom/pages/WhoisSearchResultPage';
 import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
+import createRequestWhois from './pom/modalWindows/CreateRequestWhois.js';
 
 export const test = base.extend({
     homePage: async ({ page }, use) => {
@@ -59,6 +60,9 @@ export const test = base.extend({
         await use(new DomainAvailabilityPage(page));
     },
     whoisPage: async ({ page }, use) => {
+        await use(new WhoisPage(page));
+    },
+    createRequestWhois: async ({ page }, use) => {
         await use(new WhoisPage(page));
     },
 });

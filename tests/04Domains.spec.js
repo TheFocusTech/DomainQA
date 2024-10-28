@@ -1,9 +1,16 @@
 import { test } from '../fixtures';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies } from '../helpers/utils';
-import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
+import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
-import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, ERROR_DOMAIN } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    HOSTED_ZONE_DOMAIN_NAME,
+    URL_ENDPOINT,
+    ERROR_DOMAIN,
+    CORRECT_DOMAIN,
+} from '../testData';
 import { expect } from '@playwright/test';
 let headers;
 let newHostedZoneId;
@@ -109,6 +116,8 @@ test.describe('Search domains', () => {
         page,
         homePage,
         loginPage,
+        whoisPage,
+        headerComponent,
         domainAvailabilityPage,
         whoisSearchResultPage,
     }) => {
@@ -120,19 +129,21 @@ test.describe('Search domains', () => {
         await epic('Domains');
         await feature('Search registered domain');
 
-        await step('Preconditions:', async () => {
+        await step('Preconditions: Login as a registered user', async () => {
             await loginUser(page, homePage, loginPage);
         });
 
-        await step('Verify .', async () => {
-            await homePage.domainSearchInput.isVisible();
-            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
-            await homePage.fillDomainSearchInput('purrweb.com');
-            await homePage.clickSearchButton();
-            //     await homePage.domainTakenText.isVisible();
-            await domainAvailabilityPage.clickWhoOwnsButton();
+        await headerComponent.clickDomainsButton();
+        await headerComponent.clickWhoisButton();
+        await whoisPage.fillWhoisSearchInput(CORRECT_DOMAIN);
+        await whoisPage.clickWhoisSearchButton();
+
+        await step('Verify that title "WHOIS Search results" is appears', async () => {
             await whoisSearchResultPage.resultTitle.isVisible();
-            await whoisSearchResultPage.clickfullInfoButton();
+        });
+        await step('Verify that info for domain is appears', async () => {
+            const content = await page.content();
+            expect(content.includes(CORRECT_DOMAIN)).toBe(true);
         });
     });
 
@@ -140,7 +151,6 @@ test.describe('Search domains', () => {
         page,
         homePage,
         loginPage,
-
         whoisSearchResultPage,
         headerComponent,
         whoisPage,
@@ -153,7 +163,7 @@ test.describe('Search domains', () => {
         await epic('Domains');
         await feature('Search registered domain');
 
-        await step('Preconditions:', async () => {
+        await step('Preconditions: Login as a registered user', async () => {
             await loginUser(page, homePage, loginPage);
         });
 
@@ -162,7 +172,8 @@ test.describe('Search domains', () => {
             await headerComponent.clickWhoisButton();
             await whoisPage.fillWhoisSearchInput(ERROR_DOMAIN);
             await whoisPage.clickWhoisSearchButton();
-            //      await expect(whoisSearchResultPage.resultSearch).toHaveText('No match for "FGGFFGDGDFGD.COM"')
+
+            await whoisSearchResultPage.resultTitle.isVisible();
             await whoisSearchResultPage.noMatchText.isVisible();
         });
     });

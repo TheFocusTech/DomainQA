@@ -95,7 +95,6 @@ test.describe('Authorization', () => {
 
 test.describe('API Autorization', () => {
     test('Sign in via API call and verify response code is successful', async ({ request, page, headerComponent }) => {
-
         await step('Sign in via API call', async () => {
             const response = await signInUserApi(request);
             console.log(response);
@@ -112,13 +111,11 @@ test.describe('API Autorization', () => {
             // await step('Navigate to Home page.', async () => {
             //     await page.goto('https://domain-registrar-web-staging.vercel.app');
             // });
-          //  await headerComponent.clickMyProfileButton();
-
+            //  await headerComponent.clickMyProfileButton();
 
             // await step('Verify response code for Sign in request is successful.', async () => {
             //     expect(response.status()).toBe(201);
             // });
         });
-
     });
 });
