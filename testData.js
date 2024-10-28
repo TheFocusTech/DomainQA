@@ -50,3 +50,7 @@ export const DNS_TYPE = {
     NS: 'NS',
     TXT: 'TXT',
 };
+
+export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
+
+export const CORRECT_DOMAIN = 'purrweb.com';

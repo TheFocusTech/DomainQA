@@ -8,6 +8,11 @@ export default class HeaderComponent {
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
+        this.domainsButton = this.page.getByRole('button', { name: 'Domains' });
+        this.whoisButton = this.page.getByRole('link', { name: 'WHOIS', exact: true });
+        this.transferButton = this.page.getByRole('link', { name: 'Transfer', exact: true });
+        this.hostedZonesButton = this.page.getByRole('link', { name: 'Hosted zones' });
+        this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains' });
     }
 
     async clickMyProfileButton() {
@@ -31,6 +36,18 @@ export default class HeaderComponent {
     async clickSignup() {
         await step('Click on "Join now" button.', async () => {
             await this.signupButton.click();
+        });
+    }
+
+    async clickDomainsButton() {
+        await step('Click on the "Domains" button.', async () => {
+            await this.domainsButton.click();
+        });
+    }
+
+    async clickWhoisButton() {
+        await step('Click on the "Domains" button.', async () => {
+            await this.whoisButton.click();
         });
     }
 }

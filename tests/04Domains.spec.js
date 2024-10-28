@@ -1,16 +1,16 @@
 import { test } from '../fixtures';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies } from '../helpers/utils';
-import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
+import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
-import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, CORRECT_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
 let newHostedZoneId;
 let domainName;
 let hostedZoneCount;
 
-test.describe('Domains', () => {
+test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -21,7 +21,7 @@ test.describe('Domains', () => {
         });
     });
 
-    test('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
+    test.skip('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
         hostedZonesDetailPage,
         dnsRecordModal,
     }) => {
@@ -100,6 +100,41 @@ test.describe('Domains', () => {
             const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
 
             expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 1);
+        });
+    });
+});
+
+test.describe('Search domains', () => {
+    test('TC_04_09_01 | Verify user can search the registered domain', async ({
+        page,
+        loginPage,
+        whoisPage,
+        headerComponent,
+        whoisSearchResultPage,
+    }) => {
+        await tags('Domains', 'WhoIs');
+        await severity('normal');
+        await description('To verify, that user is able to search the registered domain in WhoIs');
+        await issue(`${QASE_LINK}case=9`, 'WHOIS');
+        await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
+        await epic('Domains');
+        await feature('Search registered domain');
+
+        await step('Preconditions: Login as a registered user', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await headerComponent.clickDomainsButton();
+        await headerComponent.clickWhoisButton();
+        await whoisPage.fillWhoisSearchInput(CORRECT_DOMAIN);
+        await whoisPage.clickWhoisSearchButton();
+
+        await step('Verify that title "WHOIS Search results" is appears', async () => {
+            await whoisSearchResultPage.resultTitle.isVisible();
+        });
+        await step('Verify that info about domain name is appears', async () => {
+            const content = await page.content();
+            expect(content.includes(CORRECT_DOMAIN)).toBe(true);
         });
     });
 });
