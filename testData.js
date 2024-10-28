@@ -7,6 +7,14 @@ export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
     hostedZones: '/hosted-zones/management',
+    Transfer: '/transfer',
+    HomePage: '/',
+    WhoIs: '/whois',
+    SSLCertificates: '/certificates',
+    Blog: '/blog',
+    HelpCenter: '/help',
+    ReportAbuse: '/help/report-abuse',
+    ContactUs: '/help/contact-us',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -49,4 +57,15 @@ export const DNS_TYPE = {
     MX: 'MX',
     NS: 'NS',
     TXT: 'TXT',
+};
+
+export const ACCESSIBLE_PAGE_TITLE = {
+    Transfer: 'Transfer your .com domain to Trustname for $12.99',
+    HomePage: 'Millions of domains with the ulitmate privacy protection',
+    WhoIs: 'Whois Domain Lookup',
+    SSLCertificates: 'SSL certificates provide reliable security',
+    Blog: 'Trustname Blog',
+    HelpCenter: 'How can we help you?',
+    ReportAbuse: 'Report Abuse',
+    ContactUs: 'Contact us',
 };
