@@ -74,5 +74,9 @@ export const ACCESSIBLE_PAGE_TITLE = {
     ContactUs: 'Contact us',
 };
 
-export const WHOIS_SEARCH_RESULT_TITLES = 
-['Domain Name', 'Registry Domain ID', 'Registrar WHOIS Server', 'Registrar URL'];
+export const WHOIS_SEARCH_RESULT_TITLES = [
+    'Domain Name',
+    'Registry Domain ID',
+    'Registrar WHOIS Server',
+    'Registrar URL',
+];
