@@ -116,7 +116,7 @@ test.describe('Search domains', () => {
         await tags('Domains', 'WhoIs');
         await severity('normal');
         await description('To verify, that user is able to search the registered domain in WhoIs');
-        await issue(`${QASE_LINK}suite=3&case=9`, 'WHOIS');
+        await issue(`${QASE_LINK}case=9`, 'WHOIS');
         await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
         await epic('Domains');
         await feature('Search registered domain');
