@@ -5,6 +5,7 @@ import { description, tags, severity, epic, step, tms, issue, feature } from 'al
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, CORRECT_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
+import { log } from 'console';
 let headers;
 let newHostedZoneId;
 let domainName;
@@ -122,7 +123,7 @@ test.describe('Search domains', () => {
         await feature('Search registered domain');
 
         await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, homePage, loginPage);
+            await loginUser(page, headerComponent, loginPage);
         });
 
         await headerComponent.clickDomainsButton();
