@@ -54,6 +54,3 @@ export const DNS_TYPE = {
 export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
 export const CORRECT_DOMAIN = 'purrweb.com';
-
-export const DOMAIN_FIELD1 = 'Domain Name';
-export const DOMAIN_FIELD2 = 'Registrar WHOIS Server';

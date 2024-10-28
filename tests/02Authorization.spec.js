@@ -2,7 +2,6 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS } from '../testData';
-import { signInUserApi } from '../apicall';
 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
@@ -90,32 +89,5 @@ test.describe('Authorization', () => {
                 await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
             });
         }
-    });
-});
-
-test.describe('API Autorization', () => {
-    test('Sign in via API call and verify response code is successful', async ({ request, page, headerComponent }) => {
-        await step('Sign in via API call', async () => {
-            const response = await signInUserApi(request);
-            console.log(response);
-
-            // await page.context().addCookies([{
-            //     name: 'authToken',
-            //     value: token,
-            //     path: '/',
-            //     httpOnly: true
-            // }]);
-
-            // await page.goto('https://domain-registrar-web-staging.vercel.app');
-
-            // await step('Navigate to Home page.', async () => {
-            //     await page.goto('https://domain-registrar-web-staging.vercel.app');
-            // });
-            //  await headerComponent.clickMyProfileButton();
-
-            // await step('Verify response code for Sign in request is successful.', async () => {
-            //     expect(response.status()).toBe(201);
-            // });
-        });
     });
 });

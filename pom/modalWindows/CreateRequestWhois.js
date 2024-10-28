@@ -1,5 +1,3 @@
-import { step } from 'allure-js-commons';
-
 export default class createRequestWhois {
     constructor(page) {
         this.page = page;

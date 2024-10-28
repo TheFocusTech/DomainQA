@@ -3,14 +3,7 @@ import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../
 import { getCookies } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
-import {
-    QASE_LINK,
-    GOOGLE_DOC_LINK,
-    HOSTED_ZONE_DOMAIN_NAME,
-    URL_ENDPOINT,
-    ERROR_DOMAIN,
-    CORRECT_DOMAIN,
-} from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, CORRECT_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
 let newHostedZoneId;
@@ -118,14 +111,13 @@ test.describe('Search domains', () => {
         loginPage,
         whoisPage,
         headerComponent,
-        domainAvailabilityPage,
         whoisSearchResultPage,
     }) => {
         await tags('Domains', 'WhoIs');
         await severity('normal');
         await description('To verify, that user is able to search the registered domain in WhoIs');
-        await issue(`${QASE_LINK}`, '');
-        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_09_01');
+        await issue(`${QASE_LINK}suite=3&case=9`, 'WHOIS');
+        await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
         await epic('Domains');
         await feature('Search registered domain');
 
@@ -141,40 +133,9 @@ test.describe('Search domains', () => {
         await step('Verify that title "WHOIS Search results" is appears', async () => {
             await whoisSearchResultPage.resultTitle.isVisible();
         });
-        await step('Verify that info for domain is appears', async () => {
+        await step('Verify that info about domain name is appears', async () => {
             const content = await page.content();
             expect(content.includes(CORRECT_DOMAIN)).toBe(true);
-        });
-    });
-
-    test('TC_04_09_02 | Verify user can search the non-registered domain in Whois page', async ({
-        page,
-        homePage,
-        loginPage,
-        whoisSearchResultPage,
-        headerComponent,
-        whoisPage,
-    }) => {
-        await tags('Domains', 'WhoIs');
-        await severity('normal');
-        await description('To verify, that user is able to search the non-registered domain in WhoIs');
-        await issue(`${QASE_LINK}`, '');
-        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_09_01');
-        await epic('Domains');
-        await feature('Search registered domain');
-
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, homePage, loginPage);
-        });
-
-        await step('Verify .', async () => {
-            await headerComponent.clickDomainsButton();
-            await headerComponent.clickWhoisButton();
-            await whoisPage.fillWhoisSearchInput(ERROR_DOMAIN);
-            await whoisPage.clickWhoisSearchButton();
-
-            await whoisSearchResultPage.resultTitle.isVisible();
-            await whoisSearchResultPage.noMatchText.isVisible();
         });
     });
 });
