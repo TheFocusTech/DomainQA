@@ -61,7 +61,7 @@ export const DNS_TYPE = {
 
 export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
-export const CORRECT_DOMAIN = 'purrweb.com';
+export const CORRECT_DOMAIN = 'PURRWEB.COM';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
@@ -73,3 +73,6 @@ export const ACCESSIBLE_PAGE_TITLE = {
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
 };
+
+export const WHOIS_SEARCH_RESULT_TITLES = 
+['Domain Name', 'Registry Domain ID', 'Registrar WHOIS Server', 'Registrar URL'];

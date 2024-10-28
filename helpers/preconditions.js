@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
 
 export const loginUser = async (page, headerComponent, loginPage) => {
-    await step('Login as a registered user', async () => {
+    await step('Preconditions: Login as a registered user', async () => {
         await page.goto('/');
         await headerComponent.clickLogin();
         await loginPage.fillEmailAddressInput(process.env.USER_EMAIL);

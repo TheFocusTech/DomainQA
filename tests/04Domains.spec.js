@@ -10,6 +10,7 @@ import {
     URL_ENDPOINT,
     CORRECT_DOMAIN,
     ERROR_DOMAIN,
+    WHOIS_SEARCH_RESULT_TITLES,
 } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
@@ -127,9 +128,7 @@ test.describe('Search domains', () => {
         await epic('Domains');
         await feature('Search registered domain');
 
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        await loginUser(page, headerComponent, loginPage);
 
         await headerComponent.clickDomainsButton();
         await headerComponent.clickWhoisButton();
@@ -139,9 +138,12 @@ test.describe('Search domains', () => {
         await step('Verify that title "WHOIS Search results" is appears', async () => {
             await whoisSearchResultPage.resultTitle.isVisible();
         });
-        await step('Verify that info about domain name is appears', async () => {
-            const content = await page.content();
-            expect(content.includes(CORRECT_DOMAIN)).toBe(true);
+
+        await step('Verify that info about domain (name of domain and titles) is appears', async () => {
+            await expect(whoisSearchResultPage.resultSearch).toContainText(CORRECT_DOMAIN);
+            for (const title of WHOIS_SEARCH_RESULT_TITLES) {
+                await expect(whoisSearchResultPage.resultSearch).toContainText(title);
+            }
         });
     });
 
@@ -160,9 +162,7 @@ test.describe('Search domains', () => {
         await epic('Domains');
         await feature('Search non-registered domain');
 
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        await loginUser(page, headerComponent, loginPage);
 
         await headerComponent.clickDomainsButton();
         await headerComponent.clickWhoisButton();
