@@ -5,7 +5,6 @@ import { description, tags, severity, epic, step, tms, issue, feature } from 'al
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
 import { QASE_LINK, GOOGLE_DOC_LINK, HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, CORRECT_DOMAIN } from '../testData';
 import { expect } from '@playwright/test';
-import { log } from 'console';
 let headers;
 let newHostedZoneId;
 let domainName;
@@ -108,7 +107,6 @@ test.describe('DNS Records', () => {
 test.describe('Search domains', () => {
     test('TC_04_09_01 | Verify user can search the registered domain', async ({
         page,
-        homePage,
         loginPage,
         whoisPage,
         headerComponent,
