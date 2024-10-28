@@ -7,7 +7,6 @@ export default class HomePage {
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
         this.domainSearchInput = this.page.getByPlaceholder('Search domain').first();
-        //this.domainSearchInput = this.page.locator("form[class^='search']").first();
         this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1);
     }
 
