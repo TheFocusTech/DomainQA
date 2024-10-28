@@ -28,7 +28,7 @@ test.describe('Non authorized user', () => {
     });
 
     accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }) => {
-        test(`TC_09_01| Verify that ${linkName} page is accessible for non authorized user`, async ({
+        test(`TC_09_01|  Verify that non authorized use can navigate through  ${linkName} page`, async ({
             page,
             headerComponent,
             pageTitleComponent,
@@ -37,11 +37,9 @@ test.describe('Non authorized user', () => {
             await tag('Non_authorized_user');
             await severity('normal');
             await description(`Verify that ${linkName} page is accessible for non authorized user`);
-            await issue(`${QASE_LINK}case=16`, 'Редирект на доступные страницы');
+            await issue(`${QASE_LINK}case=16`, 'Redirect to available pages');
             await tms(`${GOOGLE_DOC_LINK}jcvsnakk56kb`, 'ATC_09_01');
             await epic('Non_authorized_user');
-
-            test.slow();
 
             await action({ headerComponent, footerComponent });
             await step(`Verify user is on ${linkName} page`, async () => {
