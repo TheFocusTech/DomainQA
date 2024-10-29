@@ -18,6 +18,12 @@ export default class HeaderComponent {
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
+        this.currencyUSDButton = this.page.getByRole('button', { name: 'Currency USD ($)' });
+        this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
+        this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
+        this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
+        this.checkmarkUSDButton = this.usdButton.locator('path[d="m5 13 4 4L19 7"]');
+        this.checkmarkEURButton = this.eurButton.locator('path[d="m5 13 4 4L19 7"]');
     }
 
     async clickMyProfileButton() {
@@ -92,6 +98,24 @@ export default class HeaderComponent {
     async clickHelpCenterButton() {
         await step('Click on "Help center" button.', async () => {
             await this.helpCenterButton.click();
+        });
+    }
+
+    async clickCurrencyUSDButton() {
+        await step('Click on the "Currency USD ($)" button.', async () => {
+            await this.currencyUSDButton.click();
+        });
+    }
+
+    async clickEurButton() {
+        await step('Click on the "EUR (€)" button.', async () => {
+            await this.eurButton.click();
+        });
+    }
+
+    async clickUsdButton() {
+        await step('Click on the "USD ($)" button.', async () => {
+            await this.usdButton.click();
         });
     }
 }

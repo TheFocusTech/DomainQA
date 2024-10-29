@@ -1,7 +1,14 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    PASSWORD,
+    TOAST_MESSAGE,
+    CURRENCY_EUR_BUTTON_TEXT,
+    CURRENCY_USD_BUTTON_TEXT,
+} from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
@@ -76,5 +83,66 @@ test.describe('My profile', () => {
                 await page.goto('/');
             }
         );
+    });
+
+    test('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
+        page,
+        loginPage,
+        headerComponent,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
+        await issue(`${QASE_LINK}case=26&suite=14`, 'Currency selection');
+        await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
+        await epic('My profile');
+        await feature('Currency selection');
+
+        const currentPassword = PASSWORD.password;
+        const newPassword = PASSWORD.password;
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('The "Currency USD ($)" button is visible by default in the Profile Menu.', async () => {
+            await expect(headerComponent.currencyUSDButton).toBeVisible();
+        });
+
+        await headerComponent.clickCurrencyUSDButton();
+
+        await step('The "USD ($)" button is displayed.', async () => {
+            await expect(headerComponent.usdButton).toBeVisible();
+        });
+
+        await step('The "USD ($)" button is selected by default (with a checkmark).', async () => {
+            await expect(headerComponent.checkmarkUSDButton).toBeVisible();
+        });
+
+        await step('The "EUR (€)" button is displayed.', async () => {
+            await expect(headerComponent.eurButton).toBeVisible();
+        });
+
+        await headerComponent.clickEurButton();
+
+        await step('The "EUR (€)" button is selected (with a checkmark.', async () => {
+            await expect(headerComponent.checkmarkEURButton).toBeVisible();
+        });
+
+        await step('The text of the "Currency USD ($)" button changes to "Currency EUR (€)".', async () => {
+            await expect(headerComponent.currencyEURButton).toHaveText(CURRENCY_EUR_BUTTON_TEXT);
+        });
+
+        await headerComponent.clickUsdButton();
+
+        await step('The "USD ($)" button is selected (with a checkmark.', async () => {
+            await expect(headerComponent.checkmarkUSDButton).toBeVisible();
+        });
+
+        await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {
+            await expect(headerComponent.currencyUSDButton).toHaveText(CURRENCY_USD_BUTTON_TEXT);
+        });
     });
 });
