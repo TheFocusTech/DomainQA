@@ -59,7 +59,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Password');
         await severity('normal');
         await description('To verify, that user can change Password when Two-factor authentication (2FA) is disabled');
-        await issue(`${QASE_LINK}case=13&suite=11`, 'General info');
+        await issue(`${QASE_LINK}/01-13`, 'General info');
         await tms(`${GOOGLE_DOC_LINK}g7yno6cbuqi`, 'ATC_08_02_02');
         await epic('My profile');
         await feature('Account settings');

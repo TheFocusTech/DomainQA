@@ -1,4 +1,4 @@
-export const QASE_LINK = 'https://app.qase.io/project/01?';
+export const QASE_LINK = ' https://app.qase.io/case';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
 export const HOSTED_ZONE_DOMAIN_NAME = '42.com';
@@ -7,6 +7,14 @@ export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
     hostedZones: '/hosted-zones/management',
+    Transfer: '/transfer',
+    HomePage: '/',
+    WhoIs: '/whois',
+    SSLCertificates: '/certificates',
+    Blog: '/blog',
+    HelpCenter: '/help',
+    ReportAbuse: '/help/report-abuse',
+    ContactUs: '/help/contact-us',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -50,6 +58,28 @@ export const DNS_TYPE = {
     NS: 'NS',
     TXT: 'TXT',
 };
+
+export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
+
+export const CORRECT_DOMAIN = 'PURRWEB.COM';
+
+export const ACCESSIBLE_PAGE_TITLE = {
+    Transfer: 'Transfer your .com domain to Trustname for $12.99',
+    HomePage: 'Millions of domains with the ulitmate privacy protection',
+    WhoIs: 'Whois Domain Lookup',
+    SSLCertificates: 'SSL certificates provide reliable security',
+    Blog: 'Trustname Blog',
+    HelpCenter: 'How can we help you?',
+    ReportAbuse: 'Report Abuse',
+    ContactUs: 'Contact us',
+};
+
+export const WHOIS_SEARCH_RESULT_TITLES = [
+    'Domain Name',
+    'Registry Domain ID',
+    'Registrar WHOIS Server',
+    'Registrar URL',
+];
 
 export const DROPDOWN_ITEMS = [
     `${process.env.USER_EMAIL}`,
