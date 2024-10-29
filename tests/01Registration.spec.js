@@ -12,7 +12,7 @@ test.describe('Registration', () => {
         await tags('Registration', 'Negative');
         await severity('normal');
         await description('Verify that registration fails when an existing email is used');
-        await issue(`${QASE_LINK}suite=1&case=4`, 'User Registration');
+        await issue(`${QASE_LINK}/01-4`, 'User Registration');
         await tms(`${GOOGLE_DOC_LINK}i02y4jgrnqlw`, 'ATC_01_02_01');
         await epic('Registration');
 
@@ -45,7 +45,7 @@ test.describe('Registration', () => {
             await tags('Registration', 'Negative');
             await severity('normal');
             await description('Verify that registration fails when an invalid email is used');
-            await issue(`${QASE_LINK}suite=1&case=4`, 'User Registration');
+            await issue(`${QASE_LINK}/01-4`, 'User Registration');
             await tms(`${GOOGLE_DOC_LINK}kjwdmepb5t7q`, 'ATC_01_02_02');
             await epic('Registration');
 
