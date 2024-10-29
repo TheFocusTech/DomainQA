@@ -34,17 +34,17 @@ test.describe('My profile', () => {
 
         await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
             await headerComponent.clickMyProfileButton();
-            await expect(headerComponent.myProfileDropdownMenu ).not.toBeVisible();
+            await expect(headerComponent.myProfileDropdownMenu).not.toBeVisible();
         });
 
         await step('Verify the Profile Dropdown menu is visible', async () => {
             headerComponent.clickMyProfileButton();
-            await expect(headerComponent.myProfileDropdownMenu ).toBeVisible();
+            await expect(headerComponent.myProfileDropdownMenu).toBeVisible();
         });
 
         await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
             headerComponent.clickLogoButton();
-            await expect(headerComponent.myProfileDropdownMenu ).not.toBeVisible();
+            await expect(headerComponent.myProfileDropdownMenu).not.toBeVisible();
         });
     });
 
