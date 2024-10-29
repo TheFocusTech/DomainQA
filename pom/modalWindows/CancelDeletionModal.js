@@ -5,7 +5,7 @@ export default class CancelDeletionModal {
         this.page = page;
 
         this.acceptButton = this.page.locator('button').filter({ hasText: 'Accept' });
-        this.cancelDeletionHeading = this.page.getByRole('heading', { name: 'Cancel deletion' });
+        this.cancelDeletionHeading = this.page.locator('#root-portal').getByText('Cancel deletion', { exact: true });
     }
 
     async clickAcceptButton() {
