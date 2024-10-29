@@ -98,9 +98,6 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Currency selection');
 
-        const currentPassword = PASSWORD.password;
-        const newPassword = PASSWORD.password;
-
         await step('Preconditions:', async () => {
             await loginUser(page, headerComponent, loginPage);
         });
