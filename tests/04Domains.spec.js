@@ -14,9 +14,75 @@ import {
 } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
-let newHostedZoneId;
-let domainName;
+let hostedZoneId1;
+let domainName1;
+let hostedZoneId2;
+let domainName2;
 let hostedZoneCount;
+
+test.describe('Hosted Zones', () => {
+    test('TC_04_02 | Verify search by hosted zone name', async ({
+        page,
+        request,
+        headerComponent,
+        loginPage,
+        hostedZonesPage,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('To verify, that user is able to search a hosted zone by name');
+        await issue(`${QASE_LINK}case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}5rjp86ma9eyp`, 'ATC_04_02');
+        await epic('Domains');
+        await feature('Hosted zone search');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step('Preconditions: Create hosted zones via API.', async () => {
+            headers = await getCookies(page);
+
+            const res1 = await createHostedZoneAPI(request, headers);
+            hostedZoneId1 = res1.id;
+            domainName1 = res1.domain;
+
+            const res2 = await createHostedZoneAPI(request, headers);
+            hostedZoneId2 = res2.id;
+            domainName2 = res2.domain;
+
+            hostedZoneCount = await getHostedZonesAPI(request, headers);
+        });
+
+        await hostedZonesPage.open();
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+
+        await hostedZonesPage.performSearch(domainName1);
+
+        await step('Validate search results.', async () => {
+            const names = await hostedZonesPage.getNames();
+
+            expect(names).toEqual([domainName1]);
+        });
+
+        await hostedZonesPage.clearSearch();
+
+        await step('Validate all zones are displayed', async () => {
+            const zonesCount = await hostedZonesPage.hostedZones.count();
+
+            expect(zonesCount).toBe(hostedZoneCount);
+        });
+
+        await step('Postconditions: Delete created hosted zones via API.', async () => {
+            await deleteHostedZoneAPI(request, hostedZoneId1, headers);
+            await deleteHostedZoneAPI(request, hostedZoneId2, headers);
+
+            const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
+
+            expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 2);
+        });
+    });
+});
 
 test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
@@ -73,41 +139,6 @@ test.describe('DNS Records', () => {
         await step(`Delete hosted zone after usage.`, async () => {
             await hostedZonesDetailPage.clickBackToHostedZonesButton();
             await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
-        });
-    });
-
-    test.skip('TC_04_02 | Verify search by hosted zone name.', async ({
-        page,
-        request,
-        homePage,
-        loginPage,
-        hostedZonesPage,
-    }) => {
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, homePage, loginPage);
-            await page.waitForURL(process.env.URL);
-        });
-
-        await step('Preconditions: Create hosted zone via API.', async () => {
-            headers = await getCookies(page);
-
-            const createdHostedZoneResponse = await createHostedZoneAPI(request, headers);
-            newHostedZoneId = createdHostedZoneResponse.id;
-            domainName = createdHostedZoneResponse.domain;
-
-            hostedZoneCount = await getHostedZonesAPI(request, headers);
-
-            await page.goto(URL_ENDPOINT.hostedZones);
-        });
-
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName);
-
-        await step('Postconditions: Delete hosted zone via API.', async () => {
-            await deleteHostedZoneAPI(request, newHostedZoneId, headers);
-
-            const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
-
-            expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 1);
         });
     });
 });
