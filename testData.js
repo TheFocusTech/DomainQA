@@ -50,3 +50,11 @@ export const DNS_TYPE = {
     NS: 'NS',
     TXT: 'TXT',
 };
+
+export const DROPDOWN_ITEMS = [
+    `${process.env.USER_EMAIL}`,
+    'Account settings',
+    'Billing',
+    'Currency USD ($)',
+    'Log out',
+];

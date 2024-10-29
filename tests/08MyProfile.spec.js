@@ -1,10 +1,53 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE, DROPDOWN_ITEMS } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
+    test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
+        page,
+        loginPage,
+        headerComponent,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('To verify the Profile Dropdown Menu on clicking "My Profile');
+        await issue(`${QASE_LINK}previewMode=side&suite=10&tab=&case=24`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_08_01');
+        await epic('My profile');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('Verify the Profile Dropdown menu is displayed and contain 5 items', async () => {
+            await expect(headerComponent.myProfileDropdownMenu).toBeVisible();
+            await expect(headerComponent.myProfileDropdownMenuItems).toHaveCount(5);
+
+            const dropdownlist = await headerComponent.myProfileDropdownMenuItems.allInnerTexts();
+            for (let i = 0; i < DROPDOWN_ITEMS.length; i++) {
+                await expect(DROPDOWN_ITEMS[i]).toEqual(dropdownlist[i]);
+            }
+        });
+
+        await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
+            await headerComponent.clickMyProfileButton();
+            await expect(headerComponent.myProfileDropdownMenu ).not.toBeVisible();
+        });
+
+        await step('Verify the Profile Dropdown menu is visible', async () => {
+            headerComponent.clickMyProfileButton();
+            await expect(headerComponent.myProfileDropdownMenu ).toBeVisible();
+        });
+
+        await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
+            headerComponent.clickLogoButton();
+            await expect(headerComponent.myProfileDropdownMenu ).not.toBeVisible();
+        });
+    });
+
     test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         loginPage,
