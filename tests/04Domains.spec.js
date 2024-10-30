@@ -116,7 +116,7 @@ test.describe('DNS Records', () => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify DNS Record with required fields');
-        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}2tly5p2ks4km`, 'ATC_04_10');
         await epic('Domains');
 
@@ -168,7 +168,7 @@ test.describe('Search domains', () => {
         await tags('Domains', 'WhoIs');
         await severity('normal');
         await description('To verify, that user is able to search the registered domain in WhoIs');
-        await issue(`${QASE_LINK}case=9`, 'WHOIS');
+        await issue(`${QASE_LINK}/01-9`, 'WHOIS');
         await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
         await epic('Domains');
         await feature('Search registered domain');
@@ -202,7 +202,7 @@ test.describe('Search domains', () => {
         await tags('Domains', 'WhoIs');
         await severity('normal');
         await description('To verify that user is able to search the non-registered domain in WhoIs');
-        await issue(`${QASE_LINK}case=9`, 'Whois');
+        await issue(`${QASE_LINK}/01-9`, 'Whois');
         await tms(`${GOOGLE_DOC_LINK}xsk1f76ggd2o`, 'ATC_04_09_02');
         await epic('Domains');
         await feature('Search non-registered domain');
