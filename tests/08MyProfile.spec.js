@@ -23,7 +23,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Password');
         await severity('normal');
         await description('To verify, that user can change Password when Two-factor authentication (2FA) is disabled');
-        await issue(`${QASE_LINK}case=13&suite=11`, 'General info');
+        await issue(`${QASE_LINK}/01-13`, 'General info');
         await tms(`${GOOGLE_DOC_LINK}g7yno6cbuqi`, 'ATC_08_02_02');
         await epic('My profile');
         await feature('Account settings');
@@ -93,7 +93,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Positive');
         await severity('normal');
         await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
-        await issue(`${QASE_LINK}case=26&suite=14`, 'Currency selection');
+        await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
         await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
         await epic('My profile');
         await feature('Currency selection');
@@ -114,8 +114,8 @@ test.describe('My profile', () => {
             await expect(headerComponent.usdButton).toBeVisible();
         });
 
-        await step('The "USD ($)" button is selected by default (with a checkmark).', async () => {
-            await expect(headerComponent.checkmarkUSDButton).toBeVisible();
+        await step('USD checkmark is selected by default.', async () => {
+            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
         });
 
         await step('The "EUR (€)" button is displayed.', async () => {
@@ -124,8 +124,8 @@ test.describe('My profile', () => {
 
         await headerComponent.clickEurButton();
 
-        await step('The "EUR (€)" button is selected (with a checkmark.', async () => {
-            await expect(headerComponent.checkmarkEURButton).toBeVisible();
+        await step('The "EUR (€)" button is selected with a checkmark.', async () => {
+            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
         });
 
         await step('The text of the "Currency USD ($)" button changes to "Currency EUR (€)".', async () => {
@@ -134,8 +134,8 @@ test.describe('My profile', () => {
 
         await headerComponent.clickUsdButton();
 
-        await step('The "USD ($)" button is selected (with a checkmark.', async () => {
-            await expect(headerComponent.checkmarkUSDButton).toBeVisible();
+        await step('The "USD ($)" button is selected with a checkmark.', async () => {
+            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
         });
 
         await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {

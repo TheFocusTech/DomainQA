@@ -22,8 +22,9 @@ export default class HeaderComponent {
         this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
         this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
         this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
-        this.checkmarkUSDButton = this.usdButton.locator('path[d="m5 13 4 4L19 7"]');
-        this.checkmarkEURButton = this.eurButton.locator('path[d="m5 13 4 4L19 7"]');
+        // this.checkmarkUSDButton = this.usdButton.locator('path[d="m5 13 4 4L19 7"]');
+        // this.checkmarkEURButton = this.eurButton.locator('path[d="m5 13 4 4L19 7"]');
+        this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
     }
 
     async clickMyProfileButton() {
