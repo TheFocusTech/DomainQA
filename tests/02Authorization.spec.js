@@ -2,7 +2,6 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS, VALID_CREDS_AUTH } from '../testData';
-import { loginUser } from '../helpers/preconditions';
 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
