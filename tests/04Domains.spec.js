@@ -11,6 +11,7 @@ import {
     CORRECT_DOMAIN,
     ERROR_DOMAIN,
     WHOIS_SEARCH_RESULT_TITLES,
+    TOAST_MESSAGE,
 } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
@@ -175,5 +176,56 @@ test.describe('Search domains', () => {
         await step('Verify that info that no match is appears', async () => {
             await whoisSearchResultPage.noMatchText.isVisible();
         });
+    });
+});
+
+test.describe('Hosted zones', () => {
+    test('TC_04_02 | Verify user can create hosted zone, navigate and delete', async ({
+        page,
+        loginPage,
+        headerComponent,
+        createHostedZoneModal,
+        hostedZonesPage,
+        toastComponent,
+        deleteHostedZoneModal,
+    }) => {
+        await tags('Domains', 'Hosted Zones');
+        await severity('normal');
+        await description('To verify, that user is able to create hosted zone, navigate and delete');
+        await issue(`${QASE_LINK}/01-`, 'Hosted Zones');
+        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_02');
+        await epic('Domains');
+        await feature('Hosted Zones');
+
+        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+
+        await step('Create Hosted Zones.', async () => {
+            await headerComponent.clickHostedZonesLink();
+        });
+        await step('Verify that the user is in the Hosted Zone Page', async () => {
+            await hostedZonesPage.hostedZonesHeader.isVisible();
+        });
+
+        await hostedZonesPage.clickCreateHostedZoneButton();
+
+        await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
+
+        await createHostedZoneModal.fillHostedZoneDomainNameInput(HOSTED_ZONE_DOMAIN_NAME);
+        await createHostedZoneModal.clickCreateButton();
+
+        await step('Verify toast notification about successful creation of hosted zone.', async () => {
+            await toastComponent.toastBody.waitFor({ state: 'visible' });
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.hostedZoneCreated);
+        });
+
+        await step('Verify the creation of the Hosted Zone', async () => {
+            await hostedZonesPage.hostedZonesHeader.isVisible();
+            await hostedZonesPage.createdHostedZoneTitle.isVisible();
+        });
+
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+        await deleteHostedZoneModal.clickDeleteButton();
+        await expect(hostedZonesPage.deleteHostedZoneModal).not.toBeVisible();
     });
 });

@@ -1,4 +1,5 @@
 import { step } from 'allure-js-commons';
+import { HOSTED_ZONE_DOMAIN_NAME } from '../../testData';
 
 export default class HostedZonesPage {
     constructor(page) {
@@ -10,6 +11,7 @@ export default class HostedZonesPage {
         this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]');
         this.deleteHostedZoneModal = this.page.locator('section[role="dialog"]');
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
+        this.createdHostedZoneTitle = this.page.getByText(HOSTED_ZONE_DOMAIN_NAME);
     }
 
     async waitForHostedZoneIsVisible(name) {

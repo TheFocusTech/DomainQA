@@ -6,6 +6,7 @@ export default class CreateHostedZoneModal {
 
         this.hostedZoneDomainNameInput = this.page.getByPlaceholder('Enter your domain');
         this.createButton = this.page.locator('button').filter({ hasText: /^Create$/ });
+
         this.cancelButton = this.page.locator('button').filter({ hasText: /^Cancel$/ });
     }
 
@@ -15,7 +16,7 @@ export default class CreateHostedZoneModal {
         });
     }
     async clickCreateButton() {
-        await step('Click on "Create" button.', async () => {
+        await step('Click on "Create" hosted zone button.', async () => {
             await this.createButton.click();
         });
     }
