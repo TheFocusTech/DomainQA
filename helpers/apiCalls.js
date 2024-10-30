@@ -52,6 +52,8 @@ export async function createHostedZoneAPI(request, headers) {
         return createHostedZoneData;
     } catch (error) {
         console.error(`An error occurred while creating hosted zone: ${error.message}`);
+        console.error(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`);
+        console.error(authHeaders);
         return null;
     }
 }
