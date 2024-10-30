@@ -13,6 +13,7 @@ export default class HostedZonesPage {
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
         this.hostedZones = this.page.locator('table tbody tr a');
         this.clearSearchBtn = this.page.locator('[class*="button-clear"]');
+        this.noResultsText = this.page.getByText('No results found');
     }
 
     async waitForHostedZoneIsVisible(name) {
@@ -46,17 +47,18 @@ export default class HostedZonesPage {
     }
 
     async performSearch(value) {
-        await step('Search for a hosted zone.', async () => {
+        await step(`Search by '${value}'.`, async () => {
             await this.searchInput.fill(value);
-            await this.page.waitForLoadState('networkidle');
+
+            await this.page.waitForResponse(
+                (response) => response.url().includes('hosted-zones?domain=') && response.status() === 200
+            );
         });
     }
 
     async clearSearch() {
-        await step('Search for a hosted zone.', async () => {
-            await this.clearSearchBtn.click();
-            await this.page.waitForTimeout(2000);
-        });
+        await this.clearSearchBtn.click();
+        await this.page.waitForTimeout(1000);
     }
 
     async getNames() {
