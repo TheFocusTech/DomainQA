@@ -1,0 +1,15 @@
+An error occurred while creating hosted zone: POST hosted zones request failed with status: status() {
+    return this._initializer.status;
+  }
+https://staging-api.trustname.com/users/hosted-zones
+{
+  Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Mzc0YjNiNy1kMWJiLTQyNzQtODRhMS0yOTg0Njc2NDY5MmEiLCJpYXQiOjE3MzAzMjI1NjcsImV4cCI6MTczMDQwODk2NywiYXVkIjoidXNlcl9hY2Nlc3NfdG9rZW4iLCJpc3MiOiJUcnVzdGVkRG9tYWluUmVnaXN0cmFyIn0.OXd_e_a_azg7MGgkwfxTE8Z0LMsP96hMgrdmD8ewlA4',
+  'x-csrf-token': 'lgOKHrpP-U9OTw5yYjLkYwxb-693W4iSRLMkSJeV-wOnBOLnj2Fg',
+  Cookie: '_csrf=mFbOMRaC--aofkMVRpSIxqeV.dQUGbLaMkYvWIALf6alzkxpOdXhUzuCInFcVqKmqeao'
+}
+An error occurred while deleting hosted zone: DELETE hosted zones request failed with status: status() {
+    return this._initializer.status;
+  }
+An error occurred while deleting hosted zone: DELETE hosted zones request failed with status: status() {
+    return this._initializer.status;
+  }
