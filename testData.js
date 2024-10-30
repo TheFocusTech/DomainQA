@@ -81,7 +81,6 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar URL',
 ];
 
-
 export const DROPDOWN_ITEMS = [
     `${process.env.USER_EMAIL}`,
     'Account settings',
@@ -132,4 +131,3 @@ export const DNS_RECORD_DATA = {
     },
     comment: 'For Test Only!',
 };
-
