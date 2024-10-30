@@ -37,7 +37,7 @@ test.describe('Unauthorized user', () => {
             await tag('Unauthorized_user');
             await severity('normal');
             await description(`Verify that ${linkName} page is accessible for non authorized user`);
-            await issue(`${QASE_LINK}case=16`, 'Redirect to available pages');
+            await issue(`${QASE_LINK}/01-16`, 'Redirect to available pages');
             await tms(`${GOOGLE_DOC_LINK}jcvsnakk56kb`, 'ATC_09_01');
             await epic('Non_authorized_user');
 
