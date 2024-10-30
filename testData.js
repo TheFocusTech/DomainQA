@@ -63,6 +63,10 @@ export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
 export const CORRECT_DOMAIN = 'PURRWEB.COM';
 
+export const NON_AVAILABLE_DOMAIN = 'PURRWEB.net';
+
+export const AVAILABLE_DOMAIN = 'strain123';
+
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
     HomePage: 'Millions of domains with the ulitmate privacy protection',
@@ -123,3 +127,5 @@ export const DNS_RECORD_DATA = {
     },
     comment: 'For Test Only!',
 };
+
+export const DOMAIN_PART = ['.com', '.net', 'org'];
