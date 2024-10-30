@@ -13,7 +13,7 @@ test.describe('Authorization', () => {
         await tags('Authorization', 'Positive');
         await severity('critical');
         await description('To verify user login process without 2FA.');
-        await issue(`${QASE_LINK}case=21&previewMode=side&suite=21`, 'User Login');
+        await issue(`${QASE_LINK}/01-21`, 'User Login');
         await tms(`${GOOGLE_DOC_LINK}rrgjsbcqig8c`, 'ATC_02_02');
         await epic('Authorization');
 
@@ -41,7 +41,7 @@ test.describe('Authorization', () => {
         await tags('Authorization', 'Negative');
         await severity('normal');
         await description('To verify user is not able to login with empty and invalid credentials.');
-        await issue(`${QASE_LINK}case=22&suite=21`, 'User Login');
+        await issue(`${QASE_LINK}/01-22`, 'User Login');
         await tms(`${GOOGLE_DOC_LINK}6fjau1hl6v70`, 'ATC_02_01');
         await epic('Authorization');
 

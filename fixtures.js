@@ -14,6 +14,11 @@ import DeleteHostedZoneModal from './pom/modalWindows/DeleteHostedZoneModal';
 import AccountDeletionModal from './pom/modalWindows/AccountDeletionModal';
 import AcDeleteConfirmationModal from './pom/modalWindows/AcDeleteConfirmationModal';
 import CancelDeletionModal from './pom/modalWindows/CancelDeletionModal';
+import WhoisSearchResultPage from './pom/pages/WhoisSearchResultPage';
+import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
+import WhoisPage from './pom/pages/WhoisPage';
+import FooterComponent from './pom/components/FooterComponent';
+import PageTitleComponent from './pom/components/PageTitleComponent';
 
 export const test = base.extend({
     homePage: async ({ page }, use) => {
@@ -60,5 +65,20 @@ export const test = base.extend({
     },
     cancelDeletionModal: async ({ page }, use) => {
         await use(new CancelDeletionModal(page));
+    },
+    whoisSearchResultPage: async ({ page }, use) => {
+        await use(new WhoisSearchResultPage(page));
+    },
+    domainAvailabilityPage: async ({ page }, use) => {
+        await use(new DomainAvailabilityPage(page));
+    },
+    whoisPage: async ({ page }, use) => {
+        await use(new WhoisPage(page));
+    },
+    footerComponent: async ({ page }, use) => {
+        await use(new FooterComponent(page));
+    },
+    pageTitleComponent: async ({ page }, use) => {
+        await use(new PageTitleComponent(page));
     },
 });
