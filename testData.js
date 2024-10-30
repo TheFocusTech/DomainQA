@@ -24,10 +24,9 @@ export const INVALID_CREDS_AUTH = [
 ];
 
 export const VALID_CREDS_AUTH = {
-    
-        email: 'domain.aqa+100@gmail.com',
-        password: 'QA_domain00'
-    };
+    email: 'domain.aqa+100@gmail.com',
+    password: 'QA_domain00',
+};
 
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
