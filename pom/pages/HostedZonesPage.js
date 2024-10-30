@@ -53,6 +53,7 @@ export default class HostedZonesPage {
             await this.page.waitForResponse(
                 (response) => response.url().includes('hosted-zones?domain=') && response.status() === 200
             );
+            await this.page.waitForTimeout(1000);
         });
     }
 

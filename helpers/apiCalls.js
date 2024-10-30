@@ -35,29 +35,29 @@ export async function createHostedZoneAPI(request, headers) {
     const authHeaders = getAuthHeaders(headers);
     const domainName = await getRandomDomainName();
 
-    // try {
-    console.log(domainName);
-    const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
-        headers: authHeaders,
-        data: {
-            domain: domainName,
-        },
-    });
-    console.log(createHostedZoneResponse);
-    //     if (!createHostedZoneResponse.ok()) {
-    //         throw new Error(`POST hosted zones request failed with status: ${createHostedZoneResponse.status}`);
-    //     }
-    //     const createHostedZoneData = await createHostedZoneResponse.json();
-    //     const hostedZoneId = createHostedZoneData.id;
-    //     console.log(`Created hosted zone ${domainName} with id ${hostedZoneId}`);
+    try {
+        console.log(domainName);
+        const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
+            headers: authHeaders,
+            data: {
+                domain: domainName,
+            },
+        });
+        console.log(createHostedZoneResponse);
+        if (!createHostedZoneResponse.ok()) {
+            throw new Error(`POST hosted zones request failed with status: ${createHostedZoneResponse.status}`);
+        }
+        const createHostedZoneData = await createHostedZoneResponse.json();
+        const hostedZoneId = createHostedZoneData.id;
+        console.log(`Created hosted zone ${domainName} with id ${hostedZoneId}`);
 
-    //     return createHostedZoneData;
-    // } catch (error) {
-    //     console.error(`An error occurred while creating hosted zone: ${error.message}`);
-    //     console.error(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`);
-    //     console.error(authHeaders);
-    //     return null;
-    // }
+        return createHostedZoneData;
+    } catch (error) {
+        console.error(`An error occurred while creating hosted zone: ${error.message}`);
+        console.error(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`);
+        console.error(authHeaders);
+        return null;
+    }
 }
 
 export async function deleteHostedZoneAPI(request, id, headers) {
