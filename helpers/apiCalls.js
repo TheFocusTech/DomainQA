@@ -42,7 +42,7 @@ export async function createHostedZoneAPI(request, headers) {
             domain: domainName,
         },
     });
-    return createHostedZoneResponse;
+    console.log(createHostedZoneResponse);
     //     if (!createHostedZoneResponse.ok()) {
     //         throw new Error(`POST hosted zones request failed with status: ${createHostedZoneResponse.status}`);
     //     }
