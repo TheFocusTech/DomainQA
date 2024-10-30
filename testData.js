@@ -68,7 +68,7 @@ export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
 export const CORRECT_DOMAIN = 'PURRWEB.COM';
 
-export const NON_AVAILABLE_DOMAIN = 'PURRWEB.net';
+export const OCCUPIED_DOMAIN = 'purrweb';
 
 export const AVAILABLE_DOMAIN = 'strain123';
 
@@ -134,3 +134,5 @@ export const DNS_RECORD_DATA = {
 };
 
 export const DOMAIN_PART = ['.com', '.net', 'org'];
+
+export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
