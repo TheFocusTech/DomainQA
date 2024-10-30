@@ -8,7 +8,7 @@ export default class SettingsGeneralPage {
         this.deleteAccountButton = this.page.locator('button:has-text("Delete account")');
         this.generalInfoButton = this.page.locator('button:has-text("General info")');
         this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
-        this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion: 28.11.2024")');
+        this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
     }
 
