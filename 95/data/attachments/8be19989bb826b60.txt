@@ -1,0 +1,6 @@
+An error occurred while deleting hosted zone: DELETE hosted zones request failed with status: status() {
+    return this._initializer.status;
+  }
+An error occurred while deleting hosted zone: DELETE hosted zones request failed with status: status() {
+    return this._initializer.status;
+  }
