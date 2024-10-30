@@ -36,6 +36,7 @@ export async function createHostedZoneAPI(request, headers) {
     const domainName = await getRandomDomainName();
 
     // try {
+    console.log(domainName);
     const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
         headers: authHeaders,
         data: {
