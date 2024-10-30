@@ -1,4 +1,4 @@
-export const QASE_LINK = 'https://app.qase.io/project/01?';
+export const QASE_LINK = ' https://app.qase.io/case';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
 export const HOSTED_ZONE_DOMAIN_NAME = '42.com';
@@ -80,3 +80,46 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar WHOIS Server',
     'Registrar URL',
 ];
+
+export const DNS_RECORD_DATA = {
+    A: {
+        name: 'www.42.com',
+        addressIPv4: '206.253.208.100',
+        ttl: 'AUTO',
+    },
+    AAAA: {
+        name: 'www.42.com',
+        addressIPv6: '1050:0:0:0:5:600:300c:326b',
+        ttl: 'AUTO',
+    },
+    CHAME: {
+        name: 'www.example.com',
+        target: 'example.com',
+        ttl: 'AUTO',
+    },
+    DS: {
+        name: '42.com',
+        keyTag: '2371',
+        algorithm: '8',
+        digestType: '2',
+        digest: '2BB183AF5F22588179A53B0A98631FAD1A292118',
+        ttl: 'AUTO',
+    },
+    MX: {
+        name: 'example.com',
+        mailserver: 'mail.example.com',
+        priority: '10',
+        ttl: 'AUTO',
+    },
+    NS: {
+        name: '42.com',
+        nameserver: 'ns1.example.com',
+        ttl: 'AUTO',
+    },
+    TXT: {
+        name: '42.com',
+        value: 'v=spf1 include:_spf.example.com super test',
+        ttl: 'AUTO',
+    },
+    comment: 'For Test Only!',
+};
