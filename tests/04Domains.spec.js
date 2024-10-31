@@ -170,13 +170,13 @@ test.describe('DNS Records', () => {
         { dnsType: 'NS' },
         { dnsType: 'TXT' },
     ].forEach(({ dnsType }) => {
-        test(`TC_04_04 | "Hosted zones - DNS Record - Create with required fields ${dnsType}`, async ({
+        test(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
             hostedZonesDetailPage,
             dnsRecordModal,
         }) => {
             await tags('Domains', 'Positive');
             await severity('normal');
-            await description('Verify DNS Record created with required fields.');
+            await description('Verify DNS Record created with all fields.');
             await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}kgnoic8i621f`, 'ATC_04_04');
             await epic('Domains');
