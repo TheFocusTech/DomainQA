@@ -1,7 +1,7 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE, DROPDOWN_ITEMS } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE, MY_PROFILE_ITEMS } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('My profile', () => {
@@ -25,11 +25,7 @@ test.describe('My profile', () => {
         await step('Verify the Profile Dropdown menu is displayed and contain 5 items', async () => {
             await expect(headerComponent.myProfileDropdownMenu).toBeVisible();
             await expect(headerComponent.myProfileDropdownMenuItems).toHaveCount(5);
-
-            const dropdownlist = await headerComponent.myProfileDropdownMenuItems.allInnerTexts();
-            for (let i = 0; i < DROPDOWN_ITEMS.length; i++) {
-                await expect(DROPDOWN_ITEMS[i]).toEqual(dropdownlist[i]);
-            }
+            await expect(headerComponent.myProfileDropdownMenuItems).toHaveText(MY_PROFILE_ITEMS);
         });
 
         await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {

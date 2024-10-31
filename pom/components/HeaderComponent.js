@@ -4,11 +4,10 @@ export default class HeaderComponent {
     constructor(page) {
         this.page = page;
         this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
-        this.myProfileDropdownMenu = this.page.locator('ul.menu-list_menu-list-items__gM9KR');
-        this.myProfileDropdownMenuItems = this.page.locator('li.menu-item_menu-item__sy6_P');
-        this.myProfileDropdownMenuAccountSettings = this.page.getByRole('button', { name: 'Account settings' });
-        this.myProfileDropdownMenuBillling = this.page.getByRole('button', { name: 'Billing' });
-        this.myProfileDropdownMenuCurrency = this.page.getByRole('button', { name: 'BCurrency USD ($)' });
+        this.myProfileDropdownMenu = this.page.locator('ul[class*="menu-list"]');
+        this.myProfileDropdownMenuItems = this.page.locator('ul[class*="menu-list"]').locator('li[class*="menu-item"]');
+        this.myProfileDropdownMenuBilling = this.page.getByRole('button', { name: 'Billing' });
+        this.myProfileDropdownMenuCurrency = this.page.getByRole('button', { name: 'Currency USD ($)' });
         this.myProfileDropdownMenuLogout = this.page.getByRole('button', { name: 'Log out' });
         this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
