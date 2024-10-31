@@ -18,7 +18,7 @@ export async function getHostedZonesAPI(request, headers) {
             headers: authHeaders,
         });
         if (!getHostedZonesResponse.ok()) {
-            throw new Error(`GET hosted zones request failed with status: ${getHostedZonesResponse.status}`);
+            throw new Error(`GET hosted zones request failed with status: ${getHostedZonesResponse.status()}`);
         }
         const hostedZonesData = await getHostedZonesResponse.json();
         const hostedZoneCount = hostedZonesData.meta.total;
@@ -36,16 +36,14 @@ export async function createHostedZoneAPI(request, headers) {
     const domainName = await getRandomDomainName();
 
     try {
-        console.log(domainName);
         const createHostedZoneResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`, {
             headers: authHeaders,
             data: {
                 domain: domainName,
             },
         });
-        console.log(createHostedZoneResponse);
         if (!createHostedZoneResponse.ok()) {
-            throw new Error(`POST hosted zones request failed with status: ${createHostedZoneResponse.status}`);
+            throw new Error(`POST hosted zones request failed with status: ${createHostedZoneResponse.status()}`);
         }
         const createHostedZoneData = await createHostedZoneResponse.json();
         const hostedZoneId = createHostedZoneData.id;
@@ -54,8 +52,7 @@ export async function createHostedZoneAPI(request, headers) {
         return createHostedZoneData;
     } catch (error) {
         console.error(`An error occurred while creating hosted zone: ${error.message}`);
-        console.error(`${process.env.API_URL}${API_ENDPOINT.createHostedZone}`);
-        console.error(authHeaders);
+
         return null;
     }
 }
@@ -71,7 +68,7 @@ export async function deleteHostedZoneAPI(request, id, headers) {
             }
         );
         if (!deleteHostedZoneResponse.ok()) {
-            throw new Error(`DELETE hosted zones request failed with status: ${deleteHostedZoneResponse.status}`);
+            throw new Error(`DELETE hosted zones request failed with status: ${deleteHostedZoneResponse.status()}`);
         }
         console.log(`Deleted hosted zone with id ${id}`);
     } catch (error) {
