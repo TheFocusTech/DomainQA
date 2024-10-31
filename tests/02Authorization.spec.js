@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS, VALID_CREDS_AUTH } from '../testData';
 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
@@ -89,5 +89,105 @@ test.describe('Authorization', () => {
                 await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
             });
         }
+    });
+
+    test.skip('TC_02_04 | Account Deletion Without 2FA', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsGeneralPage,
+        accountDeletionModal,
+        acDeleteConfirmationModal,
+        cancelDeletionModal,
+    }) => {
+        await tags('Authorization', 'Positive');
+        await severity('critical');
+        await description('To verify user can delete account without 2FA');
+        await issue(`${QASE_LINK}case=23&suite=21`, 'Account Deletion');
+        await tms(`${GOOGLE_DOC_LINK}iiqbm2c7rcc8`, 'ATC_02_04');
+        await epic('Authorization');
+
+        await step('Preconditions: User is logged in and on the Home page', async () => {
+            await page.goto('/');
+            await headerComponent.clickLogin();
+            await loginPage.fillEmailAddressInput(VALID_CREDS_AUTH.email);
+            await loginPage.fillPasswordInput(VALID_CREDS_AUTH.password);
+            await loginPage.clickLogin();
+        });
+
+        await step('User clicks on "My Profile."', async () => {
+            await headerComponent.clickMyProfileButton();
+        });
+
+        await step('User clicks on “Account Settings.”', async () => {
+            await headerComponent.clickAccountSettingsLink();
+        });
+
+        await step('The “General info” tab is selected.', async () => {
+            await expect(settingsGeneralPage.generalInfoButton).toBeVisible();
+        });
+
+        await step('Click on "Delete account":', async () => {
+            await settingsGeneralPage.clickDeleteAccountButton();
+        });
+
+        //await step('Verify that the deletion modal opens.', async () => {
+        // await expect(accountDeletionModal.modal).toBeVisible();
+        //});
+
+        await step('Verify modal contents:', async () => {
+            await expect(accountDeletionModal.checkbox).toBeVisible();
+            await expect(accountDeletionModal.cancelButton).toBeVisible();
+            await expect(accountDeletionModal.continueButton).toBeVisible();
+            await expect(accountDeletionModal.closeButton).toBeVisible();
+        });
+
+        await step('Close the modal by clicking the "x" button.', async () => {
+            await accountDeletionModal.clickCloseButton();
+        });
+
+        await step('Verify that the modal closes and the deletion process is canceled.', async () => {
+            await expect(accountDeletionModal.accountDeletionModalContainer).toBeEmpty();
+        });
+
+        await step('Reopen the account deletion modal.', async () => {
+            await settingsGeneralPage.clickDeleteAccountButton();
+        });
+
+        await step('Check "Yes, I consent to delete my account":', async () => {
+            await accountDeletionModal.markCheckbox();
+            await expect(accountDeletionModal.continueButton).toBeEnabled();
+        });
+
+        await step('Click "Continue":', async () => {
+            await accountDeletionModal.clickContinueButton();
+        });
+
+        await step('Ensure the confirmation modal opens:', async () => {
+            await expect(acDeleteConfirmationModal.modalDescription).toBeVisible();
+        });
+
+        await step('Verify that the text input field and buttons are present:', async () => {
+            await expect(acDeleteConfirmationModal.deleteInput).toBeVisible();
+            await expect(acDeleteConfirmationModal.cancelButton).toBeVisible();
+            await expect(acDeleteConfirmationModal.closeButton).toBeVisible();
+            await expect(acDeleteConfirmationModal.deleteButton).toBeVisible();
+        });
+
+        await step('Confirm deletion:', async () => {
+            await acDeleteConfirmationModal.enterDeleteText('Delete');
+            await acDeleteConfirmationModal.clickDeleteAccountButton();
+        });
+
+        await step('Verify that the account deletion is successful:', async () => {
+            await expect(settingsGeneralPage.messageAboutDeletion).toBeVisible();
+            await expect(settingsGeneralPage.dateOfDeletion).toBeVisible();
+            await expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
+        });
+
+        await step('Postconditions: Cancel deletion', async () => {
+            await settingsGeneralPage.clickCancelDeletionButton();
+            await cancelDeletionModal.clickAcceptDeletionButton();
+        });
     });
 });

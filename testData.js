@@ -23,6 +23,11 @@ export const INVALID_CREDS_AUTH = [
     { email: 'invalidEmail@gmail.com', password: 'invalidPassword', name: 'invalid email and invalid password' },
 ];
 
+export const VALID_CREDS_AUTH = {
+    email: 'domain.aqa+100@gmail.com',
+    password: 'QA_domain00',
+};
+
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
 };
@@ -62,6 +67,10 @@ export const DNS_TYPE = {
 export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
 export const CORRECT_DOMAIN = 'PURRWEB.COM';
+
+export const OCCUPIED_DOMAIN = 'purrweb';
+
+export const AVAILABLE_DOMAIN = 'strain123';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
@@ -125,3 +134,7 @@ export const DNS_RECORD_DATA = {
     },
     comment: 'For Test Only!',
 };
+
+export const DOMAIN_PART = ['.com', '.net', 'org'];
+
+export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];

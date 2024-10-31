@@ -1,22 +1,102 @@
 import { test } from '../fixtures';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
-import { getCookies } from '../helpers/utils';
+import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
 import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
     HOSTED_ZONE_DOMAIN_NAME,
-    URL_ENDPOINT,
     CORRECT_DOMAIN,
     ERROR_DOMAIN,
     WHOIS_SEARCH_RESULT_TITLES,
 } from '../testData';
 import { expect } from '@playwright/test';
 let headers;
-let newHostedZoneId;
-let domainName;
+let hostedZoneId1;
+let domainName1;
+let hostedZoneId2;
+let domainName2;
 let hostedZoneCount;
+
+test.describe('Search Hosted Zones', () => {
+    test.afterAll('Postconditions: Delete created hosted zones via API', async ({ request }) => {
+        await deleteHostedZoneAPI(request, hostedZoneId1, headers);
+        await deleteHostedZoneAPI(request, hostedZoneId2, headers);
+
+        const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
+        expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 2);
+    });
+
+    test('TC_04_02 | Verify search by hosted zone name', async ({
+        page,
+        request,
+        headerComponent,
+        loginPage,
+        hostedZonesPage,
+    }) => {
+        await tags('Domains', 'Search');
+        await severity('normal');
+        await description('To verify, that user is able to search a hosted zone by name');
+        await issue(`${QASE_LINK}case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}5rjp86ma9eyp`, 'ATC_04_02');
+        await epic('Domains');
+        await feature('Hosted zone search');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step('Preconditions: Create hosted zones via API.', async () => {
+            headers = await getCookies(page);
+
+            const res1 = await createHostedZoneAPI(request, headers);
+            hostedZoneId1 = res1.id;
+            domainName1 = res1.domain;
+
+            const res2 = await createHostedZoneAPI(request, headers);
+            hostedZoneId2 = res2.id;
+            domainName2 = res2.domain;
+
+            hostedZoneCount = await getHostedZonesAPI(request, headers);
+        });
+
+        await hostedZonesPage.open();
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+
+        await step('Search by partial name - both created zones are displayed.', async () => {
+            await hostedZonesPage.performSearch('api');
+
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+        });
+
+        await step('Search by exact name - the only zone is displayed.', async () => {
+            await hostedZonesPage.performSearch(domainName1);
+
+            const names = await hostedZonesPage.getNames();
+            expect(names).toEqual([domainName1]);
+        });
+
+        await step('Clear search - all zones are displayed', async () => {
+            await hostedZonesPage.clearSearch();
+
+            const zonesCount = await hostedZonesPage.hostedZones.count();
+            expect(zonesCount).toBe(hostedZoneCount);
+        });
+
+        await step('Validate search returns no results', async () => {
+            const randomName = await getRandomDomainName();
+
+            await hostedZonesPage.performSearch(randomName);
+
+            const zonesCount = await hostedZonesPage.hostedZones.count();
+
+            expect(zonesCount).toBe(0);
+            await expect(hostedZonesPage.noResultsText).toBeVisible();
+        });
+    });
+});
 
 test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
@@ -73,41 +153,6 @@ test.describe('DNS Records', () => {
         await step(`Delete hosted zone after usage.`, async () => {
             await hostedZonesDetailPage.clickBackToHostedZonesButton();
             await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
-        });
-    });
-
-    test.skip('TC_04_02 | Verify search by hosted zone name.', async ({
-        page,
-        request,
-        homePage,
-        loginPage,
-        hostedZonesPage,
-    }) => {
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(page, homePage, loginPage);
-            await page.waitForURL(process.env.URL);
-        });
-
-        await step('Preconditions: Create hosted zone via API.', async () => {
-            headers = await getCookies(page);
-
-            const createdHostedZoneResponse = await createHostedZoneAPI(request, headers);
-            newHostedZoneId = createdHostedZoneResponse.id;
-            domainName = createdHostedZoneResponse.domain;
-
-            hostedZoneCount = await getHostedZonesAPI(request, headers);
-
-            await page.goto(URL_ENDPOINT.hostedZones);
-        });
-
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName);
-
-        await step('Postconditions: Delete hosted zone via API.', async () => {
-            await deleteHostedZoneAPI(request, newHostedZoneId, headers);
-
-            const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
-
-            expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 1);
         });
     });
 });

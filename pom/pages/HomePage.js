@@ -6,6 +6,7 @@ export default class HomePage {
 
         this.domainSearchInput = this.page.getByPlaceholder('Search domain').first();
         this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1);
+        this.filterButton = this.page.getByLabel('Advanced search').first();
     }
 
     async fillDomainSearchInput(nameDomain) {
