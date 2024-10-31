@@ -2,24 +2,27 @@ import { test } from '../fixtures';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { loginUser, createHostedZone, deleteHostedZone } from '../helpers/preconditions';
+import { loginUser } from '../helpers/preconditions';
 import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
-    HOSTED_ZONE_DOMAIN_NAME,
     CORRECT_DOMAIN,
     ERROR_DOMAIN,
+    URL_ENDPOINT,
     WHOIS_SEARCH_RESULT_TITLES,
     TOAST_MESSAGE,
     MODAL_WINDOW_DELETE_HOSTED_ZONE,
 } from '../testData';
 import { expect } from '@playwright/test';
+
 let headers;
 let hostedZoneId1;
 let domainName1;
 let hostedZoneId2;
 let domainName2;
 let hostedZoneCount;
+let hostedZoneId;
+let dnsObj;
 
 test.describe('Search Hosted Zones', () => {
     test.afterAll('Postconditions: Delete created hosted zones via API', async ({ request }) => {
@@ -101,17 +104,30 @@ test.describe('Search Hosted Zones', () => {
 });
 
 test.describe('DNS Records', () => {
-    test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, createHostedZoneModal }) => {
+    test.afterEach('Postconditions: Delete created hosted zones via API', async ({ request }) => {
+        await deleteHostedZoneAPI(request, hostedZoneId, headers);
+    });
+
+    test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesDetailPage, request }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
-        await createHostedZone(page, hostedZonesPage, createHostedZoneModal);
 
-        await step(`Navigate to Hosted Zones/Management for ${HOSTED_ZONE_DOMAIN_NAME}`, async () => {
-            await hostedZonesPage.clickOnHostedZoneName(HOSTED_ZONE_DOMAIN_NAME);
+        await step('Preconditions: Create hosted zones via API.', async () => {
+            headers = await getCookies(page);
+            const response = await createHostedZoneAPI(request, headers);
+            hostedZoneId = response.id;
+
+            await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}/${hostedZoneId}`, {
+                waitUntil: 'networkidle',
+            });
+        });
+
+        await step('Open modal "Add new DNS-record".', async () => {
+            await hostedZonesDetailPage.clickAddRecordButton();
         });
     });
 
-    test.skip('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
+    test('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
         hostedZonesDetailPage,
         dnsRecordModal,
     }) => {
@@ -121,10 +137,6 @@ test.describe('DNS Records', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}2tly5p2ks4km`, 'ATC_04_10');
         await epic('Domains');
-
-        await step('Open modal "Add new DNS-record".', async () => {
-            await hostedZonesDetailPage.clickAddRecordButton();
-        });
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
             await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
@@ -151,10 +163,50 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test.afterEach(async ({ hostedZonesPage, hostedZonesDetailPage, deleteHostedZoneModal }) => {
-        await step(`Delete hosted zone after usage.`, async () => {
-            await hostedZonesDetailPage.clickBackToHostedZonesButton();
-            await deleteHostedZone(hostedZonesPage, deleteHostedZoneModal);
+    [
+        { dnsType: 'A' },
+        { dnsType: 'AAAA' },
+        { dnsType: 'CNAME' },
+        { dnsType: 'DS' },
+        { dnsType: 'MX' },
+        { dnsType: 'NS' },
+        { dnsType: 'TXT' },
+    ].forEach(({ dnsType }) => {
+        test(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
+            hostedZonesDetailPage,
+            dnsRecordModal,
+        }) => {
+            await tags('Domains', 'Positive');
+            await severity('normal');
+            await description('Verify DNS Record created with all fields.');
+            await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+            await tms(`${GOOGLE_DOC_LINK}kgnoic8i621f`, 'ATC_04_04');
+            await epic('Domains');
+
+            await step(`Fill form for ${dnsType}`, async () => {
+                dnsObj = await dnsRecordModal.fillForm(dnsType);
+            });
+
+            await step('Save "Add new DNS-record".', async () => {
+                await dnsRecordModal.clickSaveButton();
+            });
+
+            await step('Verify "Add new DNS-record" modal is not visible.', async () => {
+                await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
+            });
+
+            await step('Verify record appeared in the "DNS Management" card.', async () => {
+                const dnsResords = await hostedZonesDetailPage.getDnsRecords();
+                const foundRecord = dnsResords.find((obj) => {
+                    return (
+                        obj.type === dnsType &&
+                        obj.name === dnsObj.name &&
+                        obj.content === dnsObj.content &&
+                        obj.ttl === dnsObj.ttl
+                    );
+                });
+                expect(foundRecord).toBeDefined();
+            });
         });
     });
 });

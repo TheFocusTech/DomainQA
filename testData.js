@@ -54,6 +54,7 @@ export const API_ENDPOINT = {
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?',
+    resourceRecords: '/resource-records',
 };
 
 export const DNS_TYPE = {
@@ -92,45 +93,54 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar URL',
 ];
 
+export const MY_PROFILE_ITEMS = [
+    `${process.env.USER_EMAIL}`,
+    'Account settings',
+    'Billing',
+    'Currency USD ($)',
+    'Log out',
+];
+
 export const DNS_RECORD_DATA = {
     A: {
-        name: 'www.42.com',
-        addressIPv4: '206.253.208.100',
-        ttl: 'AUTO',
+        dnsType: 'A',
+        name: 'google.com',
+        addressIPv4: '169.234.34.45',
+        expected: { content: '169.234.34.45' },
     },
     AAAA: {
-        name: 'www.42.com',
-        addressIPv6: '1050:0:0:0:5:600:300c:326b',
-        ttl: 'AUTO',
+        name: 'google.com',
+        addressIPv6: '2001:0000:130F:0000:0000:09C0:876A:130B',
+        expected: { content: '2001:0000:130F:0000:0000:09C0:876A:130B' },
     },
-    CHAME: {
-        name: 'www.example.com',
-        target: 'example.com',
-        ttl: 'AUTO',
+    CNAME: {
+        name: 'google.com',
+        target: 'google.com',
+        expected: { content: 'google.com' },
     },
     DS: {
-        name: '42.com',
-        keyTag: '2371',
-        algorithm: '8',
-        digestType: '2',
-        digest: '2BB183AF5F22588179A53B0A98631FAD1A292118',
-        ttl: 'AUTO',
+        name: 'google.com',
+        keyTag: '65535',
+        algorithm: '255',
+        digestType: 'SHA-1',
+        digest: '12324567890FFFFFFFFFAADDDD',
+        expected: { content: '12324567890FFFFFFFFFAADDDD' },
     },
     MX: {
-        name: 'example.com',
-        mailserver: 'mail.example.com',
-        priority: '10',
-        ttl: 'AUTO',
+        name: 'google.com',
+        mailserver: 'subzerodirol.org',
+        priority: '65535',
+        expected: { content: 'subzerodirol.org' },
     },
     NS: {
-        name: '42.com',
-        nameserver: 'ns1.example.com',
-        ttl: 'AUTO',
+        name: 'google.com',
+        nameserver: 'google.com',
+        expected: { content: 'google.com' },
     },
     TXT: {
-        name: '42.com',
-        value: 'v=spf1 include:_spf.example.com super test',
-        ttl: 'AUTO',
+        name: 'google.com',
+        value: 'google123434545',
+        expected: { content: 'google123434545' },
     },
     comment: 'For Test Only!',
 };
