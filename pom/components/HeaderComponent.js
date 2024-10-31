@@ -6,9 +6,6 @@ export default class HeaderComponent {
         this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
         this.myProfileDropdownMenu = this.page.locator('ul[class*="menu-list"]');
         this.myProfileDropdownMenuItems = this.page.locator('ul[class*="menu-list"]').locator('li[class*="menu-item"]');
-        this.myProfileDropdownMenuBilling = this.page.getByRole('button', { name: 'Billing' });
-        this.myProfileDropdownMenuCurrency = this.page.getByRole('button', { name: 'Currency USD ($)' });
-        this.myProfileDropdownMenuLogout = this.page.getByRole('button', { name: 'Log out' });
         this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
