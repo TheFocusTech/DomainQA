@@ -8,6 +8,7 @@ export default class HeaderComponent {
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
+        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
     }
 
     async clickMyProfileButton() {
@@ -31,6 +32,12 @@ export default class HeaderComponent {
     async clickSignup() {
         await step('Click on "Join now" button.', async () => {
             await this.signupButton.click();
+        });
+    }
+
+    async clickHelpCenter() {
+        await step('Click on "Help center" button.', async () => {
+            await this.helpCenterButton.click();
         });
     }
 }

@@ -49,4 +49,4 @@ export const test = base.extend({
     deleteHostedZoneModal: async ({ page }, use) => {
         await use(new DeleteHostedZoneModal(page));
     },
-});
+    });
