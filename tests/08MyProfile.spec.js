@@ -115,7 +115,7 @@ test.describe('My profile', () => {
         });
 
         await step('USD checkmark is selected by default.', async () => {
-            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
+            await expect(headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
         });
 
         await step('The "EUR (€)" button is displayed.', async () => {
@@ -125,7 +125,7 @@ test.describe('My profile', () => {
         await headerComponent.clickEurButton();
 
         await step('The "EUR (€)" button is selected with a checkmark.', async () => {
-            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
+            await expect(headerComponent.isCurrencySelected(headerComponent.eurButton)).toBeTruthy();
         });
 
         await step('The text of the "Currency USD ($)" button changes to "Currency EUR (€)".', async () => {
@@ -135,7 +135,7 @@ test.describe('My profile', () => {
         await headerComponent.clickUsdButton();
 
         await step('The "USD ($)" button is selected with a checkmark.', async () => {
-            await expect(headerComponent.checkmarkCurrencyButton).toBeVisible();
+            await expect(headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
         });
 
         await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {

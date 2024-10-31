@@ -117,4 +117,10 @@ export default class HeaderComponent {
             await this.usdButton.click();
         });
     }
+
+    async isCurrencySelected(button) {
+        const svgSelector = 'svg[xmlns="http://www.w3.org/2000/svg"]';
+        const svgCount = await button.locator(svgSelector).count();
+        return svgCount > 0;
+    }
 }
