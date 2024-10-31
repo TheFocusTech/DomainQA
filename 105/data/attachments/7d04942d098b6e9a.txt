@@ -1,0 +1,2 @@
+An error occurred while creating hosted zone: POST hosted zones request failed with status: 400
+An error occurred while deleting hosted zone: DELETE hosted zones request failed with status: 400
