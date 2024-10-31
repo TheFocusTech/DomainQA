@@ -3,8 +3,10 @@ import { step } from 'allure-js-commons';
 export default class HeaderComponent {
     constructor(page) {
         this.page = page;
-
         this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
+        this.myProfileDropdownMenu = this.page.locator('ul[class*="menu-list"]');
+        this.myProfileDropdownMenuItems = this.page.locator('ul[class*="menu-list"]').locator('li[class*="menu-item"]');
+        this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
@@ -23,6 +25,12 @@ export default class HeaderComponent {
     async clickMyProfileButton() {
         await step('Click on the "My Profile" button.', async () => {
             await this.myProfileButton.click();
+        });
+    }
+
+    async clickLogoButton() {
+        await step('Click on the "My Profile" button', async () => {
+            await this.logoButton.click();
         });
     }
 
