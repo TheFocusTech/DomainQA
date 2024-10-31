@@ -1,0 +1,60 @@
+api-20241031002158.com
+APIResponse: 201 Created
+  Date: Thu, 31 Oct 2024 00:21:59 GMT
+  Content-Type: application/json; charset=utf-8
+  Content-Length: 238
+  Connection: keep-alive
+  content-security-policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+  cross-origin-opener-policy: same-origin
+  cross-origin-resource-policy: same-origin
+  origin-agent-cluster: ?1
+  referrer-policy: no-referrer
+  strict-transport-security: max-age=31536000; includeSubDomains
+  x-content-type-options: nosniff
+  x-dns-prefetch-control: off
+  x-download-options: noopen
+  x-frame-options: SAMEORIGIN
+  x-permitted-cross-domain-policies: none
+  x-xss-protection: 0
+  vary: Origin
+  access-control-allow-credentials: true
+  cf-cache-status: DYNAMIC
+  Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=GhWmkBTrj%2B%2FOyAg7iM8yFt31BzjOvwhpQGn6pl40JKiD3paPiQAGRk%2BnCj9RZzj36z%2BTC02RMpbL0xZrt2dSjjDptPYaadyF1ZNUdXMxoCom7nFree9QyR%2FrJtLJqHPtRnE4gFNjWGuy4%2FKu"}],"group":"cf-nel","max_age":604800}
+  NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+  Server: cloudflare
+  CF-RAY: 8daf7cf2cb3e1736-SJC
+  alt-svc: h3=":443"; ma=86400
+  server-timing: cfL4;desc="?proto=TCP&rtt=1626&sent=4&recv=5&lost=0&retrans=0&sent_bytes=2831&recv_bytes=1286&delivery_rate=1977839&cwnd=251&unsent_bytes=0&cid=206f8e6da7804881&ts=1111&x=0"
+Created hosted zone api-20241031002158.com with id 72be99e5-54b9-44a7-a333-e656ec2e89ce
+api-20241031002159.com
+APIResponse: 201 Created
+  Date: Thu, 31 Oct 2024 00:22:00 GMT
+  Content-Type: application/json; charset=utf-8
+  Content-Length: 238
+  Connection: keep-alive
+  content-security-policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+  cross-origin-opener-policy: same-origin
+  cross-origin-resource-policy: same-origin
+  origin-agent-cluster: ?1
+  referrer-policy: no-referrer
+  strict-transport-security: max-age=31536000; includeSubDomains
+  x-content-type-options: nosniff
+  x-dns-prefetch-control: off
+  x-download-options: noopen
+  x-frame-options: SAMEORIGIN
+  x-permitted-cross-domain-policies: none
+  x-xss-protection: 0
+  vary: Origin
+  access-control-allow-credentials: true
+  cf-cache-status: DYNAMIC
+  Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=nsEktWJ%2F1b5nu%2F%2FdR1DUsOByq9Yn%2BmtSlNG8B006NkrKKt%2B4MVDCyA%2BKIH7Rtq1ZChP71FnuKjapw8rpFiQ7GiWLr5QenDPtSoHRCbFmlwzgjyh8rxkdd%2Fhd9XYXdz8zjS3%2FX0EeJTqHyjPa"}],"group":"cf-nel","max_age":604800}
+  NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+  Server: cloudflare
+  CF-RAY: 8daf7cf9ba691736-SJC
+  alt-svc: h3=":443"; ma=86400
+  server-timing: cfL4;desc="?proto=TCP&rtt=1720&sent=8&recv=7&lost=0&retrans=0&sent_bytes=5070&recv_bytes=2109&delivery_rate=1977839&cwnd=254&unsent_bytes=0&cid=206f8e6da7804881&ts=1889&x=0"
+Created hosted zone api-20241031002159.com with id 6b612070-766f-473c-a3fa-da37ffcc555c
+Total number of hosted zones: 2
+Deleted hosted zone with id 72be99e5-54b9-44a7-a333-e656ec2e89ce
+Deleted hosted zone with id 6b612070-766f-473c-a3fa-da37ffcc555c
+Total number of hosted zones: 0
