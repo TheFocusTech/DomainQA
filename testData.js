@@ -91,6 +91,14 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar URL',
 ];
 
+export const MY_PROFILE_ITEMS = [
+    `${process.env.USER_EMAIL}`,
+    'Account settings',
+    'Billing',
+    'Currency USD ($)',
+    'Log out',
+];
+
 export const DNS_RECORD_DATA = {
     A: {
         dnsType: 'A',
