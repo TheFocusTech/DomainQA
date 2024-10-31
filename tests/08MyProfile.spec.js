@@ -13,7 +13,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Positive');
         await severity('normal');
         await description('To verify the Profile Dropdown Menu on clicking "My Profile');
-        await issue(`${QASE_LINK}previewMode=side&suite=10&tab=&case=24`, 'My profile');
+        await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_08_01');
         await epic('My profile');
 
