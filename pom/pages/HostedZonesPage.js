@@ -7,14 +7,17 @@ export default class HostedZonesPage {
 
         this.searchInput = this.page.getByPlaceholder('Search by name');
         this.createHostedZoneButton = this.page.getByRole('button', { name: 'Create hosted zone' });
-        this.hostedZonesHeader = this.page.getByRole('heading', { name: 'Hosted Zones' });
+        this.hostedZonesHeader = this.page.getByRole('heading', { name: 'Hosted Zones', exact: true })
         this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]');
         this.deleteHostedZoneModal = this.page.locator('section[role="dialog"]');
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
-        this.createdHostedZoneTitle = this.page.getByText(HOSTED_ZONE_DOMAIN_NAME);
         this.hostedZones = this.page.locator('table tbody tr a');
         this.clearSearchBtn = this.page.locator('[class*="button-clear"]');
         this.noResultsText = this.page.getByText('No results found');
+    }
+
+    setCreatedHostedZoneTitleLocator(domainName) {
+        this.createdHostedZoneTitle = this.page.getByText(domainName);
     }
 
     async waitForHostedZoneIsVisible(name) {
@@ -72,4 +75,7 @@ export default class HostedZonesPage {
             await this.page.goto(URL_ENDPOINT.hostedZones);
         });
     }
+
+
 }
+

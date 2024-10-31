@@ -4,7 +4,7 @@ export default class HeaderComponent {
     constructor(page) {
         this.page = page;
 
-        this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });
+        this.myProfileButton = this.page.getByRole('button', { name: 'My profile' });  
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
@@ -96,7 +96,7 @@ export default class HeaderComponent {
     }
 
     async clickHostedZonesLink() {
-        await step('Click on "Transfer" link.', async () => {
+        await step('Click on "Hosted Zones" link.', async () => {
             await this.domainsButton.click();
             await this.hostedZonesButton.click();
         });

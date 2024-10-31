@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import { API_ENDPOINT } from '../testData';
 import { getRandomDomainName } from './utils';
 
@@ -48,7 +49,7 @@ export async function createHostedZoneAPI(request, headers) {
         const createHostedZoneData = await createHostedZoneResponse.json();
         const hostedZoneId = createHostedZoneData.id;
         console.log(`Created hosted zone ${domainName} with id ${hostedZoneId}`);
-
+console.log(createHostedZoneData);
         return createHostedZoneData;
     } catch (error) {
         console.error(`An error occurred while creating hosted zone: ${error.message}`);

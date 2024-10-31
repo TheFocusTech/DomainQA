@@ -39,7 +39,8 @@ export const PASSWORD = {
 
 export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
-    hostedZoneCreated: 'Hosted zone created'
+    hostedZoneCreated: 'Hosted zone created',
+    hostedZoneDeleted: 'Hosted zone deleted',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -137,3 +138,5 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const MODAL_WINDOW_DELETE_HOSTED_ZONE = ['Are you sure you want to delete hosted zone ', ' and all related DNS-records?', 'Delete hosted zone'];
