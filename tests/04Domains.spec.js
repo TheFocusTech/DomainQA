@@ -109,7 +109,7 @@ test.describe('DNS Records', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesDetailPage, request }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
-        
+
         await step('Preconditions: Create hosted zones via API.', async () => {
             headers = await getCookies(page);
             const response = await createHostedZoneAPI(request, headers);
