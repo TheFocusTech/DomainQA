@@ -1,0 +1,5 @@
+Created hosted zone api-20241101200253.com with id 442ecd21-8a0d-4ed6-bf60-bd0446990828
+Closing modal window by clicking Cancel button.
+Found 1 hosted zones to delete.
+Successfully deleted hosted zone with ID: 442ecd21-8a0d-4ed6-bf60-bd0446990828
+Total number of hosted zones: 0
