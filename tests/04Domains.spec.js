@@ -344,8 +344,12 @@ test.describe('DNSSEC', () => {
         await hostedZonesDetailPage.clickEnableDnssecBtn();
         await enableDnssecModal.clickEnableBtn();
 
+        await step('Verify the activation warning is visible.', async () => {
+            await hostedZonesDetailPage.dnssecActivationWarning.waitFor({ state: 'visible' });
+        });
+
         await step('Verify the toast message "DNSSEC enabled" appears.', async () => {
-            await toastComponent.toastBody.waitFor({ state: 'visible' });
+            await expect(toastComponent.toastBody).toBeVisible();
             await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnssecEnabled);
         });
     });
