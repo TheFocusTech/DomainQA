@@ -39,6 +39,7 @@ export const PASSWORD = {
 
 export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
+    dnssecEnabled: 'DNSSEC enabled',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [

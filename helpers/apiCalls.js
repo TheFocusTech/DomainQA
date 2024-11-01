@@ -86,3 +86,36 @@ export async function getDnsRecords(request, hostedZoneId, headers) {
         return null;
     }
 }
+
+export async function deleteAllHostedZonesAPI(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const urlGet = `${process.env.API_URL}${API_ENDPOINT.getHostedZones}`;
+
+    try {
+        const getResponse = await request.get(urlGet, { headers: authHeaders });
+
+        if (!getResponse.ok()) {
+            throw new Error(`Failed to get hosted zones. Status: ${getResponse.status()}`);
+        }
+
+        const getZonesData = await getResponse.json();
+        const zoneIds = getZonesData.results.map((zone) => zone.id);
+
+        console.log(`Found ${zoneIds.length} hosted zones to delete.`);
+
+        for (const id of zoneIds) {
+            const urlDelete = `${process.env.API_URL}${API_ENDPOINT.deleteHostedZone}${id}`;
+
+            const deleteResponse = await request.delete(urlDelete, {
+                headers: authHeaders,
+            });
+            if (deleteResponse.ok()) {
+                console.log(`Successfully deleted hosted zone with ID: ${id}`);
+            } else {
+                console.error(`Failed to delete hosted zone with ID: ${id}. Status: ${deleteResponse.status()}`);
+            }
+        }
+    } catch (error) {
+        console.error(`An error occurred while deleting all hosted zones: ${error.message}`);
+    }
+}
