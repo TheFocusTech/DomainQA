@@ -1,7 +1,7 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, BLOG_SEARCH_ITEM, BLOG_SEARCH_RESULT_MESSAGE } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, BLOG_SEARCH_ITEM, BLOG_SEARCH_RESULT_MESSAGE, URL_ENDPOINT } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Blog', () => {
@@ -19,9 +19,14 @@ test.describe('Blog', () => {
         await tms(`${GOOGLE_DOC_LINK}ior9d5z2nkji`, 'ATC_06_01');
         await epic('Blog');
 
+        const expectedUrlEndpoint = `${URL_ENDPOINT.BlogSearchResults}${encodeURIComponent(BLOG_SEARCH_ITEM.randomCharacters)}`;
+
         await blogPage.fillBlogSearchInput(BLOG_SEARCH_ITEM.randomCharacters);
         await blogPage.clickSearchButton();
-        await blogPage.searchResultMessage.waitFor({ state: 'visible' });
+        await step('Wait for load page with search results', async () => {
+            await blogPage.page.waitForURL((url) => url.href.includes(expectedUrlEndpoint), { timeout: 60000 });
+            await blogPage.searchResultMessage.waitFor({ state: 'visible' }, { timeout: 60000 });
+        });
 
         await step('Verify that message “No results for” is visible on the page', async () => {
             await expect(blogPage.searchResultMessage).toHaveText(

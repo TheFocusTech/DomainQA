@@ -15,6 +15,7 @@ export const URL_ENDPOINT = {
     HelpCenter: '/help',
     ReportAbuse: '/help/report-abuse',
     ContactUs: '/help/contact-us',
+    BlogSearchResults: '/blog/search?search=',
 };
 
 export const INVALID_CREDS_AUTH = [
