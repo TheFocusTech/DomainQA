@@ -8,7 +8,7 @@ export default class EnableDnssecModal {
         this.title = this.page.locator('[class*="modal__title"]');
         this.descriptionModal = this.page.locator('[class*="modal__description"]');
         this.cancelBtn = this.page.locator('#root-portal button').filter({ hasText: 'Cancel' });
-        this.enableBtn = this.page.locator('#root-portal button').filter({ hasText: 'Enable' }); //page.locator('button').filter({ hasText: /^Enable$/ });
+        this.enableBtn = this.page.locator('#root-portal button').filter({ hasText: 'Enable' });
         this.closeBtn = this.page.locator('#root-portal').getByLabel('Button');
     }
 
