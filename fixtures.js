@@ -19,6 +19,7 @@ import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
+import BlogPage from './pom/pages/BlogPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -100,5 +101,9 @@ export const test = base.extend({
     /** @type { PageTitleComponent } */
     pageTitleComponent: async ({ page }, use) => {
         await use(new PageTitleComponent(page));
+    },
+    /** @type { BlogPage } */
+    blogPage: async ({ page }, use) => {
+        await use(new BlogPage(page));
     },
 });

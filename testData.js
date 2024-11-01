@@ -146,3 +146,11 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const BLOG_SEARCH_ITEM = {
+    randomCharacters: 'qwertyuiopasdfghjklzxcvbnm1234567890',
+};
+
+export const BLOG_SEARCH_RESULT_MESSAGE = {
+    noResult: 'No results for',
+};
