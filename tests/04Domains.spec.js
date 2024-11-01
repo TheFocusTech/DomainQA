@@ -317,7 +317,7 @@ test.describe('DNSSEC', () => {
         await step('Validate "DNSSEC" card UI.', async () => {
             await hostedZonesDetailPage.dnssecCardHeader.waitFor({ state: 'visible' });
             await expect(hostedZonesDetailPage.dnssecDescription).toBeVisible();
-            await expect(hostedZonesDetailPage.notUsingDNnssecWarning).toBeVisible();
+            await expect(hostedZonesDetailPage.notUsingDnssecWarning).toBeVisible();
         });
 
         await hostedZonesDetailPage.enableDnssecBtn.click();

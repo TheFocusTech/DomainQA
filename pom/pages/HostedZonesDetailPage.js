@@ -9,7 +9,7 @@ export default class HostedZonesDetailPage {
         this.backToHostedZonesButton = this.page.getByRole('link', { name: 'Back to Hosted zones' });
         this.dnsManagementRows = this.page.locator('tbody [class*="table-row_table-row"]');
         this.dnssecCardHeader = this.page.getByRole('heading', { name: 'DNSSEC' });
-        this.notUsingDNnssecWarning = this.page.locator('p:has-text("Your hosted zone is not using DNSSEC.")');
+        this.notUsingDnssecWarning = this.page.locator('p:has-text("Your hosted zone is not using DNSSEC.")');
         this.dnssecActivationWarning = this.page.locator(
             'p:has-text("The activation process of DNSSEC is currently underway. It will take some time.")'
         );
