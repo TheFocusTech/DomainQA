@@ -8,7 +8,7 @@ import {
     TOAST_MESSAGE,
     CURRENCY_EUR_BUTTON_TEXT,
     CURRENCY_USD_BUTTON_TEXT,
-    MY_PROFILE_ITEMS
+    MY_PROFILE_ITEMS,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
