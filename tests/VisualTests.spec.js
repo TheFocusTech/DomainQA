@@ -1,5 +1,5 @@
 import { test } from '../fixtures';
-import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
+import { description, tags, severity, epic, step, issue } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
 import { QASE_LINK, URL_ENDPOINT } from '../testData';
 import { expect } from '@playwright/test';
@@ -47,7 +47,7 @@ test.describe('Visual tests', () => {
         await expect(hostedZonesPage.createHostedZoneModal).toHaveScreenshot({ omitBackground: true });
     });
 
-    test(`Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage, dnsRecordModal }) => {
+    test(`Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify all text displayed correct');
