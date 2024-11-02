@@ -6,6 +6,7 @@ export default class DnsRecordModal {
         this.page = page;
 
         this.dialog = this.page.locator('section[role="dialog"]');
+        this.copyPastButton = this.dialog.locator('button[class*="button-icon-flat_button-icon-flat"]');
         this.nameInput = this.page.locator('[name="name"]');
         this.commentInput = this.page.locator('textarea[name*="__description"]');
         this.cancelButton = this.page.getByText('Cancel');
