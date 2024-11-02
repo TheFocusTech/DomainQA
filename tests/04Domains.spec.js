@@ -137,7 +137,7 @@ test.describe('DNS Records', () => {
         await epic('Domains');
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
-            await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
+            await expect(hostedZonesDetailPage.dnsZoneModal).toBeVisible();
         });
 
         await step('Close "Add new DNS-record" by clicking Cancel.', async () => {
