@@ -23,10 +23,10 @@ export default class EnableDnssecModal {
             const randomChoice = Math.floor(Math.random() * 3);
 
             if (randomChoice === 0) {
-                console.log('Closing modal window by clicking Cancel button.');
+                console.log('Closing modal window by clicking "Cancel" button.');
                 await this.cancelBtn.click();
             } else if (randomChoice === 1) {
-                console.log("Closing modal window by clicking 'X' icon.");
+                console.log('Closing modal window by clicking "x" icon.');
                 await this.closeBtn.click();
             } else {
                 console.log('Closing modal window by clicking outside.');

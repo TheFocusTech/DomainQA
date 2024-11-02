@@ -1,13 +1,10 @@
 import { test } from '../fixtures';
-import {
-    createHostedZoneAPI,
-    deleteHostedZoneAPI,
-    getHostedZonesAPI,
-    deleteAllHostedZonesAPI,
-} from '../helpers/apiCalls';
+import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
+import { deleteAllHostedZones } from '../helpers/postconditions';
+
 import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
@@ -20,18 +17,15 @@ import {
 import { expect } from '@playwright/test';
 
 let headers;
-let domainName1;
-let domainName2;
+let domainNameFirst;
+let domainNameSecond;
 let hostedZoneCount;
 let hostedZoneId;
 let dnsObj;
 
 test.describe('Search Hosted Zones', () => {
-    test.afterAll('Postconditions: Delete all hosted zones via API.', async ({ request }) => {
-        await deleteAllHostedZonesAPI(request, headers);
-
-        const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
-        expect(hostedZoneCountAfter).toEqual(0);
+    test.afterAll(async ({ request }) => {
+        await deleteAllHostedZones(request, headers);
     });
 
     test('TC_04_02 | Verify search by hosted zone name', async ({
@@ -55,31 +49,32 @@ test.describe('Search Hosted Zones', () => {
         await step('Preconditions: Create hosted zones via API.', async () => {
             headers = await getCookies(page);
 
-            const response_1 = await createHostedZoneAPI(request, headers);
-            domainName1 = response_1.domain;
+            const responseFirst = await createHostedZoneAPI(request, headers);
+            domainNameFirst = responseFirst.domain;
 
-            const response_2 = await createHostedZoneAPI(request, headers);
-            domainName2 = response_2.domain;
+            const responseSecond = await createHostedZoneAPI(request, headers);
+            domainNameSecond = responseSecond.domain;
 
-            hostedZoneCount = await getHostedZonesAPI(request, headers);
+            const getZonesData = await getHostedZonesAPI(request, headers);
+            hostedZoneCount = getZonesData.meta.total;
         });
 
         await hostedZonesPage.open();
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainNameFirst);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainNameSecond);
 
         await step('Search by exact name - the only zone is displayed.', async () => {
-            await hostedZonesPage.performSearch(domainName1);
+            await hostedZonesPage.performSearch(domainNameFirst);
 
             const names = await hostedZonesPage.getNames();
-            expect(names).toEqual([domainName1]);
+            expect(names).toEqual([domainNameFirst]);
         });
 
         await step('Search by partial name - both created zones are displayed.', async () => {
             await hostedZonesPage.performSearch('api');
 
-            await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
-            await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainNameFirst);
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainNameSecond);
         });
 
         await step('Clear search - all zones are displayed.', async () => {
@@ -292,11 +287,8 @@ test.describe('DNSSEC', () => {
         });
     });
 
-    test.afterAll('Postconditions: Delete all hosted zones via API.', async ({ request }) => {
-        await deleteAllHostedZonesAPI(request, headers);
-
-        const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
-        expect(hostedZoneCountAfter).toEqual(0);
+    test.afterAll(async ({ request }) => {
+        await deleteAllHostedZones(request, headers);
     });
 
     test('TC_04_08 | Verify user can enable DNSSEC', async ({
