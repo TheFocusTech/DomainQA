@@ -13,6 +13,8 @@ require('dotenv').config();
  */
 export default defineConfig({
     testDir: './tests',
+    /* Save visual comparisons screnshots*/
+    snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -55,6 +57,12 @@ export default defineConfig({
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
+        expect: {
+            toHaveScreenshot: {
+                maxDiffPixelRatio: 0.05,
+                threshold: 0.05, // Allows up to 5% pixel difference globally
+            },
+        },
     },
 
     /* Configure projects for major browsers */
