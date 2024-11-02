@@ -145,7 +145,7 @@ test.describe('DNS Records', () => {
         });
 
         await step('Verify "Add new DNS-record" modal is not visible.', async () => {
-            await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
+            await expect(hostedZonesDetailPage.dnsZoneModal).not.toBeVisible();
         });
 
         await step('Open "Add new DNS-record" modal.', async () => {
@@ -157,7 +157,7 @@ test.describe('DNS Records', () => {
         });
 
         await step('Verify "Add new DNS-record" modal is not visible.', async () => {
-            await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
+            await expect(hostedZonesDetailPage.dnsZoneModal).not.toBeVisible();
         });
     });
 
@@ -190,7 +190,7 @@ test.describe('DNS Records', () => {
             });
 
             await step('Verify "Add new DNS-record" modal is not visible.', async () => {
-                await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
+                await expect(hostedZonesDetailPage.dnsZoneModal).not.toBeVisible();
             });
 
             await step('Verify record appeared in the "DNS Management" card.', async () => {

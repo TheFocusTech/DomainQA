@@ -10,6 +10,7 @@ export default class HostedZonesPage {
         this.hostedZonesHeader = this.page.getByRole('heading', { name: 'Hosted Zones' });
         this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]');
         this.deleteHostedZoneModal = this.page.locator('section[role="dialog"]');
+        this.createHostedZoneModal = this.page.locator('section[role="dialog"]');
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
         this.hostedZones = this.page.locator('table tbody tr a');
         this.clearSearchBtn = this.page.locator('[class*="button-clear"]');
@@ -70,5 +71,7 @@ export default class HostedZonesPage {
         await step('Open the Hosted Zones page.', async () => {
             await this.page.goto(URL_ENDPOINT.hostedZones);
         });
+
+        await this.createHostedZoneModal.screenshot();
     }
 }

@@ -5,7 +5,7 @@ export default class HostedZonesDetailPage {
         this.page = page;
 
         this.addRecordButton = this.page.getByRole('button', { name: 'Add record' });
-        this.hostedZoneModal = this.page.locator('section[role="dialog"]');
+        this.dnsZoneModal = this.page.locator('section[role="dialog"]');
         this.backToHostedZonesButton = this.page.getByRole('link', { name: 'Back to Hosted zones' });
         this.dnsManagementRows = this.page.locator('tbody [class*="table-row_table-row"]');
     }
