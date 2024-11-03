@@ -144,7 +144,7 @@ test.describe('My profile', () => {
             });
         });
 
-        await step('Enable 2FA', async () => {
+        await step('Enable 2FA by clicking on toggle', async () => {
             await settingsGeneralPage.clickTwoFAToggle();
             await expect(twoFactorAuthModal.dialog).toBeVisible();
         });
@@ -158,7 +158,7 @@ test.describe('My profile', () => {
             await twoFactorAuthModal.enterVerificationCode(code.otp);
         });
 
-        await step('Enable 2FA', async () => {
+        await step('Click button Enable 2FA in dialog', async () => {
             await twoFactorAuthModal.enableButton.click();
             await expect(twoFactorAuthModal.dialog).not.toBeVisible();
         });
