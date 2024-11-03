@@ -19,6 +19,7 @@ import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
+import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import BlogPage from './pom/pages/BlogPage';
 
 export const test = base.extend({
@@ -101,6 +102,10 @@ export const test = base.extend({
     /** @type { PageTitleComponent } */
     pageTitleComponent: async ({ page }, use) => {
         await use(new PageTitleComponent(page));
+    },
+    /** @type { EnableDnssecModal } */
+    enableDnssecModal: async ({ page }, use) => {
+        await use(new EnableDnssecModal(page));
     },
     /** @type { BlogPage } */
     blogPage: async ({ page }, use) => {
