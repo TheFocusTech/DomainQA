@@ -12,7 +12,7 @@ test.describe('Blog', () => {
         await headerComponent.clickBlogButton();
     });
 
-    test('TC_06_01 | Verify search functionality with random characters', async ({ blogPage, page }) => {
+    test('TC_06_01 | Verify Blog search functionality with random characters', async ({ blogPage, page }) => {
         await tags('Blog', 'Negative');
         await severity('normal');
         await description('To verify that "No results" message appears after search with random characters.');
