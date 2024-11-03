@@ -8,6 +8,17 @@ export default class HostedZonesDetailPage {
         this.dnsZoneModal = this.page.locator('section[role="dialog"]');
         this.backToHostedZonesButton = this.page.getByRole('link', { name: 'Back to Hosted zones' });
         this.dnsManagementRows = this.page.locator('tbody [class*="table-row_table-row"]');
+        this.dnssecCardHeader = this.page.getByRole('heading', { name: 'DNSSEC' });
+        this.notUsingDnssecWarning = this.page.locator('p:has-text("Your hosted zone is not using DNSSEC.")');
+        this.dnssecActivationWarning = this.page.locator(
+            'p:has-text("The activation process of DNSSEC is currently underway. It will take some time.")'
+        );
+        this.dnssecDescription = this.page.locator(
+            'p:has-text("DNSSEC uses a cryptographic signature of published DNS records to protect your domain against forged DNS answers.")'
+        );
+        this.enableDnssecBtn = this.page.getByRole('button', { name: 'Enable DNSSEC' });
+        this.disableDnssecBtn = this.page.getByRole('button', { name: 'Disable DNSSEC' });
+        this.getDnssecInfoBtn = this.page.getByRole('button', { name: 'Get DNSSEC info' });
     }
 
     async clickBackToHostedZonesButton() {
@@ -40,5 +51,11 @@ export default class HostedZonesDetailPage {
             dnsRecords.push(dnsRecord);
         }
         return dnsRecords;
+    }
+
+    async clickEnableDnssecBtn() {
+        await step('Click "Enable DNSSEC" button.', async () => {
+            await this.enableDnssecBtn.click();
+        });
     }
 }

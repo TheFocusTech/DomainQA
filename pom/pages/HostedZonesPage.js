@@ -69,7 +69,9 @@ export default class HostedZonesPage {
 
     async open() {
         await step('Open the Hosted Zones page.', async () => {
-            await this.page.goto(URL_ENDPOINT.hostedZones);
+            await this.page.goto(URL_ENDPOINT.hostedZones, {
+                waitUntil: 'networkidle',
+            });
         });
     }
 }
