@@ -41,6 +41,7 @@ export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
     hostedZoneCreated: 'Hosted zone created',
     hostedZoneDeleted: 'Hosted zone deleted',
+    dnssecEnabled: 'DNSSEC enabled',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -53,7 +54,7 @@ export const API_ENDPOINT = {
     login: '/auth/sign-in',
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
-    getHostedZones: '/users/hosted-zones?',
+    getHostedZones: '/users/hosted-zones?size=30',
     resourceRecords: '/resource-records',
 };
 

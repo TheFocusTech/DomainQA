@@ -3,6 +3,8 @@ import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../
 import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
+import { deleteAllHostedZones } from '../helpers/postconditions';
+
 import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
@@ -12,25 +14,20 @@ import {
     WHOIS_SEARCH_RESULT_TITLES,
     TOAST_MESSAGE,
     MODAL_WINDOW_DELETE_HOSTED_ZONE,
+    TOAST_MESSAGE,
 } from '../testData';
 import { expect } from '@playwright/test';
 
 let headers;
-let hostedZoneId1;
-let domainName1;
-let hostedZoneId2;
-let domainName2;
+let domainNameFirst;
+let domainNameSecond;
 let hostedZoneCount;
 let hostedZoneId;
 let dnsObj;
 
 test.describe('Search Hosted Zones', () => {
-    test.afterAll('Postconditions: Delete created hosted zones via API', async ({ request }) => {
-        await deleteHostedZoneAPI(request, hostedZoneId1, headers);
-        await deleteHostedZoneAPI(request, hostedZoneId2, headers);
-
-        const hostedZoneCountAfter = await getHostedZonesAPI(request, headers);
-        expect(hostedZoneCountAfter).toEqual(hostedZoneCount - 2);
+    test.afterAll(async ({ request }) => {
+        await deleteAllHostedZones(request, headers);
     });
 
     test('TC_04_02 | Verify search by hosted zone name', async ({
@@ -43,7 +40,7 @@ test.describe('Search Hosted Zones', () => {
         await tags('Domains', 'Search');
         await severity('normal');
         await description('To verify, that user is able to search a hosted zone by name');
-        await issue(`${QASE_LINK}case=7`, 'Hosted-Zones');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}5rjp86ma9eyp`, 'ATC_04_02');
         await epic('Domains');
         await feature('Hosted zone search');
@@ -54,43 +51,42 @@ test.describe('Search Hosted Zones', () => {
         await step('Preconditions: Create hosted zones via API.', async () => {
             headers = await getCookies(page);
 
-            const res1 = await createHostedZoneAPI(request, headers);
-            hostedZoneId1 = res1.id;
-            domainName1 = res1.domain;
+            const responseFirst = await createHostedZoneAPI(request, headers);
+            domainNameFirst = responseFirst.domain;
 
-            const res2 = await createHostedZoneAPI(request, headers);
-            hostedZoneId2 = res2.id;
-            domainName2 = res2.domain;
+            const responseSecond = await createHostedZoneAPI(request, headers);
+            domainNameSecond = responseSecond.domain;
 
-            hostedZoneCount = await getHostedZonesAPI(request, headers);
+            const getZonesData = await getHostedZonesAPI(request, headers);
+            hostedZoneCount = getZonesData.meta.total;
         });
 
         await hostedZonesPage.open();
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
-        await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainNameFirst);
+        await hostedZonesPage.waitForHostedZoneIsVisible(domainNameSecond);
+
+        await step('Search by exact name - the only zone is displayed.', async () => {
+            await hostedZonesPage.performSearch(domainNameFirst);
+
+            const names = await hostedZonesPage.getNames();
+            expect(names).toEqual([domainNameFirst]);
+        });
 
         await step('Search by partial name - both created zones are displayed.', async () => {
             await hostedZonesPage.performSearch('api');
 
-            await hostedZonesPage.waitForHostedZoneIsVisible(domainName1);
-            await hostedZonesPage.waitForHostedZoneIsVisible(domainName2);
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainNameFirst);
+            await hostedZonesPage.waitForHostedZoneIsVisible(domainNameSecond);
         });
 
-        await step('Search by exact name - the only zone is displayed.', async () => {
-            await hostedZonesPage.performSearch(domainName1);
-
-            const names = await hostedZonesPage.getNames();
-            expect(names).toEqual([domainName1]);
-        });
-
-        await step('Clear search - all zones are displayed', async () => {
+        await step('Clear search - all zones are displayed.', async () => {
             await hostedZonesPage.clearSearch();
 
             const zonesCount = await hostedZonesPage.hostedZones.count();
             expect(zonesCount).toBe(hostedZoneCount);
         });
 
-        await step('Validate search returns no results', async () => {
+        await step('Validate search returns no results.', async () => {
             const randomName = await getRandomDomainName();
 
             await hostedZonesPage.performSearch(randomName);
@@ -410,6 +406,82 @@ test.describe('Hosted zones', () => {
 
             hostedZonesPage.setCreatedHostedZoneTitleLocator(domainName);
             await expect(hostedZonesPage.createdHostedZoneTitle).not.toBeVisible();
+        });
+    });
+});
+
+test.describe('DNSSEC', () => {
+    test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesPage, request }) => {
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        headers = await getCookies(page);
+        const response = await createHostedZoneAPI(request, headers);
+        const domainName = response.domain;
+
+        await hostedZonesPage.open();
+
+        await step(`Navigate to Hosted Zone ${domainName} page.`, async () => {
+            await hostedZonesPage.clickOnHostedZoneName(domainName);
+        });
+    });
+
+    test.afterAll(async ({ request }) => {
+        await deleteAllHostedZones(request, headers);
+    });
+
+    test('TC_04_08 | Verify user can enable DNSSEC', async ({
+        page,
+        enableDnssecModal,
+        hostedZonesDetailPage,
+        toastComponent,
+    }) => {
+        await tags('Domains', 'DNSSEC', 'Positive');
+        await severity('normal');
+        await description('To verify DNSSEC can be enabled');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_04_08');
+        await epic('Domains');
+
+        await page.waitForSelector('button:has-text("Enable DNSSEC")', { state: 'visible' });
+
+        await step('Validate "DNSSEC" card UI.', async () => {
+            await hostedZonesDetailPage.dnssecCardHeader.waitFor({ state: 'visible' });
+            await expect(hostedZonesDetailPage.dnssecDescription).toBeVisible();
+            await expect(hostedZonesDetailPage.notUsingDnssecWarning).toBeVisible();
+        });
+
+        await hostedZonesDetailPage.enableDnssecBtn.click();
+
+        await step('Validate "Enable DNSSEC" modal UI.', async () => {
+            await expect(enableDnssecModal.dialog).toBeVisible();
+            await expect(enableDnssecModal.title).toBeVisible();
+            await expect(enableDnssecModal.title).toHaveText('Enable DNSSEC');
+            await expect(enableDnssecModal.descriptionModal).toBeVisible();
+            await expect(enableDnssecModal.descriptionModal).toHaveText(
+                'Domain Name System Security Extensions (DNSSEC) protect from threats like DNS cache poisoning attacks and DNS spoofing.'
+            );
+            await expect(enableDnssecModal.cancelBtn).toBeVisible();
+            await expect(enableDnssecModal.enableBtn).toBeVisible();
+            await expect(enableDnssecModal.closeBtn).toBeVisible();
+        });
+
+        await enableDnssecModal.closeModalRandomly();
+
+        await step('Verify that "Enable DNSSEC" modal is not visible.', async () => {
+            await expect(enableDnssecModal.dialog).not.toBeVisible();
+        });
+
+        await hostedZonesDetailPage.clickEnableDnssecBtn();
+        await enableDnssecModal.clickEnableBtn();
+
+        await step('Verify the activation warning is visible.', async () => {
+            await hostedZonesDetailPage.dnssecActivationWarning.waitFor({ state: 'visible' });
+        });
+
+        await step('Verify the toast message "DNSSEC enabled" appears.', async () => {
+            await expect(toastComponent.toastBody).toBeVisible();
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnssecEnabled);
         });
     });
 });
