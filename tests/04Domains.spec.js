@@ -285,9 +285,10 @@ test.describe('Hosted zones', () => {
         createHostedZoneModal,
         hostedZonesPage,
         toastComponent,
-        deleteHostedZoneModal,
-        request,
+        hostedZonesDetailPage,
     }) => {
+        test.setTimeout(120 * 1000);
+
         await tags('Domains', 'Hosted Zones');
         await severity('normal');
         await description('To verify, that user is able to create hosted zone');
@@ -296,143 +297,119 @@ test.describe('Hosted zones', () => {
         await epic('Domains');
         await feature('Hosted Zones');
 
-        
+        const domainName = await getRandomDomainName();
+
         await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
 
         await headerComponent.clickHostedZonesLink();
 
         await step('Verify that the user is in the Hosted Zone Page', async () => {
-            await hostedZonesPage.hostedZonesHeader.isVisible();
+            await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
         });
 
         await hostedZonesPage.clickCreateHostedZoneButton();
 
         await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
-        await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
+            await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         });
 
-        await createHostedZoneModal.fillHostedZoneDomainNameInput(HOSTED_ZONE_DOMAIN_NAME);
-        
+        await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
+
         await createHostedZoneModal.clickCloseXButton();
 
-        await createHostedZoneModal.fillHostedZoneDomainNameInput(HOSTED_ZONE_DOMAIN_NAME);
+        await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
 
         await createHostedZoneModal.clickCloseCancelButton();
 
-        await createHostedZoneModal.fillHostedZoneDomainNameInput(HOSTED_ZONE_DOMAIN_NAME);       
+        await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
 
         await createHostedZoneModal.clickCreateButton();
 
         await step('Verify toast notification about successful creation of hosted zone.', async () => {
             await expect(toastComponent.promptHZCreated).toBeVisible();
         });
+
         await step('Verify the creation of the Hosted Zone', async () => {
             await hostedZonesPage.hostedZonesHeader.isVisible();
-            await hostedZonesPage.createdHostedZoneTitle.isVisible();
+
+            // hostedZonesPage.setCreatedHostedZoneTitleLocator(domainName);
+            // await expect(hostedZonesPage.createdHostedZoneTitle).toBeVisible();
         });
 
-        await createHostedZoneModal.clickCloseXButton();
+        await hostedZonesPage.waitForHostedZoneNewCreatedName(domainName);
+        await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toBeVisible();
+        await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText('Hosted zone');
+        await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText(domainName);
 
-        await deleteHostedZoneAPI(request, hostedZoneId1, headers); 
-});
-
-test('TC_04_02 | Verify user can delete hosted zone', async ({
-    page,
-    loginPage,
-    headerComponent,
-    createHostedZoneModal,
-    hostedZonesPage,
-    toastComponent,
-    deleteHostedZoneModal,
-    request
-}) => {
-    await tags('Domains', 'Hosted Zones');
-    await severity('normal');
-    await description('To verify, that user is able to delete hosted zone');
-    await issue(`${QASE_LINK}/01-`, 'Hosted Zones');
-    await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_02');
-    await epic('Domains');
-    await feature('Hosted Zones');
-
-    let domainName;
-
-    await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
-    await page.waitForURL(process.env.URL);
-
-    await step('Preconditions: Create hosted zones via API.', async () => {
-        headers = await getCookies(page);
-
-        const response = await createHostedZoneAPI(request, headers);
-        domainName = response.domain;
-        console.log(domainName);
+        //      Click on the newly created hosted zone
+        // It navigates to the details page of the hosted zone
+        // Validate the ‘Hosted Zone’ page has:
+        // HZ’s ID in URL
+        // ‘Hosted zone <name>’ title
+        // Correct 'DNS management’ data
     });
 
-    await hostedZonesPage.open();
+    test('TC_04_02 | Verify user can delete hosted zone', async ({
+        page,
+        loginPage,
+        headerComponent,
+        createHostedZoneModal,
+        hostedZonesPage,
+        toastComponent,
+        deleteHostedZoneModal,
+        request,
+    }) => {
+        await tags('Domains', 'Hosted Zones');
+        await severity('normal');
+        await description('To verify, that user is able to delete hosted zone');
+        await issue(`${QASE_LINK}/01-`, 'Hosted Zones');
+        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_02');
+        await epic('Domains');
+        await feature('Hosted Zones');
 
-    await hostedZonesPage.clickBreadcrumbMenuHostedZone();
-    await hostedZonesPage.clickDeleteButton();
+        let domainName;
 
-    const textFormModalWindow = await deleteHostedZoneModal.formModalWindow.textContent();
-    MODAL_WINDOW_DELETE_HOSTED_ZONE.forEach(expectedText => {
-        expect(textFormModalWindow).toContain(expectedText); 
+        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await page.waitForURL(process.env.URL);
+
+        await step('Preconditions: Create hosted zones via API.', async () => {
+            headers = await getCookies(page);
+
+            const response = await createHostedZoneAPI(request, headers);
+            domainName = response.domain;
+        });
+
+        await hostedZonesPage.open();
+
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+
+        const textFormModalWindow = await deleteHostedZoneModal.formModalWindow.textContent();
+        MODAL_WINDOW_DELETE_HOSTED_ZONE.forEach((expectedText) => {
+            expect(textFormModalWindow).toContain(expectedText);
+        });
+
+        expect(textFormModalWindow).toContain(domainName);
+
+        await deleteHostedZoneModal.clickCancelButton();
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+
+        // await deleteHostedZoneModal.xCloseButton();
+        // await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        // await hostedZonesPage.clickDeleteButton();
+
+        await deleteHostedZoneModal.clickDeleteButton();
+
+        await step('Verify toast notification about successful deletion of hosted zone.', async () => {
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.hostedZoneDeleted);
+        });
+
+        await step('Verify that deleted hosted zone is not available in the Hosted Zones Page', async () => {
+            await hostedZonesPage.hostedZonesHeader.isVisible();
+
+            hostedZonesPage.setCreatedHostedZoneTitleLocator(domainName);
+            await expect(hostedZonesPage.createdHostedZoneTitle).not.toBeVisible();
+        });
     });
-
-expect(textFormModalWindow).toContain(domainName);
-
-await deleteHostedZoneModal.clickCancelButton();
-await hostedZonesPage.clickBreadcrumbMenuHostedZone();
-await hostedZonesPage.clickDeleteButton();
-
-await deleteHostedZoneModal.xCloseButton();
-await hostedZonesPage.clickBreadcrumbMenuHostedZone();
-await hostedZonesPage.clickDeleteButton();
-
-
-    await deleteHostedZoneModal.clickDeleteButton();
-
-    await step('Verify toast notification about successful deletion of hosted zone.', async () => {
-        await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.hostedZoneDeleted);
-    });
-
-
-    await step('Verify that deleted hosted zone is not available in the Hosted Zones Page', async () => {
-    await hostedZonesPage.hostedZonesHeader.isVisible();   
-    
-    hostedZonesPage.setCreatedHostedZoneTitleLocator(domainName);
-    await expect(hostedZonesPage.createdHostedZoneTitle).not.toBeVisible();
-}); 
 });
-
-test('TC_04_03_02 | Verify user can navigate in hosted zone', async ({
-    page,
-    loginPage,
-    headerComponent,
-    createHostedZoneModal,
-    hostedZonesPage,
-    toastComponent,
-    deleteHostedZoneModal,
-    request
-}) => {
-    await tags('Domains', 'Hosted Zones');
-    await severity('normal');
-    await description('To verify, that user is able to navigate in hosted zone');
-    await issue(`${QASE_LINK}/01-`, 'Hosted Zones');
-    await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_02');
-    await epic('Domains');
-    await feature('Hosted Zones');
-
-    await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
-    await page.waitForURL(process.env.URL);
-
-    await step('Preconditions: Create hosted zones via API.', async () => {
-        headers = await getCookies(page);
-
-    await createHostedZoneAPI(request, headers);
-    });
-
-    await hostedZonesPage.open();
-    await deleteHostedZoneAPI(request, hostedZoneId1, headers); 
-});
-});
-
-

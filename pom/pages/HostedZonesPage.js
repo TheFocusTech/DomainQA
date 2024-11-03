@@ -1,5 +1,5 @@
 import { step } from 'allure-js-commons';
-import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT  } from '../../testData';
+import { URL_ENDPOINT } from '../../testData';
 
 export default class HostedZonesPage {
     constructor(page) {
@@ -7,8 +7,8 @@ export default class HostedZonesPage {
 
         this.searchInput = this.page.getByPlaceholder('Search by name');
         this.createHostedZoneButton = this.page.getByRole('button', { name: 'Create hosted zone' });
-        this.hostedZonesHeader = this.page.getByRole('heading', { name: 'Hosted Zones', exact: true })
-        this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]');
+        this.hostedZonesHeader = this.page.getByRole('heading', { name: 'Hosted Zones', exact: true });
+        this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]').first();
         this.deleteHostedZoneModal = this.page.locator('section[role="dialog"]');
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
         this.hostedZones = this.page.locator('table tbody tr a');
@@ -76,6 +76,11 @@ export default class HostedZonesPage {
         });
     }
 
-
+    async waitForHostedZoneNewCreatedName(domainName) {
+        await step(`Validate that hosted zone '${domainName}' is visible and click it.`, async () => {
+            const hostedZoneNewCreatedName = this.page.getByText(domainName, { exact: true });
+            await hostedZoneNewCreatedName.waitFor({ state: 'visible' });
+            await hostedZoneNewCreatedName.click();
+        });
+    }
 }
-

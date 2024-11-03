@@ -6,7 +6,7 @@ export default class DeleteHostedZoneModal {
 
         this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
         this.deleteButton = this.page.locator('#root-portal button').filter({ hasText: 'Delete' });
-   this.xCloseButton = this.page.locator('#root-portal').getByLabel('Button');
+        this.xCloseButton = this.page.locator('#root-portal').getByLabel('Button');
         this.formModalWindow = this.page.getByText('Delete hosted zoneAre you');
     }
 
