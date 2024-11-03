@@ -20,6 +20,8 @@ import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
+import ContactsPage from './pom/pages/ContactsPage';
+import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -105,5 +107,13 @@ export const test = base.extend({
     /** @type { EnableDnssecModal } */
     enableDnssecModal: async ({ page }, use) => {
         await use(new EnableDnssecModal(page));
+    },
+    /** @type { ContactsPage } */
+    contactsPage: async ({ page }, use) => {
+        await use(new ContactsPage(page));
+    },
+    /** @type { ContactDetailsPage } */
+    contactDetailsPage: async ({ page }, use) => {
+        await use(new ContactDetailsPage(page));
     },
 });

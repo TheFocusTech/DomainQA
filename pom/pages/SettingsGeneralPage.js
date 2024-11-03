@@ -10,6 +10,7 @@ export default class SettingsGeneralPage {
         this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
         this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
+        this.contactsButton = this.page.getByRole('button', { name: 'Contacts' });
     }
 
     async clickChangeButton() {
@@ -26,6 +27,12 @@ export default class SettingsGeneralPage {
     async clickCancelDeletionButton() {
         await step('Click on the "Cancel Deletion" button.', async () => {
             await this.cancelDeletionButton.click();
+        });
+    }
+
+    async clickContactsButton() {
+        await step('Click on the "Contacts" button.', async () => {
+            await this.contactsButton.click();
         });
     }
 }
