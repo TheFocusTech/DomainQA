@@ -1,7 +1,15 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE, MY_PROFILE_ITEMS, URL_ENDPOINT } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    PASSWORD,
+    TOAST_MESSAGE,
+    MY_PROFILE_ITEMS,
+    URL_ENDPOINT,
+    NOTIFICATIONS_TYPE,
+} from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
 
@@ -172,5 +180,62 @@ test.describe('My profile', () => {
 
         await expect(settingsGeneralPage.checkbox).not.toBeChecked();
         await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+    });
+
+    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsNotificationsPage,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Notifications');
+        await severity('normal');
+        await description('To verify, that user user can manage Account Notifications settings');
+        await issue(`${QASE_LINK}suite=38&case=124`, 'Notifications settings');
+        await tms(`${GOOGLE_DOC_LINK}333obp2smjp7`, 'ATC_08_04_01');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickNotificationSettingsButton();
+
+        await step('Verify the "Manage your notifications" header is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsHeading).toBeVisible();
+        });
+        const rows = await settingsNotificationsPage.notificationsTableRow;
+        const countRows = await rows.count();
+        await step('Verify the "Manage your notifications" table is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(countRows);
+        });
+        await step('Verify the "Notifications Type".', async () => {
+            await expect(settingsNotificationsPage.notificationsType).toHaveText([
+                NOTIFICATIONS_TYPE.type1,
+                NOTIFICATIONS_TYPE.type2,
+                NOTIFICATIONS_TYPE.type3,
+            ]);
+        });
+
+        await step('Verify the "Email" notifications can be checked by default.', async () => {
+            expect(await settingsNotificationsPage.emailNotificationsCheckbox.all()).toBeChecked;
+        });
+
+        await step('Verify the "Browser" notifications can be checked by default.', async () => {
+            expect(await settingsNotificationsPage.browserNotificationsCheckbox.all()).toBeChecked;
+        });
+
+        await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
+            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
+                checkbox.check();
+                expect(checkbox).not.toBeChecked;
+                checkbox.check();
+                expect(checkbox).toBeChecked;
+            }
+        });
     });
 });

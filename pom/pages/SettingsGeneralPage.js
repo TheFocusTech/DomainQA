@@ -14,6 +14,7 @@ export default class SettingsGeneralPage {
         this.checkbox = this.page.locator('[type="checkbox"]');
         this.disableTooltip = this.page.getByText('Two-factor authentication disabled');
         this.enableTooltip = this.page.getByText('Two-factor authentication enable');
+        this.notificationSettingsButton = this.page.getByRole('button', { name: 'Notification settings' });
     }
 
     async clickTwoFAToggle() {
@@ -31,9 +32,16 @@ export default class SettingsGeneralPage {
             await this.deleteAccountButton.click();
         });
     }
+
     async clickCancelDeletionButton() {
         await step('Click on the "Cancel Deletion" button.', async () => {
             await this.cancelDeletionButton.click();
+        });
+    }
+
+    async clickNotificationSettingsButton() {
+        await step('Click on the "Notification settings" button.', async () => {
+            await this.notificationSettingsButton.click();
         });
     }
 }

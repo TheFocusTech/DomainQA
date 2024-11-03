@@ -21,6 +21,7 @@ import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import TwoFactorAuthModal from './pom/modalWindows/TwoFactorAuthModal';
+import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -107,9 +108,12 @@ export const test = base.extend({
     enableDnssecModal: async ({ page }, use) => {
         await use(new EnableDnssecModal(page));
     },
-
     /** @type { TwoFactorAuthModal } */
     twoFactorAuthModal: async ({ page }, use) => {
         await use(new TwoFactorAuthModal(page));
+    },
+    /** @type { SettingsNotificationsPage } */
+    settingsNotificationsPage: async ({ page }, use) => {
+        await use(new SettingsNotificationsPage(page));
     },
 });
