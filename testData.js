@@ -15,7 +15,8 @@ export const URL_ENDPOINT = {
     HelpCenter: '/help',
     ReportAbuse: '/help/report-abuse',
     ContactUs: '/help/contact-us',
-    BlogSearchResults: '/blog/search?search=',
+    BlogSearchResults: '/blog/search',
+    // '/blog/search?search=',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -149,10 +150,8 @@ export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
 
-export const BLOG_SEARCH_ITEM = {
-    randomCharacters: 'qwertyuiopasdfghjklzxcvbnm1234567890',
-};
-
 export const BLOG_SEARCH_RESULT_MESSAGE = {
     noResult: 'No results for',
 };
+
+export const RANDOM_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
