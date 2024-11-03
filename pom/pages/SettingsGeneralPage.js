@@ -10,6 +10,14 @@ export default class SettingsGeneralPage {
         this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
         this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
+        this.twoFAToggle = this.page.locator('[class*="switch-2fa_switch-2fa__"]');
+        this.checkbox = this.page.locator('[type="checkbox"]');
+        this.disableTooltip = this.page.getByText('Two-factor authentication disabled');
+        this.enableTooltip = this.page.getByText('Two-factor authentication enable');
+    }
+
+    async clickTwoFAToggle() {
+        await this.twoFAToggle.click();
     }
 
     async clickChangeButton() {

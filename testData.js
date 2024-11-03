@@ -7,6 +7,7 @@ export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
     hostedZones: '/hosted-zones/management',
+    accountSettings: '/settings/general',
     Transfer: '/transfer',
     HomePage: '/',
     WhoIs: '/whois',
