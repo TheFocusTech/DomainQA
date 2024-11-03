@@ -1,5 +1,3 @@
-import HomePage from "./pom/pages/HomePage";
-
 export const QASE_LINK = ' https://app.qase.io/case';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
@@ -17,6 +15,7 @@ export const URL_ENDPOINT = {
     HelpCenter: '/help',
     ReportAbuse: '/help/report-abuse',
     ContactUs: '/help/contact-us',
+    HelpCenterSearch: '/help/search',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -68,7 +67,6 @@ export const DNS_TYPE = {
 };
 
 export const RANDOM_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
 
 export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 

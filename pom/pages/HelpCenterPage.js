@@ -1,37 +1,27 @@
 import { step } from 'allure-js-commons';
-import { RANDOM_CHARACTERS } from '../../testData';
+import { getRandomCharacters } from '../../helpers/utils';
 
 export default class HelpCenterPage {
     constructor(page) {
         this.page = page;
-        this.helpCenterInput = this.page.getByPlaceholder('Enter the search term');
-        this.helpSearchButton = this.page.getByLocator('button[class*="button-accent"]');
+        this.helpCenterPlaceholder = this.page.getByPlaceholder('Enter the search term');
+        this.helpSearchButton = this.page.getByRole('button', { name: 'Search' });
+        this.randomString = '';
     }
 
-    // async fillHelpCenterInput() {
-    //     const randomString = await getRandomCharacters(10); // Указан длина строки
-    //     await this.page.fill(this.helpCenterInput, randomString); // Исправлено
-    // }
-    async fillHelpCenterInput() {
+    async fillHelpCenterPlaceholder() {
         await step('Fill the Help Center input.', async () => {
-            await this.helpCenterInput.fill().getByPlaceholder();
+            this.randomString = await getRandomCharacters(10);
+            await this.helpCenterPlaceholder.waitFor({ state: 'visible' });
+            await this.helpCenterPlaceholder.fill(this.randomString);
         });
+        return this.randomString;
     }
+
     async clickHelpCenterSearchButton() {
         await step('Click search button.', async () => {
-            await this.helpSearchButton.click();
+            await this.helpSearchButton.waitFor({ state: 'visible' });
+            await this.helpSearchButton.click({ force: true });
         });
     }
-
 }
-
-
-
-
-//getByRole('placeholder', { name: 'Search' });
-//     async clickChangeButton() {
-//         await step('Click on the "Change" button.', async () => {
-//             await this.changeButton.click();
-//         });
-//     }
-

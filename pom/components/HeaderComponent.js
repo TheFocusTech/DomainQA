@@ -53,13 +53,12 @@ export default class HeaderComponent {
         });
     }
 
-    //async clickHelpCenter() {
     async clickDomainsButton() {
-            await step('Click on the "Domains" button.', async () => {
-                await this.domainsButton.click();
-            });
-        }
-    
+        await step('Click on the "Domains" button.', async () => {
+            await this.domainsButton.click();
+        });
+    }
+
     async clickWhoisButton() {
         await step('Click on the "Domains" button.', async () => {
             await this.whoisButton.click();

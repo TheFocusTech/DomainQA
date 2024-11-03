@@ -21,10 +21,8 @@ export async function getCookies(page) {
     return headers;
 }
 
-export async function getRandomCharacters(length) {
-      let result = '';
-    for (let i = 0; i < length; i++) {
-        result += RANDOM_CHARACTERS.charAt(Math.floor(Math.random() * RANDOM_CHARACTERS.length));
-    }
-    return result;
+export async function getRandomCharacters(length = 10) {
+    return Array.from({ length }, () =>
+        RANDOM_CHARACTERS.charAt(Math.floor(Math.random() * RANDOM_CHARACTERS.length))
+    ).join('');
 }

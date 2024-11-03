@@ -3,17 +3,22 @@ import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT } from '../testData';
 import { loginUser } from '../helpers/preconditions';
-import { getRandomCharacters } from '../helpers/utils';
 
 test.describe('Help Center', () => {
+    test.use({ viewport: { width: 1600, height: 1200 } });
+    test.describe.configure({ retries: 2, timeout: 60000 });
+
     test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
         headerComponent,
         loginPage,
+        helpCenterPage,
     }) => {
         await tags('Help_Center', 'Negative');
         await severity('normal');
-        await description('To verify the user gets alert-message when searches in the Help Center with random characters.');
+        await description(
+            'To verify the user gets alert-message when searches in the Help Center with random characters.'
+        );
         await issue(`${QASE_LINK}/01-32`, 'User Login');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
         await epic('HelpCenter');
@@ -22,23 +27,29 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
 
         await step('Verify the user is redirected to help center page.', async () => {
-            await headerComponent.clickHelpCenter();
-            await expect(page).toHaveURL(URL_ENDPOINT.helpCenter);
+            await headerComponent.clickHelpCenterButton();
+            await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
 
-        // await step('Verify the user gets alert-message when searches in the Help Center with random characters.', async () => {
-        //  await helpCenterPage
-        // });
+        const randomString = await helpCenterPage.fillHelpCenterPlaceholder();
 
+        await step('Verify the user gets popup alert-message and empty list after input.', async () => {
+            await page.waitForSelector('.alert-base_alert__title__MdWow');
 
+            await expect(page.locator('.alert-base_alert__title__MdWow')).toBeVisible();
+            await expect(page.locator('.alert-base_alert__title__MdWow')).toHaveText('No results found');
+        });
+
+        await step('Verify the user redirects to search page and gets alert-message.', async () => {
+            await helpCenterPage.clickHelpCenterSearchButton();
+
+            const expectedSearchURL = `${process.env.URL}${URL_ENDPOINT.HelpCenterSearch}?search=${randomString}`;
+            expect(page).toHaveURL(expectedSearchURL);
+
+            await page.waitForSelector('h2[class*="alert-base_alert"]');
+            const alertText = await page.locator('h2[class*="alert-base_alert"]').innerText();
+            const alertNormalizedText = alertText.replace(/“|”/g, '"');
+            expect(alertNormalizedText).toContain(`No results for "${randomString}"`);
+        });
     });
 });
-
-// TC_07_01_02 | Verify the user can search articles in the Help Center with special characters
-// click search locators
-// locator('div').filter({ hasText: /^Search$/ }).nth(3)
-// locator(.input-search-with-action_input-search__button-container__gq0Lg)
-// .input-search-with-action_input-search__button-container__gq0Lg
-
-// getByRole('button', { name: 'Search' }) 
-
