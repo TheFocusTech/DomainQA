@@ -71,7 +71,5 @@ export default class HostedZonesPage {
         await step('Open the Hosted Zones page.', async () => {
             await this.page.goto(URL_ENDPOINT.hostedZones);
         });
-
-        await this.createHostedZoneModal.screenshot();
     }
 }
