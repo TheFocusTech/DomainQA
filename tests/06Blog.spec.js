@@ -1,7 +1,7 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK,, BLOG_SEARCH_RESULT_MESSAGE, URL_ENDPOINT } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, BLOG_SEARCH_RESULT_MESSAGE, URL_ENDPOINT } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { getRandomCharacters } from '../helpers/utils';
 
