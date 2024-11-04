@@ -121,6 +121,52 @@ test.describe('DNS Records', () => {
         });
     });
 
+    test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
+        page,
+        dnsRecordModal,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Verify copy button works properly.');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
+        await epic('Domains');
+
+        await step('Verify "Add new DNS-record" modal is visible.', async () => {
+            await expect(dnsRecordModal.dialog).toBeVisible();
+        });
+
+        await step('Click copy button', async () => {
+            await dnsRecordModal.copyButton.click();
+        });
+
+        await step('Read text from clipboard and validate.', async () => {
+            const copiedText = await page.evaluate('navigator.clipboard.readText()');
+            expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
+        });
+    });
+
+    test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({ dnsRecordModal }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Verify copy button works properly.');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}qsuvt3qz7wup`, 'ATC_04_12');
+        await epic('Domains');
+
+        await step('Verify "Add new DNS-record" modal is visible.', async () => {
+            await expect(dnsRecordModal.dialog).toBeVisible();
+        });
+
+        await step('Hover info icon', async () => {
+            await dnsRecordModal.infoIcon.hover();
+        });
+
+        await step('Verify info tooltip appeared.', async () => {
+            await expect(dnsRecordModal.tooltip).toBeVisible();
+        });
+    });
+
     test('TC_04_10 | "Add new DNS-record" modal was closed by Cancel or by X button', async ({
         hostedZonesDetailPage,
         dnsRecordModal,

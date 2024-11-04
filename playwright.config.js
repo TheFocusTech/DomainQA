@@ -55,6 +55,7 @@ export default defineConfig({
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
+        permissions: ['clipboard-read', 'clipboard-write'],
     },
 
     /* Configure projects for major browsers */
