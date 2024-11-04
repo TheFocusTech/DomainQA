@@ -6,11 +6,16 @@ import {
     GOOGLE_DOC_LINK,
     PASSWORD,
     TOAST_MESSAGE,
+    MY_PROFILE_ITEMS,
+    URL_ENDPOINT,
     CURRENCY_EUR_BUTTON_TEXT,
     CURRENCY_USD_BUTTON_TEXT,
-    MY_PROFILE_ITEMS,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
+import { generateVerificationCode } from '../helpers/utils';
+
+let code;
+let secretKey;
 
 test.describe('My profile', () => {
     test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
@@ -125,6 +130,59 @@ test.describe('My profile', () => {
         );
     });
 
+    test('TC_08_02_03 | Verify the user can enable/disable Two-factor authentication (2FA)', async ({
+        page,
+        loginPage,
+        headerComponent,
+        twoFactorAuthModal,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('Verify the user can enable/disable Two-factor authentication (2FA)');
+        await issue(`${QASE_LINK}/01-24`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}heuetjbfz4nu`, 'ATC_08_02_03');
+        await epic('My profile');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step('Navigate to page Account Settings', async () => {
+            await page.goto(`${process.env.URL}${URL_ENDPOINT.accountSettings}`, {
+                waitUntil: 'networkidle',
+            });
+        });
+
+        await step('Enable 2FA by clicking on toggle', async () => {
+            await settingsGeneralPage.clickTwoFAToggle();
+            await expect(twoFactorAuthModal.dialog).toBeVisible();
+        });
+
+        await step('Generate verification code', async () => {
+            secretKey = await twoFactorAuthModal.getSecretKey();
+        });
+
+        await step('Set verification code to 2FA input', async () => {
+            code = generateVerificationCode(secretKey);
+            await twoFactorAuthModal.enterVerificationCode(code.otp);
+        });
+
+        await step('Click button Enable 2FA in dialog', async () => {
+            await twoFactorAuthModal.enableButton.click();
+            await expect(twoFactorAuthModal.dialog).not.toBeVisible();
+        });
+
+        await expect(settingsGeneralPage.checkbox).toBeChecked();
+        await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+
+        await step('Disable 2FA', async () => {
+            await settingsGeneralPage.clickTwoFAToggle();
+        });
+
+        await expect(settingsGeneralPage.checkbox).not.toBeChecked();
+        await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+    });
+
     test('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
         page,
         loginPage,
@@ -175,7 +233,7 @@ test.describe('My profile', () => {
         await headerComponent.clickUsdButton();
 
         await step('The "USD ($)" button is selected with a checkmark.', async () => {
-            await expect(headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
+            expect(await headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
         });
 
         await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {
