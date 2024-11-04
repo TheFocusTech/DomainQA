@@ -151,7 +151,7 @@ test.describe('DNS Records', () => {
         await severity('normal');
         await description('Verify copy button works properly.');
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
-        await tms(`${GOOGLE_DOC_LINK}qsuvt3qz7wup`, 'ATC_04_11');
+        await tms(`${GOOGLE_DOC_LINK}qsuvt3qz7wup`, 'ATC_04_12');
         await epic('Domains');
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
