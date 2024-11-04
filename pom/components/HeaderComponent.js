@@ -64,7 +64,7 @@ export default class HeaderComponent {
     }
 
     async clickWhoisButton() {
-        await step('Click on the "Domains" button.', async () => {
+        await step('Click on the "Whois" button.', async () => {
             await this.whoisButton.click();
         });
     }
@@ -105,6 +105,13 @@ export default class HeaderComponent {
     async clickHelpCenterButton() {
         await step('Click on "Help center" button.', async () => {
             await this.helpCenterButton.click();
+        });
+    }
+
+    async clickHostedZonesLink() {
+        await step('Click on "Hosted Zones" link.', async () => {
+            await this.domainsButton.click();
+            await this.hostedZonesButton.click();
         });
     }
 

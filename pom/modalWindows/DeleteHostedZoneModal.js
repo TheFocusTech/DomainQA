@@ -4,8 +4,10 @@ export default class DeleteHostedZoneModal {
     constructor(page) {
         this.page = page;
 
-        this.cancelButton = this.page.locator('#root-portal button').filter({ hasText: 'Cancel' });
+        this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
         this.deleteButton = this.page.locator('#root-portal button').filter({ hasText: 'Delete' });
+        this.xCloseButton = this.page.locator('#root-portal').getByLabel('Button');
+        this.formModalWindow = this.page.getByText('Delete hosted zoneAre you');
     }
 
     async clickDeleteButton() {
@@ -17,6 +19,12 @@ export default class DeleteHostedZoneModal {
     async clickCancelButton() {
         await step('Click "Сancel" button.', async () => {
             await this.cancelButton.click();
+        });
+    }
+
+    async clickxCloseButton() {
+        await step('Click "X" button.', async () => {
+            await this.xCloseButton.click();
         });
     }
 }
