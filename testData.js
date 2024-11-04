@@ -7,6 +7,7 @@ export const URL_ENDPOINT = {
     login: '/auth/sign-in',
     signup: '/auth/sign-up',
     hostedZones: '/hosted-zones/management',
+    accountSettings: '/settings/general',
     Transfer: '/transfer',
     HomePage: '/',
     WhoIs: '/whois',
@@ -93,6 +94,8 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar WHOIS Server',
     'Registrar URL',
 ];
+export const CURRENCY_EUR_BUTTON_TEXT = 'Currency EUR (€)';
+export const CURRENCY_USD_BUTTON_TEXT = 'Currency USD ($)';
 
 export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
