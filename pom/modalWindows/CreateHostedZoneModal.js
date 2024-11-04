@@ -8,7 +8,6 @@ export default class CreateHostedZoneModal {
         this.createButton = this.page.locator('button').filter({ hasText: /^Create$/ });
         this.cancelButton = this.page.locator('button').filter({ hasText: /^Cancel$/ });
         this.closeXButton = this.page.locator('#root-portal').getByLabel('Button');
-        this.closeCancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
     }
 
     async fillHostedZoneDomainNameInput(name) {
@@ -30,11 +29,6 @@ export default class CreateHostedZoneModal {
     async clickCloseXButton() {
         await step('Close with X the modal window to create Hosted Zone', async () => {
             await this.closeXButton.click;
-        });
-    }
-    async clickCloseCancelButton() {
-        await step('Close with "Cancel" the modal window to create Hosted Zone', async () => {
-            await this.closeCancelButton.click;
         });
     }
 }
