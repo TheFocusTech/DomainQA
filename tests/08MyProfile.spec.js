@@ -222,19 +222,24 @@ test.describe('My profile', () => {
         });
 
         await step('Verify the "Email" notifications can be checked by default.', async () => {
-            expect(await settingsNotificationsPage.emailNotificationsCheckbox.all()).toBeChecked;
+            for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
         });
 
         await step('Verify the "Browser" notifications can be checked by default.', async () => {
-            expect(await settingsNotificationsPage.browserNotificationsCheckbox.all()).toBeChecked;
+            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
         });
 
         await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
             for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
-                checkbox.check();
-                expect(checkbox).not.toBeChecked;
-                checkbox.check();
-                expect(checkbox).toBeChecked;
+                expect(await checkbox.isChecked()).toBe(true);
+                await checkbox.click({ force: true });
+                expect(await checkbox.isChecked()).toBe(false);
+                await checkbox.click({ force: true });
+                expect(await checkbox.isChecked()).toBe(true);
             }
         });
     });
