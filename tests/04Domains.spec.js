@@ -277,7 +277,7 @@ test.describe('Hosted zones', () => {
         await deleteAllHostedZones(request, headers);
     });
 
-    test('TC_04_02 | Verify user can delete hosted zone', async ({
+    test('TC_04_03_02 | Verify user can delete hosted zone', async ({
         page,
         loginPage,
         headerComponent,
@@ -290,8 +290,8 @@ test.describe('Hosted zones', () => {
         await tags('Domains', 'Hosted Zones');
         await severity('normal');
         await description('To verify, that user is able to delete hosted zone');
-        await issue(`${QASE_LINK}/01-`, 'Hosted Zones');
-        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_02');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
+        await tms(`${GOOGLE_DOC_LINK}mftezseekpm`, 'ATC_04_03_02');
         await epic('Domains');
         await feature('Hosted Zones');
 
