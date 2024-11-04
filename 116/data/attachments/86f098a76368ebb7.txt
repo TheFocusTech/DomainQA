@@ -1,2 +1,0 @@
-Created hosted zone api-20241101203534.com with id 59b6ad53-0228-48ec-ac71-8ae59b784fc8
-Deleted hosted zone with id 59b6ad53-0228-48ec-ac71-8ae59b784fc8
