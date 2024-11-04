@@ -1,5 +1,0 @@
-Created hosted zone api-20241101195423.com with id cfc35979-5936-4084-9804-1d939e366b61
-Closing modal window by clicking Cancel button.
-Found 1 hosted zones to delete.
-Successfully deleted hosted zone with ID: cfc35979-5936-4084-9804-1d939e366b61
-Total number of hosted zones: 0
