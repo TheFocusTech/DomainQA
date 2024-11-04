@@ -92,6 +92,8 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar WHOIS Server',
     'Registrar URL',
 ];
+export const CURRENCY_EUR_BUTTON_TEXT = 'Currency EUR (€)';
+export const CURRENCY_USD_BUTTON_TEXT = 'Currency USD ($)';
 
 export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
