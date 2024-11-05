@@ -1,4 +1,5 @@
 import { TOTP } from 'totp-generator';
+import { RANDOM_CHARACTERS } from '../testData';
 
 export function generateVerificationCode(secretKey) {
     const { otp, expires } = TOTP.generate(secretKey);
@@ -18,6 +19,12 @@ export async function getCookies(page) {
         headers[cookie.name] = cookie.value;
     }
     return headers;
+}
+
+export async function getRandomCharacters(length) {
+    return Array.from({ length }, () =>
+        RANDOM_CHARACTERS.charAt(Math.floor(Math.random() * RANDOM_CHARACTERS.length))
+    ).join('');
 }
    
 export async function getResultVerifySearchAPI(categName, obj) {
