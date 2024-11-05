@@ -6,7 +6,6 @@ export default class BlogPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
-        this.searchButton = this.page.getByRole('button', { name: 'Search' }).first();
     }
 
     async verifyBlogPage(heading, buttons) {

@@ -6,9 +6,6 @@ export default class TransferPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
-        this.trancferBtn = this.page.getByRole('button', { name: 'Transfer' });
-        this.newDomainBtn = this.page.getByRole('button', { name: 'Bulk transfer' });
-        this.newDomainBtn = this.page.getByRole('button', { name: 'My transfers' });
     }
 
     async verifyTransferPage(heading, buttons) {

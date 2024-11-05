@@ -8,7 +8,6 @@ export default class HostingPage {
         this.mainHeading = this.page.locator('main h1');
         this.alertTitle = this.page.locator('main h2');
         this.alertDescription = this.page.locator('main p[class*="description"]');
-        this.trancferBtn = this.page.getByRole('button', { name: 'Get new hosting' });
     }
 
     async verifyHostingPage(heading, title, description, buttons) {
