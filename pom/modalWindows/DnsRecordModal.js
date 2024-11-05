@@ -11,6 +11,12 @@ export default class DnsRecordModal {
         this.cancelButton = this.page.getByText('Cancel');
         this.saveButton = this.page.getByText('Save');
         this.iconButtonX = this.page.locator('[role="dialog"] button[class*="button-icon-overlay_"]');
+        this.copyButton = this.page.locator(
+            '[role="dialog"] [class*="button-icon-flat_button-icon-flat--light-mode__"]'
+        );
+        this.infoIcon = this.page.locator('[class*="input-base_input-base__after-box__"]');
+        this.tooltip = this.page.getByText('Enter root domain or domain with subdomains');
+        this.rootDomainName = this.page.locator('[class*="create-form_body__description__"] b');
         this.typeDropdown = this.page
             .locator('div')
             .filter({ hasText: /^Type\*A$/ })
@@ -36,6 +42,10 @@ export default class DnsRecordModal {
         this.keyTag = this.page.getByPlaceholder('Enter key tag number');
         this.algorithm = this.page.locator('input[name="type_ds__algorithm"]');
         this.digest = this.page.locator('input[name="type_ds__digest"]');
+    }
+
+    async getRootDomainName() {
+        return this.rootDomainName.textContent();
     }
 
     async clickSaveButton() {

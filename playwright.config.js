@@ -55,9 +55,7 @@ export default defineConfig({
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
-
-        /* Add fix viewport */
-        // viewport: { width: 1280, height: 720 },
+        permissions: ['clipboard-read', 'clipboard-write'],
     },
 
     /* Configure projects for major browsers */

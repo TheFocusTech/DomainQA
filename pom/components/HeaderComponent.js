@@ -21,6 +21,11 @@ export default class HeaderComponent {
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
+        this.currencyUSDButton = this.page.getByRole('button', { name: 'Currency USD ($)' });
+        this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
+        this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
+        this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
+        this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
     }
 
     async clickMyProfileButton() {
@@ -60,7 +65,7 @@ export default class HeaderComponent {
     }
 
     async clickWhoisButton() {
-        await step('Click on the "Domains" button.', async () => {
+        await step('Click on the "Whois" button.', async () => {
             await this.whoisButton.click();
         });
     }
@@ -102,5 +107,36 @@ export default class HeaderComponent {
         await step('Click on "Help center" button.', async () => {
             await this.helpCenterButton.click();
         });
+    }
+
+    async clickHostedZonesLink() {
+        await step('Click on "Hosted Zones" link.', async () => {
+            await this.domainsButton.click();
+            await this.hostedZonesButton.click();
+        });
+    }
+
+    async clickCurrencyUSDButton() {
+        await step('Click on the "Currency USD ($)" button.', async () => {
+            await this.currencyUSDButton.click();
+        });
+    }
+
+    async clickEurButton() {
+        await step('Click on the "EUR (€)" button.', async () => {
+            await this.eurButton.click();
+        });
+    }
+
+    async clickUsdButton() {
+        await step('Click on the "USD ($)" button.', async () => {
+            await this.usdButton.click();
+        });
+    }
+
+    async isCurrencySelected(button) {
+        const svgSelector = 'svg[xmlns="http://www.w3.org/2000/svg"]';
+        const svgCount = await button.locator(svgSelector).count();
+        return svgCount > 0;
     }
 }
