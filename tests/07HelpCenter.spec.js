@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Help Center', () => {
@@ -31,23 +31,18 @@ test.describe('Help Center', () => {
             await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
 
-        const randomString = await helpCenterPage.fillHelpCenterPlaceholder();
+        const randomString = await helpCenterPage.fillSearchInput();
 
         await step('Verify the user gets popup alert-message and empty list after input.', async () => {
-            await page.waitForSelector('.alert-base_alert__title__MdWow');
-
-            await expect(page.locator('.alert-base_alert__title__MdWow')).toBeVisible();
-            await expect(page.locator('.alert-base_alert__title__MdWow')).toHaveText('No results found');
+            await expect(helpCenterPage.helpSearchPopup).toBeVisible();
+            await expect(helpCenterPage.helpSearchPopupAlert).toHaveText(HELP_SEARCH_POPUP_ALERT);
         });
 
         await step('Verify the user redirects to search page and gets alert-message.', async () => {
             await helpCenterPage.clickHelpCenterSearchButton();
-
             const expectedSearchURL = `${process.env.URL}${URL_ENDPOINT.HelpCenterSearch}?search=${randomString}`;
             expect(page).toHaveURL(expectedSearchURL);
-
-            await page.waitForSelector('h2[class*="alert-base_alert"]');
-            const alertText = await page.locator('h2[class*="alert-base_alert"]').innerText();
+            const alertText = await helpCenterPage.helpSearchPopupAlert.innerText();
             const alertNormalizedText = alertText.replace(/“|”/g, '"');
             expect(alertNormalizedText).toContain(`No results for "${randomString}"`);
         });

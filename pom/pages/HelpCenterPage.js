@@ -7,15 +7,23 @@ export default class HelpCenterPage {
         this.helpCenterPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.helpSearchButton = this.page.getByRole('button', { name: 'Search' });
         this.randomString = '';
+        this.helpSearchPopup = this.page.locator('div[class*="search-article-result"]');
+        this.helpSearchPopupAlert = this.page.locator('h2[class*="alert-base"]');
     }
 
-    async fillHelpCenterPlaceholder() {
+    async fillSearchInput() {
         await step('Fill the Help Center input.', async () => {
             this.randomString = await getRandomCharacters(10);
             await this.helpCenterPlaceholder.waitFor({ state: 'visible' });
             await this.helpCenterPlaceholder.fill(this.randomString);
         });
         return this.randomString;
+    }
+
+    async waitForPopupToBeVisible() {
+        await step('Await search result in popup.', async () => {
+            await this.helpSearchPopup.waitFor({ state: 'visible' });
+        });
     }
 
     async clickHelpCenterSearchButton() {

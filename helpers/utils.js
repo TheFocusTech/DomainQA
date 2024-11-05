@@ -21,7 +21,7 @@ export async function getCookies(page) {
     return headers;
 }
 
-export async function getRandomCharacters(length = 10) {
+export async function getRandomCharacters(length) {
     return Array.from({ length }, () =>
         RANDOM_CHARACTERS.charAt(Math.floor(Math.random() * RANDOM_CHARACTERS.length))
     ).join('');

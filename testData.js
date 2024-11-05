@@ -150,3 +150,5 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const HELP_SEARCH_POPUP_ALERT = 'No results found';
