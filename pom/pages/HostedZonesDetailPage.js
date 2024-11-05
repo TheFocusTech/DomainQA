@@ -8,6 +8,7 @@ export default class HostedZonesDetailPage {
         this.hostedZoneModal = this.page.locator('section[role="dialog"]');
         this.backToHostedZonesButton = this.page.getByRole('link', { name: 'Back to Hosted zones' });
         this.dnsManagementRows = this.page.locator('tbody [class*="table-row_table-row"]');
+        this.hostedZonesDetailTitle = this.page.locator('h1[class*="management-detail-page"]');
         this.dnssecCardHeader = this.page.getByRole('heading', { name: 'DNSSEC' });
         this.notUsingDnssecWarning = this.page.locator('p:has-text("Your hosted zone is not using DNSSEC.")');
         this.dnssecActivationWarning = this.page.locator(
