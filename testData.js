@@ -158,3 +158,6 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
     ' and all related DNS-records?',
     'Delete hosted zone',
 ];
+
+export const HELP_SEARCH_PART = 'dom';
+export const HELP_SEARCH = 'domain';
