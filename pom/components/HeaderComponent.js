@@ -26,6 +26,7 @@ export default class HeaderComponent {
         this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
         this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
         this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
+        this.logo = this.page.locator('header a[class^="logo"]');
     }
 
     async clickMyProfileButton() {
@@ -138,5 +139,23 @@ export default class HeaderComponent {
         const svgSelector = 'svg[xmlns="http://www.w3.org/2000/svg"]';
         const svgCount = await button.locator(svgSelector).count();
         return svgCount > 0;
+    }
+
+    async clickButton(name) {
+        await step(`Click on the ${name} button in Hearder.`, async () => {
+            await this.page.getByRole('button', { name: name, exact: true }).click();
+        });
+    }
+
+    async clickLink(name) {
+        await step(`Click on the ${name} link in Hearder.`, async () => {
+            await this.page.getByRole('link', { name: name, exact: true }).click();
+        });
+    }
+
+    async clickLogo() {
+        await step('Click on the Logo in Hearder.', async () => {
+            await this.logo.click();
+        });
     }
 }

@@ -22,6 +22,11 @@ import PageTitleComponent from './pom/components/PageTitleComponent';
 import HelpCenterPage from './pom/pages/HelpCenterPage';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import TwoFactorAuthModal from './pom/modalWindows/TwoFactorAuthModal';
+import RegisteredDomainsPage from './pom/pages/RegisteredDomainsPage';
+import TransferPage from './pom/pages/TransferPage';
+import HostingPage from './pom/pages/HostingPage';
+import SslCertificatesPage from './pom/pages/SslCertificatesPage';
+import BlogPage from './pom/pages/BlogPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -114,9 +119,28 @@ export const test = base.extend({
     enableDnssecModal: async ({ page }, use) => {
         await use(new EnableDnssecModal(page));
     },
-
     /** @type { TwoFactorAuthModal } */
     twoFactorAuthModal: async ({ page }, use) => {
         await use(new TwoFactorAuthModal(page));
+    },
+    /** @type { RegisteredDomainsPage } */
+    registeredDomainsPage: async ({ page }, use) => {
+        await use(new RegisteredDomainsPage(page));
+    },
+    /** @type { TransferPage } */
+    transferPage: async ({ page }, use) => {
+        await use(new TransferPage(page));
+    },
+    /** @type { HostingPage } */
+    hostingPage: async ({ page }, use) => {
+        await use(new HostingPage(page));
+    },
+    /** @type { SslCertificatesPage } */
+    sslCertificatesPage: async ({ page }, use) => {
+        await use(new SslCertificatesPage(page));
+    },
+    /** @type { BlogPage } */
+    blogPage: async ({ page }, use) => {
+        await use(new BlogPage(page));
     },
 });
