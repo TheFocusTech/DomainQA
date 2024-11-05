@@ -5,7 +5,7 @@ import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INPUT_SEARCH_PART } from '../
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Blog', () => {
-    test('TC_06_08 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Blog Center', async ({
+    test('TC_06_08 | Verify Autocomplete Suggestions Displayed for Partial Search Input', async ({
         page,
         headerComponent,
         loginPage,
