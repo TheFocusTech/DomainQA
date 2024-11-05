@@ -271,5 +271,3 @@ export const HEADER_LINKS = [
         text: '',
     },
 ];
-
-export const INPUT_SEARCH_PART = 'dom';
