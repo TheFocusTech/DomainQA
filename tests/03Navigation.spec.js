@@ -54,8 +54,7 @@ const navigationToHomePageActions = {
 };
 
 test.describe('Navigation', () => {
-    test.describe.configure({ mode: 'serial' });
-    test.beforeAll(async ({ page, headerComponent, loginPage }) => {
+    test.beforeEach(async ({ page, headerComponent, loginPage }) => {
         await step('Preconditions:', async () => {
             await loginUser(page, headerComponent, loginPage);
         });
