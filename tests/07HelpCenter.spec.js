@@ -69,7 +69,7 @@ test.describe('Help Center', () => {
         await page.waitForURL(URL_ENDPOINT.HelpCenter);
 
         await step(
-            'Verify that  autocomplete suggestions that match the input ("dom") are displayed in popup search window',
+            'Verify that  autocomplete suggestions that match the input are displayed in popup search window',
             async () => {
                 await helpCenterPage.fillHelpSearchInput(INPUT_SEARCH_PART);
                 await helpCenterPage.waitForPopupToBeVisible();
