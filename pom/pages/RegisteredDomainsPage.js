@@ -8,6 +8,7 @@ export default class RegisteredDomainsPage {
         this.mainHeading = this.page.locator('main h1');
         this.alertTitle = this.page.locator('main h2');
         this.alertDescription = this.page.locator('main p[class*="description"]');
+        this.getNewDomainButton = this.page.getByRole('button', { name: 'Get New Domain' });
     }
 
     async verifyRegisteredDomainsPage(heading, title, description, buttons) {
@@ -27,5 +28,11 @@ export default class RegisteredDomainsPage {
                 await expect(buttonLocator.or(linkLocator).first()).toBeVisible();
             });
         }
+    }
+
+    async clickGetNewDomainButton() {
+        await step('Click on "Get new domain" button.', async () => {
+            await this.getNewDomainButton.click();
+        });
     }
 }

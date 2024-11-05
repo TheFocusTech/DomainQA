@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, HEADER_LINKS } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, HEADER_LINKS, ACCESSIBLE_PAGE_TITLE } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 const navigationActions = {
@@ -37,6 +37,19 @@ const navigationActions = {
     },
     Home: async ({ homePage, heading, buttons }) => {
         await homePage.verifyHomePage(heading, buttons);
+    },
+};
+
+const navigationToHomePageActions = {
+    fromFooterLogo: async ({ footerComponent }) => {
+        await footerComponent.clickLogo();
+    },
+    fromFooterDomainSearch: async ({ footerComponent }) => {
+        await footerComponent.clickDomainSearchLink();
+    },
+    fromHeader: async ({ headerComponent, registeredDomainsPage }) => {
+        await headerComponent.clickRegisteredDomainsButton();
+        await registeredDomainsPage.clickGetNewDomainButton();
     },
 };
 
@@ -128,5 +141,31 @@ test.describe('Navigation', () => {
                 });
             });
         }
+    });
+
+    Object.entries(navigationToHomePageActions).forEach(([name, action], index) => {
+        test(`TC_03_02_0${index + 1} | Verify navigation to Home page from ${name}`, async ({
+            page,
+            headerComponent,
+            footerComponent,
+            homePage,
+            registeredDomainsPage,
+        }) => {
+            await tags('Navigation', 'Positive');
+            await severity('critical');
+            await description(`To verify that user can navigate to Home page from ${name}.`);
+            await issue(`${QASE_LINK}/01-5`, 'Home page');
+            await tms(`${GOOGLE_DOC_LINK}`, 'ATC_03_02');
+            await epic('Navigation');
+
+            await action({ headerComponent, footerComponent, registeredDomainsPage });
+
+            await step('Verify user is redirected to Home page', async () => {
+                await expect(page).toHaveURL('/');
+            });
+            await step(`Verify that Home page has "${ACCESSIBLE_PAGE_TITLE.HomePage}" heading.`, async () => {
+                await expect(homePage.mainHeading).toHaveText(ACCESSIBLE_PAGE_TITLE.HomePage);
+            });
+        });
     });
 });
