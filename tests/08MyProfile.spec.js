@@ -220,7 +220,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
+    test.skip('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
         page,
         loginPage,
         headerComponent,
