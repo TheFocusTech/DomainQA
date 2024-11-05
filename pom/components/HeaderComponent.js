@@ -17,7 +17,6 @@ export default class HeaderComponent {
         this.hostedZonesButton = this.page.getByRole('link', { name: 'Hosted zones' });
         this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains', exect: true });
         this.productsButton = this.page.getByRole('button', { name: 'Products', exact: true });
-        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
@@ -26,7 +25,6 @@ export default class HeaderComponent {
         this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
         this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
         this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
-        this.logo = this.page.locator('header a[class^="logo"]');
         this.logo = this.page.locator('header a[class^="logo"]');
     }
 

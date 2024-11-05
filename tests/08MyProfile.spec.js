@@ -183,7 +183,7 @@ test.describe('My profile', () => {
         await expect(settingsGeneralPage.disableTooltip).toBeVisible();
     });
 
-    test.skip('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
+    test('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
         page,
         loginPage,
         headerComponent,
