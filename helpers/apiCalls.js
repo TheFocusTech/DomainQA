@@ -46,7 +46,6 @@ export async function createHostedZoneAPI(request, headers) {
         const createHostedZoneData = await response.json();
         const hostedZoneId = createHostedZoneData.id;
         console.log(`Created hosted zone ${domainName} with id ${hostedZoneId}`);
-
         return createHostedZoneData;
     } catch (error) {
         console.error(`An error occurred while creating hosted zone: ${error.message}`);

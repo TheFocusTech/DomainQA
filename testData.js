@@ -1,7 +1,7 @@
 export const QASE_LINK = ' https://app.qase.io/case';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
-export const HOSTED_ZONE_DOMAIN_NAME = '42.com';
+export const HOSTED_ZONE_DOMAIN_NAME = '523.com';
 
 export const URL_ENDPOINT = {
     login: '/auth/sign-in',
@@ -40,6 +40,8 @@ export const PASSWORD = {
 
 export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
+    hostedZoneCreated: 'Hosted zone created',
+    hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
 };
 
@@ -92,6 +94,8 @@ export const WHOIS_SEARCH_RESULT_TITLES = [
     'Registrar WHOIS Server',
     'Registrar URL',
 ];
+export const CURRENCY_EUR_BUTTON_TEXT = 'Currency EUR (€)';
+export const CURRENCY_USD_BUTTON_TEXT = 'Currency USD ($)';
 
 export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
@@ -148,6 +152,12 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
+    'Are you sure you want to delete hosted zone ',
+    ' and all related DNS-records?',
+    'Delete hosted zone',
+];
 
 export const NOTIFICATIONS_TYPE = {
     type1: 'Account',

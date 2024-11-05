@@ -13,6 +13,7 @@ import {
     URL_ENDPOINT,
     WHOIS_SEARCH_RESULT_TITLES,
     TOAST_MESSAGE,
+    MODAL_WINDOW_DELETE_HOSTED_ZONE,
 } from '../testData';
 import { expect } from '@playwright/test';
 
@@ -118,6 +119,52 @@ test.describe('DNS Records', () => {
 
         await step('Open modal "Add new DNS-record".', async () => {
             await hostedZonesDetailPage.clickAddRecordButton();
+        });
+    });
+
+    test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
+        page,
+        dnsRecordModal,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Verify copy button works properly.');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
+        await epic('Domains');
+
+        await step('Verify "Add new DNS-record" modal is visible.', async () => {
+            await expect(dnsRecordModal.dialog).toBeVisible();
+        });
+
+        await step('Click copy button', async () => {
+            await dnsRecordModal.copyButton.click();
+        });
+
+        await step('Read text from clipboard and validate.', async () => {
+            const copiedText = await page.evaluate('navigator.clipboard.readText()');
+            expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
+        });
+    });
+
+    test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({ dnsRecordModal }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Verify copy button works properly.');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}qsuvt3qz7wup`, 'ATC_04_12');
+        await epic('Domains');
+
+        await step('Verify "Add new DNS-record" modal is visible.', async () => {
+            await expect(dnsRecordModal.dialog).toBeVisible();
+        });
+
+        await step('Hover info icon', async () => {
+            await dnsRecordModal.infoIcon.hover();
+        });
+
+        await step('Verify info tooltip appeared.', async () => {
+            await expect(dnsRecordModal.tooltip).toBeVisible();
         });
     });
 
@@ -267,6 +314,72 @@ test.describe('Search domains', () => {
         });
         await step('Verify that info that no match is appears', async () => {
             await whoisSearchResultPage.noMatchText.isVisible();
+        });
+    });
+});
+
+test.describe('Hosted zones', () => {
+    test.afterAll(async ({ request }) => {
+        await deleteAllHostedZones(request, headers);
+    });
+
+    test('TC_04_03_02 | Verify user can delete hosted zone', async ({
+        page,
+        loginPage,
+        headerComponent,
+        createHostedZoneModal,
+        hostedZonesPage,
+        toastComponent,
+        deleteHostedZoneModal,
+        request,
+    }) => {
+        await tags('Domains', 'Hosted Zones');
+        await severity('normal');
+        await description('To verify, that user is able to delete hosted zone');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
+        await tms(`${GOOGLE_DOC_LINK}mftezseekpm`, 'ATC_04_03_02');
+        await epic('Domains');
+        await feature('Hosted Zones');
+
+        let domainName;
+
+        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await page.waitForURL(process.env.URL);
+
+        await step('Preconditions: Create hosted zones via API.', async () => {
+            headers = await getCookies(page);
+
+            const response = await createHostedZoneAPI(request, headers);
+            domainName = response.domain;
+        });
+
+        await hostedZonesPage.open();
+
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+
+        const textFormModalWindow = await deleteHostedZoneModal.formModalWindow.textContent();
+        MODAL_WINDOW_DELETE_HOSTED_ZONE.forEach((expectedText) => {
+            expect(textFormModalWindow).toContain(expectedText);
+        });
+
+        expect(textFormModalWindow).toContain(domainName);
+
+        await deleteHostedZoneModal.clickCancelButton();
+        await hostedZonesPage.clickBreadcrumbMenuHostedZone();
+        await hostedZonesPage.clickDeleteButton();
+
+        await deleteHostedZoneModal.clickDeleteButton();
+
+        await step('Verify toast notification about successful deletion of hosted zone.', async () => {
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.hostedZoneDeleted);
+        });
+
+        await step('Verify that deleted hosted zone is not available in the Hosted Zones Page', async () => {
+            await hostedZonesPage.hostedZonesHeader.isVisible();
+
+            hostedZonesPage.setCreatedHostedZoneTitleLocator(domainName);
+            await expect(hostedZonesPage.createdHostedZoneTitle).not.toBeVisible();
         });
     });
 });
