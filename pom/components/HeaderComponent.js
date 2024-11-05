@@ -10,6 +10,7 @@ export default class HeaderComponent {
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
+        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.domainsButton = this.page.getByRole('button', { name: 'Domains' });
         this.whoisButton = this.page.getByRole('link', { name: 'WHOIS', exact: true });
         this.transferButton = this.page.getByRole('link', { name: 'Transfer', exact: true });
