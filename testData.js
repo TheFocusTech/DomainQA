@@ -156,7 +156,6 @@ export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
 
-
 export const HELP_SEARCH_POPUP_ALERT = 'No results found';
 
 export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
@@ -164,4 +163,3 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
     ' and all related DNS-records?',
     'Delete hosted zone',
 ];
-
