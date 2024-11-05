@@ -16,6 +16,7 @@ export const URL_ENDPOINT = {
     HelpCenter: '/help',
     ReportAbuse: '/help/report-abuse',
     ContactUs: '/help/contact-us',
+    HelpCenterSearch: '/help/search',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -68,6 +69,8 @@ export const DNS_TYPE = {
     NS: 'NS',
     TXT: 'TXT',
 };
+
+export const RANDOM_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 export const ERROR_DOMAIN = 'FGGFFGDGDFGD.COM';
 
@@ -152,6 +155,8 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const HELP_SEARCH_POPUP_ALERT = 'No results found';
 
 export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
     'Are you sure you want to delete hosted zone ',
