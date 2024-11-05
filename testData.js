@@ -148,3 +148,23 @@ export const DNS_RECORD_DATA = {
 export const DOMAIN_PART = ['.com', '.net', 'org'];
 
 export const EXPECTED_RESULT_OCCUPIED_DOMAIN_SEARCH = [OCCUPIED_DOMAIN, 'This domain is already taken', 'Who owns?'];
+
+export const CONTACTS = {
+    predefined: {
+        alias: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
+        firstName: 'Registration',
+        lastName: 'Private',
+        company: 'Perfect Privacy LLC c/o trustname.com',
+        jobTitle: 'Chief Privacy Defender',
+        addressLineFirst: 'Harakiri.org',
+        addressLineSecond: 'Hamilton Development Unit B',
+        city: 'Charlestown',
+        state: 'Nevis West Indies',
+        zip: '00000',
+        country: 'KN',
+        phone: '+19179671610',
+        fax: 'No details added',
+        email: '000001025-protected@harakiri.org',
+        emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
+    },
+};

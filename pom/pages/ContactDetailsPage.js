@@ -8,7 +8,7 @@ export default class ContactDetailsPage {
         this.predefinedContactHeader = this.page.getByRole('heading', {
             name: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
         });
-        this.predefinedContactContent = this.page.locator('div[class*="group-panel__content"]');
+        this.content = this.page.locator('div[class*="group-panel__content"]');
         this.groupTitles = this.page.locator('[class*="group-panel__title"]');
     }
 }
