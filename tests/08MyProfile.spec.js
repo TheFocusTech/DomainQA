@@ -173,4 +173,38 @@ test.describe('My profile', () => {
         await expect(settingsGeneralPage.checkbox).not.toBeChecked();
         await expect(settingsGeneralPage.disableTooltip).toBeVisible();
     });
+
+    [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }].forEach(({ type }) => {
+        test(`TC_08_02_04 | Verify user can change currency from ${type[0]} to ${type[1]}`, async ({
+            page,
+            loginPage,
+            headerComponent,
+            settingsGeneralPage,
+        }) => {
+            await tags('My profile', 'Positive');
+            await severity('normal');
+            await description('To verify that the user can change currency');
+            await issue(`${QASE_LINK}/01-24`, 'My profile');
+            await tms(`${GOOGLE_DOC_LINK}zaopf49oholc`, 'ATC_08_02_04');
+            await epic('My profile');
+
+            await loginUser(page, headerComponent, loginPage);
+            await page.waitForURL(process.env.URL);
+
+            await headerComponent.clickMyProfileButton();
+            await headerComponent.clickAccountSettingsLink();
+
+            (await settingsGeneralPage.isCurrencyTypeSet(type[0]))
+                ? null
+                : await settingsGeneralPage.changeCurrencyType(type[0]);
+
+            await settingsGeneralPage.clickCurrencyButton();
+            await settingsGeneralPage.clickCurrencyTypeDropdown(type[1]);
+            await settingsGeneralPage.clickCurrencyButton();
+
+            await step(`Verify the ${type[1]} button is displayed.`, async () => {
+                await expect(await settingsGeneralPage.currencyType.innerText()).toEqual(type[1]);
+            });
+        });
+    });
 });
