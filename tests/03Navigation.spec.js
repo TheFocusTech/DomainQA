@@ -47,9 +47,11 @@ test.describe('Navigation', () => {
         });
     });
 
-    HEADER_LINKS.forEach((link, index) => {
+    let testNumber = 0;
+    HEADER_LINKS.forEach((link) => {
         if (link.type === 'direct') {
-            test(`TC_03_01_0${index + 1} |  Verify that user can navigate through Header links ${link.name}`, async ({
+            testNumber++;
+            test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${link.name}`, async ({
                 page,
                 headerComponent,
                 blogPage,
@@ -86,8 +88,9 @@ test.describe('Navigation', () => {
                 });
             });
         } else if (link.type === 'dropdown') {
-            link.links.forEach((dropdownLink, i) => {
-                test(`TC_03_01_0${index + 1}_0${i + 1} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
+            link.links.forEach((dropdownLink) => {
+                testNumber++;
+                test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
                     page,
                     headerComponent,
                     registeredDomainsPage,
