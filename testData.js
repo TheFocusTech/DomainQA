@@ -164,7 +164,7 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
     'Delete hosted zone',
 ];
 
-export const HELP_SEARCH_PART = 'dom';
+export const INPUT_SEARCH_PART = 'dom';
 export const HEADER_LINKS = [
     {
         type: 'dropdown',

@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT, HELP_SEARCH_PART } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT, INPUT_SEARCH_PART } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Help Center', () => {
@@ -71,9 +71,9 @@ test.describe('Help Center', () => {
         await step(
             'Verify that  autocomplete suggestions that match the input ("dom") are displayed in popup search window',
             async () => {
-                await helpCenterPage.fillHelpSearchInput(HELP_SEARCH_PART);
+                await helpCenterPage.fillHelpSearchInput(INPUT_SEARCH_PART);
                 await helpCenterPage.waitForPopupToBeVisible();
-                await expect(helpCenterPage.helpSearchPopup).toContainText(new RegExp(HELP_SEARCH_PART, 'i'));
+                await expect(helpCenterPage.helpSearchPopup).toContainText(new RegExp(INPUT_SEARCH_PART, 'i'));
             }
         );
     });
