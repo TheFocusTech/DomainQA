@@ -19,3 +19,12 @@ export async function getCookies(page) {
     }
     return headers;
 }
+   
+export async function getResultVerifySearchAPI(categName, obj) {
+    let result = '';    
+    for (let i of obj) {          
+        (categName.includes(`${i}`))? (result = 'true'): (result = 'false');
+    }
+    console.log(result);
+    return result;
+}

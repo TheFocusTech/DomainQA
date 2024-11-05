@@ -1,6 +1,6 @@
 import { step } from 'allure-js-commons';
 import { expect } from '@playwright/test';
-import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
+import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, NAME_SEARCH } from '../testData';
 
 export const loginUser = async (page, headerComponent, loginPage) => {
     await step('Preconditions: Login as a registered user', async () => {
@@ -31,4 +31,19 @@ export const deleteHostedZone = async (hostedZonesPage, deleteHostedZoneModal) =
         await deleteHostedZoneModal.clickDeleteButton();
         await expect(hostedZonesPage.deleteHostedZoneModal).not.toBeVisible();
     });
+};
+
+export const goToHelpSearchResultsPage = async (page, headerComponent, helpCenterPage) => {
+    await headerComponent.clickHelpCenterButton();        
+    await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);       
+    await step('Go to the help search results page.', async () => {
+        await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`); //вместо clickSearchButton переходим сразу на страницу результата
+    });
+
+    // let i = 0;    
+    // while ((i<10) && (await page.locator('.search-articles-popup_search-articles-popup__H46lB'))&& (page.url() !==`${process.env.URL}/help/search?search=domain`)) {                
+    //     console.log(i+" раз клик");
+    //     await helpCenterPage.clickSearchButton(); 
+    //     i++;           
+    // };            
 };

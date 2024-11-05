@@ -158,3 +158,11 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
     ' and all related DNS-records?',
     'Delete hosted zone',
 ];
+
+export const NAME_SEARCH = 'domain';
+
+export const API_HelpSearch = {
+    URL: 'https://trustname.freshdesk.com',
+    token: 'Basic cHF1MnJFRFR3MW5rT1NWU0gwUUQ=}',
+    ENDPOINT_Categ: '/api/v2/solutions/categories',    
+}

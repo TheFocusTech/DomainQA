@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from '../testData';
+import { API_ENDPOINT, NAME_SEARCH, API_HelpSearch } from '../testData';
 import { getRandomDomainName } from './utils';
 
 function getAuthHeaders(headers) {
@@ -98,5 +98,48 @@ export async function deleteAllHostedZonesAPI(request, headers) {
             : console.error('Not all zones deleted');
     } catch (error) {
         console.error(`An error occurred while deleting all hosted zones: ${error.message}`);
+    }
+}
+  
+export async function getCategoriesHelpSearchAPI(request, key) {    
+    try {
+        const response = await request.get(`${API_HelpSearch.URL}${API_HelpSearch.ENDPOINT_Categ}`, {                 
+            headers: {
+                'authorization': `${API_HelpSearch.token}`,                           
+            },            
+        });
+        if (!response.ok()) {
+            throw new Error(`GET Categories request failed with status: ${response.status()}`);
+        }
+        const responseBody = await response.json();    
+        const obj = [];    
+        for (let i in responseBody) {obj[i] = responseBody[i][key];}    
+
+        return obj; 
+    } catch (error) {
+        console.error(`An error occurred while sending the category list request: ${error.message}`);
+    }
+} 
+
+export async function getResponseHelpSearchAPI(request, idAllCategories, key) {    
+    try {
+        const API_URL_ENDPOINT_HelpSearch = `/api/v2/search/solutions?category_id=${idAllCategories}&max_matches=10&page=1&term=${NAME_SEARCH}`;
+        const response = await request.get(`${API_HelpSearch.URL}${API_URL_ENDPOINT_HelpSearch}`, {                 
+            headers: {
+              'authorization': `${API_HelpSearch.token}`, 
+             'accept': 'application/json',                    
+            },            
+        });        
+        if (!response.ok()) {
+            throw new Error(`GET Categories ID request failed with status: ${response.status()}`);
+        }
+        const responseBody = await response.json();           
+        let obj = [];            
+        for (let i in responseBody) {obj[i] = responseBody[i][key];}
+        obj = Array.from(new Set(obj)); //оставляем в массиве уникальные значения
+
+        return obj; 
+    } catch (error) {
+        console.error(`An error occurred while sending the category ID request: ${error.message}`);
     }
 }

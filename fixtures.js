@@ -21,6 +21,8 @@ import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import TwoFactorAuthModal from './pom/modalWindows/TwoFactorAuthModal';
+import HelpCenterPage from './pom/pages/HelpCenterPage';
+import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -111,5 +113,13 @@ export const test = base.extend({
     /** @type { TwoFactorAuthModal } */
     twoFactorAuthModal: async ({ page }, use) => {
         await use(new TwoFactorAuthModal(page));
+    },
+    /** @type { HelpCenterPage } */
+    helpCenterPage: async ({ page }, use) => {
+        await use(new HelpCenterPage(page));
+    },
+    /** @type { HelpSearchResultsPage } */
+    helpSearchResultsPage: async ({ page }, use) => {
+        await use(new HelpSearchResultsPage(page));
     },
 });
