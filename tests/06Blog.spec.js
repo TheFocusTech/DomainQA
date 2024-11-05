@@ -27,7 +27,7 @@ test.describe('Blog', () => {
         await page.waitForURL(URL_ENDPOINT.blogPage);
 
         await step(
-            'Verify that  autocomplete suggestions that match the input ("dom") are displayed in popup search window',
+            'Verify that  autocomplete suggestions that match the input are displayed in popup search window',
             async () => {
                 await blogPage.fillBlogSearchInput(INPUT_SEARCH_PART);
                 await blogPage.waitForBlogSearchPopup();
