@@ -19,6 +19,7 @@ import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
+import HelpCenterPage from './pom/pages/HelpCenterPage';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import TwoFactorAuthModal from './pom/modalWindows/TwoFactorAuthModal';
 
@@ -71,6 +72,7 @@ export const test = base.extend({
     deleteHostedZoneModal: async ({ page }, use) => {
         await use(new DeleteHostedZoneModal(page));
     },
+
     /** @type { AccountDeletionModal } */
     accountDeletionModal: async ({ page }, use) => {
         await use(new AccountDeletionModal(page));
@@ -102,6 +104,11 @@ export const test = base.extend({
     /** @type { PageTitleComponent } */
     pageTitleComponent: async ({ page }, use) => {
         await use(new PageTitleComponent(page));
+    },
+
+    /** @type { HelpCenterPage } */
+    helpCenterPage: async ({ page }, use) => {
+        await use(new HelpCenterPage(page));
     },
     /** @type { EnableDnssecModal } */
     enableDnssecModal: async ({ page }, use) => {
