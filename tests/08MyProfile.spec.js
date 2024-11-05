@@ -184,12 +184,12 @@ test.describe('My profile', () => {
             await tags('My profile', 'Positive');
             await severity('normal');
             await description('To verify that the user can change currency');
-            await issue(`${QASE_LINK}/01-24`, 'My profile');
+            await issue(`${QASE_LINK}/01-13`, 'General info');
             await tms(`${GOOGLE_DOC_LINK}zaopf49oholc`, 'ATC_08_02_04');
             await epic('My profile');
+            await feature('Account settings');
 
             await loginUser(page, headerComponent, loginPage);
-            await page.waitForURL(process.env.URL);
 
             await headerComponent.clickMyProfileButton();
             await headerComponent.clickAccountSettingsLink();
@@ -200,10 +200,13 @@ test.describe('My profile', () => {
 
             await settingsGeneralPage.clickCurrencyButton();
             await settingsGeneralPage.clickCurrencyTypeDropdown(type[1]);
-            await settingsGeneralPage.clickCurrencyButton();
+
+            await step(`Verify the ${type[1]} currency type is selected.`, async () => {
+                await expect(await settingsGeneralPage.getCurrencyTypeSelected(type[1])).toBeVisible();
+            });
 
             await step(`Verify the ${type[1]} button is displayed.`, async () => {
-                await expect(await settingsGeneralPage.currencyType.innerText()).toEqual(type[1]);
+                expect(await settingsGeneralPage.currencyType.innerText()).toEqual(type[1]);
             });
         });
     });

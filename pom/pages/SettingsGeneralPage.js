@@ -64,4 +64,10 @@ export default class SettingsGeneralPage {
             await this.page.getByRole('button', { name: `${type}` }).click();
         });
     }
+
+    async getCurrencyTypeSelected(type) {
+        return await step('Get currency selected type.', async () => {
+            return this.page.locator(`li[class*="menu-item"] span:has-text("${type}") + span`);
+        });
+    }
 }
