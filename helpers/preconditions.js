@@ -34,16 +34,8 @@ export const deleteHostedZone = async (hostedZonesPage, deleteHostedZoneModal) =
 };
 
 export const goToHelpSearchResultsPage = async (page, headerComponent, helpCenterPage) => {
-    await headerComponent.clickHelpCenterButton();        
-    await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);       
-    await step('Go to the help search results page.', async () => {
-        await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`); //вместо clickSearchButton переходим сразу на страницу результата
-    });
-
-    // let i = 0;    
-    // while ((i<10) && (await page.locator('.search-articles-popup_search-articles-popup__H46lB'))&& (page.url() !==`${process.env.URL}/help/search?search=domain`)) {                
-    //     console.log(i+" раз клик");
-    //     await helpCenterPage.clickSearchButton(); 
-    //     i++;           
-    // };            
+    await headerComponent.clickHelpCenterButton();
+    await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);    
+    await helpCenterPage.clickHelpCenterSearchButton();
+    // await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`); 
 };

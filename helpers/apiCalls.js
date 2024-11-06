@@ -100,45 +100,47 @@ export async function deleteAllHostedZonesAPI(request, headers) {
         console.error(`An error occurred while deleting all hosted zones: ${error.message}`);
     }
 }
-  
-export async function getCategoriesHelpSearchAPI(request, key) {    
+
+export async function getCategoriesHelpSearchAPI(request, key) {
     try {
-        const response = await request.get(`${API_HelpSearch.URL}${API_HelpSearch.ENDPOINT_Categ}`, {                 
+        const response = await request.get(`${API_HelpSearch.URL}${API_HelpSearch.ENDPOINT_Categ}`, {
             headers: {
-                'authorization': `${API_HelpSearch.token}`,                           
-            },            
+                authorization: `${API_HelpSearch.token}`,
+            },
         });
         if (!response.ok()) {
             throw new Error(`GET Categories request failed with status: ${response.status()}`);
         }
-        const responseBody = await response.json();    
-        const obj = [];    
-        for (let i in responseBody) {obj[i] = responseBody[i][key];}    
-
-        return obj; 
+        const responseBody = await response.json();
+        const obj = [];
+        for (let i in responseBody) {
+            obj[i] = responseBody[i][key];
+        }
+        return obj;
     } catch (error) {
         console.error(`An error occurred while sending the category list request: ${error.message}`);
     }
-} 
+}
 
-export async function getResponseHelpSearchAPI(request, idAllCategories, key) {    
-    try {
-        const API_URL_ENDPOINT_HelpSearch = `/api/v2/search/solutions?category_id=${idAllCategories}&max_matches=10&page=1&term=${NAME_SEARCH}`;
-        const response = await request.get(`${API_HelpSearch.URL}${API_URL_ENDPOINT_HelpSearch}`, {                 
+export async function getResponseHelpSearchAPI(request, idAllCategories, key) {
+    try {       
+        const API_URL_ENDPOINT_HelpSearch = `/api/v2/search/solutions?category_id=${idAllCategories}&term=${NAME_SEARCH}`;
+        const response = await request.get(`${API_HelpSearch.URL}${API_URL_ENDPOINT_HelpSearch}`, {
             headers: {
-              'authorization': `${API_HelpSearch.token}`, 
-             'accept': 'application/json',                    
-            },            
-        });        
+                authorization: `${API_HelpSearch.token}`,
+                accept: 'application/json',
+            },
+        });
         if (!response.ok()) {
             throw new Error(`GET Categories ID request failed with status: ${response.status()}`);
         }
-        const responseBody = await response.json();           
-        let obj = [];            
-        for (let i in responseBody) {obj[i] = responseBody[i][key];}
-        obj = Array.from(new Set(obj)); //оставляем в массиве уникальные значения
-
-        return obj; 
+        const responseBody = await response.json();
+        let obj = [];
+        for (let i in responseBody) {
+            obj[i] = responseBody[i][key];
+        }        
+        obj = Array.from(new Set(obj)); 
+        return obj;
     } catch (error) {
         console.error(`An error occurred while sending the category ID request: ${error.message}`);
     }

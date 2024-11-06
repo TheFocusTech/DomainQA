@@ -27,7 +27,6 @@ import TransferPage from './pom/pages/TransferPage';
 import HostingPage from './pom/pages/HostingPage';
 import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
-import HelpCenterPage from './pom/pages/HelpCenterPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 
 export const test = base.extend({
@@ -144,10 +143,6 @@ export const test = base.extend({
     /** @type { BlogPage } */
     blogPage: async ({ page }, use) => {
         await use(new BlogPage(page));
-    },
-    /** @type { HelpCenterPage } */
-    helpCenterPage: async ({ page }, use) => {
-        await use(new HelpCenterPage(page));
     },
     /** @type { HelpSearchResultsPage } */
     helpSearchResultsPage: async ({ page }, use) => {

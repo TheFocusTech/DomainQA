@@ -51,7 +51,7 @@ export default class HelpCenterPage {
 
     async fillSearchTermPlaceholder(name) {
         await step('Fill in "Enter the search term" input field.', async () => {
-            await this.helpCenterPlaceholder.fill(name);            
+            await this.helpCenterPlaceholder.fill(name);
         });
     }
 }
