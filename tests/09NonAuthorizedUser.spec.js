@@ -121,8 +121,7 @@ test.describe('Unauthorized user', () => {
         );
     });
 
-    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
-        // domainAvailabilityPage,
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({  
         homePage
     }) => {
         await tags('Unauthorized_user', 'Search_domains');
@@ -188,6 +187,5 @@ test.describe('Unauthorized user', () => {
         await step(`Verify  button “Close” is visible `, async () => {
             await homePage.closeButton.isVisible();
         });
- 
     });
 });
