@@ -4,15 +4,18 @@ export default class HelpSearchResultsPage {
     constructor(page) {
         this.page = page;
 
-        this.allCategoriesButton = this.page.getByRole('button', { name: 'All Categories' });   
-        this.categoriesButtons = this.page.locator('[class*= "accordion-segment_accordion-segment"]');     
-        this.accordionByCategoryLabel = this.page.getByLabel('Accordion slice trigger');        
-        this.accordionByCategoryButton = this.page.locator('[class*="accordion-slice_accordion-slice-header"] > button');
-        this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');               
-    } 
+        this.allCategoriesButton = this.page.getByRole('button', { name: 'All Categories' });
+        this.categoriesButtons = this.page.locator('[class*= "accordion-segment_accordion-segment"]');
+        this.accordionByCategoryLabel = this.page.getByLabel('Accordion slice trigger');
+        this.accordionByCategoryButton = this.page.locator(
+            '[class*="accordion-slice_accordion-slice-header"] > button'
+        );
+        this.headerTextVisible = this.page.locator('.search-results_search-results__content__ilv4i');
+        this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');
+    }
 
-    async allInnerTextsCategoriesButtons() {        
-        return (await this.categoriesButtons.allInnerTexts());
+    async allInnerTextsCategoriesButtons() {
+        return await this.categoriesButtons.allInnerTexts();
     }
 
     async clickAccordionByCategoryLabel() {
@@ -20,8 +23,9 @@ export default class HelpSearchResultsPage {
             await this.accordionByCategoryLabel.click();
         });
     }
-    
-    async innerTextsHeaderText() {        
-        return (await this.headerText.allInnerTexts());
+
+    async innerTextsHeaderText() {
+        await this.headerTextVisible.waitFor({ state: 'visible' });
+        return await this.headerText.allInnerTexts();
     }
 }

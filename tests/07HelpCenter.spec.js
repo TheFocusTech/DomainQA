@@ -1,10 +1,22 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT, INPUT_SEARCH_PART, NAME_SEARCH } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    HELP_SEARCH_POPUP_ALERT,
+    INPUT_SEARCH_PART,
+    NAME_SEARCH,
+} from '../testData';
 import { loginUser, goToHelpSearchResultsPage } from '../helpers/preconditions';
 import { getCategoriesHelpSearchAPI, getResponseHelpSearchAPI } from '../helpers/apiCalls';
-import { resultAllCategoriesSearch, resultNameCategoriesSearch, resultCountCategoriesSearch, resultPageContainQuerySearch } from '../helpers/utils';
+import {
+    resultAllCategoriesSearch,
+    resultNameCategoriesSearch,
+    resultCountCategoriesSearch,
+    resultPageContainQuerySearch,
+} from '../helpers/utils';
 
 test.describe('Help Center', () => {
     test.use({ viewport: { width: 1600, height: 1200 } });
@@ -99,31 +111,33 @@ test.describe('Help Center', () => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         await goToHelpSearchResultsPage(page, headerComponent, helpCenterPage);
-        
+
         await helpSearchResultsPage.allCategoriesButton.waitFor({ state: 'visible' });
-                        
+
         const categName = await getCategoriesHelpSearchAPI(request, 'name');
         const categId = await getCategoriesHelpSearchAPI(request, 'id');
 
         await step(
             'Verify category "All Categories" contains only names categories from the list of categories in the articles.',
             async () => {
-                const allCategories = await getResponseHelpSearchAPI(request, '', 'category_name');                
+                const allCategories = await getResponseHelpSearchAPI(request, '', 'category_name');
                 await expect((await resultAllCategoriesSearch(categName, allCategories)).toString()).toEqual('true');
             }
-        );        
-        
-        await step('Verify other categories contain only the names of their categories in the articles.', async () => {
-            await expect((await resultNameCategoriesSearch(categId, categName, request)).toString()).toEqual('true');                
-        });       
+        );
 
-        await step('Verify the count for each category is visible in the title.', async () => {      
+        await step('Verify other categories contain only the names of their categories in the articles.', async () => {
+            await expect((await resultNameCategoriesSearch(categId, categName, request)).toString()).toEqual('true');
+        });
+
+        await step('Verify the count for each category is visible in the title.', async () => {
             await expect((await resultCountCategoriesSearch(page, helpSearchResultsPage)).toString()).toEqual('true');
         });
-        
+
         await step('Verify Dropdown “By Category” is hidden.', async () => {
             await helpSearchResultsPage.clickAccordionByCategoryLabel();
-            await expect(helpSearchResultsPage.accordionByCategoryButton).not.toHaveClass('accordion-slice_accordion-slice-header__trigger--active__xgc2K');
+            await expect(helpSearchResultsPage.accordionByCategoryButton).not.toHaveClass(
+                'accordion-slice_accordion-slice-header__trigger--active__xgc2K'
+            );
         });
     });
 
@@ -142,11 +156,9 @@ test.describe('Help Center', () => {
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
-        
-        await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {                    
+
+        await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {
             await expect((await resultPageContainQuerySearch(request)).toString()).toEqual('true');
         });
     });
 });
-
-

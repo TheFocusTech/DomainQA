@@ -123,7 +123,7 @@ export async function getCategoriesHelpSearchAPI(request, key) {
 }
 
 export async function getResponseHelpSearchAPI(request, idAllCategories, key) {
-    try {       
+    try {
         const API_URL_ENDPOINT_HelpSearch = `/api/v2/search/solutions?category_id=${idAllCategories}&term=${NAME_SEARCH}`;
         const response = await request.get(`${API_HelpSearch.URL}${API_URL_ENDPOINT_HelpSearch}`, {
             headers: {
@@ -138,8 +138,8 @@ export async function getResponseHelpSearchAPI(request, idAllCategories, key) {
         let obj = [];
         for (let i in responseBody) {
             obj[i] = responseBody[i][key];
-        }        
-        obj = Array.from(new Set(obj)); 
+        }
+        obj = Array.from(new Set(obj));
         return obj;
     } catch (error) {
         console.error(`An error occurred while sending the category ID request: ${error.message}`);
