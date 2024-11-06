@@ -66,7 +66,7 @@ export default class DnsRecordModal {
         });
     }
 
-    async fillForm(dnsType) {
+    async fillForm(dnsType, withOptionalField) {
         let dnsObj = {};
         const dnsRecordData = DNS_RECORD_DATA[dnsType];
 
@@ -129,7 +129,9 @@ export default class DnsRecordModal {
                 throw new Error(`Unsupported form type: ${dnsType}`);
         }
 
-        await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        if (withOptionalField === true) {
+            await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        }
         return dnsObj;
     }
 

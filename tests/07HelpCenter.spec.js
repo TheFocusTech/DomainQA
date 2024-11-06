@@ -41,7 +41,7 @@ test.describe('Help Center', () => {
         await step('Verify the user redirects to search page and gets alert-message.', async () => {
             await helpCenterPage.clickHelpCenterSearchButton();
             const expectedSearchURL = `${process.env.URL}${URL_ENDPOINT.HelpCenterSearch}?search=${randomString}`;
-            expect(page).toHaveURL(expectedSearchURL);
+            await expect(page).toHaveURL(expectedSearchURL);
             const alertText = await helpCenterPage.helpSearchPopupAlert.innerText();
             const alertNormalizedText = alertText.replace(/“|”/g, '"');
             expect(alertNormalizedText).toContain(`No results for "${randomString}"`);
