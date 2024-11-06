@@ -14,6 +14,12 @@ export default class HelpCenterPage {
         this.mainHeading = this.page.locator('main h1');
     }
 
+    async fillHelpSearchInput(name) {
+        await step('Fill the keyword into the Help Center search input field.', async () => {
+            await this.helpCenterPlaceholder.fill(name);
+        });
+    }
+
     async fillSearchInput() {
         await step('Fill the Help Center input.', async () => {
             this.randomString = await getRandomCharacters(10);

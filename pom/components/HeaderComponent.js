@@ -15,9 +15,8 @@ export default class HeaderComponent {
         this.whoisButton = this.page.getByRole('link', { name: 'WHOIS', exact: true });
         this.transferButton = this.page.getByRole('link', { name: 'Transfer', exact: true });
         this.hostedZonesButton = this.page.getByRole('link', { name: 'Hosted zones' });
-        this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains' });
+        this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains', exect: true });
         this.productsButton = this.page.getByRole('button', { name: 'Products', exact: true });
-        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
@@ -156,6 +155,13 @@ export default class HeaderComponent {
     async clickLogo() {
         await step('Click on the Logo in Hearder.', async () => {
             await this.logo.click();
+        });
+    }
+
+    async clickRegisteredDomainsButton() {
+        await step('Click on the "Registered Domains" button in Hearder.', async () => {
+            await this.domainsButton.click();
+            await this.registeredDomainsButton.click();
         });
     }
 }
