@@ -120,4 +120,74 @@ test.describe('Unauthorized user', () => {
             }
         );
     });
+
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+        // domainAvailabilityPage,
+        homePage
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify unauthorized user can open modal window with filters for advanced search`);
+        await issue(`${QASE_LINK}case=30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}jgxijwpv69l3`, 'ATC_09_03_01');
+        await epic('Unauthorized_user');
+         
+        await step(`Verify that the form “Search domain” is visible`, async () => {
+            await homePage.domainSearchInput.isVisible();
+            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+            await homePage.filterButton.isVisible();
+        });
+
+        await homePage.clickFilterButton();
+
+        await step(`Verify "Advanced Search" heading is visible`, async () => {
+            await homePage.advancedSearchHeading.isVisible();
+        });
+
+        await step(`Verify "Hide Registered" togle is visible`, async () => {
+            await homePage.hideRegisteredTogle.isVisible();
+        });
+
+        await step(`Verify "Filter by TLD" field is visible`, async () => {
+            await homePage.filterByTLDField.isVisible();
+        });
+
+        await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
+            await homePage.numberOfSelectedTLDs.isVisible();
+        });
+
+        await step(`Verify "Clear all" button is visible`, async () => {
+            await homePage.clearAllButton.isVisible();
+        });
+      
+        await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
+            for(const letter of await homePage.absSwipperButton.all()){
+                await letter.isVisible();
+            }
+        });
+
+        await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
+            await homePage.nextArrow.isVisible();
+        });
+
+        await step(`Verify category header “All TLDs” is visible by default`, async () => {
+            await homePage.defaultCategory.isVisible();
+        });
+         await step(`Verify Category list with choiceboxes is visible`, async () => {
+            await homePage.categoryList.isVisible();
+        });
+
+         await step(`Verify  button “Reset” is visible`, async () => {
+            await homePage.resetButton.isVisible();
+        });
+
+        await step(`Verify  button “Apply” is visible`, async () => {
+            await homePage.applyButton.isVisible();
+        });
+
+        await step(`Verify  button “Close” is visible `, async () => {
+            await homePage.closeButton.isVisible();
+        });
+ 
+    });
 });
