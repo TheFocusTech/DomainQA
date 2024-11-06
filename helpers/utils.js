@@ -57,7 +57,7 @@ export async function resultNameCategoriesSearch(categId, categName, request) {
     return result;
 }
 
-export async function resultCountCategoriesSearch(page, helpSearchResultsPage) {    
+export async function resultCountCategoriesSearch(page, helpSearchResultsPage) {
     const textButtons = await helpSearchResultsPage.allInnerTextsCategoriesButtons();
     const textButtons1 = [];
     let result = '';
@@ -66,16 +66,16 @@ export async function resultCountCategoriesSearch(page, helpSearchResultsPage) {
     }
     for (let text of textButtons1) {
         if (text[1] == 0) continue;
-        else {    
+        else {
             await page.getByRole('button', { name: `${text[0]}` }).click({ force: true });
-            const hText = await helpSearchResultsPage.innerTextsHeaderText();            
+            const hText = await helpSearchResultsPage.innerTextsHeaderText();
             if (hText[0].includes(text[1])) result = 'true';
             else {
                 result = 'false';
                 break;
             }
         }
-    }    
+    }
     return result;
 }
 
