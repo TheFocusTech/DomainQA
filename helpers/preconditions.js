@@ -36,7 +36,8 @@ export const deleteHostedZone = async (hostedZonesPage, deleteHostedZoneModal) =
 export const goToHelpSearchResultsPage = async (page, headerComponent, helpCenterPage) => {
     await headerComponent.clickHelpCenterButton();
     await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);
-    await helpCenterPage.waitForPopupToBeVisible();
-    await helpCenterPage.clickHelpCenterSearchButton();
-    // await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+    // await helpCenterPage.clickHelpCenterSearchButton();
+    await step('Go to the result search page.', async () => {
+        await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+    });
 };
