@@ -1,10 +1,62 @@
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, PASSWORD, TOAST_MESSAGE } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    PASSWORD,
+    TOAST_MESSAGE,
+    MY_PROFILE_ITEMS,
+    URL_ENDPOINT,
+    CURRENCY_EUR_BUTTON_TEXT,
+    CURRENCY_USD_BUTTON_TEXT,
+} from '../testData';
 import { loginUser } from '../helpers/preconditions';
+import { generateVerificationCode } from '../helpers/utils';
+
+let code;
+let secretKey;
 
 test.describe('My profile', () => {
+    test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
+        page,
+        loginPage,
+        headerComponent,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('To verify the Profile Dropdown Menu on clicking "My Profile');
+        await issue(`${QASE_LINK}/01-24`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_08_01');
+        await epic('My profile');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('Verify the Profile Dropdown menu is displayed and contain 5 items', async () => {
+            await expect(headerComponent.myProfileDropdownMenu).toBeVisible();
+            await expect(headerComponent.myProfileDropdownMenuItems).toHaveCount(5);
+            await expect(headerComponent.myProfileDropdownMenuItems).toHaveText(MY_PROFILE_ITEMS);
+        });
+
+        await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
+            await headerComponent.clickMyProfileButton();
+            await expect(headerComponent.myProfileDropdownMenu).not.toBeVisible();
+        });
+
+        await step('Verify the Profile Dropdown menu is visible', async () => {
+            headerComponent.clickMyProfileButton();
+            await expect(headerComponent.myProfileDropdownMenu).toBeVisible();
+        });
+
+        await step('Verify the Profile Dropdown menu is closed (not visible)', async () => {
+            headerComponent.clickLogoButton();
+            await expect(headerComponent.myProfileDropdownMenu).not.toBeVisible();
+        });
+    });
+
     test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         loginPage,
@@ -76,5 +128,153 @@ test.describe('My profile', () => {
                 await page.goto('/');
             }
         );
+    });
+
+    test('TC_08_02_03 | Verify the user can enable/disable Two-factor authentication (2FA)', async ({
+        page,
+        loginPage,
+        headerComponent,
+        twoFactorAuthModal,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('Verify the user can enable/disable Two-factor authentication (2FA)');
+        await issue(`${QASE_LINK}/01-24`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}heuetjbfz4nu`, 'ATC_08_02_03');
+        await epic('My profile');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step('Navigate to page Account Settings', async () => {
+            await page.goto(`${process.env.URL}${URL_ENDPOINT.accountSettings}`, {
+                waitUntil: 'networkidle',
+            });
+        });
+
+        await step('Enable 2FA by clicking on toggle', async () => {
+            await settingsGeneralPage.clickTwoFAToggle();
+            await expect(twoFactorAuthModal.dialog).toBeVisible();
+        });
+
+        await step('Generate verification code', async () => {
+            secretKey = await twoFactorAuthModal.getSecretKey();
+        });
+
+        await step('Set verification code to 2FA input', async () => {
+            code = generateVerificationCode(secretKey);
+            await twoFactorAuthModal.enterVerificationCode(code.otp);
+        });
+
+        await step('Click button Enable 2FA in dialog', async () => {
+            await twoFactorAuthModal.enableButton.click();
+            await expect(twoFactorAuthModal.dialog).not.toBeVisible();
+        });
+
+        await expect(settingsGeneralPage.checkbox).toBeChecked();
+        await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+
+        await step('Disable 2FA', async () => {
+            await settingsGeneralPage.clickTwoFAToggle();
+        });
+
+        await expect(settingsGeneralPage.checkbox).not.toBeChecked();
+        await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+    });
+
+    [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }].forEach(({ type }) => {
+        test(`TC_08_02_04 | Verify user can change currency from ${type[0]} to ${type[1]}`, async ({
+            page,
+            loginPage,
+            headerComponent,
+            settingsGeneralPage,
+        }) => {
+            await tags('My profile', 'Positive');
+            await severity('normal');
+            await description('To verify that the user can change currency');
+            await issue(`${QASE_LINK}/01-13`, 'General info');
+            await tms(`${GOOGLE_DOC_LINK}zaopf49oholc`, 'ATC_08_02_04');
+            await epic('My profile');
+            await feature('Account settings');
+
+            await loginUser(page, headerComponent, loginPage);
+
+            await headerComponent.clickMyProfileButton();
+            await headerComponent.clickAccountSettingsLink();
+
+            (await settingsGeneralPage.isCurrencyTypeSet(type[0]))
+                ? null
+                : await settingsGeneralPage.changeCurrencyType(type[0]);
+
+            await settingsGeneralPage.clickCurrencyButton();
+            await settingsGeneralPage.clickCurrencyTypeDropdown(type[1]);
+
+            await step(`Verify the ${type[1]} currency type is selected.`, async () => {
+                await expect(await settingsGeneralPage.getCurrencyTypeSelected(type[1])).toBeVisible();
+            });
+
+            await step(`Verify the ${type[1]} button is displayed.`, async () => {
+                expect(await settingsGeneralPage.currencyType.innerText()).toEqual(type[1]);
+            });
+        });
+    });
+
+    test.skip('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
+        page,
+        loginPage,
+        headerComponent,
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
+        await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
+        await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
+        await epic('My profile');
+        await feature('Currency selection');
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('The "Currency USD ($)" button is visible by default in the Profile Menu.', async () => {
+            await expect(headerComponent.currencyUSDButton).toBeVisible();
+        });
+
+        await headerComponent.clickCurrencyUSDButton();
+
+        await step('The "USD ($)" button is displayed.', async () => {
+            await expect(headerComponent.usdButton).toBeVisible();
+        });
+
+        await step('USD checkmark is selected by default.', async () => {
+            expect(await headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
+        });
+
+        await step('The "EUR (€)" button is displayed.', async () => {
+            await expect(headerComponent.eurButton).toBeVisible();
+        });
+
+        await headerComponent.clickEurButton();
+
+        await step('The "EUR (€)" button is selected with a checkmark.', async () => {
+            expect(await headerComponent.isCurrencySelected(headerComponent.eurButton)).toBeTruthy();
+        });
+
+        await step('The text of the "Currency USD ($)" button changes to "Currency EUR (€)".', async () => {
+            await expect(headerComponent.currencyEURButton).toHaveText(CURRENCY_EUR_BUTTON_TEXT);
+        });
+
+        await headerComponent.clickUsdButton();
+
+        await step('The "USD ($)" button is selected with a checkmark.', async () => {
+            expect(await headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
+        });
+
+        await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {
+            await expect(headerComponent.currencyUSDButton).toHaveText(CURRENCY_USD_BUTTON_TEXT);
+        });
     });
 });
