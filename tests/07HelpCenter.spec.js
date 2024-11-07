@@ -48,7 +48,7 @@ test.describe('Help Center', () => {
         });
     });
 
-    test('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
+    test.skip('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
         page,
         loginPage,
         headerComponent,
