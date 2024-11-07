@@ -1,0 +1,1 @@
+An error occurred while deleting hosted zone: DELETE hosted zone 8326d590-099e-44e2-b529-7c768a598122 request failed with status: 400
