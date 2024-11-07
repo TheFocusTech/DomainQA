@@ -5,8 +5,8 @@ import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT, INPU
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Help Center', () => {
-    test.use({ viewport: { width: 1600, height: 1200 } });
-    test.describe.configure({ retries: 2, timeout: 60000 });
+    //test.use({ viewport: { width: 1600, height: 1200 } });
+    //test.describe.configure({ retries: 2, timeout: 60000 });
 
     test.skip('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
@@ -22,6 +22,7 @@ test.describe('Help Center', () => {
         await issue(`${QASE_LINK}/01-32`, 'User Login');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
         await epic('HelpCenter');
+        test.slow();
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -48,7 +49,7 @@ test.describe('Help Center', () => {
         });
     });
 
-    test.skip('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
+    test('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
         page,
         loginPage,
         headerComponent,
@@ -62,6 +63,7 @@ test.describe('Help Center', () => {
         await issue(`${QASE_LINK}/01-32`, 'Help center');
         await tms(`${GOOGLE_DOC_LINK}t0sf9gst04b3`, 'ATC_07_01_03');
         await epic('Help center');
+        test.slow();
 
         await loginUser(page, headerComponent, loginPage);
 
