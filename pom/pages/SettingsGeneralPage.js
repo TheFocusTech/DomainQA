@@ -10,6 +10,16 @@ export default class SettingsGeneralPage {
         this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
         this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
+        this.twoFAToggle = this.page.locator('[class*="switch-2fa_switch-2fa__"]');
+        this.checkbox = this.page.locator('[type="checkbox"]');
+        this.disableTooltip = this.page.getByText('Two-factor authentication disabled');
+        this.enableTooltip = this.page.getByText('Two-factor authentication enable');
+        this.currencyButton = this.page.locator('.profile-currency-block button');
+        this.currencyType = this.page.locator('.profile-currency-block button span[class*="text"]');
+    }
+
+    async clickTwoFAToggle() {
+        await this.twoFAToggle.click();
     }
 
     async clickChangeButton() {
@@ -26,6 +36,38 @@ export default class SettingsGeneralPage {
     async clickCancelDeletionButton() {
         await step('Click on the "Cancel Deletion" button.', async () => {
             await this.cancelDeletionButton.click();
+        });
+    }
+
+    async clickCurrencyButton() {
+        await step('Click on the currency button.', async () => {
+            await this.currencyButton.click();
+        });
+    }
+
+    async isCurrencyTypeSet(type) {
+        return await step('Get currency type value.', async () => {
+            return (await this.currencyType.innerText()) === type;
+        });
+    }
+
+    async changeCurrencyType(type) {
+        return await step(`Change currency to the ${type}.`, async () => {
+            await this.clickCurrencyButton();
+            await this.clickCurrencyTypeDropdown(type);
+            await this.clickCurrencyButton();
+        });
+    }
+
+    async clickCurrencyTypeDropdown(type) {
+        return await step(`Click ${type} type currency dropdown.`, async () => {
+            await this.page.getByRole('button', { name: `${type}` }).click();
+        });
+    }
+
+    async getCurrencyTypeSelected(type) {
+        return await step('Get currency selected type.', async () => {
+            return this.page.locator(`li[class*="menu-item"] span:has-text("${type}") + span`);
         });
     }
 }

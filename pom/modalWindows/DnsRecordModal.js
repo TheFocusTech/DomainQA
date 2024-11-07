@@ -6,11 +6,17 @@ export default class DnsRecordModal {
         this.page = page;
 
         this.dialog = this.page.locator('section[role="dialog"]');
-        this.nameInput = this.page.getByPlaceholder('Enter name');
+        this.nameInput = this.page.locator('[name="name"]');
         this.commentInput = this.page.locator('textarea[name*="__description"]');
         this.cancelButton = this.page.getByText('Cancel');
         this.saveButton = this.page.getByText('Save');
         this.iconButtonX = this.page.locator('[role="dialog"] button[class*="button-icon-overlay_"]');
+        this.copyButton = this.page.locator(
+            '[role="dialog"] [class*="button-icon-flat_button-icon-flat--light-mode__"]'
+        );
+        this.infoIcon = this.page.locator('[class*="input-base_input-base__after-box__"]');
+        this.tooltip = this.page.getByText('Enter root domain or domain with subdomains');
+        this.rootDomainName = this.page.locator('[class*="create-form_body__description__"] b');
         this.typeDropdown = this.page
             .locator('div')
             .filter({ hasText: /^Type\*A$/ })
@@ -21,17 +27,25 @@ export default class DnsRecordModal {
             .filter({ hasText: /^TTL\*Auto$/ })
             .locator('svg');
 
+        this.digestTypeDropdown = this.page
+            .locator('div')
+            .filter({ hasText: /^Digest type\*SHA-1$/ })
+            .locator('svg');
+
         this.target = this.page.getByPlaceholder('Enter target');
         this.addressIPv4 = this.page.getByPlaceholder('Enter IPv4-address');
         this.addressIPv6 = this.page.getByPlaceholder('Enter IPv6-address');
-        this.target = this.page.getByPlaceholder('Enter target');
         this.mailserverInput = this.page.locator('[name="type_mx__mailserver"]');
         this.priorityInput = this.page.locator('[name="type_mx__priority"]');
         this.nameserverInput = this.page.locator('[name="type_ns__nameserver"]');
         this.valueInput = this.page.locator('[name="type_txt__value"]');
         this.keyTag = this.page.getByPlaceholder('Enter key tag number');
         this.algorithm = this.page.locator('input[name="type_ds__algorithm"]');
-        this.digestInput = this.page.locator('input[name="type_ds__digest"]');
+        this.digest = this.page.locator('input[name="type_ds__digest"]');
+    }
+
+    async getRootDomainName() {
+        return this.rootDomainName.textContent();
     }
 
     async clickSaveButton() {
@@ -52,16 +66,17 @@ export default class DnsRecordModal {
         });
     }
 
-    async fillForm(dnsType) {
+    async fillForm(dnsType, withOptionalField) {
+        let dnsObj = {};
         const dnsRecordData = DNS_RECORD_DATA[dnsType];
 
         await step(`Select type ${dnsType}.`, async () => {
             await this.selectDnsType(dnsType);
         });
 
-        await step(`Select TTL.`, async () => {
-            await this.selectTtl();
-        });
+        dnsObj.ttl = await this.selectTtl();
+        dnsObj.name = dnsRecordData.name;
+        dnsObj.content = dnsRecordData.expected.content;
 
         switch (dnsType) {
             case 'A':
@@ -80,6 +95,15 @@ export default class DnsRecordModal {
                 await step(`Filling data for type: ${dnsType}.`, async () => {
                     await this.nameInput.fill(dnsRecordData.name);
                     await this.target.fill(dnsRecordData.target);
+                });
+                break;
+            case 'DS':
+                await step(`Filling data for type: ${dnsType}.`, async () => {
+                    await this.nameInput.fill(dnsRecordData.name);
+                    await this.keyTag.fill(dnsRecordData.keyTag);
+                    await this.algorithm.fill(dnsRecordData.algorithm);
+                    await this.selectDigestType();
+                    await this.digest.fill(dnsRecordData.digest);
                 });
                 break;
             case 'MX':
@@ -105,20 +129,55 @@ export default class DnsRecordModal {
                 throw new Error(`Unsupported form type: ${dnsType}`);
         }
 
-        await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        if (withOptionalField === true) {
+            await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        }
+        return dnsObj;
     }
 
     async selectDnsType(dnsType) {
+        const types = {
+            A: 0,
+            AAAA: 1,
+            CNAME: 2,
+            DS: 3,
+            MX: 4,
+            NS: 5,
+            TXT: 6,
+        };
+
         await step('Open DNS type dropdown.', async () => {
             await this.typeDropdown.click();
         });
-        await this.page.locator('section[role="dialog"]').getByText(dnsType).click();
+        const optionIndex = types[dnsType];
+        const item = this.dialog.locator(`[id*=":-option-${optionIndex}"]`);
+        await item.scrollIntoViewIfNeeded();
+        await item.click();
     }
 
     async selectTtl() {
         const arr = ['Auto', '1 min', '2 min', '5 min', '10 min', '30 min', '1 h', '1 d'];
         const index = Math.floor(Math.random() * arr.length);
-        await this.ttlDropdown.click();
-        await this.dialog.getByText(arr[index]).click();
+
+        await step('Open Ttl  dropdown.', async () => {
+            await this.ttlDropdown.click();
+        });
+        const item = this.dialog.locator(`[id*=":-option-${index}"]`);
+        await item.scrollIntoViewIfNeeded();
+        await item.click();
+
+        return arr[index] === 'Auto' ? '0 sec' : arr[index];
+    }
+
+    async selectDigestType() {
+        const arr = ['SHA-1', 'SHA-256', 'GOST R 34.11-94', 'SHA-384'];
+        const index = Math.floor(Math.random() * arr.length);
+        await step('Open "Digest Type" dropdown.', async () => {
+            await this.digestTypeDropdown.click();
+        });
+        const item = this.dialog.locator(`[id*=":-option-${index}"]`);
+        await item.scrollIntoViewIfNeeded();
+        await item.click();
+        return arr[index];
     }
 }

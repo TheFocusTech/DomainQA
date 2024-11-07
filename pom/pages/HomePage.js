@@ -1,4 +1,5 @@
 import { step } from 'allure-js-commons';
+import { expect } from '@playwright/test';
 
 export default class HomePage {
     constructor(page) {
@@ -16,16 +17,15 @@ export default class HomePage {
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
         this.absSwipperButton = this.page.locator('.tld-item_tld-item__lztWX');
         this.defaultCategory = this.page.getByText('All TLDs');
-        // this. = this.page.getByText('');
         this.abcSwiper = this.page.getByText('Allabcdefghijklmnopqrstuvwxyz');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
-        // this. = this.page.getByText('');
         this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.closeButton = this.page.getByLabel('Button');
 
       
+        this.mainHeading = this.page.locator('main h1');
     }
 
     async fillDomainSearchInput(nameDomain) {
@@ -46,4 +46,15 @@ export default class HomePage {
         });
     }
 
+    async verifyHomePage(heading, buttons) {
+        await step(`Verify that Home page has "${heading}" heading.`, async () => {
+            await expect(this.mainHeading).toHaveText(heading);
+        });
+        for (const button of buttons) {
+            await step(`Verify that Home page has "${button}" button.`, async () => {
+                const buttonLocator = this.page.getByRole('button', { name: button }).nth(1);
+                await expect(buttonLocator).toBeVisible();
+            });
+        }
+    }
 }
