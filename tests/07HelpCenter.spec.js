@@ -32,9 +32,10 @@ test.describe('Help Center', () => {
             await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
 
-        const randomString = await helpCenterPage.fillSearchInput();
+        //const randomString = await helpCenterPage.fillSearchInput();
 
         await step('Verify the user gets popup alert-message and empty list after input.', async () => {
+            await helpCenterPage.fillSearchInput();
             await expect(helpCenterPage.helpSearchPopup).toBeVisible();
             await expect(helpCenterPage.helpSearchPopupAlert).toHaveText(HELP_SEARCH_POPUP_ALERT);
         });
