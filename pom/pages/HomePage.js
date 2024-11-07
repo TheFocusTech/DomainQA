@@ -10,9 +10,9 @@ export default class HomePage {
         this.advancedSearchHeading = this.page.getByText('Advanced search');
         this.hideRegisteredTogle = this.page.getByText('Hide registered');
         this.filterByTLDField = this.page.getByText('Filter by TLD');
-        
+
         this.numberOfSelectedTLDs = this.page.getByText('Selected (0) TLDs');
-        this.clearAllButton = this.page.locator('button').filter({hasText:'Clear all'});
+        this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
         this.absSwipperButton = this.page.locator('.tld-item_tld-item__lztWX');
         this.defaultCategory = this.page.getByText('All TLDs');
@@ -24,8 +24,6 @@ export default class HomePage {
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.closeButton = this.page.getByLabel('Button');
-
-      
     }
 
     async fillDomainSearchInput(nameDomain) {
@@ -45,5 +43,4 @@ export default class HomePage {
             await this.filterButton.click();
         });
     }
-
 }
