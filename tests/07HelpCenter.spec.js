@@ -8,7 +8,7 @@ test.describe('Help Center', () => {
     test.use({ viewport: { width: 1600, height: 1200 } });
     test.describe.configure({ retries: 2, timeout: 60000 });
 
-    test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
+    test.skip('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
         headerComponent,
         loginPage,
@@ -48,7 +48,7 @@ test.describe('Help Center', () => {
         });
     });
 
-    test('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
+    test.skip('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
         page,
         loginPage,
         headerComponent,

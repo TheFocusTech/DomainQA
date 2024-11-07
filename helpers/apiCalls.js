@@ -41,7 +41,9 @@ export async function createHostedZoneAPI(request, headers) {
             data: { domain: domainName },
         });
         if (!response.ok()) {
-            throw new Error(`POST hosted zones request failed with status: ${response.status()}`);
+            throw new Error(
+                `POST hosted zones request failed with status: ${response.status()} for domain: ${domainName}`
+            );
         }
         const createHostedZoneData = await response.json();
         const hostedZoneId = createHostedZoneData.id;

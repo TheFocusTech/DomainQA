@@ -53,6 +53,8 @@ test.describe('Search Hosted Zones', () => {
             const responseFirst = await createHostedZoneAPI(request, headers);
             domainNameFirst = responseFirst.domain;
 
+            await page.waitForTimeout(1000);
+
             const responseSecond = await createHostedZoneAPI(request, headers);
             domainNameSecond = responseSecond.domain;
 
