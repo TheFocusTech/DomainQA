@@ -8,6 +8,7 @@ export default class BlogPage {
         this.mainHeading = this.page.locator('main h1');
         this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
+        this.articlesList = this.page.locator('article h3');
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -32,5 +33,11 @@ export default class BlogPage {
         await step('Wait search result in popup.', async () => {
             await this.blogSearchPopup.waitFor({ state: 'visible' });
         });
+    }
+    
+    async clickRandomArticle() {
+        const articles = await this.articlesList.all();
+        const randomArticle = articles[Math.floor(Math.random() * articles.length)];
+        randomArticle.click();
     }
 }

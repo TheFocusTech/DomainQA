@@ -35,4 +35,34 @@ test.describe('Blog', () => {
             }
         );
     });
+
+    test('TC_06_05 | Verify sidebar presence and header position on the blog page when switching between headings in the selected article', async ({
+        page,
+        headerComponent,
+        loginPage,
+        blogPage,
+        blogArticlePage
+    }) => {
+        await tags('Blog', 'Positive');
+        await severity('normal');
+        await description(
+            'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog'
+        );
+        await issue(`${QASE_LINK}/01-29`, 'Blog');
+        await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_08');
+        await epic('Blog');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickBlogButton();
+        await page.waitForURL(URL_ENDPOINT.blogPage);
+
+        await step('Open a random article:', async () => {            
+            await blogPage.articlesList.first().waitFor({ state: 'visible' });            
+            const articleCount = await blogPage.articlesList.count();
+            const randomIndex = Math.floor(Math.random() * articleCount);
+            await blogPage.articlesList.nth(randomIndex).click();
+        });
+    });
 });
