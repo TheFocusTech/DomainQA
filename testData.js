@@ -272,6 +272,12 @@ export const HEADER_LINKS = [
     },
 ];
 
+export const NOTIFICATIONS_TYPE = {
+    type1: 'Account',
+    type2: 'Domain',
+    type3: 'Transfer',
+};
+
 export const NAME_SEARCH = 'domain';
 
 export const API_HelpSearch = {
