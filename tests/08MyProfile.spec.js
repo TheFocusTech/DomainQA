@@ -330,11 +330,11 @@ test.describe('My profile', () => {
 
         await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
             for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
-                expect(await checkbox).toBeChecked();
+                await expect(checkbox).toBeChecked();
                 await checkbox.uncheck();
-                expect(await checkbox).not.toBeChecked();
+                await expect(checkbox).not.toBeChecked();
                 await checkbox.check();
-                expect(await checkbox).toBeChecked();
+                await expect(checkbox).toBeChecked();
             }
         });
     });
