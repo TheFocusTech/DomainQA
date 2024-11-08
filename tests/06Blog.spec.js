@@ -64,5 +64,9 @@ test.describe('Blog', () => {
             const randomIndex = Math.floor(Math.random() * articleCount);
             await blogPage.articlesList.nth(randomIndex).click();
         });
+       // console.log(await blogArticlePage.headingsList.count());
+       await blogArticlePage.articleBody.waitFor({ state: 'visible' });
+        //console.log(await page.locator("h2").count());
+        console.log(await blogArticlePage.headingsList.count());
     });
 });

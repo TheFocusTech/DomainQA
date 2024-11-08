@@ -6,6 +6,9 @@ export default class BlogArticlePage {
         this.page = page;
 
         this.buttonsArticleList= this.page.locator('button[class^="button-article"]');
+        this.articleBody = this.page.locator('div[class^="article_article__body"]');
+        this.headingsList = this.articleBody.getByRole('heading');
+
     }
 
 }
