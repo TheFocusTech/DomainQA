@@ -28,6 +28,7 @@ import HostingPage from './pom/pages/HostingPage';
 import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
+import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -147,5 +148,9 @@ export const test = base.extend({
     /** @type { SettingsNotificationsPage } */
     settingsNotificationsPage: async ({ page }, use) => {
         await use(new SettingsNotificationsPage(page));
+    },
+    /** @type { HelpSearchResultsPage } */
+    helpSearchResultsPage: async ({ page }, use) => {
+        await use(new HelpSearchResultsPage(page));
     },
 });
