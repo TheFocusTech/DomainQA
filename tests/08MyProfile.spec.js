@@ -10,6 +10,7 @@ import {
     URL_ENDPOINT,
     CURRENCY_EUR_BUTTON_TEXT,
     CURRENCY_USD_BUTTON_TEXT,
+    NOTIFICATIONS_TYPE,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
@@ -275,6 +276,66 @@ test.describe('My profile', () => {
 
         await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {
             await expect(headerComponent.currencyUSDButton).toHaveText(CURRENCY_USD_BUTTON_TEXT);
+        });
+    });
+
+    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsNotificationsPage,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Notifications');
+        await severity('normal');
+        await description('To verify, that user user can manage Account Notifications settings');
+        await issue(`${QASE_LINK}suite=38&case=124`, 'Notifications settings');
+        await tms(`${GOOGLE_DOC_LINK}333obp2smjp7`, 'ATC_08_04_01');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickNotificationSettingsButton();
+
+        await step('Verify the "Manage your notifications" header is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsHeading).toBeVisible();
+        });
+        await step('Verify the "Manage your notifications" table is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(3);
+        });
+        await step('Verify the "Notifications Type".', async () => {
+            await expect(settingsNotificationsPage.notificationsType).toHaveText([
+                NOTIFICATIONS_TYPE.type1,
+                NOTIFICATIONS_TYPE.type2,
+                NOTIFICATIONS_TYPE.type3,
+            ]);
+        });
+
+        await step('Verify the "Email" notifications is checked by default.', async () => {
+            for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
+        });
+
+        await step('Verify the "Browser" notifications is checked by default.', async () => {
+            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
+        });
+
+        await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
+            for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
+                await expect(checkbox).toBeChecked();
+                await checkbox.uncheck();
+                await expect(checkbox).not.toBeChecked();
+                await checkbox.check();
+                await expect(checkbox).toBeChecked();
+            }
         });
     });
 });
