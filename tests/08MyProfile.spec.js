@@ -316,13 +316,13 @@ test.describe('My profile', () => {
             ]);
         });
 
-        await step('Verify the "Email" notifications can be checked by default.', async () => {
+        await step('Verify the "Email" notifications is checked by default.', async () => {
             for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
                 expect(checkbox).toBeChecked();
             }
         });
 
-        await step('Verify the "Browser" notifications can be checked by default.', async () => {
+        await step('Verify the "Browser" notifications is checked by default.', async () => {
             for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
                 expect(checkbox).toBeChecked();
             }
