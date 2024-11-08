@@ -1,6 +1,6 @@
 import { step } from 'allure-js-commons';
 import { expect } from '@playwright/test';
-import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT, NAME_SEARCH } from '../testData';
+import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
 
 export const loginUser = async (page, headerComponent, loginPage) => {
     await step('Preconditions: Login as a registered user', async () => {
@@ -30,14 +30,5 @@ export const deleteHostedZone = async (hostedZonesPage, deleteHostedZoneModal) =
         await hostedZonesPage.clickDeleteButton();
         await deleteHostedZoneModal.clickDeleteButton();
         await expect(hostedZonesPage.deleteHostedZoneModal).not.toBeVisible();
-    });
-};
-
-export const goToHelpSearchResultsPage = async (page, headerComponent, helpCenterPage) => {
-    await headerComponent.clickHelpCenterButton();
-    await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);
-    // await helpCenterPage.clickHelpCenterSearchButton();
-    await step('Go to the result search page.', async () => {
-        await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
     });
 };

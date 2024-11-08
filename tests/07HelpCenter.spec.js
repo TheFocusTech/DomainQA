@@ -109,9 +109,17 @@ test.describe('Help Center', () => {
 
         test.slow();
         await loginUser(page, headerComponent, loginPage);
-        await page.waitForURL(process.env.URL);
-        await goToHelpSearchResultsPage(page, headerComponent, helpCenterPage);
-
+        await page.waitForURL(process.env.URL);      
+        await headerComponent.clickHelpCenterButton();     
+        await helpCenterPage.fillSearchTermPlaceholder(`${NAME_SEARCH}`);
+        // await helpCenterPage.clickHelpCenterSearchButton();
+        await step('Go to the result search page.', async () => {
+            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+        });        
+        await step('Verify search for the input query is visible on the search results page.', async () => {
+            await expect((helpSearchResultsPage.headerText)).toContainText(`${NAME_SEARCH}`);
+        });     
+        
         await helpSearchResultsPage.allCategoriesButton.waitFor({ state: 'visible' });
 
         const categName = await getCategoriesHelpSearchAPI(request, 'name');
