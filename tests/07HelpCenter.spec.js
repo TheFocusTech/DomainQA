@@ -114,7 +114,7 @@ test.describe('Help Center', () => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
-        await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);        
+        await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
         // await helpCenterPage.clickHelpCenterSearchButton();
         await step('Go to the result search page.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
