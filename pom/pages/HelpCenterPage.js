@@ -16,7 +16,6 @@ export default class HelpCenterPage {
 
     async fillHelpSearchInput(name) {
         await step('Fill the keyword into the Help Center search input field.', async () => {
-            await this.helpCenterPlaceholder.waitFor({ state: 'visible' });
             await this.helpCenterPlaceholder.fill(name);
         });
     }
@@ -40,7 +39,7 @@ export default class HelpCenterPage {
         await step('Click search button.', async () => {
             await this.helpSearchButton.waitFor({ state: 'visible' });
             await this.helpSearchButton.click({ force: true });
-        });        
+        });
     }
 
     async verifyHelpCenterPage(heading, buttons) {
@@ -55,10 +54,5 @@ export default class HelpCenterPage {
             });
         }
     }
-
-    async fillSearchTermPlaceholder(name) {
-        await step('Fill in "Enter the search term" input field.', async () => {
-            await this.helpCenterPlaceholder.fill(name);
-        });
-    }
+    
 }
