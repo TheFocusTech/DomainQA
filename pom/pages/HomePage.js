@@ -24,7 +24,6 @@ export default class HomePage {
         this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.closeButton = this.page.getByLabel('Button');
 
-      
         this.mainHeading = this.page.locator('main h1');
     }
 
