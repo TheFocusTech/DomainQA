@@ -16,6 +16,7 @@ export default class SettingsGeneralPage {
         this.enableTooltip = this.page.getByText('Two-factor authentication enable');
         this.currencyButton = this.page.locator('.profile-currency-block button');
         this.currencyType = this.page.locator('.profile-currency-block button span[class*="text"]');
+        this.notificationSettingsButton = this.page.getByRole('button', { name: 'Notification settings' });
     }
 
     async clickTwoFAToggle() {
@@ -33,6 +34,7 @@ export default class SettingsGeneralPage {
             await this.deleteAccountButton.click();
         });
     }
+
     async clickCancelDeletionButton() {
         await step('Click on the "Cancel Deletion" button.', async () => {
             await this.cancelDeletionButton.click();
@@ -68,6 +70,12 @@ export default class SettingsGeneralPage {
     async getCurrencyTypeSelected(type) {
         return await step('Get currency selected type.', async () => {
             return this.page.locator(`li[class*="menu-item"] span:has-text("${type}") + span`);
+        });
+    }
+
+    async clickNotificationSettingsButton() {
+        await step('Click on the "Notification settings" button.', async () => {
+            await this.notificationSettingsButton.click();
         });
     }
 }

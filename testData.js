@@ -271,3 +271,9 @@ export const HEADER_LINKS = [
         text: '',
     },
 ];
+
+export const NOTIFICATIONS_TYPE = {
+    type1: 'Account',
+    type2: 'Domain',
+    type3: 'Transfer',
+};

@@ -27,6 +27,7 @@ import TransferPage from './pom/pages/TransferPage';
 import HostingPage from './pom/pages/HostingPage';
 import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
+import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import BlogArticlePage from './pom/pages/BlogArticlePage';
 
 export const test = base.extend({
@@ -144,6 +145,11 @@ export const test = base.extend({
     blogPage: async ({ page }, use) => {
         await use(new BlogPage(page));
     },
+    /** @type { SettingsNotificationsPage } */
+    settingsNotificationsPage: async ({ page }, use) => {
+        await use(new SettingsNotificationsPage(page));
+    },
+    /** @type { BlogArticlePage } */
     blogArticlePage: async ({ page }, use) => {
         await use(new BlogArticlePage(page));
     },
