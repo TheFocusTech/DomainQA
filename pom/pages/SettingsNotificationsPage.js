@@ -8,5 +8,6 @@ export default class SettingsNotificationsPage {
         this.notificationsType = this.notificationsTableRow.getByRole('heading');
         this.emailNotificationsCheckbox = this.notificationsTableRow.locator('td:last-child input');
         this.browserNotificationsCheckbox = this.notificationsTableRow.locator('td:nth-of-type(even) input');
+        this.browserNotifications = this.notificationsTableRow.locator('td:nth-child(2) label');
     }
 }

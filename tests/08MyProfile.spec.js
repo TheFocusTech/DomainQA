@@ -268,10 +268,8 @@ test.describe('My profile', () => {
         await step('Verify the "Manage your notifications" header is displayed.', async () => {
             await expect(settingsNotificationsPage.notificationsHeading).toBeVisible();
         });
-        const rows = await settingsNotificationsPage.notificationsTableRow;
-        const countRows = await rows.count();
         await step('Verify the "Manage your notifications" table is displayed.', async () => {
-            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(countRows);
+            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(3);
         });
         await step('Verify the "Notifications Type".', async () => {
             await expect(settingsNotificationsPage.notificationsType).toHaveText([
@@ -294,12 +292,12 @@ test.describe('My profile', () => {
         });
 
         await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
-            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
-                expect(await checkbox.isChecked()).toBe(true);
-                await checkbox.click({ force: true });
-                expect(await checkbox.isChecked()).toBe(false);
-                await checkbox.click({ force: true });
-                expect(await checkbox.isChecked()).toBe(true);
+            for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
+                expect(await checkbox).toBeChecked();
+                await checkbox.uncheck();
+                expect(await checkbox).not.toBeChecked();
+                await checkbox.check();
+                expect(await checkbox).toBeChecked();
             }
         });
     });
