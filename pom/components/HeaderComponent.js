@@ -9,6 +9,7 @@ export default class HeaderComponent {
         this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
+        this.logOutButton = this.page.getByRole('button', { name: 'Log out' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
         this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.domainsButton = this.page.getByRole('button', { name: 'Domains' });
@@ -24,7 +25,6 @@ export default class HeaderComponent {
         this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
         this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
         this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
-        this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
         this.logo = this.page.locator('header a[class^="logo"]');
     }
 
@@ -49,6 +49,12 @@ export default class HeaderComponent {
     async clickLogin() {
         await step('Click on "Log in" button.', async () => {
             await this.loginButton.click();
+        });
+    }
+
+    async clickLogOutButton() {
+        await step('Click on "Log out" button.', async () => {
+            await this.logOutButton.click();
         });
     }
 
