@@ -1,12 +1,26 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, HELP_SEARCH_POPUP_ALERT, INPUT_SEARCH_PART } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    HELP_SEARCH_POPUP_ALERT,
+    INPUT_SEARCH_PART,
+    NAME_SEARCH,
+} from '../testData';
 import { loginUser } from '../helpers/preconditions';
+import { getCategoriesHelpSearchAPI, getResponseHelpSearchAPI } from '../helpers/apiCalls';
+import {
+    resultAllCategoriesSearch,
+    resultNameCategoriesSearch,
+    resultCountCategoriesSearch,
+    resultPageContainQuerySearch,
+} from '../helpers/utils';
 
 test.describe('Help Center', () => {
     //test.use({ viewport: { width: 1600, height: 1200 } });
-    //test.describe.configure({ retries: 2, timeout: 60000 });
+    //// test.describe.configure({ retries: 2, timeout: 60000 });
 
     test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
@@ -79,5 +93,83 @@ test.describe('Help Center', () => {
                 await expect(helpCenterPage.helpSearchPopup).toContainText(new RegExp(INPUT_SEARCH_PART, 'i'));
             }
         );
+    });
+
+    test('TC_07_01_05 | Verify the user can switch between categories', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpSearchResultsPage,
+        request,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify the user can switch between categories and hide categories.');
+        await issue(`${QASE_LINK}suite=1&case=32`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}xqp3coi93i74`, 'ATC_07_01_05');
+        await epic('Help center');
+
+        test.slow();
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+        await headerComponent.clickHelpCenterButton();
+        await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
+        // await helpCenterPage.clickHelpCenterSearchButton();
+        await step('Go to the result search page.', async () => {
+            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+        });
+        await step('Verify search for the input query is visible on the search results page.', async () => {
+            await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
+        });
+
+        await helpSearchResultsPage.allCategoriesButton.waitFor({ state: 'visible' });
+
+        const categName = await getCategoriesHelpSearchAPI(request, 'name');
+        const categId = await getCategoriesHelpSearchAPI(request, 'id');
+
+        await step(
+            'Verify category "All Categories" contains only names categories from the list of categories in the articles.',
+            async () => {
+                const allCategories = await getResponseHelpSearchAPI(request, '', 'category_name');
+                await expect((await resultAllCategoriesSearch(categName, allCategories)).toString()).toEqual('true');
+            }
+        );
+
+        await step('Verify other categories contain only the names of their categories in the articles.', async () => {
+            await expect((await resultNameCategoriesSearch(categId, categName, request)).toString()).toEqual('true');
+        });
+
+        await step('Verify the count for each category is visible in the title.', async () => {
+            await expect((await resultCountCategoriesSearch(page, helpSearchResultsPage)).toString()).toEqual('true');
+        });
+
+        await step('Verify Dropdown “By Category” is hidden.', async () => {
+            await helpSearchResultsPage.clickAccordionByCategoryLabel();
+            await expect(helpSearchResultsPage.accordionByCategoryButton).not.toHaveClass(
+                'accordion-slice_accordion-slice-header__trigger--active__xgc2K'
+            );
+        });
+    });
+
+    test('TC_07_01_04 | Verify Search articles with Valid Query', async ({
+        page,
+        loginPage,
+        headerComponent,
+        request,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify that relevant articles are displayed.');
+        await issue(`${QASE_LINK}suite=1&case=32`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}xvx5scpwj3i2`, 'ATC_07_01_04');
+        await epic('Help center');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {
+            await expect((await resultPageContainQuerySearch(request)).toString()).toEqual('true');
+        });
     });
 });
