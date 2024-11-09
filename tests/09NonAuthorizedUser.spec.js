@@ -151,7 +151,7 @@ test.describe('Unauthorized user', () => {
             async () => {
                 await expect(await advancedSearchModal.getQuantitySelectedTLDs()).toEqual(
                     `Selected (${selectedTLDs.length}) TLDs`
-                )
+                );
             }
         );
 
@@ -166,7 +166,7 @@ test.describe('Unauthorized user', () => {
             let resultsList = await domainAvailabilityPage.resultSearchList;
             for (let i = 0; i < resultsList.length; i++) {
                 await expect(resultsList[i]).toContainText(AVAILABLE_DOMAIN + `${selectedTLDs[i]}`);
-            };
+            }
         });
     });
 });
