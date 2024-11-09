@@ -279,6 +279,46 @@ test.describe('My profile', () => {
         });
     });
 
+    test('TC_08_07 | Verify that the user can log out of the account from the Profile Menu', async ({
+        page,
+        loginPage,
+        headerComponent,
+        toastComponent
+    }) => {
+        await tags('My profile', 'Positive');
+        await severity('normal');
+        await description('To verify, that the user can log out of the account from the Profile Menu');
+        await issue(`${QASE_LINK}suite=16&case=28`, 'Log out');
+        await tms(`${GOOGLE_DOC_LINK}w8we6didi3d6`, 'ATC_08_07');
+        await epic('My profile');
+        await feature('Log out');
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await step('The "My profile" button is visible in the header.', async () => {
+            await expect(headerComponent.myProfileButton).toBeVisible();
+        }); 
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('The "Log out" button is visible by default in the Profile Menu.', async () => {
+            await expect(headerComponent.logOutButton).toBeVisible();
+        });
+        
+        await headerComponent.clickLogOutButton();
+
+        await step('The “You have been logged out” toast massage is displayed.', async () => {
+            await expect(toastComponent.toastBody.getByText(TOAST_MESSAGE.loggedOut)).toBeVisible;
+        });
+
+        await step('The "My profile" button is not visible in the header..', async () => {
+            await expect(headerComponent.myProfileButton).not.toBeVisible();
+        });
+    });
+    
+
     test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
         page,
         loginPage,

@@ -44,6 +44,7 @@ export const TOAST_MESSAGE = {
     hostedZoneCreated: 'Hosted zone created',
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
+    loggedOut: 'You have been logged out'
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
