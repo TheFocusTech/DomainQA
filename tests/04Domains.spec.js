@@ -492,6 +492,9 @@ test.describe('DNS Records', () => {
 });
 
 test.describe('Update/Delete DNS Records', () => {
+    test.afterEach('Postconditions: Delete created hosted zones via API', async ({ request }) => {
+        await deleteHostedZoneAPI(request, hostedZoneId, headers);
+    });
     test('TC_04_07 | Verify user can delete DNS record in hosted zone', async ({
         page,
         headerComponent,
