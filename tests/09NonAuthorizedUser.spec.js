@@ -151,8 +151,8 @@ test.describe('Unauthorized user', () => {
             async () => {
                 await expect(await advancedSearchModal.getQuantitySelectedTLDs()).toEqual(
                     `Selected (${selectedTLDs.length}) TLDs`
-                );
-            };
+                )
+            }
         );
 
         await advancedSearchModal.clickApplyButton();
