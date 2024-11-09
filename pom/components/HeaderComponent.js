@@ -9,14 +9,15 @@ export default class HeaderComponent {
         this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
+        this.logOutButton = this.page.getByRole('button', { name: 'Log out' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
+        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.domainsButton = this.page.getByRole('button', { name: 'Domains' });
         this.whoisButton = this.page.getByRole('link', { name: 'WHOIS', exact: true });
         this.transferButton = this.page.getByRole('link', { name: 'Transfer', exact: true });
         this.hostedZonesButton = this.page.getByRole('link', { name: 'Hosted zones' });
-        this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains' });
+        this.registeredDomainsButton = this.page.getByRole('link', { name: 'Registered domains', exect: true });
         this.productsButton = this.page.getByRole('button', { name: 'Products', exact: true });
-        this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
@@ -24,7 +25,7 @@ export default class HeaderComponent {
         this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
         this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
         this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
-        this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
+        this.logo = this.page.locator('header a[class^="logo"]');
     }
 
     async clickMyProfileButton() {
@@ -48,6 +49,12 @@ export default class HeaderComponent {
     async clickLogin() {
         await step('Click on "Log in" button.', async () => {
             await this.loginButton.click();
+        });
+    }
+
+    async clickLogOutButton() {
+        await step('Click on "Log out" button.', async () => {
+            await this.logOutButton.click();
         });
     }
 
@@ -137,5 +144,30 @@ export default class HeaderComponent {
         const svgSelector = 'svg[xmlns="http://www.w3.org/2000/svg"]';
         const svgCount = await button.locator(svgSelector).count();
         return svgCount > 0;
+    }
+
+    async clickButton(name) {
+        await step(`Click on the ${name} button in Hearder.`, async () => {
+            await this.page.getByRole('button', { name: name, exact: true }).click();
+        });
+    }
+
+    async clickLink(name) {
+        await step(`Click on the ${name} link in Hearder.`, async () => {
+            await this.page.getByRole('link', { name: name, exact: true }).click();
+        });
+    }
+
+    async clickLogo() {
+        await step('Click on the Logo in Hearder.', async () => {
+            await this.logo.click();
+        });
+    }
+
+    async clickRegisteredDomainsButton() {
+        await step('Click on the "Registered Domains" button in Hearder.', async () => {
+            await this.domainsButton.click();
+            await this.registeredDomainsButton.click();
+        });
     }
 }

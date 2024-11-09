@@ -59,4 +59,16 @@ export default class HostedZonesDetailPage {
             await this.enableDnssecBtn.click();
         });
     }
+
+    async findAddedRecord(dnsType, dnsObj) {
+        const dnsResords = await this.getDnsRecords();
+        return dnsResords.find((obj) => {
+            return (
+                obj.type === dnsType &&
+                obj.name === dnsObj.name &&
+                obj.content === dnsObj.content &&
+                obj.ttl === dnsObj.ttl
+            );
+        });
+    }
 }

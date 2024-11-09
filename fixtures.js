@@ -19,8 +19,16 @@ import DomainAvailabilityPage from './pom/pages/DomainAvailabilityPage';
 import WhoisPage from './pom/pages/WhoisPage';
 import FooterComponent from './pom/components/FooterComponent';
 import PageTitleComponent from './pom/components/PageTitleComponent';
+import HelpCenterPage from './pom/pages/HelpCenterPage';
 import EnableDnssecModal from './pom/modalWindows/EnableDnssecModal';
 import TwoFactorAuthModal from './pom/modalWindows/TwoFactorAuthModal';
+import RegisteredDomainsPage from './pom/pages/RegisteredDomainsPage';
+import TransferPage from './pom/pages/TransferPage';
+import HostingPage from './pom/pages/HostingPage';
+import SslCertificatesPage from './pom/pages/SslCertificatesPage';
+import BlogPage from './pom/pages/BlogPage';
+import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
+import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 
 export const test = base.extend({
@@ -72,6 +80,7 @@ export const test = base.extend({
     deleteHostedZoneModal: async ({ page }, use) => {
         await use(new DeleteHostedZoneModal(page));
     },
+
     /** @type { AccountDeletionModal } */
     accountDeletionModal: async ({ page }, use) => {
         await use(new AccountDeletionModal(page));
@@ -104,16 +113,47 @@ export const test = base.extend({
     pageTitleComponent: async ({ page }, use) => {
         await use(new PageTitleComponent(page));
     },
+
+    /** @type { HelpCenterPage } */
+    helpCenterPage: async ({ page }, use) => {
+        await use(new HelpCenterPage(page));
+    },
     /** @type { EnableDnssecModal } */
     enableDnssecModal: async ({ page }, use) => {
         await use(new EnableDnssecModal(page));
     },
-
     /** @type { TwoFactorAuthModal } */
     twoFactorAuthModal: async ({ page }, use) => {
         await use(new TwoFactorAuthModal(page));
     },
-
+    /** @type { RegisteredDomainsPage } */
+    registeredDomainsPage: async ({ page }, use) => {
+        await use(new RegisteredDomainsPage(page));
+    },
+    /** @type { TransferPage } */
+    transferPage: async ({ page }, use) => {
+        await use(new TransferPage(page));
+    },
+    /** @type { HostingPage } */
+    hostingPage: async ({ page }, use) => {
+        await use(new HostingPage(page));
+    },
+    /** @type { SslCertificatesPage } */
+    sslCertificatesPage: async ({ page }, use) => {
+        await use(new SslCertificatesPage(page));
+    },
+    /** @type { BlogPage } */
+    blogPage: async ({ page }, use) => {
+        await use(new BlogPage(page));
+    },
+    /** @type { SettingsNotificationsPage } */
+    settingsNotificationsPage: async ({ page }, use) => {
+        await use(new SettingsNotificationsPage(page));
+    },
+    /** @type { HelpSearchResultsPage } */
+    helpSearchResultsPage: async ({ page }, use) => {
+        await use(new HelpSearchResultsPage(page));
+    },
     /** @type { AdvancedSearchModal } */
     advancedSearchModal: async ({ page }, use) => {
         await use(new AdvancedSearchModal(page));
