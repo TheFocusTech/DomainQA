@@ -147,3 +147,16 @@ export async function getResponseHelpSearchAPI(request, idAllCategories, key) {
         console.error(`An error occurred while sending the category ID request: ${error.message}`);
     }
 }
+
+export async function deleteDnsRecordAPI(request, recordId, hostedZoneId, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.deleteResourceRecord(recordId, hostedZoneId)}`;
+    try {
+        const response = await request.delete(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`DELETE DNS record ${recordId} request failed with status: ${response.status()}`);
+        }
+    } catch (error) {
+        console.error(`An error occurred while deleting DNS record: ${error.message}`);
+    }
+}

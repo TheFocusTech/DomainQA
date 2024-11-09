@@ -1,5 +1,11 @@
 import { test } from '../fixtures';
-import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
+import {
+    createHostedZoneAPI,
+    deleteHostedZoneAPI,
+    getHostedZonesAPI,
+    getDnsRecords,
+    deleteDnsRecordAPI,
+} from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
@@ -23,6 +29,7 @@ let domainNameSecond;
 let hostedZoneCount;
 let hostedZoneId;
 let dnsObj;
+let recordId;
 
 test.describe('Search Hosted Zones', () => {
     test.afterAll(async ({ request }) => {
@@ -480,6 +487,53 @@ test.describe('DNS Records', () => {
             await step('Verify record appeared in the "DNS Management" card.', async () => {
                 expect(await hostedZonesDetailPage.findAddedRecord(dnsType, dnsObj)).toBeDefined();
             });
+        });
+    });
+});
+
+test.describe('Update/Delete DNS Records', () => {
+    test('TC_04_07 | Verify user can delete DNS record in hosted zone', async ({
+        page,
+        headerComponent,
+        loginPage,
+        request,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Delete DNS record in hosted zone');
+        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}ymzx7lwf5592`, 'ATC_04_07');
+        await epic('Domains');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await step('Preconditions: Create hosted zone via API.', async () => {
+            headers = await getCookies(page);
+            const response = await createHostedZoneAPI(request, headers);
+            hostedZoneId = response.id;
+        });
+
+        await step('Navigate to created hosted zone page.', async () => {
+            await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}/${hostedZoneId}`, {
+                waitUntil: 'networkidle',
+            });
+        });
+
+        await step('Choose DNS record to delete.', async () => {
+            const dnsRecords = await getDnsRecords(request, hostedZoneId, headers);
+            const recordToDelete = dnsRecords.find((record) => record.record.type === 'CNAME');
+            recordId = recordToDelete.record.id;
+        });
+
+        await step('Delete chosen DNS record.', async () => {
+            await deleteDnsRecordAPI(request, hostedZoneId, recordId, headers);
+        });
+
+        await step('Verify DNS record is deleted.', async () => {
+            const updatedDnsRecords = await getDnsRecords(request, hostedZoneId, headers);
+            const recordStillExists = updatedDnsRecords.some((record) => record.record.id === recordId);
+            expect(recordStillExists).toBe(false);
         });
     });
 });
