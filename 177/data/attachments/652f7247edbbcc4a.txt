@@ -1,2 +1,0 @@
-An error occurred while creating hosted zone: POST hosted zones request failed with status: 502 for domain: api-20241107042153.com
-An error occurred while deleting hosted zone: DELETE hosted zone 8dd868f5-5c72-4382-8dec-68e369e4f6c2 request failed with status: 502
