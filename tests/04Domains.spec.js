@@ -511,6 +511,10 @@ test.describe('DNS Records', () => {
             await dnsRecordModal.clickSaveButton();
         });
 
+        await step('Verify "Edit DNS-record" modal is not visible.', async () => {
+            await expect(hostedZonesDetailPage.hostedZoneModal).not.toBeVisible();
+        });
+
         await step('Verify record was updated in the "DNS Management" card.', async () => {
             const dnsResordsAfterEdit = (await hostedZonesDetailPage.getDnsRecords()).find((obj) => obj.type === 'NS');
             const actualValues = {

@@ -192,6 +192,6 @@ export default class DnsRecordModal {
         if (text !== '') {
             await this.nameInput.clear();
         }
-        return this.nameInput.fill(name);
+        await this.nameInput.fill(name);
     }
 }
