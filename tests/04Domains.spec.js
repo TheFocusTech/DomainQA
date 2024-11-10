@@ -23,6 +23,7 @@ let domainNameSecond;
 let hostedZoneCount;
 let hostedZoneId;
 let dnsObj;
+let dnsRecordsBeforeEdit;
 
 test.describe('Search Hosted Zones', () => {
     test.afterAll(async ({ request }) => {
