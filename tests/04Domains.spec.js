@@ -453,6 +453,7 @@ test.describe('DNS Records', () => {
             });
         });
     });
+
     arrDnsTypes.forEach(({ dnsType }) => {
         test(`TC_04_05 | "Hosted zones - DNS Record - Create with required fields ${dnsType}. Ignored optional fields`, async ({
             hostedZonesDetailPage,
@@ -480,6 +481,50 @@ test.describe('DNS Records', () => {
             await step('Verify record appeared in the "DNS Management" card.', async () => {
                 expect(await hostedZonesDetailPage.findAddedRecord(dnsType, dnsObj)).toBeDefined();
             });
+        });
+    });
+
+    test(`TC_04_06 | Verify user can edit DNS record in hosted zone`, async ({
+        hostedZonesDetailPage,
+        dnsRecordModal,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Verify user can edit DNS record in hosted zone.');
+        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}xaubs66k6r55`, 'ATC_04_06');
+        await epic('Domains');
+
+        await step('Click edit Dns Record on type "NS"', async () => {
+            dnsRecordsBeforeEdit = (await hostedZonesDetailPage.getDnsRecords()).find((obj) => obj.type === 'NS');
+            await hostedZonesDetailPage.clickBreadcrumbMenuHostedZone();
+            await hostedZonesDetailPage.editButton.click();
+        });
+
+        await step('Update fields: name, nameserver, TTL, Comment', async () => {
+            expect(await dnsRecordModal.title.textContent()).toEqual('Edit DNS-record');
+            dnsObj = await dnsRecordModal.fillForm(dnsRecordsBeforeEdit.type, true);
+        });
+
+        await step('Save changes.', async () => {
+            await dnsRecordModal.clickSaveButton();
+        });
+
+        await step('Verify record was updated in the "DNS Management" card.', async () => {
+            const dnsResordsAfterEdit = (await hostedZonesDetailPage.getDnsRecords()).find((obj) => obj.type === 'NS');
+            const actualValues = {
+                name: dnsResordsAfterEdit.name,
+                content: dnsResordsAfterEdit.content,
+                ttl: dnsResordsAfterEdit.ttl,
+            };
+
+            const expectedValues = {
+                name: dnsObj.name,
+                content: dnsObj.content,
+                ttl: dnsObj.ttl,
+            };
+
+            expect(actualValues).toEqual(expectedValues);
         });
     });
 });

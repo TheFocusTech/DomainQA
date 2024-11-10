@@ -20,6 +20,8 @@ export default class HostedZonesDetailPage {
         this.enableDnssecBtn = this.page.getByRole('button', { name: 'Enable DNSSEC' });
         this.disableDnssecBtn = this.page.getByRole('button', { name: 'Disable DNSSEC' });
         this.getDnssecInfoBtn = this.page.getByRole('button', { name: 'Get DNSSEC info' });
+        this.breadcrumbMenuHostedZone = this.page.locator('button[class*="button-icon-overlay"]').first();
+        this.editButton = this.page.getByRole('button', { name: 'Edit' });
     }
 
     async clickBackToHostedZonesButton() {
@@ -69,6 +71,12 @@ export default class HostedZonesDetailPage {
                 obj.content === dnsObj.content &&
                 obj.ttl === dnsObj.ttl
             );
+        });
+    }
+
+    async clickBreadcrumbMenuHostedZone() {
+        await step('Click on breadcrumb menu for dns record', async () => {
+            await this.breadcrumbMenuHostedZone.click();
         });
     }
 }
