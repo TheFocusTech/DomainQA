@@ -59,6 +59,8 @@ export const API_ENDPOINT = {
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?size=30',
     resourceRecords: '/resource-records',
+    verificationCode: '/users/auth/email-confirmation/verification-code',
+    userDelete: '/users/auth/qa/user-delete',
 };
 
 export const DNS_TYPE = {
