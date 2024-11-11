@@ -324,7 +324,7 @@ test.describe('DNS Records', () => {
         await deleteHostedZoneAPI(request, hostedZoneId, headers);
     });
 
-    test.beforeEach(async ({ page, headerComponent, loginPage, hostedZonesDetailPage, request }) => {
+    test.beforeEach(async ({ page, headerComponent, loginPage, request }) => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
@@ -337,15 +337,12 @@ test.describe('DNS Records', () => {
                 waitUntil: 'networkidle',
             });
         });
-
-        await step('Open modal "Add new DNS-record".', async () => {
-            await hostedZonesDetailPage.clickAddRecordButton();
-        });
     });
 
     test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
         page,
         dnsRecordModal,
+        hostedZonesDetailPage,
     }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
@@ -353,6 +350,10 @@ test.describe('DNS Records', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
         await epic('Domains');
+
+        await step('Open modal "Add new DNS-record".', async () => {
+            await hostedZonesDetailPage.clickAddRecordButton();
+        });
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
             await expect(dnsRecordModal.dialog).toBeVisible();
@@ -368,13 +369,20 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({ dnsRecordModal }) => {
+    test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({
+        dnsRecordModal,
+        hostedZonesDetailPage,
+    }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify copy button works properly.');
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}qsuvt3qz7wup`, 'ATC_04_12');
         await epic('Domains');
+
+        await step('Open modal "Add new DNS-record".', async () => {
+            await hostedZonesDetailPage.clickAddRecordButton();
+        });
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
             await expect(dnsRecordModal.dialog).toBeVisible();
@@ -399,6 +407,10 @@ test.describe('DNS Records', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}2tly5p2ks4km`, 'ATC_04_10');
         await epic('Domains');
+
+        await step('Open modal "Add new DNS-record".', async () => {
+            await hostedZonesDetailPage.clickAddRecordButton();
+        });
 
         await step('Verify "Add new DNS-record" modal is visible.', async () => {
             await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
@@ -437,6 +449,10 @@ test.describe('DNS Records', () => {
             await tms(`${GOOGLE_DOC_LINK}kgnoic8i621f`, 'ATC_04_04');
             await epic('Domains');
 
+            await step('Open modal "Add new DNS-record".', async () => {
+                await hostedZonesDetailPage.clickAddRecordButton();
+            });
+
             await step(`Fill form for ${dnsType}`, async () => {
                 dnsObj = await dnsRecordModal.fillForm(dnsType, true);
             });
@@ -466,6 +482,10 @@ test.describe('DNS Records', () => {
             await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}sxsiip4o92ch`, 'ATC_04_05');
             await epic('Domains');
+
+            await step('Open modal "Add new DNS-record".', async () => {
+                await hostedZonesDetailPage.clickAddRecordButton();
+            });
 
             await step(`Fill form for ${dnsType}`, async () => {
                 dnsObj = await dnsRecordModal.fillForm(dnsType, false);
