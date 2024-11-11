@@ -498,7 +498,7 @@ test.describe('DNS Records', () => {
 
         await step('Click edit Dns Record on type "NS"', async () => {
             dnsRecordsBeforeEdit = (await hostedZonesDetailPage.getDnsRecords()).find((obj) => obj.type === 'NS');
-            await hostedZonesDetailPage.clickBreadcrumbMenuHostedZone();
+            await hostedZonesDetailPage.clickKebabMenuMenuHostedZone();
             await hostedZonesDetailPage.editButton.click();
         });
 
