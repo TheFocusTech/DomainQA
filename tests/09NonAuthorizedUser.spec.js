@@ -132,60 +132,60 @@ test.describe('Unauthorized user', () => {
         await epic('Unauthorized_user');
 
         await step(`Verify that the form “Search domain” is visible`, async () => {
-            await homePage.domainSearchInput.isVisible();
+            await expect(homePage.domainSearchInput).toBeVisible();
             await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
-            await homePage.filterButton.isVisible();
+            await expect(homePage.filterButton).toBeVisible();
         });
 
         await homePage.clickFilterButton();
 
         await step(`Verify "Advanced Search" heading is visible`, async () => {
-            await homePage.advancedSearchHeading.isVisible();
+            await expect(homePage.advancedSearchHeading).toBeVisible();
         });
 
         await step(`Verify "Hide Registered" togle is visible`, async () => {
-            await homePage.hideRegisteredTogle.isVisible();
+            await expect(homePage.hideRegisteredTogle).toBeVisible();
         });
 
         await step(`Verify "Filter by TLD" field is visible`, async () => {
-            await homePage.filterByTLDField.isVisible();
+            await expect(homePage.filterByTLDField).toBeVisible();
         });
 
         await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
-            await homePage.numberOfSelectedTLDs.isVisible();
+            await expect(homePage.numberOfSelectedTLDs).toBeVisible();
         });
 
         await step(`Verify "Clear all" button is visible`, async () => {
-            await homePage.clearAllButton.isVisible();
+            await expect(homePage.clearAllButton).toBeVisible();
         });
 
         await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
             for (const letter of await homePage.absSwipperButton.all()) {
-                await letter.isVisible();
+                await expect(letter).toBeVisible();
             }
         });
 
         await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
-            await homePage.nextArrow.isVisible();
+            await expect(homePage.nextArrow).toBeVisible();
         });
 
         await step(`Verify category header “All TLDs” is visible by default`, async () => {
-            await homePage.defaultCategory.isVisible();
+            await expect(homePage.defaultCategory).toBeVisible();
         });
         await step(`Verify Category list with choiceboxes is visible`, async () => {
-            await homePage.categoryList.isVisible();
+            await expect(homePage.categoryList).toBeVisible();
         });
 
         await step(`Verify  button “Reset” is visible`, async () => {
-            await homePage.resetButton.isVisible();
+            await expect(homePage.resetButton).toBeVisible();
         });
 
         await step(`Verify  button “Apply” is visible`, async () => {
-            await homePage.applyButton.isVisible();
+            await expect(homePage.applyButton).toBeVisible();
         });
 
         await step(`Verify  button “Close” is visible `, async () => {
-            await homePage.closeButton.isVisible();
+            await expect(homePage.closeButton).toBeVisible();
         });
     });
 });
