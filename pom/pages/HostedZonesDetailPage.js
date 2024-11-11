@@ -76,8 +76,9 @@ export default class HostedZonesDetailPage {
 
     async clickKebabMenuMenuHostedZone() {
         await step('Click on breadcrumb menu for dns record', async () => {
+            await this.kebabMenu.crollIntoViewIfNeeded();
             await this.kebabMenu.waitFor({ state: 'attached' });
-            await this.kebabMenu.click();
+            await this.kebabMenu.click();git 
         });
     }
 }
