@@ -42,6 +42,7 @@ export default class DnsRecordModal {
         this.keyTag = this.page.getByPlaceholder('Enter key tag number');
         this.algorithm = this.page.locator('input[name="type_ds__algorithm"]');
         this.digest = this.page.locator('input[name="type_ds__digest"]');
+        this.title = this.page.locator('[class*="modal-title_modal-title"]');
     }
 
     async getRootDomainName() {
@@ -66,7 +67,7 @@ export default class DnsRecordModal {
         });
     }
 
-    async fillForm(dnsType) {
+    async fillForm(dnsType, withOptionalField) {
         let dnsObj = {};
         const dnsRecordData = DNS_RECORD_DATA[dnsType];
 
@@ -115,7 +116,7 @@ export default class DnsRecordModal {
                 break;
             case 'NS':
                 await step(`Filling data for type: ${dnsType}.`, async () => {
-                    await this.nameInput.fill(dnsRecordData.name);
+                    await this.fillUpName(dnsRecordData.name);
                     await this.nameserverInput.fill(dnsRecordData.nameserver);
                 });
                 break;
@@ -129,7 +130,9 @@ export default class DnsRecordModal {
                 throw new Error(`Unsupported form type: ${dnsType}`);
         }
 
-        await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        if (withOptionalField === true) {
+            await this.commentInput.fill(DNS_RECORD_DATA.comment);
+        }
         return dnsObj;
     }
 
@@ -144,13 +147,18 @@ export default class DnsRecordModal {
             TXT: 6,
         };
 
-        await step('Open DNS type dropdown.', async () => {
-            await this.typeDropdown.click();
-        });
-        const optionIndex = types[dnsType];
-        const item = this.dialog.locator(`[id*=":-option-${optionIndex}"]`);
-        await item.scrollIntoViewIfNeeded();
-        await item.click();
+        const locator = this.dialog.locator('[aria-disabled]');
+        const count = await locator.count();
+
+        if (count === 0) {
+            await step('Open DNS type dropdown.', async () => {
+                await this.typeDropdown.click();
+            });
+            const optionIndex = types[dnsType];
+            const item = this.dialog.locator(`[id*=":-option-${optionIndex}"]`);
+            await item.scrollIntoViewIfNeeded();
+            await item.click();
+        }
     }
 
     async selectTtl() {
@@ -177,5 +185,13 @@ export default class DnsRecordModal {
         await item.scrollIntoViewIfNeeded();
         await item.click();
         return arr[index];
+    }
+
+    async fillUpName(name) {
+        const text = await this.nameInput.textContent();
+        if (text !== '') {
+            await this.nameInput.clear();
+        }
+        await this.nameInput.fill(name);
     }
 }

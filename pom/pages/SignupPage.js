@@ -11,6 +11,9 @@ export default class SignupPage {
             .locator('div');
         this.createAccountButton = this.page.getByRole('button', { name: 'Create account' });
         this.errorMessageEmail = this.page.locator("p[class*='text-error']");
+        this.loginLink = this.page.getByRole('link', { name: 'Log in' });
+        this.termsOfUseLink = this.page.getByRole('link', { name: 'Term of use' });
+        this.privacyPolicyLink = this.page.getByRole('link', { name: 'Privacy Policy' });
     }
 
     async fillEmailAddressInput(email) {

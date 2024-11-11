@@ -20,6 +20,8 @@ export default class HostedZonesDetailPage {
         this.enableDnssecBtn = this.page.getByRole('button', { name: 'Enable DNSSEC' });
         this.disableDnssecBtn = this.page.getByRole('button', { name: 'Disable DNSSEC' });
         this.getDnssecInfoBtn = this.page.getByRole('button', { name: 'Get DNSSEC info' });
+        this.kebabMenu = this.page.locator('button[class*="button-icon-overlay"]').first();
+        this.editButton = this.page.getByRole('button', { name: 'Edit' });
     }
 
     async clickBackToHostedZonesButton() {
@@ -57,6 +59,26 @@ export default class HostedZonesDetailPage {
     async clickEnableDnssecBtn() {
         await step('Click "Enable DNSSEC" button.', async () => {
             await this.enableDnssecBtn.click();
+        });
+    }
+
+    async findAddedRecord(dnsType, dnsObj) {
+        const dnsResords = await this.getDnsRecords();
+        return dnsResords.find((obj) => {
+            return (
+                obj.type === dnsType &&
+                obj.name === dnsObj.name &&
+                obj.content === dnsObj.content &&
+                obj.ttl === dnsObj.ttl
+            );
+        });
+    }
+
+    async clickKebabMenuMenuHostedZone() {
+        await step('Click on breadcrumb menu for dns record', async () => {
+            await this.kebabMenu.scrollIntoViewIfNeeded();
+            await this.kebabMenu.waitFor({ state: 'attached' });
+            await this.kebabMenu.click();
         });
     }
 }

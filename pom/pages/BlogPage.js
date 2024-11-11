@@ -6,6 +6,8 @@ export default class BlogPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
+        this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
+        this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -18,5 +20,17 @@ export default class BlogPage {
                 await expect(buttonLocator).toBeVisible();
             });
         }
+    }
+
+    async fillBlogSearchInput(name) {
+        await step('Fill the keyword into the Blog search input field.', async () => {
+            await this.blogPlaceholder.fill(name);
+        });
+    }
+
+    async waitForBlogSearchPopup() {
+        await step('Wait search result in popup.', async () => {
+            await this.blogSearchPopup.waitFor({ state: 'visible' });
+        });
     }
 }

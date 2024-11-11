@@ -44,6 +44,7 @@ export const TOAST_MESSAGE = {
     hostedZoneCreated: 'Hosted zone created',
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
+    loggedOut: 'You have been logged out',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -58,6 +59,8 @@ export const API_ENDPOINT = {
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?size=30',
     resourceRecords: '/resource-records',
+    verificationCode: '/users/auth/email-confirmation/verification-code',
+    userDelete: '/users/auth/qa/user-delete',
 };
 
 export const DNS_TYPE = {
@@ -271,3 +274,19 @@ export const HEADER_LINKS = [
         text: '',
     },
 ];
+
+export const NOTIFICATIONS_TYPE = {
+    type1: 'Account',
+    type2: 'Domain',
+    type3: 'Transfer',
+};
+
+export const NAME_SEARCH = 'domain';
+
+export const API_HelpSearch = {
+    URL: 'https://trustname.freshdesk.com',
+    token: 'Basic cHF1MnJFRFR3MW5rT1NWU0gwUUQ=}',
+    ENDPOINT_Categ: '/api/v2/solutions/categories',
+};
+
+export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
