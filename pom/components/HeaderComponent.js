@@ -9,6 +9,7 @@ export default class HeaderComponent {
         this.logoButton = this.page.getByRole('banner').getByRole('link').first();
         this.accountSettingsLink = this.page.getByRole('link', { name: 'Account settings' });
         this.loginButton = this.page.getByRole('link', { name: 'Log in' });
+        this.logOutButton = this.page.getByRole('button', { name: 'Log out' });
         this.signupButton = this.page.getByRole('link', { name: 'Join now' });
         this.helpCenterButton = this.page.getByRole('link', { name: 'Help center' });
         this.domainsButton = this.page.getByRole('button', { name: 'Domains' });
@@ -20,12 +21,8 @@ export default class HeaderComponent {
         this.blogButton = this.page.getByRole('banner').getByRole('link', { name: 'Blog' });
         this.homeButton = this.page.getByRole('banner').getByRole('link', { name: 'Home', exact: true });
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
-        this.currencyUSDButton = this.page.getByRole('button', { name: 'Currency USD ($)' });
-        this.currencyEURButton = this.page.getByRole('button', { name: 'Currency EUR (€)' });
-        this.usdButton = this.page.getByRole('button', { name: 'USD ($)', exact: true });
-        this.eurButton = this.page.getByRole('button', { name: 'EUR (€)' });
-        this.checkmarkCurrencyButton = this.page.locator('path[d="m5 13 4 4L19 7"]');
         this.logo = this.page.locator('header a[class^="logo"]');
+        this.currencyButton = this.page.getByRole('button', { name: 'Currency ' });
     }
 
     async clickMyProfileButton() {
@@ -49,6 +46,12 @@ export default class HeaderComponent {
     async clickLogin() {
         await step('Click on "Log in" button.', async () => {
             await this.loginButton.click();
+        });
+    }
+
+    async clickLogOutButton() {
+        await step('Click on "Log out" button.', async () => {
+            await this.logOutButton.click();
         });
     }
 
@@ -116,30 +119,6 @@ export default class HeaderComponent {
         });
     }
 
-    async clickCurrencyUSDButton() {
-        await step('Click on the "Currency USD ($)" button.', async () => {
-            await this.currencyUSDButton.click();
-        });
-    }
-
-    async clickEurButton() {
-        await step('Click on the "EUR (€)" button.', async () => {
-            await this.eurButton.click();
-        });
-    }
-
-    async clickUsdButton() {
-        await step('Click on the "USD ($)" button.', async () => {
-            await this.usdButton.click();
-        });
-    }
-
-    async isCurrencySelected(button) {
-        const svgSelector = 'svg[xmlns="http://www.w3.org/2000/svg"]';
-        const svgCount = await button.locator(svgSelector).count();
-        return svgCount > 0;
-    }
-
     async clickButton(name) {
         await step(`Click on the ${name} button in Hearder.`, async () => {
             await this.page.getByRole('button', { name: name, exact: true }).click();
@@ -162,6 +141,38 @@ export default class HeaderComponent {
         await step('Click on the "Registered Domains" button in Hearder.', async () => {
             await this.domainsButton.click();
             await this.registeredDomainsButton.click();
+        });
+    }
+
+    async clickCurrencyButton() {
+        await step('Click on the currency button.', async () => {
+            await this.currencyButton.click();
+        });
+    }
+
+    async clickCurrencyTypeDropdown(type) {
+        return await step(`Click ${type} type currency dropdown.`, async () => {
+            await this.page.getByRole('button', { name: `${type}` }).click();
+        });
+    }
+
+    async isCurrencyTypeSet(type) {
+        return await step('Get currency type value.', async () => {
+            return (await this.currencyButton.innerText()) === `Currency ${type}`;
+        });
+    }
+
+    async changeCurrencyType(type) {
+        return await step(`Change currency to the ${type}.`, async () => {
+            await this.clickCurrencyButton();
+            await this.clickCurrencyTypeDropdown(type);
+            await this.clickCurrencyButton();
+        });
+    }
+
+    async getCurrencyTypeSelected(type) {
+        return await step('Get currency selected type.', async () => {
+            return this.page.locator(`button[class*="menu-button"] span:has-text("${type}") + span`);
         });
     }
 }

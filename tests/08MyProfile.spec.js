@@ -8,8 +8,8 @@ import {
     TOAST_MESSAGE,
     MY_PROFILE_ITEMS,
     URL_ENDPOINT,
-    CURRENCY_EUR_BUTTON_TEXT,
-    CURRENCY_USD_BUTTON_TEXT,
+    NOTIFICATIONS_TYPE,
+    CURRENCY_TYPE,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
@@ -183,7 +183,7 @@ test.describe('My profile', () => {
         await expect(settingsGeneralPage.disableTooltip).toBeVisible();
     });
 
-    [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }].forEach(({ type }) => {
+    CURRENCY_TYPE.forEach(({ type }) => {
         test(`TC_08_02_04 | Verify user can change currency from ${type[0]} to ${type[1]}`, async ({
             page,
             loginPage,
@@ -220,61 +220,139 @@ test.describe('My profile', () => {
         });
     });
 
-    test.skip('TC_08_06 | Verify the user can change currency USD (EUR) in the Profile Menu', async ({
+    CURRENCY_TYPE.forEach(({ type }) => {
+        test(`TC_08_06 | Verify user can change currency from ${type[0]} to ${type[1]} in the Profile Menu`, async ({
+            page,
+            loginPage,
+            headerComponent,
+        }) => {
+            await tags('My profile', 'Positive');
+            await severity('normal');
+            await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
+            await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
+            await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
+            await epic('My profile');
+            await feature('Currency selection');
+
+            await step('Preconditions:', async () => {
+                await loginUser(page, headerComponent, loginPage);
+            });
+
+            await headerComponent.clickMyProfileButton();
+
+            (await headerComponent.isCurrencyTypeSet(type[0]))
+                ? null
+                : await headerComponent.changeCurrencyType(type[0]);
+
+            await headerComponent.clickCurrencyButton();
+            await headerComponent.clickCurrencyTypeDropdown(type[1]);
+
+            await step(`Verify the ${type[1]} currency type is selected.`, async () => {
+                await expect(await headerComponent.getCurrencyTypeSelected(type[1])).toBeVisible();
+            });
+
+            await step(`Verify the "Currency ${type[1]}" button is displayed.`, async () => {
+                expect(await headerComponent.isCurrencyTypeSet(type[1])).toBeTruthy();
+            });
+        });
+    });
+
+    test('TC_08_07 | Verify that the user can log out of the account from the Profile Menu', async ({
         page,
         loginPage,
         headerComponent,
+        toastComponent,
     }) => {
         await tags('My profile', 'Positive');
         await severity('normal');
-        await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
-        await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
-        await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
+        await description('To verify, that the user can log out of the account from the Profile Menu');
+        await issue(`${QASE_LINK}suite=16&case=28`, 'Log out');
+        await tms(`${GOOGLE_DOC_LINK}w8we6didi3d6`, 'ATC_08_07');
         await epic('My profile');
-        await feature('Currency selection');
+        await feature('Log out');
+
+        await step('Preconditions:', async () => {
+            await loginUser(page, headerComponent, loginPage);
+        });
+
+        await step('The "My profile" button is visible in the header.', async () => {
+            await expect(headerComponent.myProfileButton).toBeVisible();
+        });
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('The "Log out" button is visible by default in the Profile Menu.', async () => {
+            await expect(headerComponent.logOutButton).toBeVisible();
+        });
+
+        await headerComponent.clickLogOutButton();
+
+        await step('The “You have been logged out” toast massage is displayed.', async () => {
+            await expect(toastComponent.toastBody.getByText(TOAST_MESSAGE.loggedOut)).toBeVisible;
+        });
+
+        await step('The "My profile" button is not visible in the header..', async () => {
+            await expect(headerComponent.myProfileButton).not.toBeVisible();
+        });
+    });
+
+    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsNotificationsPage,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Notifications');
+        await severity('normal');
+        await description('To verify, that user user can manage Account Notifications settings');
+        await issue(`${QASE_LINK}suite=38&case=124`, 'Notifications settings');
+        await tms(`${GOOGLE_DOC_LINK}333obp2smjp7`, 'ATC_08_04_01');
+        await epic('My profile');
+        await feature('Account settings');
 
         await step('Preconditions:', async () => {
             await loginUser(page, headerComponent, loginPage);
         });
 
         await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickNotificationSettingsButton();
 
-        await step('The "Currency USD ($)" button is visible by default in the Profile Menu.', async () => {
-            await expect(headerComponent.currencyUSDButton).toBeVisible();
+        await step('Verify the "Manage your notifications" header is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsHeading).toBeVisible();
+        });
+        await step('Verify the "Manage your notifications" table is displayed.', async () => {
+            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(3);
+        });
+        await step('Verify the "Notifications Type".', async () => {
+            await expect(settingsNotificationsPage.notificationsType).toHaveText([
+                NOTIFICATIONS_TYPE.type1,
+                NOTIFICATIONS_TYPE.type2,
+                NOTIFICATIONS_TYPE.type3,
+            ]);
         });
 
-        await headerComponent.clickCurrencyUSDButton();
-
-        await step('The "USD ($)" button is displayed.', async () => {
-            await expect(headerComponent.usdButton).toBeVisible();
+        await step('Verify the "Email" notifications is checked by default.', async () => {
+            for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
         });
 
-        await step('USD checkmark is selected by default.', async () => {
-            expect(await headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
+        await step('Verify the "Browser" notifications is checked by default.', async () => {
+            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
+                expect(checkbox).toBeChecked();
+            }
         });
 
-        await step('The "EUR (€)" button is displayed.', async () => {
-            await expect(headerComponent.eurButton).toBeVisible();
-        });
-
-        await headerComponent.clickEurButton();
-
-        await step('The "EUR (€)" button is selected with a checkmark.', async () => {
-            expect(await headerComponent.isCurrencySelected(headerComponent.eurButton)).toBeTruthy();
-        });
-
-        await step('The text of the "Currency USD ($)" button changes to "Currency EUR (€)".', async () => {
-            await expect(headerComponent.currencyEURButton).toHaveText(CURRENCY_EUR_BUTTON_TEXT);
-        });
-
-        await headerComponent.clickUsdButton();
-
-        await step('The "USD ($)" button is selected with a checkmark.', async () => {
-            expect(await headerComponent.isCurrencySelected(headerComponent.usdButton)).toBeTruthy();
-        });
-
-        await step('The text of the "Currency EUR (€)" button changes back to "Currency USD ($)".', async () => {
-            await expect(headerComponent.currencyUSDButton).toHaveText(CURRENCY_USD_BUTTON_TEXT);
+        await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
+            for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
+                await expect(checkbox).toBeChecked();
+                await checkbox.uncheck();
+                await expect(checkbox).not.toBeChecked();
+                await checkbox.check();
+                await expect(checkbox).toBeChecked();
+            }
         });
     });
 });

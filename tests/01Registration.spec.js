@@ -64,4 +64,53 @@ test.describe('Registration', () => {
             });
         });
     });
+
+    test('TC_01_01_01 | Verify Registration form elements', async ({ page, headerComponent, signupPage }) => {
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description(
+            'Verify the registration form contains all required elements for a complete user registration'
+        );
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}y7nujkap1fcv`, 'ATC_01_01');
+        await epic('Registration');
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+
+        await step('Verify the "Log in" hyperlink is present on the page.', async () => {
+            await expect(signupPage.loginLink).toBeVisible();
+        });
+
+        await step('Verify the "Log in" link has the correct href attribute.', async () => {
+            await expect(signupPage.loginLink).toHaveAttribute('href', URL_ENDPOINT.login);
+        });
+
+        await step('Verify the Email input field is present on the page.', async () => {
+            await expect(signupPage.emailAddressInput).toBeVisible();
+        });
+
+        await step('Verify the "Create account" button is present on the page.', async () => {
+            await expect(signupPage.createAccountButton).toBeVisible();
+        });
+
+        await step(
+            'NOT FULLY IMPLEMENTED: Verify the "Terms of use" link is present on the page and has the correct href attribute.',
+            async () => {
+                await expect(signupPage.termsOfUseLink).toBeVisible();
+                // await expect(signupPage.termsOfUseLink).toHaveAttribute('href', '/auth/sign-up#');
+            }
+        );
+
+        await step(
+            'NOT FULLY IMPLEMENTED: Verify the "Privacy Policy" link is present on the page and has the correct href attribute.',
+            async () => {
+                await expect(signupPage.privacyPolicyLink).toBeVisible();
+                // await expect(signupPage.privacyPolicyLink).toHaveAttribute('href', '/auth/sign-up#');
+            }
+        );
+    });
 });
