@@ -288,3 +288,5 @@ export const API_HelpSearch = {
     token: 'Basic cHF1MnJFRFR3MW5rT1NWU0gwUUQ=}',
     ENDPOINT_Categ: '/api/v2/solutions/categories',
 };
+
+export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
