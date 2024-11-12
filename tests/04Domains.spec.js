@@ -267,11 +267,7 @@ test.describe('Hosted zones', () => {
 
         await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
 
-        if (Math.random() < 0.5) {
-            await createHostedZoneModal.clickCancelButton();
-        } else {
-            await createHostedZoneModal.clickCloseXButton();
-        }
+        await createHostedZoneModal.clickCancelButton();
 
         await hostedZonesPage.clickCreateHostedZoneButton();
         await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
