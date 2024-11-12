@@ -1,8 +1,14 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    NEGATIVE_EMAIL_DATA_SET,
+    } from '../testData';
 import { deleteUserRequest } from '../.worktrees/registration/helpers/apiCalls';
+import { geNewUserPassword, getNewUserEmail } from '../helpers/utils';
 
 test.describe('Registration', () => {
     test('TC_01_02_01 | Verify user is not able to sign up with an existing email', async ({
@@ -130,8 +136,8 @@ test.describe('Registration', () => {
         await tms(`${GOOGLE_DOC_LINK}4z8noa4hz8do`, 'ATC_01_01_02');
         await epic('Registration');
 
-        const email = process.env.REGISTRATION_USER_EMAIL;
-        const password = process.env.REGISTRATION_USER_PASSWORD;
+        const email = await getNewUserEmail();
+        const password = await geNewUserPassword(process.env.USER_PASSWORD);
 
         await deleteUserRequest(request, email, password);
 
@@ -140,7 +146,7 @@ test.describe('Registration', () => {
         });
         await headerComponent.clickSignup();
         await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
-        await signupPage.fillEmailAddressInput(process.env.REGISTRATION_USER_EMAIL);
+        await signupPage.fillEmailAddressInput(email);
         await signupPage.selectCheckboxReceiveEmails();
         await signupPage.clickCreateAccount();
 

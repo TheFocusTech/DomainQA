@@ -91,3 +91,16 @@ export async function resultPageContainQuerySearch(request) {
     } else result = 'false';
     return result;
 }
+
+export async function getNewUserEmail() {
+    const [prefixWithSuffix, domain] = process.env.USER_EMAIL.split('@');
+
+    const EMAIL_PREFIX = prefixWithSuffix.split('+')[0] + '+';
+    const EMAIL_DOMAIN = '@' + domain;
+
+    return `${EMAIL_PREFIX}${'qa.mail.template1000'}${EMAIL_DOMAIN}`;
+}
+
+export async function geNewUserPassword(password) {
+    return password.replace(/\d{2}$/, '00');
+}
