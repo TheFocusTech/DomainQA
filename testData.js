@@ -17,6 +17,7 @@ export const URL_ENDPOINT = {
     ReportAbuse: '/help/report-abuse',
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
+    contacts: '/settings/contacts',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -290,3 +291,23 @@ export const API_HelpSearch = {
 };
 
 export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
+
+export const CONTACTS = {
+    predefined: {
+        alias: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
+        firstName: 'Registration',
+        lastName: 'Private',
+        company: 'Perfect Privacy LLC c/o trustname.com',
+        jobTitle: 'Chief Privacy Defender',
+        addressLineFirst: 'Harakiri.org',
+        addressLineSecond: 'Hamilton Development Unit B',
+        city: 'Charlestown',
+        state: 'Nevis West Indies',
+        zip: '00000',
+        country: 'KN',
+        phone: '+19179671610',
+        fax: 'No details added',
+        email: '000001025-protected@harakiri.org',
+        emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
+    },
+};
