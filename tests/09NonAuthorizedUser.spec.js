@@ -123,6 +123,7 @@ test.describe('Unauthorized user', () => {
 
     test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
+        advancedSearchModal
     }) => {
         await tags('Unauthorized_user', 'Search_domains');
         await severity('normal');
@@ -140,52 +141,52 @@ test.describe('Unauthorized user', () => {
         await homePage.clickFilterButton();
 
         await step(`Verify "Advanced Search" heading is visible`, async () => {
-            await expect(homePage.advancedSearchHeading).toBeVisible();
+            await expect(advancedSearchModal.advancedSearchHeading).toBeVisible();
         });
 
         await step(`Verify "Hide Registered" togle is visible`, async () => {
-            await expect(homePage.hideRegisteredTogle).toBeVisible();
+            await expect(advancedSearchModal.hideRegisteredTogle).toBeVisible();
         });
 
         await step(`Verify "Filter by TLD" field is visible`, async () => {
-            await expect(homePage.filterByTLDField).toBeVisible();
+            await expect(advancedSearchModal.filterByTLDField).toBeVisible();
         });
 
         await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
-            await expect(homePage.numberOfSelectedTLDs).toBeVisible();
+            await expect(advancedSearchModal.numberOfSelectedTLDs).toBeVisible();
         });
 
         await step(`Verify "Clear all" button is visible`, async () => {
-            await expect(homePage.clearAllButton).toBeVisible();
+            await expect(advancedSearchModal.clearAllButton).toBeVisible();
         });
 
         await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
-            for (const letter of await homePage.absSwipperButton.all()) {
+            for (const letter of await advancedSearchModal.absSwipperButton.all()) {
                 await expect(letter).toBeVisible();
             }
         });
 
         await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
-            await expect(homePage.nextArrow).toBeVisible();
+            await expect(advancedSearchModal.nextArrow).toBeVisible();
         });
 
         await step(`Verify category header “All TLDs” is visible by default`, async () => {
-            await expect(homePage.defaultCategory).toBeVisible();
+            await expect(advancedSearchModal.defaultCategory).toBeVisible();
         });
         await step(`Verify Category list with choiceboxes is visible`, async () => {
-            await expect(homePage.categoryList).toBeVisible();
+            await expect(advancedSearchModal.categoryList).toBeVisible();
         });
 
         await step(`Verify  button “Reset” is visible`, async () => {
-            await expect(homePage.resetButton).toBeVisible();
+            await expect(advancedSearchModal.resetButton).toBeVisible();
         });
 
         await step(`Verify  button “Apply” is visible`, async () => {
-            await expect(homePage.applyButton).toBeVisible();
+            await expect(advancedSearchModal.applyButton).toBeVisible();
         });
 
         await step(`Verify  button “Close” is visible `, async () => {
-            await expect(homePage.closeButton).toBeVisible();
+            await expect(advancedSearchModal.closeButton).toBeVisible();
         });
     });
 });
