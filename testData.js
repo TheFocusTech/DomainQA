@@ -307,7 +307,7 @@ export const CONTACTS = {
         country: 'KN',
         phone: '+19179671610',
         fax: 'No details added',
-        email: '000001025-protected@harakiri.org',
+        email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
 };
