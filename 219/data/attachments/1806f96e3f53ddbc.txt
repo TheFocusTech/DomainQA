@@ -1,0 +1,2 @@
+An error occurred while sending the category ID request: GET Categories ID request failed with status: 403
+An error occurred while sending the category ID request: GET Categories ID request failed with status: 403
