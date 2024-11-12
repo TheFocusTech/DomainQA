@@ -6,8 +6,8 @@ export default class CreateHostedZoneModal {
 
         this.hostedZoneDomainNameInput = this.page.getByPlaceholder('Enter your domain');
         this.createButton = this.page.locator('button').filter({ hasText: /^Create$/ });
-        this.cancelButton = this.page.locator('button').filter({ hasText: /^Cancel$/ });
-        this.closeXButton = this.page.locator('#root-portal').getByLabel('Button');
+        this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
+        this.closeXButton = this.page.getByLabel('Button');
     }
 
     async fillHostedZoneDomainNameInput(name) {
