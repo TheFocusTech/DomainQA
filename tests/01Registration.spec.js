@@ -1,12 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import {
-    QASE_LINK,
-    GOOGLE_DOC_LINK,
-    URL_ENDPOINT,
-    NEGATIVE_EMAIL_DATA_SET,
-    } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET } from '../testData';
 import { deleteUserRequest } from '../.worktrees/registration/helpers/apiCalls';
 import { geNewUserPassword, getNewUserEmail } from '../helpers/utils';
 
