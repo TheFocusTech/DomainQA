@@ -29,6 +29,8 @@ import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
+import ContactDetailsPage from './pom/pages/ContactDetailsPage';
+import ContactsPage from './pom/pages/ContactsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -152,5 +154,13 @@ export const test = base.extend({
     /** @type { HelpSearchResultsPage } */
     helpSearchResultsPage: async ({ page }, use) => {
         await use(new HelpSearchResultsPage(page));
+    },
+    /** @type { ContactsPage } */
+    contactsPage: async ({ page }, use) => {
+        await use(new ContactsPage(page));
+    },
+    /** @type { ContactDetailsPage } */
+    contactDetailsPage: async ({ page }, use) => {
+        await use(new ContactDetailsPage(page));
     },
 });
