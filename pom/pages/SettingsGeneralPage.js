@@ -17,6 +17,7 @@ export default class SettingsGeneralPage {
         this.currencyButton = this.page.locator('.profile-currency-block button');
         this.currencyType = this.page.locator('.profile-currency-block button span[class*="text"]');
         this.notificationSettingsButton = this.page.getByRole('button', { name: 'Notification settings' });
+        this.contactsButton = this.page.getByRole('button', { name: 'Contacts' });
     }
 
     async clickTwoFAToggle() {
@@ -76,6 +77,12 @@ export default class SettingsGeneralPage {
     async clickNotificationSettingsButton() {
         await step('Click on the "Notification settings" button.', async () => {
             await this.notificationSettingsButton.click();
+        });
+    }
+
+    async clickContactsButton() {
+        return await step('Click on the "Contacts" button.', async () => {
+            await this.contactsButton.click();
         });
     }
 }
