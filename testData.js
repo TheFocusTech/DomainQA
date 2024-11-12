@@ -54,7 +54,7 @@ export const NEGATIVE_EMAIL_DATA_SET = [
 ];
 
 export const API_ENDPOINT = {
-    login: '/auth/sign-in',
+    login: '/users/auth/sign-in',
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?size=30',
@@ -290,3 +290,7 @@ export const API_HelpSearch = {
 };
 
 export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
+
+export const EMAIL_MIDDLE_PART = {
+    registerUser: 'qa.mail.template1000',
+};
