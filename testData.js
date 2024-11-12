@@ -310,6 +310,7 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+};
 
 export const EMAIL_MIDDLE_PART = {
     registerUser: 'qa.mail.template1000',
