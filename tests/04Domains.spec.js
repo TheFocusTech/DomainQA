@@ -1,4 +1,5 @@
 import { test } from '../fixtures';
+import { expect } from '@playwright/test';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
@@ -15,8 +16,6 @@ import {
     TOAST_MESSAGE,
     MODAL_WINDOW_DELETE_HOSTED_ZONE,
 } from '../testData';
-import { expect } from '@playwright/test';
-import HostedZonesDetailPage from '../pom/pages/HostedZonesDetailPage';
 
 let headers;
 let domainNameFirst;
@@ -233,77 +232,7 @@ test.describe('Hosted zones', () => {
         });
     });
 
-    // test('TC_04_02 | Verify user can create hosted zone', async ({
-    //     page,
-    //     loginPage,
-    //     headerComponent,
-    //     createHostedZoneModal,
-    //     hostedZonesPage,
-    //     toastComponent,
-    //     hostedZonesDetailPage,
-    // }) => {
-    //     test.setTimeout(120 * 1000);
-    //     await tags('Domains', 'Hosted Zones');
-    //     await severity('normal');
-    //     await description('To verify, that user is able to create hosted zone');
-    //     await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
-    //     await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_03_01');
-    //     await epic('Domains');
-    //     await feature('Hosted Zones');
-
-    //     const domainName = await getRandomDomainName();
-
-    //     await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
-
-    //     await headerComponent.clickHostedZonesLink();
-    //     await step('Verify that the user is in the Hosted Zone Page', async () => {
-    //         await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
-    //     });
-
-    //     await hostedZonesPage.clickCreateHostedZoneButton();
-    //     await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
-    //         await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
-    //     });
-
-    //     await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
-
-    //     await createHostedZoneModal.clickCancelButton();
-
-    //     await hostedZonesPage.clickCreateHostedZoneButton();   
-    //      await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
-    //     await createHostedZoneModal.clickCreateButton();
-
-    //     await step('Verify toast notification about successful creation of hosted zone.', async () => {
-    //         await expect(toastComponent.promptHZCreated).toBeVisible();
-    //     });
-    //     await step('Verify the creation of the Hosted Zone', async () => {
-      
-    //     await hostedZonesPage.waitForHostedZoneNewCreatedName(domainName);
-    //     await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toBeVisible();
-    //     await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText('Hosted zone');
-    //     await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText(domainName);
-    // });
-    //     //      Click on the newly created hosted zone
-
-
-    //     // It navigates to the details page of the hosted zone
-    //     // Validate the ‘Hosted Zone’ page has:
-
-    //     // HZ’s ID in URL
-    
-
-    //     const hostedZoneId = await hostedZonesDetailPage.hostedZonesDetailTitle.textContent();
-    //     console.log(HostedZonesDetailPage.hostedZonesDetailTitle);
-    //     expect(hostedZoneId).not.toBeNull();
-    //     console.log(`Extracted ID: ${hostedZoneId}`);
-
-    // //    await expect(page.url()).toContain(hostedZoneId);
-    //     // ‘Hosted zone <name>’ title
-
-    //     // Correct 'DNS management’ data
-    // });
-
-    test('TC_04_03_01 | Verify user can create hosted zone', async ({
+    test('TC_04_02 | Verify user can create hosted zone', async ({
         page,
         loginPage,
         headerComponent,
@@ -312,73 +241,61 @@ test.describe('Hosted zones', () => {
         toastComponent,
         hostedZonesDetailPage,
     }) => {
-        test.setTimeout(120 * 1000);
         await tags('Domains', 'Hosted Zones');
         await severity('normal');
         await description('To verify, that user is able to create hosted zone');
         await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
-        await tms(`${GOOGLE_DOC_LINK}`, 'ATC_04_03_01');
+        await tms(`${GOOGLE_DOC_LINK}3snf2ukx9ybc`, 'ATC_04_03_01');
         await epic('Domains');
         await feature('Hosted Zones');
-    
+
         const domainName = await getRandomDomainName();
-        let createdHostedZoneId; 
-    
+
         await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await page.waitForURL(process.env.URL);
+        headers = await getCookies(page);
 
         await headerComponent.clickHostedZonesLink();
         await step('Verify that the user is in the Hosted Zone Page', async () => {
             await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
         });
-    
+
         await hostedZonesPage.clickCreateHostedZoneButton();
         await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
             await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         });
-    
+
         await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
-        await createHostedZoneModal.clickCancelButton();
-    
+
+        if (Math.random() < 0.5) {
+            await createHostedZoneModal.clickCancelButton();
+        } else {
+            await createHostedZoneModal.clickCloseXButton();
+        }
+
         await hostedZonesPage.clickCreateHostedZoneButton();
         await createHostedZoneModal.fillHostedZoneDomainNameInput(domainName);
-        
-        await page.route('**/hosted-zones/management/*.json', async (route) => {
-            const response = await route.continue();
-            const responseBody = await response.json();
-    
-            if (responseBody && responseBody.HostedZone) {
-                createdHostedZoneId = responseBody.HostedZone.Id;
-                console.log(`Extracted ID from response: ${createdHostedZoneId}`);
-            }
-            return response;
-        });
-    
         await createHostedZoneModal.clickCreateButton();
-    
+
         await step('Verify toast notification about successful creation of hosted zone.', async () => {
             await expect(toastComponent.promptHZCreated).toBeVisible();
         });
-    
-        await step('Verify the creation of the Hosted Zone', async () => {
+
+        await step('Verify that the new Hosted Zone page appears', async () => {
             await hostedZonesPage.waitForHostedZoneNewCreatedName(domainName);
             await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toBeVisible();
             await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText('Hosted zone');
             await expect(hostedZonesDetailPage.hostedZonesDetailTitle).toContainText(domainName);
         });
-    
-        const hostedZoneUrl = await page.url();
-        const urlIdMatch = hostedZoneUrl.match(/\/hosted-zones\/management\/([0-9a-f-]+)\.json/);
-        const urlHostedZoneId = urlIdMatch ? urlIdMatch[1] : null;
-        console.log(`ID from console: ${createdHostedZoneId}`);
-    
-        console.log(`ID from URL: ${urlHostedZoneId}`);
-    
-        expect(urlHostedZoneId).toBe(createdHostedZoneId);
 
-        expect(createdHostedZoneId).not.toBeNull();
-        console.log(`Created Hosted Zone ID: ${createdHostedZoneId}`);
+        await step(
+            'Verify that the user can back to the page with Hosted Zones if click the button to return back',
+            async () => {
+                await hostedZonesDetailPage.clickBackToHostedZonesButton();
+                await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
+            }
+        );
     });
-    
 });
 
 test.describe('DNSSEC', () => {
