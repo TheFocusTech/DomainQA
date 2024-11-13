@@ -10,6 +10,7 @@ import {
     URL_ENDPOINT,
     NOTIFICATIONS_TYPE,
     CURRENCY_TYPE,
+    CONTACTS,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
@@ -353,6 +354,84 @@ test.describe('My profile', () => {
                 await checkbox.check();
                 await expect(checkbox).toBeChecked();
             }
+        });
+    });
+
+    test('TC_08_03 | Verify user can see pre-defined contact on his Contacts page', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsGeneralPage,
+        contactsPage,
+        contactDetailsPage,
+    }) => {
+        await tags('My profile', 'Contacts');
+        await severity('normal');
+        await description('To verify, that pre-defined contact is present on the Contacts page');
+        await issue(`${QASE_LINK}/01-14`, 'Contacts');
+        await tms(`${GOOGLE_DOC_LINK}1a1phpmqi56e`, 'ATC_08_03');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+
+        await settingsGeneralPage.clickContactsButton();
+
+        await step('Verify user is on the Contacts page.', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.contacts);
+        });
+
+        await step('Verify the "Search" field is displayed.', async () => {
+            await expect(contactsPage.searchInput).toBeVisible();
+            await expect(contactsPage.searchInput).toBeEmpty();
+        });
+
+        await step('Verify the "Add new contact" button is displayed.', async () => {
+            await expect(contactsPage.addNewContactButton).toBeVisible();
+        });
+
+        await step('Verify the "Predefined Contact" card header is displayed.', async () => {
+            await expect(contactsPage.predefContactHeader).toBeVisible();
+        });
+
+        await step('Verify the "Predefined Contact" card content is displayed.', async () => {
+            const keysToCheck = ['alias', 'firstName', 'lastName', 'email'];
+
+            for (const key of keysToCheck) {
+                const value = CONTACTS.predefined[key];
+                const field = contactsPage.predefinedContactCard.locator('p', { hasText: value, exact: true }).first();
+                await expect(field).toBeVisible();
+            }
+        });
+
+        await contactsPage.clickMoreButtonByContact(CONTACTS.predefined.alias);
+        await contactsPage.clickViewFullInfoButton();
+
+        await step('Verify the "Contact details" page is open.', async () => {
+            await expect(contactDetailsPage.title).toBeVisible();
+        });
+
+        await step('Verify the "Predefined Contact" card header is displayed.', async () => {
+            await expect(contactDetailsPage.predefinedContactHeader).toBeVisible();
+        });
+
+        await step('Verify the "Predefined Contact" full info is displayed.', async () => {
+            for (const value of Object.values(CONTACTS.predefined)) {
+                const field = await contactDetailsPage.predefinedContactCard
+                    .locator('p', { hasText: `${value}`, exact: true })
+                    .first();
+                await expect(field).toBeVisible();
+            }
+        });
+
+        await contactDetailsPage.clickBackToAccountSettingsButton();
+
+        await step('Verify the "Contacts" page is open.', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.contacts);
+            await expect(settingsGeneralPage.contactsButton).toBeVisible();
         });
     });
 });
