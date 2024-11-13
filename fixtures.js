@@ -29,6 +29,7 @@ import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
+import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -152,5 +153,9 @@ export const test = base.extend({
     /** @type { HelpSearchResultsPage } */
     helpSearchResultsPage: async ({ page }, use) => {
         await use(new HelpSearchResultsPage(page));
+    },
+    /** @type { AdvancedSearchModal } */
+    advancedSearchModal: async ({ page }, use) => {
+        await use(new AdvancedSearchModal(page));
     },
 });
