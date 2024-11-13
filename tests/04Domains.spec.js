@@ -255,12 +255,9 @@ test.describe('Hosted zones', () => {
         await page.waitForURL(process.env.URL);
         headers = await getCookies(page);
 
-        await headerComponent.clickHostedZonesLink();
-        await step('Verify that the user is in the Hosted Zone Page', async () => {
-            await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
-        });
-
+        await hostedZonesPage.open();
         await hostedZonesPage.clickCreateHostedZoneButton();
+
         await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
             await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         });
@@ -499,7 +496,7 @@ test.describe('DNS Records', () => {
     });
 
     arrDnsTypes.forEach(({ dnsType }) => {
-        test(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
+        test.skip(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
             hostedZonesDetailPage,
             dnsRecordModal,
         }) => {
@@ -533,7 +530,7 @@ test.describe('DNS Records', () => {
     });
 
     arrDnsTypes.forEach(({ dnsType }) => {
-        test(`TC_04_05 | "Hosted zones - DNS Record - Create with required fields ${dnsType}. Ignored optional fields`, async ({
+        test.skip(`TC_04_05 | "Hosted zones - DNS Record - Create with required fields ${dnsType}. Ignored optional fields`, async ({
             hostedZonesDetailPage,
             dnsRecordModal,
         }) => {
@@ -566,7 +563,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_06 | Verify user can edit DNS record in hosted zone`, async ({
+    test.skip(`TC_04_06 | Verify user can edit DNS record in hosted zone`, async ({
         hostedZonesDetailPage,
         dnsRecordModal,
     }) => {

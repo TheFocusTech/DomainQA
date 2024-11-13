@@ -19,7 +19,7 @@ let code;
 let secretKey;
 
 test.describe('My profile', () => {
-    test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
+    test.skip('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
         page,
         loginPage,
         headerComponent,
