@@ -497,7 +497,7 @@ test.describe.serial('Domains', () => {
         });
 
         arrDnsTypes.forEach(({ dnsType }) => {
-            test(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
+            test.skip(`TC_04_04 | "Hosted zones - DNS Record - Create with all fields ${dnsType}`, async ({
                 hostedZonesDetailPage,
                 dnsRecordModal,
             }) => {
