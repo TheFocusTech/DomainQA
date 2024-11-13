@@ -161,6 +161,7 @@ export const test = base.extend({
     advancedSearchModal: async ({ page }, use) => {
         await use(new AdvancedSearchModal(page));
 
+    },
     /** @type { ContactsPage } */
     contactsPage: async ({ page }, use) => {
         await use(new ContactsPage(page));
