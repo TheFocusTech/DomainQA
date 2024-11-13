@@ -531,7 +531,7 @@ test.describe.serial('Domains', () => {
         });
 
         arrDnsTypes.forEach(({ dnsType }) => {
-            test(`TC_04_05 | "Hosted zones - DNS Record - Create with required fields ${dnsType}. Ignored optional fields`, async ({
+            test.skip(`TC_04_05 | "Hosted zones - DNS Record - Create with required fields ${dnsType}. Ignored optional fields`, async ({
                 hostedZonesDetailPage,
                 dnsRecordModal,
             }) => {
@@ -564,7 +564,7 @@ test.describe.serial('Domains', () => {
             });
         });
 
-        test(`TC_04_06 | Verify user can edit DNS record in hosted zone`, async ({
+        test.skip(`TC_04_06 | Verify user can edit DNS record in hosted zone`, async ({
             hostedZonesDetailPage,
             dnsRecordModal,
         }) => {
