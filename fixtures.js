@@ -28,6 +28,9 @@ import HostingPage from './pom/pages/HostingPage';
 import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
+import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
+import ContactDetailsPage from './pom/pages/ContactDetailsPage';
+import ContactsPage from './pom/pages/ContactsPage';
 import BlogArticlePage from './pom/pages/BlogArticlePage';
 
 export const test = base.extend({
@@ -148,6 +151,18 @@ export const test = base.extend({
     /** @type { SettingsNotificationsPage } */
     settingsNotificationsPage: async ({ page }, use) => {
         await use(new SettingsNotificationsPage(page));
+    },
+    /** @type { HelpSearchResultsPage } */
+    helpSearchResultsPage: async ({ page }, use) => {
+        await use(new HelpSearchResultsPage(page));
+    },
+    /** @type { ContactsPage } */
+    contactsPage: async ({ page }, use) => {
+        await use(new ContactsPage(page));
+    },
+    /** @type { ContactDetailsPage } */
+    contactDetailsPage: async ({ page }, use) => {
+        await use(new ContactDetailsPage(page));
     },
     /** @type { BlogArticlePage } */
     blogArticlePage: async ({ page }, use) => {
