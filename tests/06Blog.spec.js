@@ -41,7 +41,7 @@ test.describe('Blog', () => {
         headerComponent,
         loginPage,
         blogPage,
-        blogArticlePage
+        blogArticlePage,
     }) => {
         await tags('Blog', 'Positive');
         await severity('normal');
@@ -51,6 +51,7 @@ test.describe('Blog', () => {
         await issue(`${QASE_LINK}/01-29`, 'Blog');
         await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_08');
         await epic('Blog');
+        test.slow();
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -58,15 +59,30 @@ test.describe('Blog', () => {
         await headerComponent.clickBlogButton();
         await page.waitForURL(URL_ENDPOINT.blogPage);
 
-        await step('Open a random article:', async () => {            
-            await blogPage.articlesList.first().waitFor({ state: 'visible' });            
+        await step('Open a random article:', async () => {
+            await blogPage.articlesList.first().waitFor({ state: 'visible' });
             const articleCount = await blogPage.articlesList.count();
             const randomIndex = Math.floor(Math.random() * articleCount);
             await blogPage.articlesList.nth(randomIndex).click();
         });
-       // console.log(await blogArticlePage.headingsList.count());
-       await blogArticlePage.articleBody.waitFor({ state: 'visible' });
-        //console.log(await page.locator("h2").count());
-        console.log(await blogArticlePage.headingsList.count());
+
+        await blogArticlePage.article.waitFor({ state: 'visible' });
+        const buttonCount = await blogArticlePage.buttonsArticleList.count();
+
+        for (let i = 0; i < buttonCount; i++) {
+            const expectedText = await blogArticlePage.buttonsArticleList.nth(i).textContent();
+            const actualHeading = await blogArticlePage.subArticlesList.nth(i).getByRole('heading');
+            expect(actualHeading).toContainText(expectedText);
+            await blogArticlePage.buttonsArticleList.nth(i).click();
+
+            expect(actualHeading).toBeVisible();
+
+            await actualHeading.scrollIntoViewIfNeeded();
+            const headerBox = await actualHeading.boundingBox();
+            const viewportHeight = await page.evaluate(() => window.innerHeight);
+
+            expect(headerBox.y).toBeGreaterThanOrEqual(0);
+            expect(headerBox.y).toBeLessThanOrEqual(viewportHeight * 0.2);
+        }
     });
 });

@@ -34,7 +34,7 @@ export default class BlogPage {
             await this.blogSearchPopup.waitFor({ state: 'visible' });
         });
     }
-    
+
     async clickRandomArticle() {
         const articles = await this.articlesList.all();
         const randomArticle = articles[Math.floor(Math.random() * articles.length)];
