@@ -256,12 +256,9 @@ test.describe.serial('Domains', () => {
             await page.waitForURL(process.env.URL);
             headers = await getCookies(page);
 
-            await headerComponent.clickHostedZonesLink();
-            await step('Verify that the user is in the Hosted Zone Page', async () => {
-                await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
-            });
-
+            await hostedZonesPage.open();
             await hostedZonesPage.clickCreateHostedZoneButton();
+
             await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
                 await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
             });
@@ -598,7 +595,9 @@ test.describe.serial('Domains', () => {
             });
 
             await step('Verify record was updated in the "DNS Management" card.', async () => {
-                const dnsResordsAfterEdit = (await hostedZonesDetailPage.getDnsRecords()).find((obj) => obj.type === 'NS');
+                const dnsResordsAfterEdit = (await hostedZonesDetailPage.getDnsRecords()).find(
+                    (obj) => obj.type === 'NS'
+                );
                 const actualValues = {
                     name: dnsResordsAfterEdit.name,
                     content: dnsResordsAfterEdit.content,
