@@ -160,7 +160,6 @@ export const test = base.extend({
     /** @type { AdvancedSearchModal } */
     advancedSearchModal: async ({ page }, use) => {
         await use(new AdvancedSearchModal(page));
-
     },
     /** @type { ContactsPage } */
     contactsPage: async ({ page }, use) => {
