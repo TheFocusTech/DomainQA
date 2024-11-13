@@ -97,9 +97,9 @@ export default class HostedZonesPage {
         await step(`Verify that Hosted Zones page has "${heading}" text.`, async () => {
             await expect(this.alertTitle).toHaveText(title);
         });
-        // await step(`Verify that Hosted Zones page has "${heading}" text.`, async () => {
-        //     await expect(this.alertDescription).toHaveText(description);
-        // });
+        await step(`Verify that Hosted Zones page has "${heading}" text.`, async () => {
+            await expect(this.alertDescription).toHaveText(description);
+        });
         for (const button of buttons) {
             await step(`Verify that Hosted Zones page has "${button}" button.`, async () => {
                 const buttonLocator = this.page.getByRole('button', { name: button });
