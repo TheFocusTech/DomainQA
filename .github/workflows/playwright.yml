@@ -69,5 +69,4 @@ jobs:
         if: always()
         with:
           report-file: results.json
-          job-summary: true
           icon-style: 'emojis'
