@@ -175,16 +175,15 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test('TC_09_05_02 | Verify "Check email" modal elements and "Back to Forgot password" functionality.', async ({
+    test('TC_09_05_02 | Verify "Check email" form elements and "Back to Forgot password" functionality.', async ({
         page,
         loginPage,
         headerComponent,
         forgotPasswordPage,
-        checkEmailModal,
     }) => {
         await tags('Unauthorized_user', 'Forgot password');
         await severity('normal');
-        await description('To verify Check email modal elements and "Back to Forgot password" functionality.');
+        await description('To verify Check email form elements and "Back to Forgot password" functionality.');
         await issue(`${QASE_LINK}/01-34`, 'Reset password');
         await tms(`${GOOGLE_DOC_LINK}mnbc66oz78zb`, 'ATC_09_05_02');
         await epic('Unauthorized_user');
@@ -202,30 +201,30 @@ test.describe('Unauthorized user', () => {
 
         await forgotPasswordPage.clickSendCode();
 
-        await step('Verify "Check your email" modal dialog is visible', async () => {
-            await expect(checkEmailModal.dialog).toBeVisible();
+        await step('Verify "Check your email" form is visible', async () => {
+            await expect(forgotPasswordPage.headerCheckEmail).toBeVisible();
         });
 
-        await step('Verify the description of the modal', async () => {
-            await expect(checkEmailModal.description).toBeVisible();
-            await expect(checkEmailModal.description).toHaveText(
-                `Enter password reset code we sent to ${process.env.USER_EMAIL}`
+        await step('Verify the form description', async () => {
+            await expect(forgotPasswordPage.descriptionCheckEmail).toBeVisible();
+            await expect(forgotPasswordPage.descriptionCheckEmail).toHaveText(
+                `Enter password reset code we sent to${process.env.USER_EMAIL}`
             );
         });
 
         await step('Verify the Password reset code input field is visible', async () => {
-            await expect(checkEmailModal.codeInput).toBeVisible();
-            await expect(checkEmailModal.codeInput).toBeEmpty();
+            await expect(forgotPasswordPage.codeInput).toBeVisible();
+            await expect(forgotPasswordPage.codeInput).toBeEmpty();
         });
 
         await step('Verify the presence of buttons', async () => {
-            await expect(checkEmailModal.continueButton).toBeVisible();
-            await expect(checkEmailModal.resendCodeButton).toBeVisible();
-            await expect(checkEmailModal.backToPasswordRecoveryButton).toBeVisible();
-            await expect(checkEmailModal.closeButton).toBeVisible();
+            await expect(forgotPasswordPage.continueButton).toBeVisible();
+            await expect(forgotPasswordPage.resendCodeButton).toBeVisible();
+            await expect(forgotPasswordPage.backToPasswordRecoveryButton).toBeVisible();
+            await expect(forgotPasswordPage.closeButton).toBeVisible();
         });
 
-        await checkEmailModal.clickBackToPasswordRecovery();
+        await forgotPasswordPage.clickBackToPasswordRecovery();
 
         await step('Verify user is redirected back to the Forgot Password page', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
