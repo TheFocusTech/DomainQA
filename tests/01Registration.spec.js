@@ -1,7 +1,8 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET, EMAIL_MIDDLE_PART } from '../testData';
+import { deleteUserRequest } from '../helpers/apiCalls';
 
 test.describe('Registration', () => {
     test('TC_01_02_01 | Verify user is not able to sign up with an existing email', async ({
@@ -112,5 +113,62 @@ test.describe('Registration', () => {
                 // await expect(signupPage.privacyPolicyLink).toHaveAttribute('href', '/auth/sign-up#');
             }
         );
+    });
+
+    test('TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality', async ({
+        page,
+        request,
+        headerComponent,
+        signupPage,
+    }) => {
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description(
+            'TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality'
+        );
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}4z8noa4hz8do`, 'ATC_01_01_02');
+        await epic('Registration');
+
+        const email = `${process.env.EMAIL_PREFIX}${EMAIL_MIDDLE_PART.registerUser}${process.env.EMAIL_DOMAIN}`;
+        const password = process.env.USER_PASSWORD;
+
+        await deleteUserRequest(request, email, password);
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+        await signupPage.fillEmailAddressInput(email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+
+        await step('Verify that the Create Password form is visible', async () => {
+            await expect(signupPage.createPasswordHeader).toBeVisible();
+        });
+
+        await step('Verify the presence of the Return to Registration button', async () => {
+            await expect(signupPage.backToSignUpButton).toBeVisible();
+        });
+
+        await step('Verify the presence of the Password input field', async () => {
+            await expect(signupPage.passwordInput).toBeVisible();
+        });
+
+        await step('Verify the presence of the Confirm Password input field', async () => {
+            await expect(signupPage.repeatPasswordInput).toBeVisible();
+        });
+
+        await step('Verify the presence of the Continue button', async () => {
+            await expect(signupPage.continueButton).toBeVisible();
+        });
+
+        await signupPage.clickBackToSignUpButton();
+
+        await step('Verify the user is redirected back to the registration page', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+            expect(page.url()).toEqual(process.env.URL + URL_ENDPOINT.signup);
+        });
     });
 });
