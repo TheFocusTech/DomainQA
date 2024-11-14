@@ -14,6 +14,11 @@ export default class SignupPage {
         this.loginLink = this.page.getByRole('link', { name: 'Log in' });
         this.termsOfUseLink = this.page.getByRole('link', { name: 'Term of use' });
         this.privacyPolicyLink = this.page.getByRole('link', { name: 'Privacy Policy' });
+        this.createPasswordHeader = this.page.locator('h1:has-text("Create password")');
+        this.backToSignUpButton = this.page.getByRole('button', { name: 'Back to Sign up' });
+        this.passwordInput = this.page.getByPlaceholder('Enter password');
+        this.repeatPasswordInput = this.page.getByPlaceholder('Repeat password');
+        this.continueButton = this.page.getByRole('button', { name: 'Continue' });
     }
 
     async fillEmailAddressInput(email) {
@@ -29,6 +34,12 @@ export default class SignupPage {
     async clickCreateAccount() {
         await step('Click on "Create account" button.', async () => {
             await this.createAccountButton.click();
+        });
+    }
+
+    async clickBackToSignUpButton() {
+        await step('Click on "Back to Sign up" button.', async () => {
+            await this.backToSignUpButton.click();
         });
     }
 }

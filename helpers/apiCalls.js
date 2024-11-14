@@ -219,7 +219,7 @@ export async function deleteUserRequest(request, email, password) {
                 },
             });
             if (!deleteResponse.ok()) {
-                console.error(`Failed to delete: ${deleteResponse.statusText()}`);
+                console.error('Failed to delete: No user with this email exists.');
             } else {
                 console.log('User was successfully deleted');
             }
