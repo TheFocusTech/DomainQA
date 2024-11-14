@@ -1,3 +1,0 @@
-Total number of hosted zones: 1
-Total number of hosted zones: 0
-All zones deleted

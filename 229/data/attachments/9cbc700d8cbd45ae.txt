@@ -1,1 +1,0 @@
-An error occurred while deleting hosted zone: DELETE hosted zone e2a42a1b-3030-4c20-b232-b00e440445be request failed with status: 408
