@@ -169,6 +169,8 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
 ];
 
 export const INPUT_SEARCH_PART = 'dom';
+export const INPUT_SEARCH_RELEVANT_NAME = 'domain';
+
 export const HEADER_LINKS = [
     {
         type: 'dropdown',
