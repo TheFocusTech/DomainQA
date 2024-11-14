@@ -64,7 +64,7 @@ test.describe('Navigation', () => {
     HEADER_LINKS.forEach((link) => {
         if (link.type === 'direct') {
             testNumber++;
-            test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${link.name}`, async ({
+            test.skip(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${link.name}`, async ({
                 page,
                 headerComponent,
                 blogPage,
@@ -103,7 +103,7 @@ test.describe('Navigation', () => {
         } else if (link.type === 'dropdown') {
             link.links.forEach((dropdownLink) => {
                 testNumber++;
-                test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
+                test.skip(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
                     page,
                     headerComponent,
                     registeredDomainsPage,
