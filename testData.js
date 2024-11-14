@@ -18,6 +18,8 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    confirmEmail: '/auth/confirm-email',
+    createContact: '/auth/create-contact',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -312,6 +314,7 @@ export const CONTACTS = {
     },
 };
 
-export const EMAIL_MIDDLE_PART = {
-    registerUser: 'qa.mail.template1000',
+export const REGISTER_USER = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
+    password: process.env.USER_PASSWORD,
 };

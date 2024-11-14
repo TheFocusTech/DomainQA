@@ -1,6 +1,6 @@
 import { TOTP } from 'totp-generator';
 import { RANDOM_CHARACTERS, NAME_SEARCH } from '../testData';
-import { getResponseHelpSearchAPI } from '../helpers/apiCalls';
+import { getResponseHelpSearchAPI } from './apiCalls';
 
 export function generateVerificationCode(secretKey) {
     const { otp, expires } = TOTP.generate(secretKey);
@@ -90,4 +90,8 @@ export async function resultPageContainQuerySearch(request) {
         result = 'true';
     } else result = 'false';
     return result;
+}
+
+export function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

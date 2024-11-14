@@ -31,6 +31,8 @@ import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
+import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
+import CreateContactPage from './pom/pages/CreateContactPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -162,5 +164,13 @@ export const test = base.extend({
     /** @type { ContactDetailsPage } */
     contactDetailsPage: async ({ page }, use) => {
         await use(new ContactDetailsPage(page));
+    },
+    /** @type { ConfirmEmailPage } */
+    confirmEmailPage: async ({ page }, use) => {
+        await use(new ConfirmEmailPage(page));
+    },
+    /** @type { CreateContactPage } */
+    createContactPage: async ({ page }, use) => {
+        await use(new CreateContactPage(page));
     },
 });
