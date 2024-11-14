@@ -63,6 +63,8 @@ export default class HostedZonesDetailPage {
     }
 
     async findAddedRecord(dnsType, dnsObj) {
+        await this.page.waitForLoadState('domcontentloaded');
+
         const dnsResords = await this.getDnsRecords();
         return dnsResords.find((obj) => {
             return (

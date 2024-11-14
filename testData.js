@@ -86,7 +86,7 @@ export const AVAILABLE_DOMAIN = 'strain123';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
-    HomePage: 'Millions of domains with the ulitmate privacy protection',
+    HomePage: 'Millions of domains with the ultimate privacy protection',
     WhoIs: 'Whois Domain Lookup',
     SSLCertificates: 'SSL certificates provide reliable security',
     Blog: 'Trustname Blog',
@@ -251,7 +251,7 @@ export const HEADER_LINKS = [
         type: 'direct',
         name: 'Logo',
         expectedUrl: '/',
-        heading: 'Millions of domains with the ulitmate privacy protection',
+        heading: 'Millions of domains with the ultimate privacy protection',
         buttons: ['Search'],
         result: '',
         text: '',
@@ -269,7 +269,7 @@ export const HEADER_LINKS = [
         type: 'direct',
         name: 'Home',
         expectedUrl: '/',
-        heading: 'Millions of domains with the ulitmate privacy protection',
+        heading: 'Millions of domains with the ultimate privacy protection',
         buttons: ['Search'],
         result: '',
         text: '',
