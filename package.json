@@ -35,6 +35,7 @@
     "totp-generator": "^1.0.0"
   },
   "dependencies": {
+    "@estruyf/github-actions-reporter": "^1.9.2",
     "allure-commandline": "^2.30.0"
   }
 }
