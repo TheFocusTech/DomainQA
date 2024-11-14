@@ -31,6 +31,7 @@ import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
+import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -162,5 +163,9 @@ export const test = base.extend({
     /** @type { ContactDetailsPage } */
     contactDetailsPage: async ({ page }, use) => {
         await use(new ContactDetailsPage(page));
+    },
+    /** @type { BlogSearchResultsPage } */
+    blogSearchResultsPage: async ({ page }, use) => {
+        await use(new BlogSearchResultsPage(page));
     },
 });

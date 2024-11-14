@@ -8,6 +8,7 @@ export default class BlogPage {
         this.mainHeading = this.page.locator('main h1');
         this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
+        this.blogSearchBtn = this.page.getByRole('button', { name: 'Search' });
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -31,6 +32,12 @@ export default class BlogPage {
     async waitForBlogSearchPopup() {
         await step('Wait search result in popup.', async () => {
             await this.blogSearchPopup.waitFor({ state: 'visible' });
+        });
+    }
+
+    async clickSearchBtn() {
+        await step('Click on search button', async () => {
+            await this.blogSearchBtn.first().click({ force: true });
         });
     }
 }

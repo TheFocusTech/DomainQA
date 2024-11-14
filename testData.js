@@ -18,6 +18,7 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    blogSearchResults: '/blog/search',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -93,6 +94,7 @@ export const ACCESSIBLE_PAGE_TITLE = {
     HelpCenter: 'How can we help you?',
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
+    BlogSearchResultsPage: '/blog/search?search=a',
 };
 
 export const WHOIS_SEARCH_RESULT_TITLES = [
@@ -315,3 +317,10 @@ export const CONTACTS = {
 export const EMAIL_MIDDLE_PART = {
     registerUser: 'qa.mail.template1000',
 };
+
+export const BLOG_SEARCH_RESULTS = {
+    title: 'By category',
+    subcategories: ['All Categories', 'Domain Names', 'Websites & Hosting', 'Marketing'],
+};
+
+export const BLOG_SEARCH = ['a'];
