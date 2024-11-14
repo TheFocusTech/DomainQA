@@ -26,7 +26,14 @@ export default defineConfig({
         ['html'],
         ['line'],
         ['list'],
-        ['@estruyf/github-actions-reporter'],
+        [
+            '@estruyf/github-actions-reporter',
+            {
+                title: 'Playwright test results',
+                useDetails: true,
+                showError: true,
+            },
+        ],
         [
             'allure-playwright',
             {
