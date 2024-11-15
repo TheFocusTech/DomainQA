@@ -610,4 +610,42 @@ test.describe('DNS Records', () => {
             expect(actualValues).toEqual(expectedValues);
         });
     });
+
+    test(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
+        page,
+        hostedZonesDetailPage,
+        deleteDNSmodal,
+        toastComponent,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Delete DNS record in hosted zone');
+        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}ymzx7lwf5592`, 'ATC_04_07');
+        await epic('Domains');
+
+        const initialRecords = await hostedZonesDetailPage.allkebabMenus.all();
+        const initialCount = initialRecords.length;
+
+        await step('Click on kebab-menu for each DNS record in the list', async () => {
+            await hostedZonesDetailPage.clickKebabMenuForRecords();
+        });
+
+        await step('If “Delete” link is found, click on it', async () => {
+            if (await hostedZonesDetailPage.isDeleteLinkVisible()) {
+                await hostedZonesDetailPage.clickDeleteLink();
+            }
+        });
+        await step('Confirm deletion by clicking “Delete” button in the modal', async () => {
+            await deleteDNSmodal.clickDeleteDNSbutton();
+        });
+
+        await step('Verify that the record is deleted', async () => {
+            await page.waitForTimeout(2000);
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnsRecordDeleted);
+            const updatedRecords = await hostedZonesDetailPage.allkebabMenus.all();
+            const updatedCount = updatedRecords.length;
+            expect(updatedCount).toBe(initialCount - 1);
+        });
+    });
 });

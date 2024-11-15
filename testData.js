@@ -47,6 +47,7 @@ export const TOAST_MESSAGE = {
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
+    dnsRecordDeleted: 'DNS-record deleted',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -63,6 +64,8 @@ export const API_ENDPOINT = {
     resourceRecords: '/resource-records',
     verificationCode: '/users/auth/email-confirmation/verification-code',
     userDelete: '/users/auth/qa/user-delete',
+    deleteResourceRecord: (hostedZoneId, recordId) =>
+        `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
 };
 
 export const DNS_TYPE = {
