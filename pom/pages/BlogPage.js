@@ -8,6 +8,7 @@ export default class BlogPage {
         this.mainHeading = this.page.locator('main h1');
         this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
+        this.blogSearchPopupList = this.page.locator('li[class*="search-articles-list__item"]');
     }
 
     async verifyBlogPage(heading, buttons) {
