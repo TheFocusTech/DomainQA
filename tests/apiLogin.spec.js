@@ -64,7 +64,6 @@ test('API - UI', async ({ request, hostedZonesPage, page }) => {
 
     // UI
     await page.goto(process.env.URL);
-    await page.reload();
 
     await hostedZonesPage.open();
     await expect(hostedZonesPage.createHostedZoneButton).toBeVisible();
