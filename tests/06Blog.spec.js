@@ -63,7 +63,6 @@ test.describe('Blog', () => {
             await results.first().waitFor({ state: 'visible', timeout: 5000 });
 
             const count = await results.count();
-            console.log('count', count)
             expect(count).toBeGreaterThan(0);
 
             for (let i = 0; i < count; i++) {
