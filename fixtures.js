@@ -31,7 +31,11 @@ import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
+<<<<<<< Updated upstream
 import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
+=======
+import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
+>>>>>>> Stashed changes
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -164,8 +168,14 @@ export const test = base.extend({
     contactDetailsPage: async ({ page }, use) => {
         await use(new ContactDetailsPage(page));
     },
+<<<<<<< Updated upstream
     /** @type { ForgotPasswordPage } */
     forgotPasswordPage: async ({ page }, use) => {
         await use(new ForgotPasswordPage(page));
+=======
+    /** @type { DeleteDNSmodal } */
+    deleteDNSmodal: async ({ page }, use) => {
+        await use(new DeleteDNSmodal(page));
+>>>>>>> Stashed changes
     },
 });

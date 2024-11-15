@@ -22,6 +22,8 @@ export default class HostedZonesDetailPage {
         this.getDnssecInfoBtn = this.page.getByRole('button', { name: 'Get DNSSEC info' });
         this.kebabMenu = this.page.locator('button[class*="button-icon-overlay"]').first();
         this.editButton = this.page.getByRole('button', { name: 'Edit' });
+        this.allkebabMenus = this.page.locator('button[class*="button-icon-overlay"]');
+        this.deleteDNSlink = this.page.getByRole('button', { name: 'Delete' });
     }
 
     async clickBackToHostedZonesButton() {
@@ -81,6 +83,27 @@ export default class HostedZonesDetailPage {
             await this.kebabMenu.scrollIntoViewIfNeeded();
             await this.kebabMenu.waitFor({ state: 'attached' });
             await this.kebabMenu.click();
+        });
+    }
+
+    async isDeleteLinkVisible() {
+        return await this.deleteDNSlink.isVisible();
+    }
+
+    async clickDeleteLink() {
+        await this.deleteDNSlink.click();
+    }
+
+    async clickKebabMenuForRecords() {
+        await step('Click on  kebab-menu for each DNS record in the list', async () => {
+            const kebabMenus = await this.allkebabMenus.all();
+            for (const menu of kebabMenus) {
+                await menu.click();
+                if (await this.isDeleteLinkVisible()) {
+                    return true;
+                }
+            }
+            return false;
         });
     }
 }
