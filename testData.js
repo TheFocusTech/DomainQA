@@ -18,6 +18,7 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    forgotPassword: '/auth/forgot-password',
 };
 
 export const INVALID_CREDS_AUTH = [
