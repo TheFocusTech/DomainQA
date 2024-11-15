@@ -23,17 +23,8 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
-        // ['html'],
-        // ['line'],
-        ['list'],
-        [
-            '@estruyf/github-actions-reporter',
-            {
-                title: 'Playwright test results',
-                useDetails: true,
-                showError: true,
-            },
-        ],
+        ['html'],
+        ['line'],
         [
             'allure-playwright',
             {
