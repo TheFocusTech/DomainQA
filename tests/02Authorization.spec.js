@@ -103,7 +103,7 @@ test.describe('Authorization', () => {
         await tags('Authorization', 'Positive');
         await severity('critical');
         await description('To verify user can delete account without 2FA');
-        await issue(`${QASE_LINK}case=23&suite=21`, 'Account Deletion');
+        await issue(`${QASE_LINK}/01-23`, 'Account Deletion');
         await tms(`${GOOGLE_DOC_LINK}iiqbm2c7rcc8`, 'ATC_02_04');
         await epic('Authorization');
 

@@ -503,7 +503,7 @@ test.describe('DNS Records', () => {
             await tags('Domains', 'Positive');
             await severity('normal');
             await description('Verify DNS Record created with all fields.');
-            await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}kgnoic8i621f`, 'ATC_04_04');
             await epic('Domains');
 
@@ -537,7 +537,7 @@ test.describe('DNS Records', () => {
             await tags('Domains', 'Positive');
             await severity('normal');
             await description('Verify DNS Record with required fields.');
-            await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}sxsiip4o92ch`, 'ATC_04_05');
             await epic('Domains');
 
@@ -570,7 +570,7 @@ test.describe('DNS Records', () => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify user can edit DNS record in hosted zone.');
-        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}xaubs66k6r55`, 'ATC_04_06');
         await epic('Domains');
 

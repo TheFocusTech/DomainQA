@@ -29,7 +29,7 @@ export const INVALID_CREDS_AUTH = [
 
 export const VALID_CREDS_AUTH = {
     email: 'domain.aqa+100@gmail.com',
-    password: 'QA_domain00',
+    password: process.env.USER_PASSWORD,
 };
 
 export const COLORS = {
