@@ -18,6 +18,7 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    forgotPassword: '/auth/forgot-password',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -55,7 +56,7 @@ export const NEGATIVE_EMAIL_DATA_SET = [
 ];
 
 export const API_ENDPOINT = {
-    login: '/auth/sign-in',
+    login: '/users/auth/sign-in',
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?size=30',
@@ -88,7 +89,7 @@ export const AVAILABLE_DOMAIN = 'strain123';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
-    HomePage: 'Millions of domains with the ulitmate privacy protection',
+    HomePage: 'Millions of domains with the ultimate privacy protection',
     WhoIs: 'Whois Domain Lookup',
     SSLCertificates: 'SSL certificates provide reliable security',
     Blog: 'Trustname Blog',
@@ -253,7 +254,7 @@ export const HEADER_LINKS = [
         type: 'direct',
         name: 'Logo',
         expectedUrl: '/',
-        heading: 'Millions of domains with the ulitmate privacy protection',
+        heading: 'Millions of domains with the ultimate privacy protection',
         buttons: ['Search'],
         result: '',
         text: '',
@@ -271,7 +272,7 @@ export const HEADER_LINKS = [
         type: 'direct',
         name: 'Home',
         expectedUrl: '/',
-        heading: 'Millions of domains with the ulitmate privacy protection',
+        heading: 'Millions of domains with the ultimate privacy protection',
         buttons: ['Search'],
         result: '',
         text: '',
@@ -312,4 +313,8 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+};
+
+export const EMAIL_MIDDLE_PART = {
+    registerUser: 'qa.mail.template1000',
 };

@@ -172,7 +172,7 @@ export default class DnsRecordModal {
         await item.scrollIntoViewIfNeeded();
         await item.click();
 
-        return arr[index] === 'Auto' ? '0 sec' : arr[index];
+        return arr[index];
     }
 
     async selectDigestType() {
