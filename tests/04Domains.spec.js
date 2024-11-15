@@ -255,12 +255,9 @@ test.describe('Hosted zones', () => {
         await page.waitForURL(process.env.URL);
         headers = await getCookies(page);
 
-        await headerComponent.clickHostedZonesLink();
-        await step('Verify that the user is in the Hosted Zone Page', async () => {
-            await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
-        });
-
+        await hostedZonesPage.open();
         await hostedZonesPage.clickCreateHostedZoneButton();
+
         await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
             await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         });

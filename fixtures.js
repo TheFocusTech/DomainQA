@@ -31,6 +31,7 @@ import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
 import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
+import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
 import BlogArticlePage from './pom/pages/BlogArticlePage';
 
 export const test = base.extend({
@@ -163,6 +164,10 @@ export const test = base.extend({
     /** @type { ContactDetailsPage } */
     contactDetailsPage: async ({ page }, use) => {
         await use(new ContactDetailsPage(page));
+    },
+    /** @type { ForgotPasswordPage } */
+    forgotPasswordPage: async ({ page }, use) => {
+        await use(new ForgotPasswordPage(page));
     },
     /** @type { BlogArticlePage } */
     blogArticlePage: async ({ page }, use) => {
