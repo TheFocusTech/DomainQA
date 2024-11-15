@@ -639,11 +639,10 @@ test.describe('DNS Records', () => {
         await step('Confirm deletion by clicking “Delete” button in the modal', async () => {
             await deleteDNSmodal.clickDeleteDNSbutton();
         });
-        await step('Verify toast notification about successful deletion of DNS record.', async () => {
-            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnsRecordDeleted);
-        });
+
         await step('Verify that the record is deleted', async () => {
             await page.waitForTimeout(2000);
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnsRecordDeleted);
             const updatedRecords = await hostedZonesDetailPage.allkebabMenus.all();
             const updatedCount = updatedRecords.length;
             expect(updatedCount).toBe(initialCount - 1);
