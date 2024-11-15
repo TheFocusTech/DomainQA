@@ -168,14 +168,11 @@ export const test = base.extend({
     contactDetailsPage: async ({ page }, use) => {
         await use(new ContactDetailsPage(page));
     },
-<<<<<<< Updated upstream
     /** @type { ForgotPasswordPage } */
     forgotPasswordPage: async ({ page }, use) => {
         await use(new ForgotPasswordPage(page));
-=======
     /** @type { DeleteDNSmodal } */
     deleteDNSmodal: async ({ page }, use) => {
         await use(new DeleteDNSmodal(page));
->>>>>>> Stashed changes
     },
 });
