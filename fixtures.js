@@ -33,6 +33,8 @@ import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
 import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
 import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
+import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
+import CreateContactPage from './pom/pages/CreateContactPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -172,5 +174,13 @@ export const test = base.extend({
     /** @type { DeleteDNSmodal } */
     deleteDNSmodal: async ({ page }, use) => {
         await use(new DeleteDNSmodal(page));
+    },
+    /** @type { ConfirmEmailPage } */
+    confirmEmailPage: async ({ page }, use) => {
+        await use(new ConfirmEmailPage(page));
+    },
+    /** @type { CreateContactPage } */
+    createContactPage: async ({ page }, use) => {
+        await use(new CreateContactPage(page));
     },
 });
