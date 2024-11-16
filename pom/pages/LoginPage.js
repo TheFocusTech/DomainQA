@@ -41,4 +41,10 @@ export default class LoginPage {
             await expect(this.loginButton).toBeVisible();
         });
     }
+
+    async clickForgotPassword() {
+        await step('Click on "Forgot password?" link.', async () => {
+            await this.forgotPasswordLink.click();
+        });
+    }
 }
