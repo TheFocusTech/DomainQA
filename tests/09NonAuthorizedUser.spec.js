@@ -225,4 +225,55 @@ test.describe('Unauthorized user', () => {
             await expect(forgotPasswordPage.header).toBeVisible();
         });
     });
+
+    /* 
+    Тест будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
+    test(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
+        homePage,
+        advancedSearchModal,
+        domainAvailabilityPage,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(
+            `Verify unauthorized user can select TLD in different categories and see relevant search results`
+        );
+        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await tms(`${GOOGLE_DOC_LINK}5vbs55mgoksg`, 'ATC_09_02_05');
+        await epic('Unauthorized_user');
+        await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
+        await homePage.clickFilterButton();
+        await advancedSearchModal.modalWindow.waitFor({ status: 'visible' });
+
+        const quantityOfCategories = 3;
+        const quantityOfTLDs = 2;
+        const selectedTLDs = await advancedSearchModal.selectSeveralCategoriesAndTLDs(
+            quantityOfCategories,
+            quantityOfTLDs
+        );
+
+        await step(
+            `Verify that user can see selected numbers of TLDs in header: Selected (${selectedTLDs.length}) TLDs`,
+            async () => {
+                await expect(await advancedSearchModal.getQuantitySelectedTLDs()).toEqual(
+                    `Selected (${selectedTLDs.length}) TLDs`
+                );
+            }
+        );
+
+        await advancedSearchModal.clickApplyButton();
+        await expect(await homePage.filterApplyBadge).toBeVisible();
+
+        await homePage.clickSearchButton();
+        await expect(await domainAvailabilityPage.resultSearchList).toBeVisible();
+
+        await step(`Verify that search result contains selected domains: ${selectedTLDs}`, async () => {
+            await expect(await domainAvailabilityPage.resultSearchList).toHaveCount(selectedTLDs.length);
+            let resultsList = await domainAvailabilityPage.resultSearchList;
+            for (let i = 0; i < resultsList.length; i++) {
+                await expect(resultsList[i]).toContainText(AVAILABLE_DOMAIN + `${selectedTLDs[i]}`);
+            }
+        });
+    });
+    */
 });

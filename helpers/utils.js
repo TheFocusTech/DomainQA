@@ -95,3 +95,14 @@ export async function resultPageContainQuerySearch(request) {
 export function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function getRandomArray(rowOfNumbers, arrayLength) {
+    const array = [];
+    while (array.length !== arrayLength) {
+        let randomIndex = Math.floor(Math.random() * rowOfNumbers);
+        if (!array.includes(randomIndex)) {
+            array.push(randomIndex);
+        }
+    }
+    return array;
+}

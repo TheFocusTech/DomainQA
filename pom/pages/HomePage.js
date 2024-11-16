@@ -9,6 +9,8 @@ export default class HomePage {
         this.searchButton = this.page.getByRole('button', { name: 'Search' }).nth(1);
         this.filterButton = this.page.getByLabel('Advanced search').first();
         this.mainHeading = this.page.locator('main h1');
+        this.filterApplyBadge = this.page.locator('span[class*="badge-indicator__counter"]');
+        this.resultsList = this.page.locator('div[class*="domains-list-cards"]');
     }
 
     async fillDomainSearchInput(nameDomain) {
@@ -33,5 +35,11 @@ export default class HomePage {
                 await expect(buttonLocator).toBeVisible();
             });
         }
+    }
+
+    async clickFilterButton() {
+        await step('Click on "Filter" button.', async () => {
+            await this.filterButton.click();
+        });
     }
 }
