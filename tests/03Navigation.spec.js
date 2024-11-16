@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, HEADER_LINKS, ACCESSIBLE_PAGE_TITLE } from '../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, HEADER_LINKS, ACCESSIBLE_PAGE_TITLE, CURRENCY_TYPE } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
 const navigationActions = {
@@ -55,8 +55,13 @@ const navigationToHomePageActions = {
 
 test.describe('Navigation', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage }) => {
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage);
+        await loginUser(page, headerComponent, loginPage);
+
+        await step('Preconditions: change currency if needed', async () => {
+            await headerComponent.clickMyProfileButton();
+            (await headerComponent.isCurrencyTypeSet(CURRENCY_TYPE[0].type[0]))
+                ? null
+                : await headerComponent.changeCurrencyType(CURRENCY_TYPE[0].type[0]);
         });
     });
 
@@ -75,7 +80,7 @@ test.describe('Navigation', () => {
                 await tags('Navigation', 'Positive');
                 await severity('critical');
                 await description('To verify that user can navigate through Header links.');
-                await issue(`${QASE_LINK}`, 'Navigation');
+                await issue(`${QASE_LINK}/01-5`, 'Navigation');
                 await tms(`${GOOGLE_DOC_LINK}qept55xhhmbh`, 'ATC_03_01');
                 await epic('Navigation');
 
@@ -117,7 +122,7 @@ test.describe('Navigation', () => {
                     await tags('Navigation', 'Positive');
                     await severity('critical');
                     await description('To verify that user can navigate through Header links.');
-                    await issue(`${QASE_LINK}`, 'Navigation');
+                    await issue(`${QASE_LINK}/01-5`, 'Navigation');
                     await tms(`${GOOGLE_DOC_LINK}qept55xhhmbh`, 'ATC_03_01');
                     await epic('Navigation');
                     await headerComponent.clickButton(link.trigger);
