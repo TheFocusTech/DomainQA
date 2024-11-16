@@ -17,12 +17,15 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright Chrome tests
-        run: npm test
+#        run: npm test
+        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
         env:
           URL: ${{ secrets.URL}}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
           API_URL: ${{ secrets.API_URL }}
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
           CI_RUN: true
 
       - uses: actions/upload-artifact@v4
@@ -62,3 +65,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+
+      - name: Add Github Actions report
+        uses: daun/playwright-report-summary@v3
+        if: always()
+        with:
+          report-file: results.json
+          icon-style: 'emojis'

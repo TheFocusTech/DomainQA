@@ -29,6 +29,12 @@ import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
+import ContactDetailsPage from './pom/pages/ContactDetailsPage';
+import ContactsPage from './pom/pages/ContactsPage';
+import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
+import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
+import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
+import CreateContactPage from './pom/pages/CreateContactPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 
 export const test = base.extend({
@@ -153,6 +159,30 @@ export const test = base.extend({
     /** @type { HelpSearchResultsPage } */
     helpSearchResultsPage: async ({ page }, use) => {
         await use(new HelpSearchResultsPage(page));
+    },
+    /** @type { ContactsPage } */
+    contactsPage: async ({ page }, use) => {
+        await use(new ContactsPage(page));
+    },
+    /** @type { ContactDetailsPage } */
+    contactDetailsPage: async ({ page }, use) => {
+        await use(new ContactDetailsPage(page));
+    },
+    /** @type { ForgotPasswordPage } */
+    forgotPasswordPage: async ({ page }, use) => {
+        await use(new ForgotPasswordPage(page));
+    },
+    /** @type { DeleteDNSmodal } */
+    deleteDNSmodal: async ({ page }, use) => {
+        await use(new DeleteDNSmodal(page));
+    },
+    /** @type { ConfirmEmailPage } */
+    confirmEmailPage: async ({ page }, use) => {
+        await use(new ConfirmEmailPage(page));
+    },
+    /** @type { CreateContactPage } */
+    createContactPage: async ({ page }, use) => {
+        await use(new CreateContactPage(page));
     },
     /** @type { AdvancedSearchModal } */
     advancedSearchModal: async ({ page }, use) => {
