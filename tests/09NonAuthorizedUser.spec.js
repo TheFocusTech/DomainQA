@@ -226,6 +226,8 @@ test.describe('Unauthorized user', () => {
         });
     });
 
+    /* 
+    Тест будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
     test(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
         homePage,
         advancedSearchModal,
@@ -243,8 +245,8 @@ test.describe('Unauthorized user', () => {
         await homePage.clickFilterButton();
         await advancedSearchModal.modalWindow.waitFor({ status: 'visible' });
 
-        const quantityOfCategories = 1;
-        const quantityOfTLDs = 1;
+        const quantityOfCategories = 3;
+        const quantityOfTLDs = 2;
         const selectedTLDs = await advancedSearchModal.selectSeveralCategoriesAndTLDs(
             quantityOfCategories,
             quantityOfTLDs
@@ -273,66 +275,5 @@ test.describe('Unauthorized user', () => {
             }
         });
     });
+    */
 });
-
-//     test(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
-//         homePage,
-//         advancedSearchModal,
-//         domainAvailabilityPage,
-//     }) => {
-//         await tags('Unauthorized user', 'Search domains');
-//         await severity('normal');
-//         await description(
-//             `Verify unauthorized user can select TLD in different categories and see relevant search results`
-//         );
-//         await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
-//         await tms(`${GOOGLE_DOC_LINK}5vbs55mgoksg`, 'ATC_09_03_05');
-//         await epic('Unauthorized user');
-
-//         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
-//         await homePage.clickFilterButton();
-//         // await advancedSearchModal.advancedSearchHeader.waitFor({ status: 'visible' });
-
-//         const quantityOfCategories = 2;
-//         const quantityOfTLDsInCategory = 3;
-//         const selectedTLDs = await advancedSearchModal.selectSeveralCategoriesAndTLDs(
-//             quantityOfCategories,
-//             quantityOfTLDsInCategory
-//         );
-
-//         await step(
-//             `Verify that user can see selected numbers of TLDs in header: Selected (${selectedTLDs.length}) TLDs`,
-//             async () => {
-//                 await expect(await advancedSearchModal.getQuantitySelectedTLDs()).toEqual(
-//                     `Selected (${selectedTLDs.length}) TLDs`
-//                 );
-//             }
-//         );
-
-//         await advancedSearchModal.clickApplyButton();
-//         await expect(await homePage.filterApplyBadge).toBeVisible();
-
-//         await homePage.clickSearchButton();
-//         // test.setTimeout(15000)
-//         // await expect(await domainAvailabilityPage.resultSearchSection).toBeVisible();
-
-//         await step(`Verify that the selected domains are in the list of results`, async () => {
-//             //await expect(await domainAvailabilityPage.resultSearchList).toHaveCount(selectedTLDs.length);
-//             let arr1 = []
-//             let resultsList = await domainAvailabilityPage.resultSearchList.all()
-//             for (let i = 0; i < resultsList.length; i++) {
-//                  arr1.push(resultsList.innerText()[i]);
-//             }
-//             let arr = selectedTLDs.map(el => AVAILABLE_DOMAIN + el)
-//             console.log(resultsList);
-//             console.log(arr1)
-
-//             for (let i = 0; i < resultsList.length; i++) {
-//                 let res = arr.includes(resultsList[i])
-//                 console.log(resultsList[i], res);
-
-//                 await expect(res).toBeTruthy();
-//             }
-//         });
-//     });
-// });
