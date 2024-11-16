@@ -318,3 +318,20 @@ export const REGISTER_USER = {
     email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
     password: process.env.USER_PASSWORD,
 };
+
+export const USER_GENERAL_INFO_MAP = new Map([
+    ['Alias', 'Domain Admin'],
+    ['First name', 'Domain'],
+    ['Last name', 'Admin'],
+    ['Company Name or Organization', 'No details added'],
+    ['Job Title', 'No details added'],
+    ['Address line 1', '123 Street'],
+    ['Address line 2', 'No details added'],
+    ['City', 'Paris'],
+    ['State / Province', 'No details added'],
+    ['ZIP / Postal code', '00000'],
+    ['Country', 'France'],
+    ['Phone number', '+12345678901'],
+    ['Fax number', 'No details added'],
+    ['Email', REGISTER_USER.email],
+]);

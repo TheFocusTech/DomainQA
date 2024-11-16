@@ -1,7 +1,14 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET, REGISTER_USER } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    NEGATIVE_EMAIL_DATA_SET,
+    REGISTER_USER,
+    USER_GENERAL_INFO_MAP,
+} from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 
@@ -271,5 +278,85 @@ test.describe('Registration', () => {
                 await expect(newVerificationCode).not.toBe(verificationCode);
             }
         );
+    });
+
+    test('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+        page,
+        request,
+        headerComponent,
+        signupPage,
+        confirmEmailPage,
+        createContactPage,
+        settingsGeneralPage,
+        settingsContactsPage,
+    }) => {
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description('Verify the contact creation, redirection to Homepage, and user info accuracy');
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}66p4zgc61ah0`, 'ATC_01_01_04');
+        await epic('Registration');
+
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.clickBackToSignUpButton();
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.fillPasswordInput(REGISTER_USER.password);
+        await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
+        await signupPage.clickContinueButton();
+
+        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+
+        await confirmEmailPage.fillVerificationCodeInput(verificationCode);
+        await confirmEmailPage.clickContinueButton();
+
+        await step('Verify redirection to the "Create new contact" form', async () => {
+            await page.waitForURL(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+            expect(page.url()).toEqual(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+        });
+
+        await step('Verify that the "Create new contact" form is visible', async () => {
+            await expect(createContactPage.createNewContactHeader).toBeVisible();
+        });
+
+        await createContactPage.fillFirstNameInputIfEmpty(USER_GENERAL_INFO_MAP.get('First name'));
+        await createContactPage.fillLastNameInputIfEmpty(USER_GENERAL_INFO_MAP.get('Last name'));
+        await createContactPage.fillAddressLine1Input(USER_GENERAL_INFO_MAP.get('Address line 1'));
+        await createContactPage.fillCityInput(USER_GENERAL_INFO_MAP.get('City'));
+        await createContactPage.selectCountryByName(USER_GENERAL_INFO_MAP.get('Country'));
+        await createContactPage.fillPhoneNumberInput(USER_GENERAL_INFO_MAP.get('Phone number'));
+        await createContactPage.fillEmailInput(REGISTER_USER.email);
+        await createContactPage.clickContinueButton();
+
+        await step('Verify the user is redirected to the Homepage.', async () => {
+            await page.waitForURL(`${process.env.URL}/`);
+            expect(page.url()).toEqual(`${process.env.URL}/`);
+        });
+
+        await headerComponent.clickMyProfileButton();
+
+        await step('Verify the contact is created and Profile contains the correct email', async () => {
+            await expect(headerComponent.myProfileDropdownMenuItems.first()).toHaveText(REGISTER_USER.email);
+        });
+
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickContactsButton();
+        await settingsContactsPage.clickMoreButton();
+        await settingsContactsPage.selectViewFullInfo();
+        const generalUserInfoMap = await settingsContactsPage.getUserInformationMap();
+
+        await step('Verify all the user\'s information in "Account Settings" is displayed accurately', async () => {
+            expect(generalUserInfoMap).toEqual(USER_GENERAL_INFO_MAP);
+        });
     });
 });
