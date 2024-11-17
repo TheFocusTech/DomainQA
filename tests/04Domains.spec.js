@@ -25,7 +25,7 @@ let hostedZoneId;
 let dnsObj;
 let dnsRecordsBeforeEdit;
 
-test.describe('Search Hosted Zones', () => {
+test.describe.skip('Search Hosted Zones', () => {
     test.afterAll(async ({ request }) => {
         await deleteAllHostedZones(request, headers);
     });

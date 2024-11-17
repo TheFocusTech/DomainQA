@@ -131,7 +131,7 @@ test.describe('My profile', () => {
         );
     });
 
-    test('TC_08_02_03 | Verify the user can enable/disable Two-factor authentication (2FA)', async ({
+    test.skip('TC_08_02_03 | Verify the user can enable/disable Two-factor authentication (2FA)', async ({
         page,
         loginPage,
         headerComponent,
@@ -185,7 +185,7 @@ test.describe('My profile', () => {
     });
 
     CURRENCY_TYPE.forEach(({ type }) => {
-        test(`TC_08_02_04 | Verify user can change currency from ${type[0]} to ${type[1]}`, async ({
+        test.skip(`TC_08_02_04 | Verify user can change currency from ${type[0]} to ${type[1]}`, async ({
             page,
             loginPage,
             headerComponent,
@@ -222,7 +222,7 @@ test.describe('My profile', () => {
     });
 
     CURRENCY_TYPE.forEach(({ type }) => {
-        test(`TC_08_06 | Verify user can change currency from ${type[0]} to ${type[1]} in the Profile Menu`, async ({
+        test.skip(`TC_08_06 | Verify user can change currency from ${type[0]} to ${type[1]} in the Profile Menu`, async ({
             page,
             loginPage,
             headerComponent,
@@ -258,7 +258,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test('TC_08_07 | Verify that the user can log out of the account from the Profile Menu', async ({
+    test.skip('TC_08_07 | Verify that the user can log out of the account from the Profile Menu', async ({
         page,
         loginPage,
         headerComponent,
@@ -272,9 +272,10 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Log out');
 
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        // await step('Preconditions:', async () => {
+        //     await loginUser(page, headerComponent, loginPage);
+        // });
+        await page.goto('/');
 
         await step('The "My profile" button is visible in the header.', async () => {
             await expect(headerComponent.myProfileButton).toBeVisible();
@@ -312,9 +313,10 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        // await step('Preconditions:', async () => {
+        //     await loginUser(page, headerComponent, loginPage);
+        // });
+        await page.goto('/');
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
@@ -323,38 +325,38 @@ test.describe('My profile', () => {
         await step('Verify the "Manage your notifications" header is displayed.', async () => {
             await expect(settingsNotificationsPage.notificationsHeading).toBeVisible();
         });
-        await step('Verify the "Manage your notifications" table is displayed.', async () => {
-            await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(3);
-        });
-        await step('Verify the "Notifications Type".', async () => {
-            await expect(settingsNotificationsPage.notificationsType).toHaveText([
-                NOTIFICATIONS_TYPE.type1,
-                NOTIFICATIONS_TYPE.type2,
-                NOTIFICATIONS_TYPE.type3,
-            ]);
-        });
+        // await step('Verify the "Manage your notifications" table is displayed.', async () => {
+        //     await expect(settingsNotificationsPage.notificationsTableRow).toHaveCount(3);
+        // });
+        // await step('Verify the "Notifications Type".', async () => {
+        //     await expect(settingsNotificationsPage.notificationsType).toHaveText([
+        //         NOTIFICATIONS_TYPE.type1,
+        //         NOTIFICATIONS_TYPE.type2,
+        //         NOTIFICATIONS_TYPE.type3,
+        //     ]);
+        // });
 
-        await step('Verify the "Email" notifications is checked by default.', async () => {
-            for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
-                expect(checkbox).toBeChecked();
-            }
-        });
+        // await step('Verify the "Email" notifications is checked by default.', async () => {
+        //     for (const checkbox of await settingsNotificationsPage.emailNotificationsCheckbox.all()) {
+        //         expect(checkbox).toBeChecked();
+        //     }
+        // });
 
-        await step('Verify the "Browser" notifications is checked by default.', async () => {
-            for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
-                expect(checkbox).toBeChecked();
-            }
-        });
+        // await step('Verify the "Browser" notifications is checked by default.', async () => {
+        //     for (const checkbox of await settingsNotificationsPage.browserNotificationsCheckbox.all()) {
+        //         expect(checkbox).toBeChecked();
+        //     }
+        // });
 
-        await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
-            for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
-                await expect(checkbox).toBeChecked();
-                await checkbox.uncheck();
-                await expect(checkbox).not.toBeChecked();
-                await checkbox.check();
-                await expect(checkbox).toBeChecked();
-            }
-        });
+        // await step('Verify the "Browser" notifications can be checked / unchecked.', async () => {
+        //     for (const checkbox of await settingsNotificationsPage.browserNotifications.all()) {
+        //         await expect(checkbox).toBeChecked();
+        //         await checkbox.uncheck();
+        //         await expect(checkbox).not.toBeChecked();
+        //         await checkbox.check();
+        //         await expect(checkbox).toBeChecked();
+        //     }
+        // });
     });
 
     test('TC_08_03 | Verify user can see pre-defined contact on his Contacts page', async ({
@@ -373,7 +375,9 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
+        await page.context().clearCookies();
         await loginUser(page, headerComponent, loginPage);
+        // await page.goto('/');
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();

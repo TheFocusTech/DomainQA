@@ -4,6 +4,8 @@ import { description, tags, severity, epic, step, tms, issue } from 'allure-js-c
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET, EMAIL_MIDDLE_PART } from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe('Registration', () => {
     test('TC_01_02_01 | Verify user is not able to sign up with an existing email', async ({
         page,

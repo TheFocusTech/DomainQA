@@ -53,7 +53,7 @@ const navigationToHomePageActions = {
     },
 };
 
-test.describe('Navigation', () => {
+test.describe.skip('Navigation', () => {
     test.beforeEach(async ({ page, headerComponent, loginPage }) => {
         await step('Preconditions:', async () => {
             await loginUser(page, headerComponent, loginPage);

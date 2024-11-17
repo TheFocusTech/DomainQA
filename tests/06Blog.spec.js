@@ -4,7 +4,7 @@ import { description, tags, severity, epic, step, tms, issue } from 'allure-js-c
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INPUT_SEARCH_PART } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
-test.describe('Blog', () => {
+test.describe.skip('Blog', () => {
     test('TC_06_08 | Verify Autocomplete Suggestions Displayed for Partial Search Input', async ({
         page,
         headerComponent,

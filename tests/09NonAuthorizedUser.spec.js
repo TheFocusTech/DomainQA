@@ -27,6 +27,8 @@ const accessiblePageRedirectCases = Object.keys(ACCESSIBLE_PAGE_TITLE).map((key)
     expectedTitle: ACCESSIBLE_PAGE_TITLE[key],
 }));
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe('Unauthorized user', () => {
     test.beforeEach(async ({ page }) => {
         await step('Open web-site as Non authorized user', async () => {

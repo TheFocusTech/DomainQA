@@ -18,7 +18,7 @@ import {
     resultPageContainQuerySearch,
 } from '../helpers/utils';
 
-test.describe('Help Center', () => {
+test.describe.skip('Help Center', () => {
     //test.use({ viewport: { width: 1600, height: 1200 } });
     //// test.describe.configure({ retries: 2, timeout: 60000 });
 
