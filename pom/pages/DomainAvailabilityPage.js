@@ -11,6 +11,7 @@ export default class DomainAvailabilityPage {
         this.buyButton = this.page.locator('div').filter({ hasText: /^Buy$/ }).first();
         this.costDomain = this.page.locator('text=/\\$\\d+\\.\\d{2}\\/yearRenewal/').first();
         this.fullInfoDomain = this.page.getByText('/^.+.(com|net|org)$d+.d{2}/yearRenewal: $d+.d{2}Buy$/');
+        this.resultSearchList = this.page.locator('p[class*="card-domain-purchase"]');
     }
     async clickWhoOwnsButton() {
         await step('Click on "Who Owns" button.', async () => {
