@@ -24,6 +24,17 @@ export default class AdvancedSearchModal {
         this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
+        this.firstTLD = this.page.locator(
+            'section[class*="tld-category-list"]>div:first-child span[class*="choicebox__text"]'
+        );
+        this.TLDsList = this.page.locator('section[class*="tld-category-list"] span[class*="choicebox__text"]');
+        this.randomTLD = (index) =>
+            this.page.locator(
+                `section[class*="tld-category-list"]>div:nth-child(${index + 1}) span[class*="choicebox__text"]`
+            );
+        this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
+        this.advancedSearchHeader = this.page.locator('section[class*="modal-root"] h2');
+        this.filterHeader = this.page.locator('span[class*="tld-header_filter-header"]:last-child');
     }
 
     async selectCategory(category) {
@@ -35,6 +46,8 @@ export default class AdvancedSearchModal {
             );
             await firstTLD.waitFor('visible');
             await expect(firstTLD).toContainText(`.${category}`);
+            await this.categoryTLD(category).click({ forse: true });
+            await this.firstTLD.waitFor('visible');
         });
     }
 
@@ -49,6 +62,8 @@ export default class AdvancedSearchModal {
                 );
                 await randomTLD.click();
                 await expect(this.categoryTLD(category)).toHaveClass(/tld-item_tld-item--selected/);
+                const randomTLD = await this.randomTLD(index);
+                await randomTLD.click();
                 listOfTLD.push(await randomTLD.textContent());
             }
         });
@@ -68,7 +83,11 @@ export default class AdvancedSearchModal {
 
             for (const category of categoriesArr) {
                 await this.selectCategory(category);
+
                 let listOfTLDOneCategory = await this.selectTLDs(category, numberOfTLDs);
+                await expect(this.firstTLD).toContainText(`.${category}`);
+                let listOfTLDOneCategory = await this.selectTLDs(category, numberOfTLDs);
+                await expect(this.categoryTLD(category)).toHaveClass(/tld-item_tld-item--selected/);
                 listOfTLDs.push(...listOfTLDOneCategory);
             }
         });
