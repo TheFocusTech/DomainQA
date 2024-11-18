@@ -300,6 +300,11 @@ export const API_HelpSearch = {
 
 export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
 
+export const REGISTER_USER = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
+    password: process.env.USER_PASSWORD,
+};
+
 export const CONTACTS = {
     predefined: {
         alias: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
@@ -318,26 +323,20 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+    newUser: {
+        alias: 'Domain Admin',
+        'first name': 'Domain',
+        'last name': 'Admin',
+        'company name or organization': 'No details added',
+        'job title': 'No details added',
+        'address line 1': '123 Street',
+        'address line 2': 'No details added',
+        city: 'Paris',
+        'state / province': 'No details added',
+        'zip / postal code': '00000',
+        country: 'France',
+        'phone number': '+12345678901',
+        'fax number': 'No details added',
+        email: REGISTER_USER.email,
+    },
 };
-
-export const REGISTER_USER = {
-    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
-    password: process.env.USER_PASSWORD,
-};
-
-export const USER_GENERAL_INFO_MAP = new Map([
-    ['Alias', 'Domain Admin'],
-    ['First name', 'Domain'],
-    ['Last name', 'Admin'],
-    ['Company Name or Organization', 'No details added'],
-    ['Job Title', 'No details added'],
-    ['Address line 1', '123 Street'],
-    ['Address line 2', 'No details added'],
-    ['City', 'Paris'],
-    ['State / Province', 'No details added'],
-    ['ZIP / Postal code', '00000'],
-    ['Country', 'France'],
-    ['Phone number', '+12345678901'],
-    ['Fax number', 'No details added'],
-    ['Email', REGISTER_USER.email],
-]);

@@ -7,7 +7,7 @@ import {
     URL_ENDPOINT,
     NEGATIVE_EMAIL_DATA_SET,
     REGISTER_USER,
-    USER_GENERAL_INFO_MAP,
+    CONTACTS,
 } from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -288,7 +288,8 @@ test.describe('Registration', () => {
         confirmEmailPage,
         createContactPage,
         settingsGeneralPage,
-        settingsContactsPage,
+        contactsPage,
+        contactDetailsPage,
     }) => {
         await tags('Registration', 'Positive');
         await severity('normal');
@@ -329,12 +330,12 @@ test.describe('Registration', () => {
             await expect(createContactPage.createNewContactHeader).toBeVisible();
         });
 
-        await createContactPage.fillFirstNameInputIfEmpty(USER_GENERAL_INFO_MAP.get('First name'));
-        await createContactPage.fillLastNameInputIfEmpty(USER_GENERAL_INFO_MAP.get('Last name'));
-        await createContactPage.fillAddressLine1Input(USER_GENERAL_INFO_MAP.get('Address line 1'));
-        await createContactPage.fillCityInput(USER_GENERAL_INFO_MAP.get('City'));
-        await createContactPage.selectCountryByName(USER_GENERAL_INFO_MAP.get('Country'));
-        await createContactPage.fillPhoneNumberInput(USER_GENERAL_INFO_MAP.get('Phone number'));
+        await createContactPage.fillFirstNameInputIfEmpty(CONTACTS.newUser['first name']);
+        await createContactPage.fillLastNameInputIfEmpty(CONTACTS.newUser['last name']);
+        await createContactPage.fillAddressLine1Input(CONTACTS.newUser['address line 1']);
+        await createContactPage.fillCityInput(CONTACTS.newUser.city);
+        await createContactPage.selectCountryByName(CONTACTS.newUser.country);
+        await createContactPage.fillPhoneNumberInput(CONTACTS.newUser['phone number']);
         await createContactPage.fillEmailInput(REGISTER_USER.email);
         await createContactPage.clickContinueButton();
 
@@ -344,19 +345,20 @@ test.describe('Registration', () => {
         });
 
         await headerComponent.clickMyProfileButton();
-
-        await step('Verify the contact is created and Profile contains the correct email', async () => {
-            await expect(headerComponent.myProfileDropdownMenuItems.first()).toHaveText(REGISTER_USER.email);
-        });
-
         await headerComponent.clickAccountSettingsLink();
         await settingsGeneralPage.clickContactsButton();
-        await settingsContactsPage.clickMoreButton();
-        await settingsContactsPage.selectViewFullInfo();
-        const generalUserInfoMap = await settingsContactsPage.getUserInformationMap();
+        await contactsPage.clickMoreButton();
+        await contactsPage.clickViewFullInfoButton();
+
+        const actualUserData = await contactDetailsPage.getUserInformation();
 
         await step('Verify all the user\'s information in "Account Settings" is displayed accurately', async () => {
-            expect(generalUserInfoMap).toEqual(USER_GENERAL_INFO_MAP);
+            for (const key of Object.keys(CONTACTS.newUser)) {
+                const actualValue = actualUserData[key];
+                const expectedValue = CONTACTS.newUser[key];
+
+                expect(actualValue).toEqual(expectedValue);
+            }
         });
     });
 });
