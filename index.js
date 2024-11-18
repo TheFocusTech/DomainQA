@@ -80,7 +80,7 @@ export async function getVerificationCodeFromEmail(auth, email) {
         try {
             const gmail = google.gmail({ version: 'v1', auth });
             console.log('Waiting for the verification code email to arrive...');
-            await delay(10000);
+            await delay(5000);
             const messagesResponse = await gmail.users.messages.list({
                 userId: 'me',
                 q: `to:${email}`,
