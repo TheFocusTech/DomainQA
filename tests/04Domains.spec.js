@@ -255,12 +255,9 @@ test.describe('Hosted zones', () => {
         await page.waitForURL(process.env.URL);
         headers = await getCookies(page);
 
-        await headerComponent.clickHostedZonesLink();
-        await step('Verify that the user is in the Hosted Zone Page', async () => {
-            await expect(hostedZonesPage.hostedZonesHeader).toBeVisible();
-        });
-
+        await hostedZonesPage.open();
         await hostedZonesPage.clickCreateHostedZoneButton();
+
         await step('Verify that the Modal Window to create Hosted Zone Page is opening', async () => {
             await expect(createHostedZoneModal.hostedZoneDomainNameInput).toBeVisible();
         });
@@ -506,7 +503,7 @@ test.describe('DNS Records', () => {
             await tags('Domains', 'Positive');
             await severity('normal');
             await description('Verify DNS Record created with all fields.');
-            await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}kgnoic8i621f`, 'ATC_04_04');
             await epic('Domains');
 
@@ -540,7 +537,7 @@ test.describe('DNS Records', () => {
             await tags('Domains', 'Positive');
             await severity('normal');
             await description('Verify DNS Record with required fields.');
-            await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
             await tms(`${GOOGLE_DOC_LINK}sxsiip4o92ch`, 'ATC_04_05');
             await epic('Domains');
 
@@ -573,7 +570,7 @@ test.describe('DNS Records', () => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Verify user can edit DNS record in hosted zone.');
-        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}xaubs66k6r55`, 'ATC_04_06');
         await epic('Domains');
 
@@ -611,6 +608,44 @@ test.describe('DNS Records', () => {
             };
 
             expect(actualValues).toEqual(expectedValues);
+        });
+    });
+
+    test(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
+        page,
+        hostedZonesDetailPage,
+        deleteDNSmodal,
+        toastComponent,
+    }) => {
+        await tags('Domains', 'Positive');
+        await severity('normal');
+        await description('Delete DNS record in hosted zone');
+        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}ymzx7lwf5592`, 'ATC_04_07');
+        await epic('Domains');
+
+        const initialRecords = await hostedZonesDetailPage.allkebabMenus.all();
+        const initialCount = initialRecords.length;
+
+        await step('Click on kebab-menu for each DNS record in the list', async () => {
+            await hostedZonesDetailPage.clickKebabMenuForRecords();
+        });
+
+        await step('If “Delete” link is found, click on it', async () => {
+            if (await hostedZonesDetailPage.isDeleteLinkVisible()) {
+                await hostedZonesDetailPage.clickDeleteLink();
+            }
+        });
+        await step('Confirm deletion by clicking “Delete” button in the modal', async () => {
+            await deleteDNSmodal.clickDeleteDNSbutton();
+        });
+
+        await step('Verify that the record is deleted', async () => {
+            await page.waitForTimeout(2000);
+            await expect(toastComponent.toastBody).toHaveText(TOAST_MESSAGE.dnsRecordDeleted);
+            const updatedRecords = await hostedZonesDetailPage.allkebabMenus.all();
+            const updatedCount = updatedRecords.length;
+            expect(updatedCount).toBe(initialCount - 1);
         });
     });
 });

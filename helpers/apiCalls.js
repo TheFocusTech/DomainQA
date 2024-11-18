@@ -219,7 +219,7 @@ export async function deleteUserRequest(request, email, password) {
                 },
             });
             if (!deleteResponse.ok()) {
-                console.error(`Failed to delete: ${deleteResponse.statusText()}`);
+                console.error('Failed to delete: No user with this email exists.');
             } else {
                 console.log('User was successfully deleted');
             }
@@ -227,4 +227,17 @@ export async function deleteUserRequest(request, email, password) {
             console.error(`An error occurred during login: ${error.message}`);
         }
     });
+}
+
+export async function deleteDnsRecordAPI(request, recordId, hostedZoneId, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.deleteResourceRecord(recordId, hostedZoneId)}`;
+    try {
+        const response = await request.delete(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`DELETE DNS record ${recordId} request failed with status: ${response.status()}`);
+        }
+    } catch (error) {
+        console.error(`An error occurred while deleting DNS record: ${error.message}`);
+    }
 }

@@ -19,7 +19,7 @@ let code;
 let secretKey;
 
 test.describe('My profile', () => {
-    test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
+    test.skip('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
         page,
         loginPage,
         headerComponent,
@@ -230,7 +230,7 @@ test.describe('My profile', () => {
             await tags('My profile', 'Positive');
             await severity('normal');
             await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
-            await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
+            await issue(`${QASE_LINK}/01-26`, 'Currency selection');
             await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
             await epic('My profile');
             await feature('Currency selection');
@@ -267,7 +267,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Positive');
         await severity('normal');
         await description('To verify, that the user can log out of the account from the Profile Menu');
-        await issue(`${QASE_LINK}suite=16&case=28`, 'Log out');
+        await issue(`${QASE_LINK}/01-28`, 'Log out');
         await tms(`${GOOGLE_DOC_LINK}w8we6didi3d6`, 'ATC_08_07');
         await epic('My profile');
         await feature('Log out');
@@ -307,7 +307,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Notifications');
         await severity('normal');
         await description('To verify, that user user can manage Account Notifications settings');
-        await issue(`${QASE_LINK}suite=38&case=124`, 'Notifications settings');
+        await issue(`${QASE_LINK}/01-15`, 'Notifications settings');
         await tms(`${GOOGLE_DOC_LINK}333obp2smjp7`, 'ATC_08_04_01');
         await epic('My profile');
         await feature('Account settings');

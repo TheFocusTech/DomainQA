@@ -18,6 +18,9 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    forgotPassword: '/auth/forgot-password',
+    confirmEmail: '/auth/confirm-email',
+    createContact: '/auth/create-contact',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -28,7 +31,7 @@ export const INVALID_CREDS_AUTH = [
 
 export const VALID_CREDS_AUTH = {
     email: 'domain.aqa+100@gmail.com',
-    password: 'QA_domain00',
+    password: process.env.USER_PASSWORD,
 };
 
 export const COLORS = {
@@ -46,6 +49,7 @@ export const TOAST_MESSAGE = {
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
+    dnsRecordDeleted: 'DNS-record deleted',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -55,13 +59,15 @@ export const NEGATIVE_EMAIL_DATA_SET = [
 ];
 
 export const API_ENDPOINT = {
-    login: '/auth/sign-in',
+    login: '/users/auth/sign-in',
     createHostedZone: '/users/hosted-zones',
     deleteHostedZone: '/users/hosted-zones/',
     getHostedZones: '/users/hosted-zones?size=30',
     resourceRecords: '/resource-records',
     verificationCode: '/users/auth/email-confirmation/verification-code',
     userDelete: '/users/auth/qa/user-delete',
+    deleteResourceRecord: (hostedZoneId, recordId) =>
+        `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
 };
 
 export const DNS_TYPE = {
@@ -86,7 +92,7 @@ export const AVAILABLE_DOMAIN = 'strain123';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
-    HomePage: 'Millions of domains with the ulitmate privacy protection',
+    HomePage: 'Millions of domains with the ultimate privacy protection',
     WhoIs: 'Whois Domain Lookup',
     SSLCertificates: 'SSL certificates provide reliable security',
     Blog: 'Trustname Blog',
@@ -169,6 +175,8 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
 ];
 
 export const INPUT_SEARCH_PART = 'dom';
+export const INPUT_SEARCH_RELEVANT_NAME = 'domain';
+
 export const HEADER_LINKS = [
     {
         type: 'dropdown',
@@ -310,4 +318,9 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+};
+
+export const REGISTER_USER = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
+    password: process.env.USER_PASSWORD,
 };
