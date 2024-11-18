@@ -32,9 +32,7 @@ export default class AdvancedSearchModal {
             this.page.locator(
                 `section[class*="tld-category-list"]>div:nth-child(${index + 1}) span[class*="choicebox__text"]`
             );
-        this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.advancedSearchHeader = this.page.locator('section[class*="modal-root"] h2');
-        this.filterHeader = this.page.locator('span[class*="tld-header_filter-header"]:last-child');
     }
 
     async selectCategory(category) {
