@@ -1,5 +1,6 @@
 import { step } from 'allure-js-commons';
 import { CONTACTS } from '../../testData';
+import { delay } from '../../helpers/utils';
 
 export default class ContactsPage {
     constructor(page) {
@@ -15,6 +16,7 @@ export default class ContactsPage {
         this.predefinedContactCard = this.card.filter({
             hasText: CONTACTS.predefined.alias,
         });
+        this.moreButton = this.page.getByRole('button', { name: 'More', exact: true });
     }
 
     async clickMoreButtonByContact(contact) {
@@ -24,9 +26,16 @@ export default class ContactsPage {
         });
     }
 
+    async clickMoreButton() {
+        await step('Click on the "More" button.', async () => {
+            await this.moreButton.first().click();
+        });
+    }
+
     async clickViewFullInfoButton() {
         await step('Click on "View full info" button.', async () => {
             await this.viewFullInfoButton.click();
+            await delay(1000);
         });
     }
 }
