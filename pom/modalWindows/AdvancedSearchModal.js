@@ -57,12 +57,12 @@ export default class AdvancedSearchModal {
             const count = await this.TLDsList.count();
             let listOfTLDIndex = await getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
-                const randomTLD = await this.page.locator(
+                let randomTLD = await this.page.locator(
                     `section[class*="tld-category-list"]>div:nth-child(${index + 1}) span[class*="choicebox__text"]`
                 );
                 await randomTLD.click();
                 await expect(this.categoryTLD(category)).toHaveClass(/tld-item_tld-item--selected/);
-                const randomTLD = await this.randomTLD(index);
+                randomTLD = await this.randomTLD(index);
                 await randomTLD.click();
                 listOfTLD.push(await randomTLD.textContent());
             }
@@ -86,7 +86,6 @@ export default class AdvancedSearchModal {
 
                 let listOfTLDOneCategory = await this.selectTLDs(category, numberOfTLDs);
                 await expect(this.firstTLD).toContainText(`.${category}`);
-                let listOfTLDOneCategory = await this.selectTLDs(category, numberOfTLDs);
                 await expect(this.categoryTLD(category)).toHaveClass(/tld-item_tld-item--selected/);
                 listOfTLDs.push(...listOfTLDOneCategory);
             }

@@ -36,7 +36,6 @@ import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
 import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
 import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
-import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -189,9 +188,5 @@ export const test = base.extend({
     /** @type { CreateContactPage } */
     createContactPage: async ({ page }, use) => {
         await use(new CreateContactPage(page));
-    },
-    /** @type { AdvancedSearchModal } */
-    advancedSearchModal: async ({ page }, use) => {
-        await use(new AdvancedSearchModal(page));
     },
 });

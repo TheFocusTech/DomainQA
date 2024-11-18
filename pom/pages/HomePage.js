@@ -58,10 +58,4 @@ export default class HomePage {
             });
         }
     }
-
-    async clickFilterButton() {
-        await step('Click on "Filter" button.', async () => {
-            await this.filterButton.click();
-        });
-    }
 }
