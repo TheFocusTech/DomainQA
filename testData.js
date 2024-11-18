@@ -269,7 +269,7 @@ export const HEADER_LINKS = [
         type: 'direct',
         name: 'Home',
         expectedUrl: '/',
-        heading: 'Millions of domains with the ulitmate privacy protection',
+        heading: 'Millions of domains with the ultimate privacy protection',
         buttons: ['Search'],
         result: '',
         text: '',
