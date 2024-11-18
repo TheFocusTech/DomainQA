@@ -23,7 +23,6 @@ export default class AdvancedSearchModal {
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
         this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
-        this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.closeButton = this.page.getByLabel('Button');
     }
 

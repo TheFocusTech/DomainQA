@@ -151,9 +151,9 @@ test.describe('Unauthorized user', () => {
         await step(`Verify "Filter by TLD" field is visible`, async () => {
             await expect(advancedSearchModal.filterByTLDField).toBeVisible();
         });
-
+       
         await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
-            await expect(advancedSearchModal.numberOfSelectedTLDs).toBeVisible();
+            await expect(advancedSearchModal.filterHeader).toHaveText('Selected (0) TLDs');
         });
 
         await step(`Verify "Clear all" button is visible`, async () => {
