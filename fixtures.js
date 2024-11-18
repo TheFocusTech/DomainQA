@@ -36,6 +36,7 @@ import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
 import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
+import BillingModal from './pom/modalWindows/BillingModal';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -187,5 +188,9 @@ export const test = base.extend({
     /** @type { AdvancedSearchModal } */
     advancedSearchModal: async ({ page }, use) => {
         await use(new AdvancedSearchModal(page));
+    },
+    /** @type { BillingModal } */
+    billingModal: async ({ page }, use) => {
+        await use(new BillingModal(page));
     },
 });

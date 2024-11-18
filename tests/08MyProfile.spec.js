@@ -434,4 +434,41 @@ test.describe('My profile', () => {
             await expect(settingsGeneralPage.contactsButton).toBeVisible();
         });
     });
+
+    test('TC_08_08 | Verify Modal Window “Top Up - by Bank Card” opens with Relevant buttons if no cards are added.', async ({
+        page,
+        loginPage,
+        headerComponent,
+        billingModal,
+    }) => {
+        await tags('My profile', 'Billing');
+        await severity('normal');
+        await description(
+            'To Verify Modal Window “Top Up - by Bank Card” opens with Relevant buttons if no cards are added.'
+        );
+        await issue(`${QASE_LINK}/01-25`, 'Billing');
+        await tms(`${GOOGLE_DOC_LINK}rgihy34a5atb`, 'ATC_08_08');
+        await epic('My profile');
+        await feature('Billing');
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickBillingLink();
+
+        await billingModal.clickTopUpButton();
+        await billingModal.clickByBankCardButton();
+
+        await step('Verify Modal Window “Top Up - by Bank Card” opens with Relevant detailes.', async () => {
+            await expect(billingModal.topUpByBankCardModalWindowHeader).toBeVisible();
+
+            await expect(billingModal.backToTopUpButton).toBeVisible();
+            await expect(billingModal.noCardsYetMessage).toBeVisible();
+            await expect(billingModal.addNewCardButton).toBeVisible();
+            await expect(billingModal.labelOfCurrencyInputField).toBeVisible();
+
+            await expect(billingModal.cancelButton).toBeVisible();
+            await expect(billingModal.topUpButton).toBeVisible();
+        });
+    });
 });
