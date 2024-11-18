@@ -16,11 +16,38 @@ export default class ContactDetailsPage {
             hasText: CONTACTS.predefined.alias,
         });
         this.backToAccountSettingsButton = this.page.getByRole('link', { name: 'Back to Account settings' });
+        this.userInfoData = this.page.locator('div.group-panel__content>div');
     }
 
     async clickBackToAccountSettingsButton() {
         await step('Click on "Back to Account settings" button.', async () => {
             await this.backToAccountSettingsButton.click();
         });
+    }
+
+    async getUserInformation() {
+        const actualData = {};
+        await step('Retrieve user information from the "Account settings" page', async () => {
+            for (const data of await this.userInfoData.all()) {
+                const key = await data.locator('>p').textContent();
+                const value = await data.locator('div > p').textContent();
+                actualData[key.toLowerCase()] = value;
+            }
+            const countryCode = actualData.country;
+            if (countryCode) {
+                const countryCodeMap = {
+                    FR: 'France',
+                    US: 'United States',
+                    DE: 'Germany',
+                    CA: 'Canada',
+                    KN: 'St. Kitts and Nevis',
+                    // Можно добавить остальные страны и их коды по необходимости
+                };
+                actualData.country = countryCodeMap[countryCode] || 'UNKNOWN';
+            } else {
+                console.warn('"Country" is missing in User General Info');
+            }
+        });
+        return actualData;
     }
 }
