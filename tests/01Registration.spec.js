@@ -1,8 +1,16 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET, EMAIL_MIDDLE_PART } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    NEGATIVE_EMAIL_DATA_SET,
+    REGISTER_USER,
+    CONTACTS,
+} from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
+import { authorize, getVerificationCodeFromEmail } from '../index';
 
 test.describe('Registration', () => {
     test('TC_01_02_01 | Verify user is not able to sign up with an existing email', async ({
@@ -130,17 +138,14 @@ test.describe('Registration', () => {
         await tms(`${GOOGLE_DOC_LINK}4z8noa4hz8do`, 'ATC_01_01_02');
         await epic('Registration');
 
-        const email = `${process.env.EMAIL_PREFIX}${EMAIL_MIDDLE_PART.registerUser}${process.env.EMAIL_DOMAIN}`;
-        const password = process.env.USER_PASSWORD;
-
-        await deleteUserRequest(request, email, password);
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
 
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
         });
         await headerComponent.clickSignup();
         await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
-        await signupPage.fillEmailAddressInput(email);
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
         await signupPage.selectCheckboxReceiveEmails();
         await signupPage.clickCreateAccount();
 
@@ -169,6 +174,191 @@ test.describe('Registration', () => {
         await step('Verify the user is redirected back to the registration page', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
             expect(page.url()).toEqual(process.env.URL + URL_ENDPOINT.signup);
+        });
+    });
+
+    test('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
+        page,
+        request,
+        headerComponent,
+        signupPage,
+        confirmEmailPage,
+    }) => {
+        test.setTimeout(90000);
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description('Verify redirection to "Check your email" form and its elements');
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}mfxv1h1qoe4b`, 'ATC_01_01_03');
+        await epic('Registration');
+
+        const codePattern = /^[0-9]{6}$/;
+
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.clickBackToSignUpButton();
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.fillPasswordInput(REGISTER_USER.password);
+        await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
+        await signupPage.clickContinueButton();
+
+        await step('Verify redirection to the "Check your email" form', async () => {
+            await page.waitForURL(`${process.env.URL}${URL_ENDPOINT.confirmEmail}`);
+            expect(page.url()).toEqual(`${process.env.URL}${URL_ENDPOINT.confirmEmail}`);
+        });
+
+        await step('Verify "Back to Sign up" is visible on the "Check your email" form', async () => {
+            await expect(confirmEmailPage.backToSignUpButton).toBeVisible();
+        });
+
+        await step(
+            'Verify the verification code input field with correct placeholder is visible on the "Check your email" form',
+            async () => {
+                await expect(confirmEmailPage.verificationCodeInput).toBeVisible();
+                await expect(confirmEmailPage.verificationCodeInput).toHaveAttribute(
+                    'placeholder',
+                    'Enter verification'
+                );
+            }
+        );
+
+        await step(
+            'Verify resend code button with countdown timer is visible on the "Check your email" form',
+            async () => {
+                await expect(confirmEmailPage.resendCodeButton).toBeVisible();
+                await expect(await confirmEmailPage.resendCodeButton.textContent()).toMatch(
+                    /Resend code \(0[0-1]:[0-5][0-9]\)/
+                );
+            }
+        );
+
+        await step('Verify the "Resend code" button is disabled', async () => {
+            await expect(confirmEmailPage.resendCodeButton).toBeDisabled();
+        });
+
+        await step('Verify "Continue" button is visible on the "Check your email" form', async () => {
+            await expect(confirmEmailPage.continueButton).toBeVisible();
+        });
+
+        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+
+        await step(
+            "Verify an email with a verification code is sent to the user's registered email address",
+            async () => {
+                await expect(verificationCode).not.toBeNull();
+                await expect(verificationCode).toMatch(codePattern);
+            }
+        );
+
+        await confirmEmailPage.waitForTimerToComplete();
+
+        await step('Verify the "Resend code" button is enabled', async () => {
+            await expect(confirmEmailPage.resendCodeButton).toBeEnabled();
+        });
+
+        await confirmEmailPage.clickResendCodeButton();
+
+        const newVerificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+
+        await step(
+            'Verify clicking on "Resend code" button again, resends the verification code to the email address',
+            async () => {
+                await expect(newVerificationCode).not.toBeNull();
+                await expect(newVerificationCode).toMatch(codePattern);
+                await expect(newVerificationCode).not.toBe(verificationCode);
+            }
+        );
+    });
+
+    test('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+        page,
+        request,
+        headerComponent,
+        signupPage,
+        confirmEmailPage,
+        createContactPage,
+        settingsGeneralPage,
+        contactsPage,
+        contactDetailsPage,
+    }) => {
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description('Verify the contact creation, redirection to Homepage, and user info accuracy');
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}66p4zgc61ah0`, 'ATC_01_01_04');
+        await epic('Registration');
+
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.clickBackToSignUpButton();
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.fillPasswordInput(REGISTER_USER.password);
+        await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
+        await signupPage.clickContinueButton();
+
+        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+
+        await confirmEmailPage.fillVerificationCodeInput(verificationCode);
+        await confirmEmailPage.clickContinueButton();
+
+        await step('Verify redirection to the "Create new contact" form', async () => {
+            await page.waitForURL(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+            expect(page.url()).toEqual(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+        });
+
+        await step('Verify that the "Create new contact" form is visible', async () => {
+            await expect(createContactPage.createNewContactHeader).toBeVisible();
+        });
+
+        await createContactPage.fillFirstNameInputIfEmpty(CONTACTS.newUser['first name']);
+        await createContactPage.fillLastNameInputIfEmpty(CONTACTS.newUser['last name']);
+        await createContactPage.fillAddressLine1Input(CONTACTS.newUser['address line 1']);
+        await createContactPage.fillCityInput(CONTACTS.newUser.city);
+        await createContactPage.selectCountryByName(CONTACTS.newUser.country);
+        await createContactPage.fillPhoneNumberInput(CONTACTS.newUser['phone number']);
+        await createContactPage.fillEmailInput(REGISTER_USER.email);
+        await createContactPage.clickContinueButton();
+
+        await step('Verify the user is redirected to the Homepage.', async () => {
+            await page.waitForURL(`${process.env.URL}/`);
+            expect(page.url()).toEqual(`${process.env.URL}/`);
+        });
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickContactsButton();
+        await contactsPage.clickMoreButton();
+        await contactsPage.clickViewFullInfoButton();
+
+        const actualUserData = await contactDetailsPage.getUserInformation();
+
+        await step('Verify all the user\'s information in "Account Settings" is displayed accurately', async () => {
+            for (const key of Object.keys(CONTACTS.newUser)) {
+                const actualValue = actualUserData[key];
+                const expectedValue = CONTACTS.newUser[key];
+
+                expect(actualValue).toEqual(expectedValue);
+            }
         });
     });
 });
