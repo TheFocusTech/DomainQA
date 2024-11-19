@@ -77,9 +77,7 @@ test.describe('My profile', () => {
         const currentPassword = PASSWORD.password;
         const newPassword = PASSWORD.password;
 
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        await loginUser(page, headerComponent, loginPage);
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
