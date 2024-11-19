@@ -25,6 +25,12 @@ export default class HomePage {
         });
     }
 
+    async clickFilterButton() {
+        await step('Click on "Filter" button.', async () => {
+            await this.filterButton.click();
+        });
+    }
+
     async verifyHomePage(heading, buttons) {
         await step(`Verify that Home page has "${heading}" heading.`, async () => {
             await expect(this.mainHeading).toHaveText(heading);
@@ -35,11 +41,5 @@ export default class HomePage {
                 await expect(buttonLocator).toBeVisible();
             });
         }
-    }
-
-    async clickFilterButton() {
-        await step('Click on "Filter" button.', async () => {
-            await this.filterButton.click();
-        });
     }
 }
