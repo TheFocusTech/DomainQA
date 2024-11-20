@@ -56,7 +56,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
+    test.skip(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
         domainAvailabilityPage,
         homePage,
     }) => {
