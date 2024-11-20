@@ -8,6 +8,7 @@ import {
     URL_ENDPOINT,
     AVAILABLE_DOMAIN,
     OCCUPIED_DOMAIN,
+    ADVANCED_SEARCH_MODAL_TITLE,
 } from '../testData';
 
 const nonAuthUserAccessiblePageActions = {
@@ -242,7 +243,7 @@ test.describe('Unauthorized user', () => {
         await epic('Unauthorized_user');
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ACCESSIBLE_PAGE_TITLE.AdvancedSearchModal);
+        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
 
         const numberOfCategories = 3;
         const numberOfTLDs = 2;
@@ -286,7 +287,7 @@ test.describe('Unauthorized user', () => {
 
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ACCESSIBLE_PAGE_TITLE.AdvancedSearchModal);
+        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
 
         const category = 'All';
         const numberOfTLDs = 5;
