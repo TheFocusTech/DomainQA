@@ -226,9 +226,8 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    /* 
-    Тест будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
-    test(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
+    //Тест TC_09_03_05 будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
+    test.skip(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
         homePage,
         advancedSearchModal,
         domainAvailabilityPage,
@@ -243,14 +242,11 @@ test.describe('Unauthorized user', () => {
         await epic('Unauthorized_user');
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        await advancedSearchModal.modalWindow.waitFor({ status: 'visible' });
+        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ACCESSIBLE_PAGE_TITLE.AdvancedSearchModal);
 
-        const quantityOfCategories = 3;
-        const quantityOfTLDs = 2;
-        const selectedTLDs = await advancedSearchModal.selectSeveralCategoriesAndTLDs(
-            quantityOfCategories,
-            quantityOfTLDs
-        );
+        const numberOfCategories = 3;
+        const numberOfTLDs = 2;
+        const selectedTLDs = await advancedSearchModal.selectSeveralCategoriesAndTLDs(numberOfCategories, numberOfTLDs);
 
         await step(
             `Verify that user can see selected numbers of TLDs in header: Selected (${selectedTLDs.length}) TLDs`,
@@ -265,7 +261,7 @@ test.describe('Unauthorized user', () => {
         await expect(await homePage.filterApplyBadge).toBeVisible();
 
         await homePage.clickSearchButton();
-        await expect(await domainAvailabilityPage.resultSearchList).toBeVisible();
+        await expect(await domainAvailabilityPage.resultsSection).toBeVisible();
 
         await step(`Verify that search result contains selected domains: ${selectedTLDs}`, async () => {
             await expect(await domainAvailabilityPage.resultSearchList).toHaveCount(selectedTLDs.length);
@@ -275,5 +271,59 @@ test.describe('Unauthorized user', () => {
             }
         });
     });
-    */
+
+    test(`TC_09_03_06 | Verify that user can select several TLDs and see relevant search results`, async ({
+        homePage,
+        advancedSearchModal,
+        domainAvailabilityPage,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify that user can select several TLDs and see relevant search results`);
+        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await tms(`${GOOGLE_DOC_LINK}cba4s4hsjfkn`, 'ATC_09_03_06');
+        await epic('Unauthorized_user');
+
+        await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
+        await homePage.clickFilterButton();
+        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ACCESSIBLE_PAGE_TITLE.AdvancedSearchModal);
+
+        const category = 'All';
+        const numberOfTLDs = 5;
+        const selectedTLDs = await advancedSearchModal.selectTLDs(category, numberOfTLDs);
+        for (const TLD of selectedTLDs) {
+            await step(
+                `Verify if user select TLD ${TLD} in "All" categories the "${TLD[1]}" category has badge`,
+                async () => {
+                    await expect(await advancedSearchModal.categoryTLD(TLD[1])).toHaveClass(
+                        /tld-item_tld-item--selected*/
+                    );
+                }
+            );
+        }
+
+        await step(
+            `Verify that user can see selected numbers of TLDs in header: Selected (${selectedTLDs.length}) TLDs`,
+            async () => {
+                await expect(await advancedSearchModal.getQuantitySelectedTLDs()).toEqual(
+                    `Selected (${selectedTLDs.length}) TLDs`
+                );
+            }
+        );
+        await advancedSearchModal.clickApplyButton();
+        await step(`Verify the Filter button has badge indicator`, async () => {
+            await expect(await homePage.filterApplyBadge).toBeVisible();
+        });
+
+        await homePage.clickSearchButton();
+        await expect(await domainAvailabilityPage.resultsSection).toBeVisible();
+
+        await step(`Verify that search result contains selected domains: ${selectedTLDs}`, async () => {
+            await expect(await domainAvailabilityPage.resultSearchList).toHaveCount(selectedTLDs.length);
+            let resultsList = await domainAvailabilityPage.resultSearchList;
+            for (let i = 0; i < resultsList.length; i++) {
+                await expect(resultsList[i]).toContainText(AVAILABLE_DOMAIN + `${selectedTLDs[i]}`);
+            }
+        });
+    });
 });

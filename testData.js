@@ -99,6 +99,7 @@ export const ACCESSIBLE_PAGE_TITLE = {
     HelpCenter: 'How can we help you?',
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
+    AdvancedSearchModal: 'Advanced search',
 };
 
 export const WHOIS_SEARCH_RESULT_TITLES = [
