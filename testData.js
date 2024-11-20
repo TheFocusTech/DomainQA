@@ -340,3 +340,5 @@ export const CONTACTS = {
         email: REGISTER_USER.email,
     },
 };
+
+export const ADVANCED_SEARCH_MODAL_TITLE = 'Advanced search';
