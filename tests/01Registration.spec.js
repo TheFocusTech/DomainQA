@@ -348,6 +348,15 @@ test.describe('Registration', () => {
         await headerComponent.clickAccountSettingsLink();
         await settingsGeneralPage.clickContactsButton();
         await contactsPage.clickMoreButton();
+
+        await step(
+            'Verify the "More" dropdown menu is visible and has 3 options "View full info", "Edit", "Delete"',
+            async () => {
+                await expect(contactsPage.moreDropdownMenu).toBeVisible();
+                await expect(contactsPage.moreDropdownMenu).toHaveText(['View full infoEditDelete']);
+            }
+        );
+
         await contactsPage.clickViewFullInfoButton();
 
         const actualUserData = await contactDetailsPage.getUserInformation();
