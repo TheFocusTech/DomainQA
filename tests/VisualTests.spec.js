@@ -29,7 +29,7 @@ test.describe('Visual tests', () => {
         });
     });
 
-    test(`TC_04_13 | Dialog "Create hosted zone".`, async ({ hostedZonesPage }) => {
+    test(`TC_04_13 | Dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Create hosted zone"');
@@ -38,6 +38,7 @@ test.describe('Visual tests', () => {
         await epic('Domains');
 
         await step('Open modal "Create hosted zone".', async () => {
+            await page.evaluate(() => document.fonts.ready);
             await hostedZonesPage.clickCreateHostedZoneButton();
             await expect(hostedZonesPage.createHostedZoneModal).toBeVisible();
         });
@@ -45,7 +46,7 @@ test.describe('Visual tests', () => {
         await expect(hostedZonesPage.createHostedZoneModal).toHaveScreenshot({ omitBackground: true });
     });
 
-    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
+    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage, dnsRecordModal }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Add new DNS-record"');
@@ -58,10 +59,12 @@ test.describe('Visual tests', () => {
         });
 
         await step('Open modal "Add new DNS-record".', async () => {
+            await page.evaluate(() => document.fonts.ready);
             await hostedZonesDetailPage.clickAddRecordButton();
         });
 
-        const sensitiveElement = page.locator('[class*="create-form_body__description-outer__"]');
+        const sensitiveElement = dnsRecordModal.description;
+
         await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
         await expect(hostedZonesDetailPage.hostedZoneModal).toHaveScreenshot({
             omitBackground: true,
