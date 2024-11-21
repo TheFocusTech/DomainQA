@@ -18,17 +18,14 @@ export default class AdvancedSearchModal {
         this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.advancedSearchHeader = this.page.locator('section[class*="modal-root"] h2');
         this.filterHeader = this.page.locator('span[class*="tld-header_filter-header"]:last-child');
-        this.TLDsList = this.page.locator('section[class*="tld-category-list"] span[class*="choicebox__text"]');
         this.modalWindow = this.page.locator('section[class*="modal-root"]');
         this.advancedSearchHeading = this.page.getByText('Advanced search');
         this.hideRegisteredTogle = this.page.getByText('Hide registered');
         this.filterByTLDField = this.page.getByText('Filter by TLD');
-        this.numberOfSelectedTLDs = this.page.getByText('Selected (0) TLDs');
         this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
-        this.absSwipperButton = this.page.locator('.tld-item_tld-item__lztWX');
+        this.abcSwipperButton = this.page.locator('.tld-item_tld-item__lztWX');
         this.defaultCategory = this.page.getByText('All TLDs');
-        this.abcSwiper = this.page.getByText('Allabcdefghijklmnopqrstuvwxyz');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
         this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });

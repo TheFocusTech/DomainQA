@@ -368,7 +368,7 @@ test.describe('Unauthorized user', () => {
         });
 
         await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
-            for (const letter of await advancedSearchModal.absSwipperButton.all()) {
+            for (const letter of await advancedSearchModal.abcSwipperButton.all()) {
                 await expect(letter).toBeVisible();
             }
         });
