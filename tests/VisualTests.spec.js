@@ -22,7 +22,6 @@ test.describe('Visual tests', () => {
             headers = await getCookies(page);
             const response = await createHostedZoneAPI(request, headers);
             hostedZoneId = response.id;
-            console.log('hostedZoneId ', hostedZoneId);
 
             await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}`, {
                 waitUntil: 'networkidle',
