@@ -38,11 +38,6 @@ export const COLORS = {
     red: 'rgb(242, 62, 62)',
 };
 
-export const PASSWORD = {
-    password: `${process.env.USER_PASSWORD}`,
-    newPassword: `NEW_${process.env.USER_PASSWORD}`,
-};
-
 export const TOAST_MESSAGE = {
     passwordChanged: 'Password changed successfully',
     hostedZoneCreated: 'Hosted zone created',
@@ -68,6 +63,7 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    registration: '/users/auth/sign-up',
 };
 
 export const DNS_TYPE = {
@@ -114,7 +110,7 @@ export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
     'Account settings',
     'Billing',
-    'Currency USD ($)',
+    /Currency USD \(\$|€\)/,
     'Log out',
 ];
 
