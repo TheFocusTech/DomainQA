@@ -349,3 +349,11 @@ export const SETTING_GENERAL_HEADINGS = {
     twoFactorAuth: 'Two-factor authentication (2FA)',
     currency: 'Currency',
 };
+
+export const CONFIRMATION_WORD = {
+    delete: 'Delete',
+};
+
+export const NOTIFICATIONS_CONTENT = {
+    deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+};
