@@ -11,6 +11,8 @@ import {
     NOTIFICATIONS_TYPE,
     CURRENCY_TYPE,
     CONTACTS,
+    CONFIRMATION_WORD,
+    NOTIFICATIONS_CONTENT,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
@@ -307,7 +309,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Notifications');
         await severity('normal');
         await description('To verify, that user user can manage Account Notifications settings');
-        await issue(`${QASE_LINK}suite=38&case=124`, 'Notifications settings');
+        await issue(`${QASE_LINK}/01-15`, 'Notifications settings');
         await tms(`${GOOGLE_DOC_LINK}333obp2smjp7`, 'ATC_08_04_01');
         await epic('My profile');
         await feature('Account settings');
@@ -433,5 +435,95 @@ test.describe('My profile', () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.contacts);
             await expect(settingsGeneralPage.contactsButton).toBeVisible();
         });
+    });
+
+    test('TC_08_04_02 |  Verify user receives notifications after Account deletion is canceled', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsNotificationsPage,
+        settingsGeneralPage,
+        accountDeletionModal,
+        cancelDeletionModal,
+        toastComponent,        
+    }) => {
+        await tags('My profile', 'Notifications');
+        await severity('normal');
+        await description('To verify, that user user user receives notifications after Account deletion is canceled');
+        await issue(`${QASE_LINK}/01-15`, 'Notifications settings');
+        await tms(`${GOOGLE_DOC_LINK}pcu524rpnwac`, 'ATC_08_04_02');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await step('Preconditions: Login as a registered user', async () => {
+        await page.goto('/');
+        await headerComponent.clickLogin();
+        await loginPage.fillEmailAddressInput('domain.aqa+600@gmail.com');
+        await loginPage.fillPasswordInput('QA_domain00');
+        await loginPage.clickLogin();
+    });
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickNotificationSettingsButton();
+
+        await step('Verify the "Browser" checkbox in Account notification is checked.', async () => {
+            await expect(settingsNotificationsPage.browserNotificationsCheckbox.first()).toBeChecked();
+        });
+
+        await settingsGeneralPage.clickGeneralInfoButton();
+        await settingsGeneralPage.clickDeleteAccountButton();
+        
+        await step('Verify the "Delete account" modal window is opened.', async () => {
+            expect(accountDeletionModal.deleteAccountHeading).toBeVisible;
+        });
+
+        await accountDeletionModal.checkConsentCheckbox();
+        
+        await step('Verify the "Yes, I consent to delete my" checkbox is checked.', async () => {
+            expect(accountDeletionModal.consentCheckbox).toBeChecked();
+        });
+
+        await accountDeletionModal.clickContinueButton();
+        await accountDeletionModal.fillDeleteField(CONFIRMATION_WORD.delete);
+        await accountDeletionModal.clickDeleteAccountButton();
+
+        await step('Verify the "The account will be deleted in 30 days" toast message is appeared.', async () => {
+            await expect(toastComponent.accountDeleted).toBeVisible();
+        });
+        
+        await step('Verify the "Cancel deletion" button is displayed.', async () => {
+            expect(settingsGeneralPage.cancelDeletionButton).toBeVisible(); 
+        });
+
+        await settingsGeneralPage.clickCancelDeletionButton();
+        
+        await step('Verify the "Cancel deletion" header is displayed.', async () => {
+            expect(cancelDeletionModal.cancelDeletionHeading).toBeVisible;
+        });
+
+        await cancelDeletionModal.clickAcceptButton();
+
+        await step('Verify the "Deletion was cancelled successfully" toast message is appeared.', async () => {
+            await expect(toastComponent.accountDeletionCanceled).toBeVisible();
+        });
+      
+        await step('Reload page.', async () => {
+            await page.reload(); 
+            await page.waitForLoadState('networkidle');
+        });
+        
+        await step('Verify the notification icon indicator has appeared.', async () => {            
+            await headerComponent.notificationsIndicator.waitFor({state: 'visible'});
+            await expect(headerComponent.notificationsIndicator).toBeVisible();
+        });
+
+        await headerComponent.clickNotificationsIconButton();
+
+        await step('Verify the new message "Account deletion cancelled" is appeared.', async () => { 
+            expect(headerComponent.newNotificationIndicator.first()).toBeVisible();
+            expect(headerComponent.notificationDropdownHeader).toBeVisible();
+            expect(headerComponent.newNotificationContent.first()).toContainText(NOTIFICATIONS_CONTENT.deleteAccount);
+        });        
     });
 });

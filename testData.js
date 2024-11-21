@@ -45,7 +45,7 @@ export const TOAST_MESSAGE = {
     hostedZoneCreated: 'Hosted zone created',
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
-    loggedOut: 'You have been logged out',
+    loggedOut: 'You have been logged out',    
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -315,3 +315,11 @@ export const CONTACTS = {
 export const EMAIL_MIDDLE_PART = {
     registerUser: 'qa.mail.template1000',
 };
+
+export const CONFIRMATION_WORD = {
+    delete: 'Delete',
+};
+
+export const NOTIFICATIONS_CONTENT = {
+    deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+}
