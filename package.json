@@ -35,6 +35,8 @@
     "totp-generator": "^1.0.0"
   },
   "dependencies": {
-    "allure-commandline": "^2.30.0"
+    "@google-cloud/local-auth": "^2.1.0",
+    "allure-commandline": "^2.30.0",
+    "googleapis": "^105.0.0"
   }
 }

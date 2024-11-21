@@ -11,6 +11,7 @@ import {
     NOTIFICATIONS_TYPE,
     CURRENCY_TYPE,
     CONTACTS,
+    SETTING_GENERAL_HEADINGS,
     CONFIRMATION_WORD,
     NOTIFICATIONS_CONTENT,
 } from '../testData';
@@ -232,7 +233,7 @@ test.describe('My profile', () => {
             await tags('My profile', 'Positive');
             await severity('normal');
             await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
-            await issue(`${QASE_LINK}suite=14&case=26`, 'Currency selection');
+            await issue(`${QASE_LINK}/01-26`, 'Currency selection');
             await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
             await epic('My profile');
             await feature('Currency selection');
@@ -269,7 +270,7 @@ test.describe('My profile', () => {
         await tags('My profile', 'Positive');
         await severity('normal');
         await description('To verify, that the user can log out of the account from the Profile Menu');
-        await issue(`${QASE_LINK}suite=16&case=28`, 'Log out');
+        await issue(`${QASE_LINK}/01-28`, 'Log out');
         await tms(`${GOOGLE_DOC_LINK}w8we6didi3d6`, 'ATC_08_07');
         await epic('My profile');
         await feature('Log out');
@@ -434,6 +435,91 @@ test.describe('My profile', () => {
         await step('Verify the "Contacts" page is open.', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.contacts);
             await expect(settingsGeneralPage.contactsButton).toBeVisible();
+        });
+    });
+    
+    test('TC_08_08 | Verify Modal Window “Top Up - by Bank Card” opens with Relevant buttons if no cards are added.', async ({
+        page,
+        loginPage,
+        headerComponent,
+        billingModal,
+    }) => {
+        await tags('My profile', 'Billing');
+        await severity('normal');
+        await description(
+            'To Verify Modal Window “Top Up - by Bank Card” opens with Relevant buttons if no cards are added.'
+        );
+        await issue(`${QASE_LINK}/01-25`, 'Billing');
+        await tms(`${GOOGLE_DOC_LINK}rgihy34a5atb`, 'ATC_08_08');
+        await epic('My profile');
+        await feature('Billing');
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickBillingLink();
+
+        await billingModal.clickTopUpButton();
+        await billingModal.clickByBankCardButton();
+
+        await step('Verify Modal Window “Top Up - by Bank Card” opens with Relevant detailes.', async () => {
+            await expect(billingModal.topUpByBankCardModalWindowHeader).toBeVisible();
+
+            await expect(billingModal.backToTopUpButton).toBeVisible();
+            await expect(billingModal.noCardsYetMessage).toBeVisible();
+            await expect(billingModal.addNewCardButton).toBeVisible();
+            await expect(billingModal.labelOfCurrencyInputField).toBeVisible();
+
+            await expect(billingModal.cancelButton).toBeVisible();
+            await expect(billingModal.topUpButton).toBeVisible();
+        });
+    });
+
+    test('TC_08_02_01 | Verify the General info tab contents General info, Password, Two-factor authentication (2FA), Currency', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Account settings');
+        await severity('normal');
+        await description(
+            'To verify, the General info tab contents General info, Password, Two-factor authentication (2FA), Currency and the General info section contains USER EMAIL and the Delete account button'
+        );
+        await issue(`${QASE_LINK}/01-13`, 'General info');
+        await tms(`${GOOGLE_DOC_LINK}g7yno6cbuqi`, 'ATC_08_02_01');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+
+        await step('Verify the "General info" tab is selected.', async () => {
+            await expect(page).toHaveURL(URL_ENDPOINT.accountSettings);
+        });
+        await step('Verify the "General info" block is displayed.', async () => {
+            await expect(settingsGeneralPage.generalInfoBlock).toBeVisible();
+            await expect(settingsGeneralPage.generalInfoBlock).toContainText(SETTING_GENERAL_HEADINGS.generalInfo);
+        });
+        await step('Verify the "Password" block is displayed.', async () => {
+            await expect(settingsGeneralPage.passwordBlock).toBeVisible();
+            await expect(settingsGeneralPage.passwordBlock).toContainText(SETTING_GENERAL_HEADINGS.password);
+        });
+        await step('Verify the "Two-factor authentication (2FA)" block is displayed.', async () => {
+            await expect(settingsGeneralPage.twoFactorAuthBlock).toBeVisible();
+            await expect(settingsGeneralPage.twoFactorAuthBlock).toContainText(SETTING_GENERAL_HEADINGS.twoFactorAuth);
+        });
+        await step('Verify the "Currency" block is displayed.', async () => {
+            await expect(settingsGeneralPage.currencyBlock).toBeVisible();
+            await expect(settingsGeneralPage.currencyBlock).toContainText(SETTING_GENERAL_HEADINGS.currency);
+        });
+        await step('Verify the "General info" block contains USER EMAIL.', async () => {
+            await expect(settingsGeneralPage.generalInfoBlock).toContainText(process.env.USER_EMAIL);
+        });
+        await step('Verify the "General info" block contains the “Delete account” button.', async () => {
+            await expect(settingsGeneralPage.deleteAccountButton).toBeVisible();
         });
     });
 
