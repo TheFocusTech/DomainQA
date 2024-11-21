@@ -11,6 +11,7 @@ import {
     NOTIFICATIONS_TYPE,
     CURRENCY_TYPE,
     CONTACTS,
+    SETTING_GENERAL_HEADINGS,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode } from '../helpers/utils';
@@ -469,6 +470,54 @@ test.describe('My profile', () => {
 
             await expect(billingModal.cancelButton).toBeVisible();
             await expect(billingModal.topUpButton).toBeVisible();
+        });
+    });
+
+    test('TC_08_02_01 | Verify the General info tab contents General info, Password, Two-factor authentication (2FA), Currency', async ({
+        page,
+        loginPage,
+        headerComponent,
+        settingsGeneralPage,
+    }) => {
+        await tags('My profile', 'Account settings');
+        await severity('normal');
+        await description(
+            'To verify, the General info tab contents General info, Password, Two-factor authentication (2FA), Currency and the General info section contains USER EMAIL and the Delete account button'
+        );
+        await issue(`${QASE_LINK}/01-13`, 'General info');
+        await tms(`${GOOGLE_DOC_LINK}g7yno6cbuqi`, 'ATC_08_02_01');
+        await epic('My profile');
+        await feature('Account settings');
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+
+        await step('Verify the "General info" tab is selected.', async () => {
+            await expect(page).toHaveURL(URL_ENDPOINT.accountSettings);
+        });
+        await step('Verify the "General info" block is displayed.', async () => {
+            await expect(settingsGeneralPage.generalInfoBlock).toBeVisible();
+            await expect(settingsGeneralPage.generalInfoBlock).toContainText(SETTING_GENERAL_HEADINGS.generalInfo);
+        });
+        await step('Verify the "Password" block is displayed.', async () => {
+            await expect(settingsGeneralPage.passwordBlock).toBeVisible();
+            await expect(settingsGeneralPage.passwordBlock).toContainText(SETTING_GENERAL_HEADINGS.password);
+        });
+        await step('Verify the "Two-factor authentication (2FA)" block is displayed.', async () => {
+            await expect(settingsGeneralPage.twoFactorAuthBlock).toBeVisible();
+            await expect(settingsGeneralPage.twoFactorAuthBlock).toContainText(SETTING_GENERAL_HEADINGS.twoFactorAuth);
+        });
+        await step('Verify the "Currency" block is displayed.', async () => {
+            await expect(settingsGeneralPage.currencyBlock).toBeVisible();
+            await expect(settingsGeneralPage.currencyBlock).toContainText(SETTING_GENERAL_HEADINGS.currency);
+        });
+        await step('Verify the "General info" block contains USER EMAIL.', async () => {
+            await expect(settingsGeneralPage.generalInfoBlock).toContainText(process.env.USER_EMAIL);
+        });
+        await step('Verify the "General info" block contains the “Delete account” button.', async () => {
+            await expect(settingsGeneralPage.deleteAccountButton).toBeVisible();
         });
     });
 });
