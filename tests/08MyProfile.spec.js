@@ -437,7 +437,7 @@ test.describe('My profile', () => {
             await expect(settingsGeneralPage.contactsButton).toBeVisible();
         });
     });
-    
+
     test('TC_08_08 | Verify Modal Window “Top Up - by Bank Card” opens with Relevant buttons if no cards are added.', async ({
         page,
         loginPage,
@@ -531,7 +531,7 @@ test.describe('My profile', () => {
         settingsGeneralPage,
         accountDeletionModal,
         cancelDeletionModal,
-        toastComponent,        
+        toastComponent,
     }) => {
         await tags('My profile', 'Notifications');
         await severity('normal');
@@ -542,12 +542,12 @@ test.describe('My profile', () => {
         await feature('Account settings');
 
         await step('Preconditions: Login as a registered user', async () => {
-        await page.goto('/');
-        await headerComponent.clickLogin();
-        await loginPage.fillEmailAddressInput('domain.aqa+600@gmail.com');
-        await loginPage.fillPasswordInput('QA_domain00');
-        await loginPage.clickLogin();
-    });
+            await page.goto('/');
+            await headerComponent.clickLogin();
+            await loginPage.fillEmailAddressInput('domain.aqa+600@gmail.com');
+            await loginPage.fillPasswordInput('QA_domain00');
+            await loginPage.clickLogin();
+        });
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
@@ -559,13 +559,13 @@ test.describe('My profile', () => {
 
         await settingsGeneralPage.clickGeneralInfoButton();
         await settingsGeneralPage.clickDeleteAccountButton();
-        
+
         await step('Verify the "Delete account" modal window is opened.', async () => {
             expect(accountDeletionModal.deleteAccountHeading).toBeVisible;
         });
 
         await accountDeletionModal.checkConsentCheckbox();
-        
+
         await step('Verify the "Yes, I consent to delete my" checkbox is checked.', async () => {
             expect(accountDeletionModal.consentCheckbox).toBeChecked();
         });
@@ -577,13 +577,13 @@ test.describe('My profile', () => {
         await step('Verify the "The account will be deleted in 30 days" toast message is appeared.', async () => {
             await expect(toastComponent.accountDeleted).toBeVisible();
         });
-        
+
         await step('Verify the "Cancel deletion" button is displayed.', async () => {
-            expect(settingsGeneralPage.cancelDeletionButton).toBeVisible(); 
+            expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
         });
 
         await settingsGeneralPage.clickCancelDeletionButton();
-        
+
         await step('Verify the "Cancel deletion" header is displayed.', async () => {
             expect(cancelDeletionModal.cancelDeletionHeading).toBeVisible;
         });
@@ -593,23 +593,23 @@ test.describe('My profile', () => {
         await step('Verify the "Deletion was cancelled successfully" toast message is appeared.', async () => {
             await expect(toastComponent.accountDeletionCanceled).toBeVisible();
         });
-      
+
         await step('Reload page.', async () => {
-            await page.reload(); 
+            await page.reload();
             await page.waitForLoadState('networkidle');
         });
-        
-        await step('Verify the notification icon indicator has appeared.', async () => {            
-            await headerComponent.notificationsIndicator.waitFor({state: 'visible'});
+
+        await step('Verify the notification icon indicator has appeared.', async () => {
+            await headerComponent.notificationsIndicator.waitFor({ state: 'visible' });
             await expect(headerComponent.notificationsIndicator).toBeVisible();
         });
 
         await headerComponent.clickNotificationsIconButton();
 
-        await step('Verify the new message "Account deletion cancelled" is appeared.', async () => { 
+        await step('Verify the new message "Account deletion cancelled" is appeared.', async () => {
             expect(headerComponent.newNotificationIndicator.first()).toBeVisible();
             expect(headerComponent.notificationDropdownHeader).toBeVisible();
             expect(headerComponent.newNotificationContent.first()).toContainText(NOTIFICATIONS_CONTENT.deleteAccount);
-        });        
+        });
     });
 });

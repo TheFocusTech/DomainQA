@@ -187,7 +187,7 @@ export default class HeaderComponent {
             await this.billingLink.click();
         });
     }
-    
+
     async clickNotificationsIconButton() {
         await step('Click on the notification icon button.', async () => {
             await this.notificationsIconButton.click();

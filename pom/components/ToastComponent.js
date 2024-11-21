@@ -1,4 +1,5 @@
-import { text } from "stream/consumers";
+import { text } from 'stream/consumers';
+import { step } from 'allure-js-commons';
 
 export default class ToastComponent {
     constructor(page) {
@@ -11,8 +12,8 @@ export default class ToastComponent {
     }
 
     async waitForToastText() {
-        await step(`Verify the toast message "${text}" appears.`, async () => {                        
-            await toastBody.filter({ hasText: `${text}` }).waitFor({ state: "visible" });
+        await step(`Verify the toast message "${text}" appears.`, async () => {
+            await this.toastBody.filter({ hasText: `${text}` }).waitFor({ state: 'visible' });
         });
     }
 }

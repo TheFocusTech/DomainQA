@@ -356,4 +356,4 @@ export const CONFIRMATION_WORD = {
 
 export const NOTIFICATIONS_CONTENT = {
     deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
-}
+};

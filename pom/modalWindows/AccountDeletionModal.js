@@ -4,12 +4,15 @@ export default class AccountDeletionModal {
     constructor(page) {
         this.page = page;
 
-        this.consentCheckbox = this.page.locator('label').filter({ hasText: 'Yes, I consent to delete my' }).locator('div');
+        this.consentCheckbox = this.page
+            .locator('label')
+            .filter({ hasText: 'Yes, I consent to delete my' })
+            .locator('div');
         this.cancelButton = this.page.locator('button:has-text("Cancel")');
         this.continueButton = this.page.locator('button').filter({ hasText: 'Continue' });
         this.closeButton = this.page.getByLabel('Button');
         this.accountDeletionModalContainer = this.page.locator('#root-portal');
-        this.deleteAccountHeading = this.page.getByRole('heading', {name: 'Delete account'});
+        this.deleteAccountHeading = this.page.getByRole('heading', { name: 'Delete account' });
         this.deleteField = this.page.getByPlaceholder('Delete');
         this.deleteAccountButton = this.page.locator('#root-portal button').filter({ hasText: 'Delete account' });
     }

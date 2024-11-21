@@ -92,6 +92,6 @@ export default class SettingsGeneralPage {
     async clickGeneralInfoButton() {
         await step('Click on the "General info" button.', async () => {
             await this.generalInfoButton.click();
-        });        
+        });
     }
 }
