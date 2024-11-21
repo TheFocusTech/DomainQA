@@ -18,6 +18,10 @@ export default class SettingsGeneralPage {
         this.currencyType = this.page.locator('.profile-currency-block button span[class*="text"]');
         this.notificationSettingsButton = this.page.getByRole('button', { name: 'Notification settings' });
         this.contactsButton = this.page.getByRole('button', { name: 'Contacts' });
+        this.generalInfoBlock = this.page.locator('.profile-block');
+        this.passwordBlock = this.page.locator('.profile-password-block');
+        this.twoFactorAuthBlock = this.page.locator('.profile-2fa-block').first();
+        this.currencyBlock = this.page.locator('.profile-currency-block').first();
     }
 
     async clickTwoFAToggle() {
