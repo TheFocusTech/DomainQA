@@ -1,5 +1,6 @@
 import { delay } from './helpers/utils';
 import { step } from 'allure-js-commons';
+import { REGISTER_USER } from './testData';
 
 const fs = require('fs').promises;
 const path = require('path');
@@ -72,9 +73,10 @@ export async function authorize() {
  * Retrieves the verification code from an email using the Gmail API.
  * @param {object} auth The authentication object for the Gmail API.
  * @param {string} email The email address of the sender.
+ * @param subject
  * @returns {Promise<string|null>} A Promise that resolves with the confirmation link if found, otherwise resolves with null.
  */
-export async function getVerificationCodeFromEmail(auth, email) {
+export async function getVerificationCodeFromEmail(auth, email, subject = 'Verify you email') {
     let decodedBody = '';
     await step('Get verification code from email', async () => {
         try {
@@ -83,14 +85,16 @@ export async function getVerificationCodeFromEmail(auth, email) {
             await delay(5000);
             const messagesResponse = await gmail.users.messages.list({
                 userId: 'me',
+                // q: `to:${email} subject:${subject} after:${Math.floor(new Date().getTime() / 1000) - 60}`,
                 q: `to:${email}`,
                 subject: 'Trusted Domain Registrar | Verify you email',
             });
             const messages = messagesResponse.data.messages;
             if (!messages || messages.length === 0) {
-                console.warn('No messages found.');
+                console.warn('No messages found within the last minute.');
                 return null;
             }
+            await delay(5000);
             const lastMessageResponse = await gmail.users.messages.get({
                 userId: 'me',
                 id: messages[0].id,
