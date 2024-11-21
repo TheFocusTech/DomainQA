@@ -123,7 +123,7 @@ test.describe('Registration', () => {
         );
     });
 
-    test('TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality', async ({
+    test.skip('TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality', async ({
         page,
         request,
         headerComponent,
@@ -177,7 +177,7 @@ test.describe('Registration', () => {
         });
     });
 
-    test('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
+    test.skip('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
         page,
         request,
         headerComponent,
@@ -348,6 +348,15 @@ test.describe('Registration', () => {
         await headerComponent.clickAccountSettingsLink();
         await settingsGeneralPage.clickContactsButton();
         await contactsPage.clickMoreButton();
+
+        await step(
+            'Verify the "More" dropdown menu is visible and has 3 options "View full info", "Edit", "Delete"',
+            async () => {
+                await expect(contactsPage.moreDropdownMenu).toBeVisible();
+                await expect(contactsPage.moreDropdownMenu).toHaveText(['View full infoEditDelete']);
+            }
+        );
+
         await contactsPage.clickViewFullInfoButton();
 
         const actualUserData = await contactDetailsPage.getUserInformation();

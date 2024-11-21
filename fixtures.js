@@ -29,13 +29,13 @@ import SslCertificatesPage from './pom/pages/SslCertificatesPage';
 import BlogPage from './pom/pages/BlogPage';
 import SettingsNotificationsPage from './pom/pages/SettingsNotificationsPage';
 import HelpSearchResultsPage from './pom/pages/HelpSearchResultsPage';
-import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import ContactDetailsPage from './pom/pages/ContactDetailsPage';
 import ContactsPage from './pom/pages/ContactsPage';
 import ForgotPasswordPage from './pom/pages/ForgotPasswordPage';
 import DeleteDNSmodal from './pom/modalWindows/DeleteDNSmodal';
 import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
+import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import BillingModal from './pom/modalWindows/BillingModal';
 
 export const test = base.extend({
@@ -161,11 +161,6 @@ export const test = base.extend({
     helpSearchResultsPage: async ({ page }, use) => {
         await use(new HelpSearchResultsPage(page));
     },
-
-    /** @type { AdvancedSearchModal } */
-    advancedSearchModal: async ({ page }, use) => {
-        await use(new AdvancedSearchModal(page));
-    },
     /** @type { ContactsPage } */
     contactsPage: async ({ page }, use) => {
         await use(new ContactsPage(page));
@@ -190,7 +185,10 @@ export const test = base.extend({
     createContactPage: async ({ page }, use) => {
         await use(new CreateContactPage(page));
     },
-
+    /** @type { AdvancedSearchModal } */
+    advancedSearchModal: async ({ page }, use) => {
+        await use(new AdvancedSearchModal(page));
+    },
     /** @type { BillingModal } */
     billingModal: async ({ page }, use) => {
         await use(new BillingModal(page));

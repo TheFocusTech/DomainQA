@@ -7,7 +7,6 @@ export default class SettingsGeneralPage {
         this.changeButton = this.page.getByRole('button', { name: 'Change' });
         this.deleteAccountButton = this.page.locator('button:has-text("Delete account")');
         this.generalInfoButton = this.page.locator('button:has-text("General info")');
-        this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
         this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
         this.twoFAToggle = this.page.locator('[class*="switch-2fa_switch-2fa__"]');
@@ -18,6 +17,10 @@ export default class SettingsGeneralPage {
         this.currencyType = this.page.locator('.profile-currency-block button span[class*="text"]');
         this.notificationSettingsButton = this.page.getByRole('button', { name: 'Notification settings' });
         this.contactsButton = this.page.getByRole('button', { name: 'Contacts' });
+        this.generalInfoBlock = this.page.locator('.profile-block');
+        this.passwordBlock = this.page.locator('.profile-password-block');
+        this.twoFactorAuthBlock = this.page.locator('.profile-2fa-block').first();
+        this.currencyBlock = this.page.locator('.profile-currency-block').first();
     }
 
     async clickTwoFAToggle() {
@@ -83,6 +86,12 @@ export default class SettingsGeneralPage {
     async clickContactsButton() {
         return await step('Click on the "Contacts" button.', async () => {
             await this.contactsButton.click();
+        });
+    }
+
+    async clickGeneralInfoButton() {
+        await step('Click on the "General info" button.', async () => {
+            await this.generalInfoButton.click();
         });
     }
 }

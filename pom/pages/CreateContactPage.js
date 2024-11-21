@@ -13,7 +13,7 @@ export default class CreateContactPage {
         this.phoneNumberInput = this.page.locator('[name="phoneNumber"]');
         this.emailInput = this.page.locator('[name="email"]');
         this.continueButton = this.page.getByRole('button', { name: 'Continue' });
-        this.loadingSpinner = this.page.locator('svg.spinner_spinner__sSB1Q');
+        this.loadingSpinner = this.page.locator('svg[class^="spinner_spinner"]');
     }
 
     async fillFirstNameInputIfEmpty(firstName) {
