@@ -18,7 +18,7 @@ jobs:
 
       - name: Run Playwright Chrome tests
 #        run: npm test
-        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json
+        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results_daun.json npx playwright test --reporter=json
         env:
           URL: ${{ secrets.URL}}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
@@ -70,5 +70,5 @@ jobs:
         uses: daun/playwright-report-summary@v3
         if: always()
         with:
-          report-file: results.json
+          report-file: results_daun.json
           icon-style: 'emojis'
