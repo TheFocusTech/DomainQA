@@ -7,7 +7,6 @@ export default class SettingsGeneralPage {
         this.changeButton = this.page.getByRole('button', { name: 'Change' });
         this.deleteAccountButton = this.page.locator('button:has-text("Delete account")');
         this.generalInfoButton = this.page.locator('button:has-text("General info")');
-        this.messageAboutDeletion = this.page.locator('p:has-text("This account will be deleted in 30 days")');
         this.dateOfDeletion = this.page.locator('p:has-text("Date of deletion:")');
         this.cancelDeletionButton = this.page.locator('button:has-text("Cancel deletion")');
         this.twoFAToggle = this.page.locator('[class*="switch-2fa_switch-2fa__"]');
@@ -87,6 +86,12 @@ export default class SettingsGeneralPage {
     async clickContactsButton() {
         return await step('Click on the "Contacts" button.', async () => {
             await this.contactsButton.click();
+        });
+    }
+
+    async clickGeneralInfoButton() {
+        await step('Click on the "General info" button.', async () => {
+            await this.generalInfoButton.click();
         });
     }
 }
