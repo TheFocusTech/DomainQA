@@ -1,7 +1,6 @@
 import { step } from 'allure-js-commons';
 import { expect } from '@playwright/test';
 import { HOSTED_ZONE_DOMAIN_NAME, URL_ENDPOINT } from '../testData';
-import { signUpRequest } from '../helpers/apiCalls';
 
 export const loginUser = async (
     page,
