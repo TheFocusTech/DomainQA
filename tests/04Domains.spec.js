@@ -192,7 +192,7 @@ test.describe('Hosted zones', () => {
 
         let domainName;
 
-        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
         await step('Preconditions: Create hosted zones via API.', async () => {
