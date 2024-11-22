@@ -327,4 +327,41 @@ test.describe('Unauthorized user', () => {
             }
         });
     });
+
+    test(`TC_09_03_02 | Verify that filters button has badge indicator when at least one filter is applied`, async ({
+        homePage,
+        advancedSearchModal,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify that filters button has badge indicator when at least one filter is applied`);
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}123ax97f4085`, 'ATC_09_03_02');
+        await epic('Unauthorized_user');
+        await step(`Verify that the form “Search domain” is visible`, async () => {
+            await homePage.domainSearchInput.isVisible();
+            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+            await homePage.filterButton.isVisible();
+        });
+
+        await homePage.clickFilterButton();
+        const tldName = await advancedSearchModal.randomTLD(0).textContent();
+        await step('Click on the choicebox “.com” (can be random TLD)', async () => {
+            await advancedSearchModal.randomTLD(0).click();
+        });
+
+        await step(
+            `Verify that ${tldName} button is active (has badge) (the first letter of the selected TLD)`,
+            async () => {
+                const letter = tldName.slice(1, 2);
+                const { backgroundColor } = await advancedSearchModal.getStyleSelectedTLDItem(letter);
+                expect(backgroundColor).toBe('rgb(0, 251, 196)');
+            }
+        );
+        await advancedSearchModal.clickApplyButton();
+
+        await step('Verify the filter button has badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+    });
 });
