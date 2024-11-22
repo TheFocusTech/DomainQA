@@ -29,11 +29,6 @@ export const INVALID_CREDS_AUTH = [
     { email: 'invalidEmail@gmail.com', password: 'invalidPassword', name: 'invalid email and invalid password' },
 ];
 
-export const VALID_CREDS_AUTH = {
-    email: 'domain.aqa+100@gmail.com',
-    password: process.env.USER_PASSWORD,
-};
-
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
 };

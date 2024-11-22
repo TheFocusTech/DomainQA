@@ -2,6 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS, VALID_CREDS_AUTH } from '../testData';
+import { loginUser } from '../helpers/preconditions';
 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
@@ -91,7 +92,7 @@ test.describe('Authorization', () => {
         }
     });
 
-    test.skip('TC_02_04 | Account Deletion Without 2FA', async ({
+    test('TC_02_04 | Account Deletion Without 2FA', async ({
         page,
         loginPage,
         headerComponent,
@@ -108,13 +109,13 @@ test.describe('Authorization', () => {
         await tms(`${GOOGLE_DOC_LINK}iiqbm2c7rcc8`, 'ATC_02_04');
         await epic('Authorization');
 
-        await step('Preconditions: User is logged in and on the Home page', async () => {
-            await page.goto('/');
-            await headerComponent.clickLogin();
-            await loginPage.fillEmailAddressInput(VALID_CREDS_AUTH.email);
-            await loginPage.fillPasswordInput(VALID_CREDS_AUTH.password);
-            await loginPage.clickLogin();
-        });
+        await loginUser(
+            page,
+            headerComponent,
+            loginPage,
+            `${process.env.EMAIL_PREFIX}100${process.env.EMAIL_DOMAIN}`,
+            `${process.env.USER_PASSWORD}`
+        );
 
         await step('User clicks on "My Profile."', async () => {
             await headerComponent.clickMyProfileButton();
@@ -137,7 +138,7 @@ test.describe('Authorization', () => {
         //});
 
         await step('Verify modal contents:', async () => {
-            await expect(accountDeletionModal.checkbox).toBeVisible();
+            await expect(accountDeletionModal.consentCheckbox).toBeVisible();
             await expect(accountDeletionModal.cancelButton).toBeVisible();
             await expect(accountDeletionModal.continueButton).toBeVisible();
             await expect(accountDeletionModal.closeButton).toBeVisible();

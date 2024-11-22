@@ -80,9 +80,7 @@ test.describe('My profile', () => {
         const currentPassword = `${process.env.USER_PASSWORD}`;
         const newPassword = `NEW_${process.env.USER_PASSWORD}`;
 
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage, email, currentPassword);
-        });
+        await loginUser(page, headerComponent, loginPage, email, currentPassword);
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
@@ -300,7 +298,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test.skip('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
         page,
         loginPage,
         headerComponent,
@@ -541,15 +539,13 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(
-                page,
-                headerComponent,
-                loginPage,
-                `${process.env.EMAIL_PREFIX}600${process.env.EMAIL_DOMAIN}`,
-                `${process.env.USER_PASSWORD}`
-            );
-        });
+        await loginUser(
+            page,
+            headerComponent,
+            loginPage,
+            `${process.env.EMAIL_PREFIX}600${process.env.EMAIL_DOMAIN}`,
+            `${process.env.USER_PASSWORD}`
+        );
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
