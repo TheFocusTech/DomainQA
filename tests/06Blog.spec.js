@@ -113,14 +113,28 @@ test.describe('Blog', () => {
             expect(actualHeading).toContainText(expectedText);
             await blogArticlePage.buttonsArticleList.nth(i).click();
 
-            expect(actualHeading).toBeVisible();
+            await actualHeading.waitFor({ state: 'visible' });
 
-            await actualHeading.scrollIntoViewIfNeeded();
-            const headerBox = await actualHeading.boundingBox();
-            const viewportHeight = await page.evaluate(() => window.innerHeight);
+            await page.waitForTimeout(1000);
 
-            expect(headerBox.y).toBeGreaterThanOrEqual(0);
-            expect(headerBox.y).toBeLessThanOrEqual(viewportHeight * 0.2);
+            const headingPosition = await page.evaluate((element) => {
+                const rect = element.getBoundingClientRect();
+                return { top: rect.top, bottom: rect.bottom };
+            }, await actualHeading.elementHandle());
+
+            const fixedHeaderHeight = 58;
+            console.log(`Heading position for index ${i}:`, headingPosition);
+
+            expect(headingPosition.top).toBeGreaterThanOrEqual(fixedHeaderHeight);
+            expect(headingPosition.top).toBeLessThanOrEqual(fixedHeaderHeight + 30);
+
+            const isOverlapping = await page.evaluate(({ element, headerHeight }) => {
+                const rect = element.getBoundingClientRect();
+                return rect.top < headerHeight;
+            }, { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight });
+
+            expect(isOverlapping).toBe(false);
         }
     });
+
 });
