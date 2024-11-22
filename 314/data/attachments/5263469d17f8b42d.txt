@@ -1,2 +1,0 @@
-Total number of hosted zones: 2
-Total number of hosted zones: 1

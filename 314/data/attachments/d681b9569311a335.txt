@@ -1,3 +1,0 @@
-User was successfully deleted
-Waiting for the verification code email to arrive...
-Verification code is: 203119
