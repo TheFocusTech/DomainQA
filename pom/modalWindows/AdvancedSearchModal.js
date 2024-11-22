@@ -85,4 +85,9 @@ export default class AdvancedSearchModal {
         let headerText = await this.filterHeader.innerText();
         return headerText;
     }
+
+    async getAbcSwipperButtonTexts() {
+        let buttonTexts = await this.abcSwipperButton.allTextContents();
+        return buttonTexts;
+    }
 }

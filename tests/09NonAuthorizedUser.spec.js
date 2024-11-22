@@ -9,6 +9,7 @@ import {
     AVAILABLE_DOMAIN,
     OCCUPIED_DOMAIN,
     ADVANCED_SEARCH_MODAL_TITLE,
+    ALL_ABC,
 } from '../testData';
 
 const nonAuthUserAccessiblePageActions = {
@@ -371,6 +372,8 @@ test.describe('Unauthorized user', () => {
             for (const letter of await advancedSearchModal.abcSwipperButton.all()) {
                 await expect(letter).toBeVisible();
             }
+            expect(await advancedSearchModal.getAbcSwipperButtonTexts()).toEqual(ALL_ABC);
+            await expect(advancedSearchModal.abcSwipperButton).toHaveCount(27);
         });
 
         await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
