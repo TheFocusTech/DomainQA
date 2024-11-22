@@ -18,6 +18,7 @@ export default class AdvancedSearchModal {
         this.applyButton = this.page.locator('button').filter({ hasText: 'Apply' });
         this.advancedSearchHeader = this.page.locator('section[class*="modal-root"] h2');
         this.filterHeader = this.page.locator('span[class*="tld-header_filter-header"]:last-child');
+        this.tldSwiperItems = this.page.locator('[class*="tld-swiper_swiper-slide__item"] button');
         this.modalWindow = this.page.locator('section[class*="modal-root"]');
         this.advancedSearchHeading = this.page.getByText('Advanced search');
         this.hideRegisteredTogle = this.page.getByText('Hide registered');
@@ -43,7 +44,7 @@ export default class AdvancedSearchModal {
         const listOfTLD = [];
         await step(`Select in ${category} category ${numberOfTLDs} TLDs`, async () => {
             const count = await this.TLDsList.count();
-            let listOfTLDIndex = await getRandomArray(count, numberOfTLDs);
+            let listOfTLDIndex = getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
                 const randomTLD = await this.randomTLD(index);
                 await randomTLD.click();
@@ -57,11 +58,11 @@ export default class AdvancedSearchModal {
         let listOfTLDs = [];
         await step(`Select in ${numbersOfCategories} categories ${numberOfTLDs} TLDs`, async () => {
             const categories = 'abcdefghijklmnopqrstuvwxyz';
-            const categoriesIndexArr = await getRandomArray(categories.length, numbersOfCategories);
+            const categoriesIndexArr = getRandomArray(categories.length, numbersOfCategories);
 
             const categoriesArr = [];
             for (const categoryIndex of categoriesIndexArr) {
-                await categoriesArr.push(categories[categoryIndex]);
+                categoriesArr.push(categories[categoryIndex]);
             }
 
             for (const category of categoriesArr) {
@@ -84,6 +85,24 @@ export default class AdvancedSearchModal {
     async getQuantitySelectedTLDs() {
         let headerText = await this.filterHeader.innerText();
         return headerText;
+    }
+
+    async getStyleSelectedTLDItem(tldLetter) {
+        const tldSwiperItems = await this.tldSwiperItems.all();
+        for (const item of tldSwiperItems) {
+            const itemName = await item.textContent();
+            if (itemName === tldLetter) {
+                return item.evaluate((el) => {
+                    if (el.className.includes('tld-item--selected')) {
+                        const computedStyle = getComputedStyle(el, '::after');
+                        return {
+                            borderColor: computedStyle.borderColor,
+                            backgroundColor: computedStyle.backgroundColor,
+                        };
+                    }
+                });
+            }
+        }
     }
 
     async getAbcSwipperButtonTexts() {
