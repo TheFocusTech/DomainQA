@@ -9,7 +9,7 @@ export default class BlogPage {
         this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
         this.blogSearchPopupList = this.page.locator('li[class*="search-articles-list__item"]');
-        this.blogSearchBtn = this.page.getByRole('button', { name: 'Search' });
+        this.blogSearchButton = this.page.getByRole('button', { name: 'Search' });
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -38,7 +38,7 @@ export default class BlogPage {
 
     async clickSearchBtn() {
         await step('Click on search button', async () => {
-            await this.blogSearchBtn.first().click({ force: true });
+            await this.blogSearchButton.first().click({ force: true });
         });
     }
 }
