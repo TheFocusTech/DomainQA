@@ -308,10 +308,6 @@ test.describe('Registration', () => {
         await signupPage.fillEmailAddressInput(REGISTER_USER.email);
         await signupPage.selectCheckboxReceiveEmails();
         await signupPage.clickCreateAccount();
-        await signupPage.clickBackToSignUpButton();
-        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
-        await signupPage.selectCheckboxReceiveEmails();
-        await signupPage.clickCreateAccount();
         await signupPage.fillPasswordInput(REGISTER_USER.password);
         await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
         await signupPage.clickContinueButton();
