@@ -9,6 +9,7 @@ import {
     AVAILABLE_DOMAIN,
     OCCUPIED_DOMAIN,
     ADVANCED_SEARCH_MODAL_TITLE,
+    ALL_ABC,
 } from '../testData';
 
 const nonAuthUserAccessiblePageActions = {
@@ -362,6 +363,77 @@ test.describe('Unauthorized user', () => {
 
         await step('Verify the filter button has badge indicator', async () => {
             await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+    });
+
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+        homePage,
+        advancedSearchModal,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify unauthorized user can open modal window with filters for advanced search`);
+        await issue(`${QASE_LINK}case=30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}jgxijwpv69l3`, 'ATC_09_03_01');
+        await epic('Unauthorized_user');
+
+        await step(`Verify that the form “Search domain” is visible`, async () => {
+            await expect(homePage.domainSearchInput).toBeVisible();
+            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+            await expect(homePage.filterButton).toBeVisible();
+        });
+
+        await homePage.clickFilterButton();
+
+        await step(`Verify "Advanced Search" heading is visible`, async () => {
+            await expect(advancedSearchModal.advancedSearchHeading).toBeVisible();
+        });
+
+        await step(`Verify "Hide Registered" togle is visible`, async () => {
+            await expect(advancedSearchModal.hideRegisteredTogle).toBeVisible();
+        });
+
+        await step(`Verify "Filter by TLD" field is visible`, async () => {
+            await expect(advancedSearchModal.filterByTLDField).toBeVisible();
+        });
+
+        await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
+            await expect(advancedSearchModal.filterHeader).toHaveText('Selected (0) TLDs');
+        });
+
+        await step(`Verify "Clear all" button is visible`, async () => {
+            await expect(advancedSearchModal.clearAllButton).toBeVisible();
+        });
+
+        await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
+            for (const letter of await advancedSearchModal.abcSwipperButton.all()) {
+                await expect(letter).toBeVisible();
+            }
+            expect(await advancedSearchModal.getAbcSwipperButtonTexts()).toEqual(ALL_ABC);
+            await expect(advancedSearchModal.abcSwipperButton).toHaveCount(27);
+        });
+
+        await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
+            await expect(advancedSearchModal.nextArrow).toBeVisible();
+        });
+
+        await step(`Verify category header “All TLDs” is visible by default`, async () => {
+            await expect(advancedSearchModal.defaultCategory).toBeVisible();
+        });
+        await step(`Verify Category list with choiceboxes is visible`, async () => {
+            await expect(advancedSearchModal.categoryList).toBeVisible();
+        });
+
+        await step(`Verify  button “Reset” is visible`, async () => {
+            await expect(advancedSearchModal.resetButton).toBeVisible();
+        });
+
+        await step(`Verify  button “Apply” is visible`, async () => {
+            await expect(advancedSearchModal.applyButton).toBeVisible();
+        });
+
+        await step(`Verify  button “Close” is visible `, async () => {
+            await expect(advancedSearchModal.closeButton).toBeVisible();
         });
     });
 });
