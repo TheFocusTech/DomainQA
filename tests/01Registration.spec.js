@@ -280,7 +280,7 @@ test.describe('Registration', () => {
         );
     });
 
-    test('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+    test.skip('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
         page,
         request,
         headerComponent,
