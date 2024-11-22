@@ -11,7 +11,6 @@ export default class HomePage {
         this.mainHeading = this.page.locator('main h1');
         this.filterApplyBadge = this.page.locator('span[class*="badge-indicator__counter"]');
         this.resultsList = this.page.locator('div[class*="domains-list-cards"]');
-        this.filterBadge = this.page.locator('[class="badge-indicator_badge-indicator__counter__LipkI"]');
     }
 
     async fillDomainSearchInput(nameDomain) {

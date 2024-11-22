@@ -361,7 +361,7 @@ test.describe('Unauthorized user', () => {
         await advancedSearchModal.clickApplyButton();
 
         await step('Verify the filter button has badge indicator', async () => {
-            await expect(homePage.filterBadge).toBeVisible();
+            await expect(homePage.filterApplyBadge).toBeVisible();
         });
     });
 });
