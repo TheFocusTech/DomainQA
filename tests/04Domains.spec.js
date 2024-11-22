@@ -176,7 +176,6 @@ test.describe('Hosted zones', () => {
         page,
         loginPage,
         headerComponent,
-        createHostedZoneModal,
         hostedZonesPage,
         toastComponent,
         deleteHostedZoneModal,
