@@ -31,6 +31,8 @@ export default class AdvancedSearchModal {
         this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
+        this.toggleInput = this.page.locator('input[name="hideRegistered"]');
+        this.toggleControl = this.page.locator('div[class*="toggle_toggle-control"]');
     }
 
     async selectCategory(category) {
@@ -108,5 +110,16 @@ export default class AdvancedSearchModal {
     async getAbcSwipperButtonTexts() {
         let buttonTexts = await this.abcSwipperButton.allTextContents();
         return buttonTexts;
+    }
+
+    async clickToggleHideRegistered() {
+        await step('Activate the toggle "Hide registered"', async () => {
+            const value = await this.toggleInput.evaluate((el) => {
+                return el.value;
+            });
+            if (value === 'false') {
+                await this.toggleControl.click();
+            }
+        });
     }
 }
