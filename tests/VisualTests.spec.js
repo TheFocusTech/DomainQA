@@ -67,7 +67,7 @@ test.describe('Visual tests', () => {
         await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
 
         const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
-        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');  
+        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
         expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
     });
 });
