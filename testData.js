@@ -21,6 +21,7 @@ export const URL_ENDPOINT = {
     forgotPassword: '/auth/forgot-password',
     confirmEmail: '/auth/confirm-email',
     createContact: '/auth/create-contact',
+    blogSearchResults: '/blog/search',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -68,6 +69,9 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    signUp: '/users/auth/sign-up',
+    confirmEmail: '/users/auth/email-confirmation/confirm',
+    blogSearchResultsPage: '/blog/search',
 };
 
 export const DNS_TYPE = {
@@ -387,3 +391,20 @@ export const ALL_ABC = [
     'y',
     'z',
 ];
+
+export const SUBJECT = {
+    signup: 'Trusted Domain Registrar | Verify you email',
+    resetPassword: 'Trusted Domain Registrar | Password Reset',
+};
+
+export const BLOG_BY_CATEGORY = {
+    title: 'By category',
+    allCategories: 'All Categories',
+    domainNames: 'Domain Names',
+    websitesHosting: 'Websites & Hosting',
+    marketing: 'Marketing',
+};
+
+export const INPUT_SEARCH = {
+    a: 'a',
+};
