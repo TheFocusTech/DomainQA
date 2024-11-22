@@ -69,6 +69,7 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    blogSearchResultsPage: '/blog/search',
 };
 
 export const DNS_TYPE = {
@@ -100,7 +101,6 @@ export const ACCESSIBLE_PAGE_TITLE = {
     HelpCenter: 'How can we help you?',
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
-    BlogSearchResultsPage: '/blog/search?search=a',
 };
 
 export const WHOIS_SEARCH_RESULT_TITLES = [
@@ -390,9 +390,14 @@ export const ALL_ABC = [
     'z',
 ];
 
-export const BLOG_SEARCH_RESULTS = {
+export const BLOG_BY_CATEGORY = {
     title: 'By category',
-    subcategories: ['All Categories', 'Domain Names', 'Websites & Hosting', 'Marketing'],
+    allCategories: 'All Categories',
+    domainNames: 'Domain Names',
+    websitesHosting: 'Websites & Hosting',
+    marketing: 'Marketing',
 };
 
-export const BLOG_SEARCH = ['a'];
+export const INPUT_SEARCH = {
+    a: 'a',
+};

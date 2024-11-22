@@ -5,10 +5,10 @@ import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
     URL_ENDPOINT,
-    INPUT_SEARCH_PART, 
+    INPUT_SEARCH_PART,
     INPUT_SEARCH_RELEVANT_NAME,
-    BLOG_SEARCH_RESULTS,
-    BLOG_SEARCH,
+    BLOG_BY_CATEGORY,
+    INPUT_SEARCH,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 
@@ -102,69 +102,63 @@ test.describe('Blog', () => {
 
         await headerComponent.clickBlogButton();
         await page.waitForURL(URL_ENDPOINT.blogPage);
-
-        await blogPage.fillBlogSearchInput(BLOG_SEARCH[0]);
+        await blogPage.fillBlogSearchInput(INPUT_SEARCH.a);
         await blogPage.clickSearchBtn();
-        await page.goto(`${process.env.URL}/blog/search?search=${BLOG_SEARCH[0]}`);
+        await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH.a}`);
 
         await step('Verify title of By category is on the page.', async () => {
             await expect(blogSearchResultsPage.header).toBeVisible();
             await expect(blogSearchResultsPage.byCategoryTitle).toBeVisible();
-            await expect(blogSearchResultsPage.byCategoryTitle).toContainText(BLOG_SEARCH_RESULTS.title);
+            await expect(blogSearchResultsPage.byCategoryTitle).toContainText(BLOG_BY_CATEGORY.title);
         });
-
         await step('Verify the drop-down list visible and contains sub-categories.', async () => {
-            const byCategoryDropdown = await blogSearchResultsPage.getCategoryList();
-            const expectedCategories = BLOG_SEARCH_RESULTS.subcategories;
-            for (const category of expectedCategories) {
-                expect(byCategoryDropdown).toContain(category);
+            for (const key in BLOG_BY_CATEGORY) {
+                const expectedCategories = BLOG_BY_CATEGORY[key];
+                if (key == 'title') continue;
+                const isCategoryVisible = await blogSearchResultsPage.subCategories
+                    .locator(`text=${expectedCategories}`)
+                    .isVisible();
+
+                expect(isCategoryVisible).toBe(true);
             }
         });
-        await blogSearchResultsPage.accordionTriggerclick();
         await step('Verify the drop-down category list is NOT visible.', async () => {
+            await blogSearchResultsPage.accordionTriggerclick();
+
             await expect(blogSearchResultsPage.accordionDropdown).not.toHaveClass(
-                'button.accordion-slice_accordion-slice-header__trigger--active__xgc2K'
+                'accordion-slice_accordion-slice-body--active__EfJPE'
             );
         });
-        await blogSearchResultsPage.accordionTriggerclick();
-        const articleQty = await blogSearchResultsPage.getArticleQuantity();
-        await step(
-            `Verify ${BLOG_SEARCH_RESULTS.subcategories[0]} has same number of article as search header.`,
-            async () => {
-                await blogSearchResultsPage.verifyArticleQty(articleQty[0]);
-            }
-        );
+        await step('Verify the quantity and title of selected category.', async () => {
+            await blogSearchResultsPage.accordionTriggerclick();
 
-        await blogSearchResultsPage.clickByCategoryDomainNames();
-        await step(
-            `Verify ${BLOG_SEARCH_RESULTS.subcategories[1]} has same number of article as search header.`,
-            async () => {
-                await blogSearchResultsPage.verifyArticleQty(articleQty[1]);
-            }
-        );
-        await step(`Verify all displayed articles have title ${BLOG_SEARCH_RESULTS.subcategories[1]}`, async () => {
-            await blogSearchResultsPage.verifyArticleTitle(BLOG_SEARCH_RESULTS.subcategories[1]);
-        });
+            await step('Verify the category q-ty equal header q-ty.', async () => {
+                const count = await blogSearchResultsPage.categoryBtnList.count();
+                for (let i = 0; i < count; i++) {
+                    const innerText = await blogSearchResultsPage.categoryBtnList.nth(i).allTextContents();
+                    let [category, count] = innerText[0].split('(');
+                    let categoryCount = count.replace(')', '');
+                    await blogSearchResultsPage.subCategories.nth(i).click();
+                    await blogSearchResultsPage.searchResultHeader.waitFor({ state: 'visible' });
+                    const searchResultHeaderText = await blogSearchResultsPage.searchResultHeader.allTextContents();
+                    let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
+                    console.log(headerCount);
 
-        await blogSearchResultsPage.clickByCategoryWebsitesHosting();
-        await step(
-            `Verify ${BLOG_SEARCH_RESULTS.subcategories[2]} has same number of article as search header.`,
-            async () => {
-                await blogSearchResultsPage.verifyArticleQty(articleQty[2]);
-            }
-        );
-        await step(`Verify all displayed articles have title ${BLOG_SEARCH_RESULTS.subcategories[2]}.`, async () => {
-            await blogSearchResultsPage.verifyArticleTitle(BLOG_SEARCH_RESULTS.subcategories[2]);
-        });
-        await blogSearchResultsPage.clickByCategoryMarkiting();
-        await step(
-            `Verify ${BLOG_SEARCH_RESULTS.subcategories[3]} has same number of article as search header.`,
-            async () => {
-                await blogSearchResultsPage.verifyArticleQty(articleQty[3]);
-            }
-        );
-        await step(`Verify all displayed articles have title ${BLOG_SEARCH_RESULTS.subcategories[3]}.`, async () => {
-            await blogSearchResultsPage.verifyArticleTitle(BLOG_SEARCH_RESULTS.subcategories[3]);
+                    await expect(categoryCount).toEqual(headerCount);
+
+                    await step(
+                        `Verify the title of selected articles are correct for category:${category}.`,
+                        async () => {
+                            await blogSearchResultsPage.articleTitle.first().waitFor({ state: 'visible' });
+                            const articles = await blogSearchResultsPage.articleTitle.allTextContents();
+                            for (const article of articles) {
+                                if (category == 'All Categories') continue;
+                                await expect(article).toEqual(category);
+                            }
+                        }
+                    );
+                }
+            });
         });
     });
 });
