@@ -69,6 +69,8 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    signUp: '/users/auth/sign-up',
+    confirmEmail: '/users/auth/email-confirmation/confirm',
     blogSearchResultsPage: '/blog/search',
 };
 
@@ -389,6 +391,11 @@ export const ALL_ABC = [
     'y',
     'z',
 ];
+
+export const SUBJECT = {
+    signup: 'Trusted Domain Registrar | Verify you email',
+    resetPassword: 'Trusted Domain Registrar | Password Reset',
+};
 
 export const BLOG_BY_CATEGORY = {
     title: 'By category',
