@@ -340,3 +340,20 @@ export const CONTACTS = {
         email: REGISTER_USER.email,
     },
 };
+
+export const ADVANCED_SEARCH_MODAL_TITLE = 'Advanced search';
+
+export const SETTING_GENERAL_HEADINGS = {
+    generalInfo: 'General info',
+    password: 'Password',
+    twoFactorAuth: 'Two-factor authentication (2FA)',
+    currency: 'Currency',
+};
+
+export const CONFIRMATION_WORD = {
+    delete: 'Delete',
+};
+
+export const NOTIFICATIONS_CONTENT = {
+    deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+};

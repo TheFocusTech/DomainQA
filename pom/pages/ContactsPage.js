@@ -17,6 +17,7 @@ export default class ContactsPage {
             hasText: CONTACTS.predefined.alias,
         });
         this.moreButton = this.page.getByRole('button', { name: 'More', exact: true });
+        this.moreDropdownMenu = this.page.locator('ul[class^="menu-list_menu-list-items"]');
     }
 
     async clickMoreButtonByContact(contact) {
