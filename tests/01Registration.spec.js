@@ -8,6 +8,7 @@ import {
     NEGATIVE_EMAIL_DATA_SET,
     REGISTER_USER,
     CONTACTS,
+    SUBJECT,
 } from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -250,7 +251,11 @@ test.describe('Registration', () => {
             await expect(confirmEmailPage.continueButton).toBeVisible();
         });
 
-        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+        const verificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
 
         await step(
             "Verify an email with a verification code is sent to the user's registered email address",
@@ -268,7 +273,11 @@ test.describe('Registration', () => {
 
         await confirmEmailPage.clickResendCodeButton();
 
-        const newVerificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+        const newVerificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
 
         await step(
             'Verify clicking on "Resend code" button again, resends the verification code to the email address',
@@ -312,7 +321,11 @@ test.describe('Registration', () => {
         await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
         await signupPage.clickContinueButton();
 
-        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+        const verificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
 
         await confirmEmailPage.fillVerificationCodeInput(verificationCode);
         await confirmEmailPage.clickContinueButton();

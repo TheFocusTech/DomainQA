@@ -75,7 +75,7 @@ export async function authorize() {
  * @param subject
  * @returns {Promise<string|null>} A Promise that resolves with the confirmation link if found, otherwise resolves with null.
  */
-export async function getVerificationCodeFromEmail(auth, email, subject = 'Verify you email') {
+export async function getVerificationCodeFromEmail(auth, email, subject) {
     let decodedBody = '';
     await step('Get verification code from email', async () => {
         try {
@@ -85,7 +85,7 @@ export async function getVerificationCodeFromEmail(auth, email, subject = 'Verif
             const messagesResponse = await gmail.users.messages.list({
                 userId: 'me',
                 q: `to:${email}`,
-                subject: `${subject}`,
+                subject: subject,
                 after: `${Math.floor(new Date().getTime() / 1000) - 60}`,
             });
             const messages = messagesResponse.data.messages;
