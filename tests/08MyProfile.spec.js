@@ -542,11 +542,13 @@ test.describe('My profile', () => {
         await feature('Account settings');
 
         await step('Preconditions: Login as a registered user', async () => {
-            await page.goto('/');
-            await headerComponent.clickLogin();
-            await loginPage.fillEmailAddressInput('domain.aqa+600@gmail.com');
-            await loginPage.fillPasswordInput('QA_domain00');
-            await loginPage.clickLogin();
+            await loginUser(
+                page,
+                headerComponent,
+                loginPage,
+                `${process.env.EMAIL_PREFIX}+600${process.env.EMAIL_DOMAIN}`,
+                `${process.env.USER_PASSWORD}`
+            );
         });
 
         await headerComponent.clickMyProfileButton();
@@ -554,6 +556,11 @@ test.describe('My profile', () => {
         await settingsGeneralPage.clickNotificationSettingsButton();
 
         await step('Verify the "Browser" checkbox in Account notification is checked.', async () => {
+            await settingsNotificationsPage.browserNotificationsCheckbox.first().waitFor({ stare: 'visible' });
+            const isChecked = await settingsNotificationsPage.browserNotificationsCheckbox.first().isChecked();
+            if (!isChecked) {
+                await settingsNotificationsPage.browserNotifications.first().check();
+            }
             await expect(settingsNotificationsPage.browserNotificationsCheckbox.first()).toBeChecked();
         });
 

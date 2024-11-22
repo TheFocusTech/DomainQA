@@ -231,7 +231,7 @@ test.describe('Hosted zones', () => {
         });
     });
 
-    test('TC_04_02 | Verify user can create hosted zone', async ({
+    test('TC_04_03_01| Verify user can create hosted zone', async ({
         page,
         loginPage,
         headerComponent,
@@ -250,7 +250,7 @@ test.describe('Hosted zones', () => {
 
         const domainName = await getRandomDomainName();
 
-        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         headers = await getCookies(page);
 
