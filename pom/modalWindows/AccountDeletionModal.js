@@ -12,7 +12,7 @@ export default class AccountDeletionModal {
         this.continueButton = this.page.locator('button').filter({ hasText: 'Continue' });
         this.closeButton = this.page.getByLabel('Button');
         this.accountDeletionModalContainer = this.page.locator('#root-portal');
-        this.deleteAccountHeading = this.page.getByRole('heading', { name: 'Delete account' });
+        this.deleteAccountHeading = this.page.locator('h2').filter({ hasText: 'Delete account' });
         this.deleteField = this.page.getByPlaceholder('Delete');
         this.deleteAccountButton = this.page.locator('#root-portal button').filter({ hasText: 'Delete account' });
     }
