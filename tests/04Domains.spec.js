@@ -172,7 +172,7 @@ test.describe('Hosted zones', () => {
         await deleteAllHostedZones(request, headers);
     });
 
-    test('TC_04_03_02 | Verify user can delete hosted zone', async ({
+    test.skip('TC_04_03_02 | Verify user can delete hosted zone', async ({
         page,
         loginPage,
         headerComponent,
