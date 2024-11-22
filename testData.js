@@ -353,3 +353,33 @@ export const CONFIRMATION_WORD = {
 export const NOTIFICATIONS_CONTENT = {
     deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
 };
+
+export const ALL_ABC = [
+    'All',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+];

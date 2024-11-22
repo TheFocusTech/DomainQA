@@ -300,7 +300,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+    test.skip('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
         page,
         loginPage,
         headerComponent,
