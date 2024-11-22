@@ -91,6 +91,15 @@ test.describe('Authorization', () => {
             });
         }
     });
+});
+
+test.describe('Delete Account', () => {
+    test.afterEach(async ({ settingsGeneralPage, cancelDeletionModal }) => {
+        await step('Postconditions: Cancel deletion', async () => {
+            await settingsGeneralPage.clickCancelDeletionButton();
+            await cancelDeletionModal.clickAcceptButton();
+        });
+    });
 
     test('TC_02_04 | Account Deletion Without 2FA', async ({
         page,
@@ -99,7 +108,6 @@ test.describe('Authorization', () => {
         settingsGeneralPage,
         accountDeletionModal,
         acDeleteConfirmationModal,
-        cancelDeletionModal,
         toastComponent,
     }) => {
         await tags('Authorization', 'Positive');
@@ -185,11 +193,6 @@ test.describe('Authorization', () => {
             await expect(toastComponent.accountDeleted).toBeVisible();
             await expect(settingsGeneralPage.dateOfDeletion).toBeVisible();
             await expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
-        });
-
-        await step('Postconditions: Cancel deletion', async () => {
-            await settingsGeneralPage.clickCancelDeletionButton();
-            await cancelDeletionModal.clickAcceptButton();
         });
     });
 });
