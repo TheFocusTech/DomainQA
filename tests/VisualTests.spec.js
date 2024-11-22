@@ -47,7 +47,7 @@ test.describe('Visual tests', () => {
         expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
     });
 
-    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage, dnsRecordModal }) => {
+    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Add new DNS-record"');
