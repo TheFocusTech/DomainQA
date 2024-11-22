@@ -123,7 +123,7 @@ test.describe('Registration', () => {
         );
     });
 
-    test.skip('TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality', async ({
+    test('TC_01_01_02 | Verify "Create Password" form elements and "Back to Sign Up" button functionality', async ({
         page,
         request,
         headerComponent,
@@ -177,7 +177,7 @@ test.describe('Registration', () => {
         });
     });
 
-    test.skip('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
+    test('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
         page,
         request,
         headerComponent,
@@ -305,10 +305,6 @@ test.describe('Registration', () => {
         });
         await headerComponent.clickSignup();
         await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
-        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
-        await signupPage.selectCheckboxReceiveEmails();
-        await signupPage.clickCreateAccount();
-        await signupPage.clickBackToSignUpButton();
         await signupPage.fillEmailAddressInput(REGISTER_USER.email);
         await signupPage.selectCheckboxReceiveEmails();
         await signupPage.clickCreateAccount();
