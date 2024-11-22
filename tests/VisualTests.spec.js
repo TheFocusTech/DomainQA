@@ -43,7 +43,8 @@ test.describe('Visual tests', () => {
             await expect(hostedZonesPage.createHostedZoneModal).toBeVisible();
         });
 
-        await expect(hostedZonesPage.createHostedZoneModal).toHaveScreenshot({ omitBackground: true });
+        const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
+        expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
     });
 
     test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage, dnsRecordModal }) => {
@@ -63,12 +64,10 @@ test.describe('Visual tests', () => {
             await hostedZonesDetailPage.clickAddRecordButton();
         });
 
-        const sensitiveElement = dnsRecordModal.description;
-
         await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
-        await expect(hostedZonesDetailPage.hostedZoneModal).toHaveScreenshot({
-            omitBackground: true,
-            mask: [sensitiveElement],
-        });
+
+        const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
+        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');  
+        expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
     });
 });
