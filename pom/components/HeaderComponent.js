@@ -23,6 +23,12 @@ export default class HeaderComponent {
         this.sslSertificateLink = this.page.getByRole('link', { name: 'SSL certificates', exact: true });
         this.logo = this.page.locator('header a[class^="logo"]');
         this.currencyButton = this.page.getByRole('button', { name: 'Currency ' });
+        this.billingLink = this.page.getByRole('link', { name: 'Billing' });
+        this.notificationsIndicator = this.page.locator('.badge-indicator_badge-indicator__counter__LipkI');
+        this.notificationsIconButton = this.page.getByLabel('Notifications');
+        this.notificationDropdownHeader = this.page.getByText('Notifications', { exact: true });
+        this.newNotificationContent = this.page.locator('div[class^="list_item__"]');
+        this.newNotificationIndicator = this.newNotificationContent.locator('circle');
     }
 
     async clickMyProfileButton() {
@@ -173,6 +179,18 @@ export default class HeaderComponent {
     async getCurrencyTypeSelected(type) {
         return await step('Get currency selected type.', async () => {
             return this.page.locator(`button[class*="menu-button"] span:has-text("${type}") + span`);
+        });
+    }
+
+    async clickBillingLink() {
+        await step('Click on billing link.', async () => {
+            await this.billingLink.click();
+        });
+    }
+
+    async clickNotificationsIconButton() {
+        await step('Click on the notification icon button.', async () => {
+            await this.notificationsIconButton.click();
         });
     }
 }

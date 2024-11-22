@@ -18,6 +18,9 @@ export const URL_ENDPOINT = {
     ContactUs: '/help/contact-us',
     HelpCenterSearch: '/help/search',
     contacts: '/settings/contacts',
+    forgotPassword: '/auth/forgot-password',
+    confirmEmail: '/auth/confirm-email',
+    createContact: '/auth/create-contact',
     blogSearchResults: '/blog/search',
 };
 
@@ -29,7 +32,7 @@ export const INVALID_CREDS_AUTH = [
 
 export const VALID_CREDS_AUTH = {
     email: 'domain.aqa+100@gmail.com',
-    password: 'QA_domain00',
+    password: process.env.USER_PASSWORD,
 };
 
 export const COLORS = {
@@ -47,6 +50,7 @@ export const TOAST_MESSAGE = {
     hostedZoneDeleted: 'Hosted zone deleted',
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
+    dnsRecordDeleted: 'DNS-record deleted',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -63,6 +67,8 @@ export const API_ENDPOINT = {
     resourceRecords: '/resource-records',
     verificationCode: '/users/auth/email-confirmation/verification-code',
     userDelete: '/users/auth/qa/user-delete',
+    deleteResourceRecord: (hostedZoneId, recordId) =>
+        `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
 };
 
 export const DNS_TYPE = {
@@ -171,6 +177,8 @@ export const MODAL_WINDOW_DELETE_HOSTED_ZONE = [
 ];
 
 export const INPUT_SEARCH_PART = 'dom';
+export const INPUT_SEARCH_RELEVANT_NAME = 'domain';
+
 export const HEADER_LINKS = [
     {
         type: 'dropdown',
@@ -294,6 +302,11 @@ export const API_HelpSearch = {
 
 export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
 
+export const REGISTER_USER = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
+    password: process.env.USER_PASSWORD,
+};
+
 export const CONTACTS = {
     predefined: {
         alias: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
@@ -312,11 +325,70 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+    newUser: {
+        alias: 'Domain Admin',
+        'first name': 'Domain',
+        'last name': 'Admin',
+        'company name or organization': 'No details added',
+        'job title': 'No details added',
+        'address line 1': '123 Street',
+        'address line 2': 'No details added',
+        city: 'Paris',
+        'state / province': 'No details added',
+        'zip / postal code': '00000',
+        country: 'France',
+        'phone number': '+12345678901',
+        'fax number': 'No details added',
+        email: REGISTER_USER.email,
+    },
 };
 
-export const EMAIL_MIDDLE_PART = {
-    registerUser: 'qa.mail.template1000',
+export const ADVANCED_SEARCH_MODAL_TITLE = 'Advanced search';
+
+export const SETTING_GENERAL_HEADINGS = {
+    generalInfo: 'General info',
+    password: 'Password',
+    twoFactorAuth: 'Two-factor authentication (2FA)',
+    currency: 'Currency',
 };
+
+export const CONFIRMATION_WORD = {
+    delete: 'Delete',
+};
+
+export const NOTIFICATIONS_CONTENT = {
+    deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+};
+
+export const ALL_ABC = [
+    'All',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+];
 
 export const BLOG_SEARCH_RESULTS = {
     title: 'By category',

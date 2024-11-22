@@ -99,11 +99,12 @@ test.describe('Authorization', () => {
         accountDeletionModal,
         acDeleteConfirmationModal,
         cancelDeletionModal,
+        toastComponent,
     }) => {
         await tags('Authorization', 'Positive');
         await severity('critical');
         await description('To verify user can delete account without 2FA');
-        await issue(`${QASE_LINK}case=23&suite=21`, 'Account Deletion');
+        await issue(`${QASE_LINK}/01-23`, 'Account Deletion');
         await tms(`${GOOGLE_DOC_LINK}iiqbm2c7rcc8`, 'ATC_02_04');
         await epic('Authorization');
 
@@ -155,7 +156,7 @@ test.describe('Authorization', () => {
         });
 
         await step('Check "Yes, I consent to delete my account":', async () => {
-            await accountDeletionModal.markCheckbox();
+            await accountDeletionModal.checkConsentCheckbox();
             await expect(accountDeletionModal.continueButton).toBeEnabled();
         });
 
@@ -180,14 +181,14 @@ test.describe('Authorization', () => {
         });
 
         await step('Verify that the account deletion is successful:', async () => {
-            await expect(settingsGeneralPage.messageAboutDeletion).toBeVisible();
+            await expect(toastComponent.accountDeleted).toBeVisible();
             await expect(settingsGeneralPage.dateOfDeletion).toBeVisible();
             await expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
         });
 
         await step('Postconditions: Cancel deletion', async () => {
             await settingsGeneralPage.clickCancelDeletionButton();
-            await cancelDeletionModal.clickAcceptDeletionButton();
+            await cancelDeletionModal.clickAcceptButton();
         });
     });
 });
