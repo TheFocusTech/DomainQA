@@ -117,10 +117,13 @@ test.describe('Blog', () => {
 
             await page.waitForTimeout(1000);
 
-            const headingPosition = await page.evaluate((element) => {
-                const rect = element.getBoundingClientRect();
-                return { top: rect.top, bottom: rect.bottom };
-            }, await actualHeading.elementHandle());
+            const headingPosition = await page.evaluate(
+                (element) => {
+                    const rect = element.getBoundingClientRect();
+                    return { top: rect.top, bottom: rect.bottom };
+                },
+                await actualHeading.elementHandle()
+            );
 
             const fixedHeaderHeight = 58;
             console.log(`Heading position for index ${i}:`, headingPosition);
@@ -128,13 +131,15 @@ test.describe('Blog', () => {
             expect(headingPosition.top).toBeGreaterThanOrEqual(fixedHeaderHeight);
             expect(headingPosition.top).toBeLessThanOrEqual(fixedHeaderHeight + 30);
 
-            const isOverlapping = await page.evaluate(({ element, headerHeight }) => {
-                const rect = element.getBoundingClientRect();
-                return rect.top < headerHeight;
-            }, { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight });
+            const isOverlapping = await page.evaluate(
+                ({ element, headerHeight }) => {
+                    const rect = element.getBoundingClientRect();
+                    return rect.top < headerHeight;
+                },
+                { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight }
+            );
 
             expect(isOverlapping).toBe(false);
         }
     });
-
 });
