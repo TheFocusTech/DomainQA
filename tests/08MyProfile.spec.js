@@ -76,7 +76,7 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
-        const email = `${process.env.EMAIL_PREFIX}+500${process.env.EMAIL_DOMAIN}`;
+        const email = `${process.env.EMAIL_PREFIX}500${process.env.EMAIL_DOMAIN}`;
         const currentPassword = `${process.env.USER_PASSWORD}`;
         const newPassword = `NEW_${process.env.USER_PASSWORD}`;
 
@@ -546,7 +546,7 @@ test.describe('My profile', () => {
                 page,
                 headerComponent,
                 loginPage,
-                `${process.env.EMAIL_PREFIX}+600${process.env.EMAIL_DOMAIN}`,
+                `${process.env.EMAIL_PREFIX}600${process.env.EMAIL_DOMAIN}`,
                 `${process.env.USER_PASSWORD}`
             );
         });
