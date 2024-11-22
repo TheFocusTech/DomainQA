@@ -568,7 +568,7 @@ test.describe('My profile', () => {
         await settingsGeneralPage.clickDeleteAccountButton();
 
         await step('Verify the "Delete account" modal window is opened.', async () => {
-            expect(accountDeletionModal.deleteAccountHeading).toBeVisible;
+            expect(accountDeletionModal.deleteAccountHeading).toBeVisible();
         });
 
         await accountDeletionModal.checkConsentCheckbox();
@@ -586,13 +586,13 @@ test.describe('My profile', () => {
         });
 
         await step('Verify the "Cancel deletion" button is displayed.', async () => {
-            expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
+            await expect(settingsGeneralPage.cancelDeletionButton).toBeVisible();
         });
 
         await settingsGeneralPage.clickCancelDeletionButton();
 
         await step('Verify the "Cancel deletion" header is displayed.', async () => {
-            expect(cancelDeletionModal.cancelDeletionHeading).toBeVisible;
+            expect(cancelDeletionModal.cancelDeletionHeading).toBeVisible();
         });
 
         await cancelDeletionModal.clickAcceptButton();
@@ -614,9 +614,11 @@ test.describe('My profile', () => {
         await headerComponent.clickNotificationsIconButton();
 
         await step('Verify the new message "Account deletion cancelled" is appeared.', async () => {
-            expect(headerComponent.newNotificationIndicator.first()).toBeVisible();
-            expect(headerComponent.notificationDropdownHeader).toBeVisible();
-            expect(headerComponent.newNotificationContent.first()).toContainText(NOTIFICATIONS_CONTENT.deleteAccount);
+            await expect(headerComponent.newNotificationIndicator.first()).toBeVisible();
+            await expect(headerComponent.notificationDropdownHeader).toBeVisible();
+            await expect(headerComponent.newNotificationContent.first()).toContainText(
+                NOTIFICATIONS_CONTENT.deleteAccount
+            );
         });
     });
 });
