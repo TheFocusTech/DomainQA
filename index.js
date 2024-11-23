@@ -72,45 +72,61 @@ export async function authorize() {
  * Retrieves the verification code from an email using the Gmail API.
  * @param {object} auth The authentication object for the Gmail API.
  * @param {string} email The email address of the sender.
- * @param subject
- * @returns {Promise<string|null>} A Promise that resolves with the confirmation link if found, otherwise resolves with null.
+ * @param {string} subject The email subject
+ * @returns {Promise<string|null>} A Promise that resolves with the confirmation code if found, otherwise resolves with null.
  */
 export async function getVerificationCodeFromEmail(auth, email, subject) {
-    let decodedBody = '';
-    await step('Get verification code from email', async () => {
-        try {
-            const gmail = google.gmail({ version: 'v1', auth });
-            console.log('Waiting for the verification code email to arrive...');
-            await delay(5000);
-            const messagesResponse = await gmail.users.messages.list({
-                userId: 'me',
-                q: `to:${email}`,
-                subject: subject,
-                after: `${Math.floor(new Date().getTime() / 1000) - 60}`,
-            });
-            const messages = messagesResponse.data.messages;
-            if (!messages || messages.length === 0) {
-                console.warn('No messages found within the last minute.');
-                return null;
-            }
-            await delay(5000);
-            const lastMessageResponse = await gmail.users.messages.get({
-                userId: 'me',
-                id: messages[0].id,
-            });
-            const message = lastMessageResponse.data;
-            const bodyData = message.payload.body.data;
-            if (!bodyData) {
-                console.warn('Message body not found.');
-                return null;
-            }
-            decodedBody = Buffer.from(bodyData, 'base64').toString().trim();
-            console.log('Verification code is:', decodedBody);
-            return decodedBody;
-        } catch (error) {
-            console.error('Error occurred while getting verification code:', error);
+    const gmail = google.gmail({ version: 'v1', auth });
+
+    try {
+        console.log('Waiting for the verification code email to arrive...');
+        await delay(5000);
+
+        const messagesResponse = await gmail.users.messages.list({
+            userId: 'me',
+            q: `to:${email} after:${Math.floor(new Date().getTime() / 1000) - 60}`,
+        });
+
+        const messages = messagesResponse.data.messages;
+        if (!messages || messages.length === 0) {
+            console.warn('No messages found within the last minute.');
             return null;
         }
-    });
-    return decodedBody;
+
+        for (const messageMeta of messages) {
+            const messageResponse = await gmail.users.messages.get({
+                userId: 'me',
+                id: messageMeta.id,
+            });
+
+            const headers = messageResponse.data.payload.headers;
+            const emailSubject = headers.find((header) => header.name === 'Subject')?.value;
+
+            if (emailSubject === subject) {
+                const bodyData = messageResponse.data.payload.body.data;
+
+                if (!bodyData) {
+                    console.warn('Message body not found.');
+                    return null;
+                }
+
+                const decodedBody = Buffer.from(bodyData, 'base64').toString('utf8').trim();
+                const verificationCode = decodedBody.match(/^\d+$/) ? decodedBody : null;
+
+                if (verificationCode) {
+                    console.log('Verification code is:', verificationCode);
+                    return verificationCode;
+                }
+
+                console.warn('Verification code not found in the email.');
+                return null;
+            }
+        }
+
+        console.warn('No emails matched the specified subject.');
+        return null;
+    } catch (error) {
+        console.error('Error occurred while getting verification code:', error);
+        return null;
+    }
 }

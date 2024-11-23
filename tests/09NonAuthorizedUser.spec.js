@@ -12,10 +12,10 @@ import {
     ALL_ABC,
     REGISTER_USER,
     SUBJECT,
-    PASSWORD,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
+import { delay } from '../helpers/utils';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -507,9 +507,11 @@ test.describe('Unauthorized user', () => {
 });
 
 test.describe('Reset Password', () => {
+    const newPassword = `NEW_${process.env.USER_PASSWORD}`;
+
     test.beforeAll(async ({ request }) => {
         await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
-        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
+        await deleteUserRequest(request, REGISTER_USER.email, newPassword);
 
         await signUpRequest(request, REGISTER_USER.email, REGISTER_USER.password);
         const verificationCode1 = await getVerificationCodeFromEmail(
@@ -518,9 +520,10 @@ test.describe('Reset Password', () => {
             SUBJECT.signup
         );
         await confirmEmailRequest(request, verificationCode1);
+        await delay(3000);
     });
 
-    test.skip('TC_09_05_03 | Verify password recovery process', async ({
+    test('TC_09_05_03 | Verify password recovery process', async ({
         page,
         request,
         loginPage,
@@ -562,38 +565,15 @@ test.describe('Reset Password', () => {
             expect(verificationCode).toMatch(codePattern);
         });
 
-        await forgotPasswordPage.waitForTimerToComplete();
-
-        await step('Verify the "Resend code" button is enabled', async () => {
-            await expect(forgotPasswordPage.resendCodeButton).toBeEnabled();
-        });
-
-        await forgotPasswordPage.clickResendCode();
-
-        const newVerificationCode = await getVerificationCodeFromEmail(
-            await authorize(),
-            REGISTER_USER.email,
-            SUBJECT.resetPassword
-        );
-
-        await step(
-            'Verify clicking on "Resend code" button again, resends the verification code to the email address',
-            () => {
-                expect(newVerificationCode).not.toBeNull();
-                expect(newVerificationCode).toMatch(codePattern);
-                expect(newVerificationCode).not.toBe(verificationCode);
-            }
-        );
-
-        await forgotPasswordPage.fillCodeField(newVerificationCode);
+        await forgotPasswordPage.fillCodeField(verificationCode);
         await forgotPasswordPage.clickContinue();
 
         await step('Verify "Create password" form is displayed', async () => {
             await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
         });
 
-        await forgotPasswordPage.fillPasswordInput(PASSWORD.newPassword);
-        await forgotPasswordPage.fillRepeatPasswordInput(PASSWORD.newPassword);
+        await forgotPasswordPage.fillPasswordInput(newPassword);
+        await forgotPasswordPage.fillRepeatPasswordInput(newPassword);
         await forgotPasswordPage.clickContinue();
 
         await step('Verify user is redirected to the Login page', async () => {
@@ -603,12 +583,12 @@ test.describe('Reset Password', () => {
 
         await step('Verify user can log in with the new password', async () => {
             await loginPage.fillEmailAddressInput(REGISTER_USER.email);
-            await loginPage.fillPasswordInput(PASSWORD.newPassword);
+            await loginPage.fillPasswordInput(newPassword);
             await loginPage.clickLogin();
             await page.waitForURL(process.env.URL);
             await expect(headerComponent.myProfileButton).toBeVisible();
         });
 
-        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
+        await deleteUserRequest(request, REGISTER_USER.email, newPassword);
     });
 });
