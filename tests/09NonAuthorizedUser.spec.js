@@ -478,8 +478,12 @@ test.describe('Unauthorized user', () => {
             await expect(homePage.filterApplyBadge).toBeVisible();
         });
 
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+        
         arrButtonNames = await homePage.getListCardButtonsName();
-        expect(arrButtonNames).toContain('Who owns?');
+        expect(arrButtonNames).not.toContain('Who owns?');
         expect(arrButtonNames).toContain('Buy');
 
         await homePage.clickFilterButton();
