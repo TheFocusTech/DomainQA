@@ -36,7 +36,7 @@ export default class BlogPage {
         });
     }
 
-    async clickSearchBtn() {
+    async clickSearchButton() {
         await step('Click on search button', async () => {
             await this.blogSearchButton.first().click({ force: true });
         });

@@ -14,7 +14,7 @@ export default class HostedZonesPage {
         this.createHostedZoneModal = this.page.locator('section[role="dialog"]');
         this.deleteButton = this.page.getByRole('button', { name: 'Delete' });
         this.hostedZones = this.page.locator('table tbody tr a');
-        this.clearSearchBtn = this.page.locator('[class*="button-clear"]');
+        this.clearSearchButton = this.page.locator('[class*="button-clear"]');
         this.noResultsText = this.page.getByText('No results found');
         this.mainHeading = this.page.locator('main h1');
         this.alertTitle = this.page.locator('main h2');
@@ -67,7 +67,7 @@ export default class HostedZonesPage {
     }
 
     async clearSearch() {
-        await this.clearSearchBtn.click();
+        await this.clearSearchButton.click();
         await this.page.waitForTimeout(1000);
     }
 

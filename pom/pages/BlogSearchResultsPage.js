@@ -12,7 +12,7 @@ export default class BlogSearchResultsPage {
         this.articleTitle = page.locator('a[class^="article-card_blog-article-card__category"]');
         this.categoryCounter = page.locator('span.counter-wrapper_counter-wrapper__counter__S15Z5');
         this.accordionDropdown = page.locator('div.accordion-slice_accordion-slice-body__a8TY_');
-        this.categoryBtnList = page.locator('div[class^="accordion-segment_accordion-segment"]');
+        this.categoryButtonList = page.locator('div[class^="accordion-segment_accordion-segment"]');
     }
 
     async accordionTriggerclick() {
