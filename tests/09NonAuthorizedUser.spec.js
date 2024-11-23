@@ -481,7 +481,7 @@ test.describe('Unauthorized user', () => {
         await step('Click on the "Search" button', async () => {
             await homePage.searchButton.click();
         });
-        
+
         arrButtonNames = await homePage.getListCardButtonsName();
         expect(arrButtonNames).not.toContain('Who owns?');
         expect(arrButtonNames).toContain('Buy');
