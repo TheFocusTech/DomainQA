@@ -103,7 +103,7 @@ test.describe('Blog', () => {
         await headerComponent.clickBlogButton();
         await page.waitForURL(URL_ENDPOINT.blogPage);
         await blogPage.fillBlogSearchInput(INPUT_SEARCH.a);
-        await blogPage.clickSearchBtn();
+        await blogPage.clickSearchButton();
         await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH.a}`);
 
         await step('Verify title of By category is on the page.', async () => {
@@ -133,9 +133,9 @@ test.describe('Blog', () => {
             await blogSearchResultsPage.accordionTriggerclick();
 
             await step('Verify the category q-ty equal header q-ty.', async () => {
-                const count = await blogSearchResultsPage.categoryBtnList.count();
+                const count = await blogSearchResultsPage.categoryButtonList.count();
                 for (let i = 0; i < count; i++) {
-                    const innerText = await blogSearchResultsPage.categoryBtnList.nth(i).allTextContents();
+                    const innerText = await blogSearchResultsPage.categoryButtonList.nth(i).allTextContents();
                     let [category, count] = innerText[0].split('(');
                     let categoryCount = count.replace(')', '');
                     await blogSearchResultsPage.subCategories.nth(i).click();
