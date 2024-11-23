@@ -1,0 +1,10 @@
+User was successfully deleted
+Signed up with domain.aqa+qa.mail.template1000@gmail.com successfully
+Access Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NTAwNTM5NS1hYzJhLTQ2ODUtOWI2MS0wNTFmNjIxNTM2ZDciLCJpYXQiOjE3MzIzMzg5NjMsImV4cCI6MTczMjQyNTM2MywiYXVkIjoidXNlcl9hY2Nlc3NfdG9rZW4iLCJpc3MiOiJUcnVzdGVkRG9tYWluUmVnaXN0cmFyIn0.pdnCoOdokhRMoqLEnSQX2UAg81U_RMIze8m-HimVuEY
+CSRF Token: Sm6n6Uyz-Ai5FVQ4wvK5mU2Le0-8a79-cl5tRlIr5ir1HA8DaBr0
+Waiting for the verification code email to arrive...
+Verification code is: 932757
+Email confirmed successfully with the code 932757
+Waiting for the verification code email to arrive...
+Verification code is: 717450
+User was successfully deleted
