@@ -1,5 +1,0 @@
-Created hosted zone api-20241122175509.com with id e5777cf6-a59d-461d-bf63-c954efae8333
-Closing modal window by clicking "Cancel" button.
-Total number of hosted zones: 1
-Total number of hosted zones: 0
-All zones deleted
