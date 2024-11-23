@@ -143,6 +143,11 @@ test.describe('My profile', () => {
     }) => {
         await tags('My profile', 'Positive');
         await severity('normal');
+        await description('To verify, that the user can change currency USD (EUR) in the Profile Menu');
+        await issue(`${QASE_LINK}case=26&suite=14`, 'Currency selection');
+        await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
+        await epic('My profile');
+        await feature('Currency selection');
         await description('Verify the user can enable/disable Two-factor authentication (2FA)');
         await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}heuetjbfz4nu`, 'ATC_08_02_03');
