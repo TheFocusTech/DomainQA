@@ -144,7 +144,7 @@ test.describe('Blog', () => {
                     let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
                     console.log(headerCount);
 
-                    await expect(categoryCount).toEqual(headerCount);
+                    expect(categoryCount).toEqual(headerCount);
 
                     await step(
                         `Verify the title of selected articles are correct for category:${category}.`,
@@ -153,7 +153,7 @@ test.describe('Blog', () => {
                             const articles = await blogSearchResultsPage.articleTitle.allTextContents();
                             for (const article of articles) {
                                 if (category == 'All Categories') continue;
-                                await expect(article).toEqual(category);
+                                expect(article).toEqual(category);
                             }
                         }
                     );
