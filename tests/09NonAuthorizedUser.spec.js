@@ -514,12 +514,12 @@ test.describe('Reset Password', () => {
         await deleteUserRequest(request, REGISTER_USER.email, newPassword);
 
         await signUpRequest(request, REGISTER_USER.email, REGISTER_USER.password);
-        const verificationCode1 = await getVerificationCodeFromEmail(
+        const verificationCode = await getVerificationCodeFromEmail(
             await authorize(),
             REGISTER_USER.email,
             SUBJECT.signup
         );
-        await confirmEmailRequest(request, verificationCode1);
+        await confirmEmailRequest(request, verificationCode);
         await delay(3000);
     });
 

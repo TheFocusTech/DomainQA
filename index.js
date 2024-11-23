@@ -1,5 +1,4 @@
 import { delay } from './helpers/utils';
-import { step } from 'allure-js-commons';
 
 const fs = require('fs').promises;
 const path = require('path');
