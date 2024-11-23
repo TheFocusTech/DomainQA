@@ -37,6 +37,7 @@ import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import BillingModal from './pom/modalWindows/BillingModal';
+import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -192,5 +193,9 @@ export const test = base.extend({
     /** @type { BillingModal } */
     billingModal: async ({ page }, use) => {
         await use(new BillingModal(page));
+    },
+    /** @type { BlogSearchResultsPage } */
+    blogSearchResultsPage: async ({ page }, use) => {
+        await use(new BlogSearchResultsPage(page));
     },
 });
