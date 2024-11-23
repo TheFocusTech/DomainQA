@@ -13,7 +13,8 @@ import {
     REGISTER_USER,
     SUBJECT,
     PASSWORD,
-    LINKS,
+    LINKS_FROM_HEADER,
+    BUTTONS_TRANSFER_PAGE,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -506,28 +507,60 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    for (let link in LINKS) {
-        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${LINKS[link]}`, async ({
+    for (let link in LINKS_FROM_HEADER) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${LINKS_FROM_HEADER[link]}`, async ({
             headerComponent,
             loginPage,
         }) => {
             await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
             await severity('normal');
             await description(
-                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${LINKS[link]}`
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${LINKS_FROM_HEADER[link]}`
             );
             await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
             await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
             await epic('Unauthorized_user');
 
-            if (LINKS[link] === LINKS.registeredDomains) {
+            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.registeredDomains) {
                 await headerComponent.clickRegisteredDomainsButton();
             }
-            if (LINKS[link] === LINKS.hostedZones) {
+            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.hostedZones) {
                 await headerComponent.clickHostedZonesLink();
             }
-            if (LINKS[link] === LINKS.hosting) {
+            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.hosting) {
                 await headerComponent.clickHostingButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
+
+    for (let button in BUTTONS_TRANSFER_PAGE) {
+        test(`TC_09_04_03 | Verify unauthorised user is redirected to the Login Page by clicking on ${BUTTONS_TRANSFER_PAGE[button]} button on Transfer Page`, async ({
+            headerComponent,
+            transferPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${BUTTONS_TRANSFER_PAGE[button]} button on Transfer Page`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
+            await tms(`${GOOGLE_DOC_LINK}q2w803gtufhx`, 'ATC_09_04_03');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickTransferLink();
+
+            if (BUTTONS_TRANSFER_PAGE[button] === BUTTONS_TRANSFER_PAGE.bulkTransfer) {
+                await transferPage.clickBulkTransferButton();
+            }
+            if (BUTTONS_TRANSFER_PAGE[button] === BUTTONS_TRANSFER_PAGE.myTransfers) {
+                await transferPage.clickMyTransfersButton();
             }
 
             await step('Verify the Login Page is open', async () => {

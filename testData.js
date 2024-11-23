@@ -409,8 +409,13 @@ export const INPUT_SEARCH = {
     a: 'a',
 };
 
-export const LINKS = {
+export const LINKS_FROM_HEADER = {
     registeredDomains: 'Registered domains link in the Domains menu item',
     hostedZones: 'Hosted-zones link in the Domains menu item',
     hosting: 'Hosting link in the Products menu item',
+};
+
+export const BUTTONS_TRANSFER_PAGE = {
+    bulkTransfer: 'Bulk transfer',
+    myTransfers: 'My transfers',
 };
