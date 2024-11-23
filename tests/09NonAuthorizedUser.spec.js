@@ -441,6 +441,69 @@ test.describe('Unauthorized user', () => {
             await expect(advancedSearchModal.closeButton).toBeVisible();
         });
     });
+
+    test(`TC_09_03_03 | Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`, async ({
+        advancedSearchModal,
+        homePage,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(
+            `Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`
+        );
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}vzpec8fhdas9`, 'ATC_09_03_03');
+        await epic('Unauthorized_user');
+
+        await homePage.domainSearchInput.isVisible();
+        await homePage.fillDomainSearchInput('hourse.com');
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        let arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await advancedSearchModal.clickToggleHideRegistered();
+        await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
+
+        await advancedSearchModal.clickApplyButton();
+        await expect(advancedSearchModal.toggleControl).not.toBeVisible();
+
+        await step('Verify the filter button has badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).not.toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await step('Click Reset button', async () => {
+            await advancedSearchModal.resetButton.click();
+        });
+
+        await step('Verify Hide registered toggle is not active', async () => {
+            await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'false');
+        });
+
+        await step('Click "X" button', async () => {
+            await advancedSearchModal.closeButton.click();
+        });
+
+        await step('Verify the Filter button does NOT have badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).not.toBeVisible();
+        });
+    });
 });
 
 test.describe('Reset Password', () => {
