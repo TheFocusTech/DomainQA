@@ -396,6 +396,25 @@ test.describe('DNS Records', () => {
         });
     });
 
+    test(`TC_04_13 | Dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
+        await tags('Visual Test', 'Positive');
+        await severity('normal');
+        await description('Visual tests: Dialog "Create hosted zone"');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}olebddjarwut`, 'ATC_04_13');
+        await epic('Domains');
+
+        await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}`, { waitUntil: 'networkidle' });
+        await step('Open modal "Create hosted zone".', async () => {
+            await page.evaluate(() => document.fonts.ready);
+            await hostedZonesPage.clickCreateHostedZoneButton();
+            await expect(hostedZonesPage.createHostedZoneModal).toBeVisible();
+        });
+
+        const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
+        expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
+    });
+
     test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
         page,
         dnsRecordModal,
@@ -646,5 +665,29 @@ test.describe('DNS Records', () => {
             const updatedCount = updatedRecords.length;
             expect(updatedCount).toBe(initialCount - 1);
         });
+    });
+
+    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
+        await tags('Visual Test', 'Positive');
+        await severity('normal');
+        await description('Visual tests: Dialog "Add new DNS-record"');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+        await tms(`${GOOGLE_DOC_LINK}zaxsohyzszv0`, 'ATC_04_14');
+        await epic('Domains');
+
+        await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}/${hostedZoneId}`, {
+            waitUntil: 'networkidle',
+        });
+
+        await step('Open modal "Add new DNS-record".', async () => {
+            await page.evaluate(() => document.fonts.ready);
+            await hostedZonesDetailPage.clickAddRecordButton();
+        });
+
+        await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
+
+        const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
+        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
+        expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
     });
 });

@@ -144,7 +144,7 @@ test.describe('Blog', () => {
                     let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
                     console.log(headerCount);
 
-                    await expect(categoryCount).toEqual(headerCount);
+                    expect(categoryCount).toEqual(headerCount);
 
                     await step(
                         `Verify the title of selected articles are correct for category:${category}.`,
@@ -153,12 +153,81 @@ test.describe('Blog', () => {
                             const articles = await blogSearchResultsPage.articleTitle.allTextContents();
                             for (const article of articles) {
                                 if (category == 'All Categories') continue;
-                                await expect(article).toEqual(category);
+                                expect(article).toEqual(category);
                             }
                         }
                     );
                 }
             });
         });
+    });
+
+    test('TC_06_05 | Verify sidebar presence and header position on the blog page when switching between headings in the selected article', async ({
+        page,
+        headerComponent,
+        loginPage,
+        blogPage,
+        blogArticlePage,
+    }) => {
+        await tags('Blog', 'Positive');
+        await severity('normal');
+        await description(
+            'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog'
+        );
+        await issue(`${QASE_LINK}/01-29`, 'Blog');
+        await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_08');
+        await epic('Blog');
+        test.slow();
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickBlogButton();
+        await page.waitForURL(URL_ENDPOINT.blogPage);
+
+        await step('Open a random article:', async () => {
+            await blogPage.articlesList.first().waitFor({ state: 'visible' });
+            const articleCount = await blogPage.articlesList.count();
+            const randomIndex = Math.floor(Math.random() * articleCount);
+            await blogPage.articlesList.nth(randomIndex).click();
+        });
+
+        await blogArticlePage.article.waitFor({ state: 'visible' });
+        const buttonCount = await blogArticlePage.buttonsArticleList.count();
+
+        for (let i = 0; i < buttonCount; i++) {
+            const expectedText = await blogArticlePage.buttonsArticleList.nth(i).textContent();
+            const actualHeading = await blogArticlePage.subArticlesList.nth(i).getByRole('heading');
+            expect(actualHeading).toContainText(expectedText);
+            await blogArticlePage.buttonsArticleList.nth(i).click();
+
+            await actualHeading.waitFor({ state: 'visible' });
+
+            await page.waitForTimeout(1000);
+
+            const headingPosition = await page.evaluate(
+                (element) => {
+                    const rect = element.getBoundingClientRect();
+                    return { top: rect.top, bottom: rect.bottom };
+                },
+                await actualHeading.elementHandle()
+            );
+
+            const fixedHeaderHeight = 58;
+            console.log(`Heading position for index ${i}:`, headingPosition);
+
+            expect(headingPosition.top).toBeGreaterThanOrEqual(fixedHeaderHeight);
+            expect(headingPosition.top).toBeLessThanOrEqual(fixedHeaderHeight + 30);
+
+            const isOverlapping = await page.evaluate(
+                ({ element, headerHeight }) => {
+                    const rect = element.getBoundingClientRect();
+                    return rect.top < headerHeight;
+                },
+                { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight }
+            );
+
+            expect(isOverlapping).toBe(false);
+        }
     });
 });
