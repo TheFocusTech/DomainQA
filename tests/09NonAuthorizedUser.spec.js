@@ -13,6 +13,7 @@ import {
     REGISTER_USER,
     SUBJECT,
     PASSWORD,
+    LINKS,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -504,6 +505,38 @@ test.describe('Unauthorized user', () => {
             await expect(homePage.filterApplyBadge).not.toBeVisible();
         });
     });
+
+    for (let link in LINKS) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${LINKS[link]}`, async ({
+            headerComponent,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${LINKS[link]}`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
+            await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
+            await epic('Unauthorized_user');
+
+            if (LINKS[link] === LINKS.registeredDomains) {
+                await headerComponent.clickRegisteredDomainsButton();
+            }
+            if (LINKS[link] === LINKS.hostedZones) {
+                await headerComponent.clickHostedZonesLink();
+            }
+            if (LINKS[link] === LINKS.hosting) {
+                await headerComponent.clickHostingButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
 });
 
 test.describe('Reset Password', () => {
