@@ -408,3 +408,9 @@ export const BLOG_BY_CATEGORY = {
 export const INPUT_SEARCH = {
     a: 'a',
 };
+
+export const LINKS = {
+    registeredDomains: 'Registered domains link in the Domains menu item',
+    hostedZones: 'Hosted-zones link in the Domains menu item',
+    hosting: 'Hosting link in the Products menu item',
+};
