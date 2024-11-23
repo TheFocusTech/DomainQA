@@ -81,8 +81,8 @@ test.describe('Blog', () => {
             }
         });
     });
-  
-  test('TC_06_04 | Verify switching between Blog articles By category', async ({
+
+    test('TC_06_04 | Verify switching between Blog articles By category', async ({
         page,
         headerComponent,
         loginPage,
@@ -161,8 +161,8 @@ test.describe('Blog', () => {
             });
         });
     });
-  
-test('TC_06_05 | Verify sidebar presence and header position on the blog page when switching between headings in the selected article', async ({
+
+    test('TC_06_05 | Verify sidebar presence and header position on the blog page when switching between headings in the selected article', async ({
         page,
         headerComponent,
         loginPage,

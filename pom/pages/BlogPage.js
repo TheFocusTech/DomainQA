@@ -41,6 +41,8 @@ export default class BlogPage {
         const articles = await this.articlesList.all();
         const randomArticle = articles[Math.floor(Math.random() * articles.length)];
         randomArticle.click();
+    }
+
     async clickSearchButton() {
         await step('Click on search button', async () => {
             await this.blogSearchButton.first().click({ force: true });
