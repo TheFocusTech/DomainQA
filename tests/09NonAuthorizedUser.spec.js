@@ -9,7 +9,14 @@ import {
     AVAILABLE_DOMAIN,
     OCCUPIED_DOMAIN,
     ADVANCED_SEARCH_MODAL_TITLE,
+    ALL_ABC,
+    REGISTER_USER,
+    SUBJECT,
+    PASSWORD,
+    LINKS,
 } from '../testData';
+import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
+import { authorize, getVerificationCodeFromEmail } from '../index';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -132,7 +139,7 @@ test.describe('Unauthorized user', () => {
         await severity('normal');
         await description('To verify Forgot Password page elements and "Back to Log in" functionality.');
         await issue(`${QASE_LINK}/01-34`, 'Reset password');
-        await tms(`${GOOGLE_DOC_LINK}mnbc66oz78zb`, 'ATC_09_05_01');
+        await tms(`${GOOGLE_DOC_LINK}b6bkqpuifgij`, 'ATC_09_05_01');
         await epic('Unauthorized_user');
 
         await headerComponent.clickLogin();
@@ -183,7 +190,7 @@ test.describe('Unauthorized user', () => {
         await severity('normal');
         await description('To verify Check email form elements and "Back to Forgot password" functionality.');
         await issue(`${QASE_LINK}/01-34`, 'Reset password');
-        await tms(`${GOOGLE_DOC_LINK}mnbc66oz78zb`, 'ATC_09_05_02');
+        await tms(`${GOOGLE_DOC_LINK}e2oglh5bachy`, 'ATC_09_05_02');
         await epic('Unauthorized_user');
 
         await headerComponent.clickLogin();
@@ -326,5 +333,315 @@ test.describe('Unauthorized user', () => {
                 await expect(resultsList[i]).toContainText(AVAILABLE_DOMAIN + `${selectedTLDs[i]}`);
             }
         });
+    });
+
+    test(`TC_09_03_02 | Verify that filters button has badge indicator when at least one filter is applied`, async ({
+        homePage,
+        advancedSearchModal,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify that filters button has badge indicator when at least one filter is applied`);
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}123ax97f4085`, 'ATC_09_03_02');
+        await epic('Unauthorized_user');
+        await step(`Verify that the form “Search domain” is visible`, async () => {
+            await homePage.domainSearchInput.isVisible();
+            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+            await homePage.filterButton.isVisible();
+        });
+
+        await homePage.clickFilterButton();
+        const tldName = await advancedSearchModal.randomTLD(0).textContent();
+        await step('Click on the choicebox “.com” (can be random TLD)', async () => {
+            await advancedSearchModal.randomTLD(0).click();
+        });
+
+        await step(
+            `Verify that ${tldName} button is active (has badge) (the first letter of the selected TLD)`,
+            async () => {
+                const letter = tldName.slice(1, 2);
+                const { backgroundColor } = await advancedSearchModal.getStyleSelectedTLDItem(letter);
+                expect(backgroundColor).toBe('rgb(0, 251, 196)');
+            }
+        );
+        await advancedSearchModal.clickApplyButton();
+
+        await step('Verify the filter button has badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+    });
+
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+        homePage,
+        advancedSearchModal,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(`Verify unauthorized user can open modal window with filters for advanced search`);
+        await issue(`${QASE_LINK}case=30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}jgxijwpv69l3`, 'ATC_09_03_01');
+        await epic('Unauthorized_user');
+
+        await step(`Verify that the form “Search domain” is visible`, async () => {
+            await expect(homePage.domainSearchInput).toBeVisible();
+            await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+            await expect(homePage.filterButton).toBeVisible();
+        });
+
+        await homePage.clickFilterButton();
+
+        await step(`Verify "Advanced Search" heading is visible`, async () => {
+            await expect(advancedSearchModal.advancedSearchHeading).toBeVisible();
+        });
+
+        await step(`Verify "Hide Registered" togle is visible`, async () => {
+            await expect(advancedSearchModal.hideRegisteredTogle).toBeVisible();
+        });
+
+        await step(`Verify "Filter by TLD" field is visible`, async () => {
+            await expect(advancedSearchModal.filterByTLDField).toBeVisible();
+        });
+
+        await step(`Verify field “Filter by TLD” has text “Selected (0) TLDs” by default`, async () => {
+            await expect(advancedSearchModal.filterHeader).toHaveText('Selected (0) TLDs');
+        });
+
+        await step(`Verify "Clear all" button is visible`, async () => {
+            await expect(advancedSearchModal.clearAllButton).toBeVisible();
+        });
+
+        await step(`Verify swiper with buttons “All” and ABC is visible`, async () => {
+            for (const letter of await advancedSearchModal.abcSwipperButton.all()) {
+                await expect(letter).toBeVisible();
+            }
+            expect(await advancedSearchModal.getAbcSwipperButtonTexts()).toEqual(ALL_ABC);
+            await expect(advancedSearchModal.abcSwipperButton).toHaveCount(27);
+        });
+
+        await step(`Verify "Next Arrow" button in swiper is visible`, async () => {
+            await expect(advancedSearchModal.nextArrow).toBeVisible();
+        });
+
+        await step(`Verify category header “All TLDs” is visible by default`, async () => {
+            await expect(advancedSearchModal.defaultCategory).toBeVisible();
+        });
+        await step(`Verify Category list with choiceboxes is visible`, async () => {
+            await expect(advancedSearchModal.categoryList).toBeVisible();
+        });
+
+        await step(`Verify  button “Reset” is visible`, async () => {
+            await expect(advancedSearchModal.resetButton).toBeVisible();
+        });
+
+        await step(`Verify  button “Apply” is visible`, async () => {
+            await expect(advancedSearchModal.applyButton).toBeVisible();
+        });
+
+        await step(`Verify  button “Close” is visible `, async () => {
+            await expect(advancedSearchModal.closeButton).toBeVisible();
+        });
+    });
+
+    test(`TC_09_03_03 | Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`, async ({
+        advancedSearchModal,
+        homePage,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(
+            `Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`
+        );
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}vzpec8fhdas9`, 'ATC_09_03_03');
+        await epic('Unauthorized_user');
+
+        await homePage.domainSearchInput.isVisible();
+        await homePage.fillDomainSearchInput('hourse.com');
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        let arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await advancedSearchModal.clickToggleHideRegistered();
+        await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
+
+        await advancedSearchModal.clickApplyButton();
+        await expect(advancedSearchModal.toggleControl).not.toBeVisible();
+
+        await step('Verify the filter button has badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).not.toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await step('Click Reset button', async () => {
+            await advancedSearchModal.resetButton.click();
+        });
+
+        await step('Verify Hide registered toggle is not active', async () => {
+            await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'false');
+        });
+
+        await step('Click "X" button', async () => {
+            await advancedSearchModal.closeButton.click();
+        });
+
+        await step('Verify the Filter button does NOT have badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).not.toBeVisible();
+        });
+    });
+
+    for (let link in LINKS) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${LINKS[link]}`, async ({
+            headerComponent,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${LINKS[link]}`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
+            await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
+            await epic('Unauthorized_user');
+
+            if (LINKS[link] === LINKS.registeredDomains) {
+                await headerComponent.clickRegisteredDomainsButton();
+            }
+            if (LINKS[link] === LINKS.hostedZones) {
+                await headerComponent.clickHostedZonesLink();
+            }
+            if (LINKS[link] === LINKS.hosting) {
+                await headerComponent.clickHostingButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
+});
+
+test.describe('Reset Password', () => {
+    test.beforeAll(async ({ request }) => {
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
+
+        await signUpRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+        const verificationCode1 = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
+        await confirmEmailRequest(request, verificationCode1);
+    });
+
+    test.skip('TC_09_05_03 | Verify password recovery process', async ({
+        page,
+        request,
+        loginPage,
+        headerComponent,
+        forgotPasswordPage,
+    }) => {
+        test.setTimeout(90000);
+        await tags('Unauthorized_user', 'Forgot password');
+        await severity('normal');
+        await description('To verify that user can reset the password.');
+        await issue(`${QASE_LINK}/01-34`, 'Reset password');
+        await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
+        await epic('Unauthorized_user');
+
+        const codePattern = /^[0-9]{6}$/;
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+
+        await headerComponent.clickLogin();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+
+        await loginPage.clickForgotPassword();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
+
+        await forgotPasswordPage.fillEmailInput(REGISTER_USER.email);
+
+        await forgotPasswordPage.clickSendCode();
+
+        const verificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.resetPassword
+        );
+
+        await step("Verify an email with a verification code is sent to the user's registered email address", () => {
+            expect(verificationCode).not.toBeNull();
+            expect(verificationCode).toMatch(codePattern);
+        });
+
+        await forgotPasswordPage.waitForTimerToComplete();
+
+        await step('Verify the "Resend code" button is enabled', async () => {
+            await expect(forgotPasswordPage.resendCodeButton).toBeEnabled();
+        });
+
+        await forgotPasswordPage.clickResendCode();
+
+        const newVerificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.resetPassword
+        );
+
+        await step(
+            'Verify clicking on "Resend code" button again, resends the verification code to the email address',
+            () => {
+                expect(newVerificationCode).not.toBeNull();
+                expect(newVerificationCode).toMatch(codePattern);
+                expect(newVerificationCode).not.toBe(verificationCode);
+            }
+        );
+
+        await forgotPasswordPage.fillCodeField(newVerificationCode);
+        await forgotPasswordPage.clickContinue();
+
+        await step('Verify "Create password" form is displayed', async () => {
+            await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
+        });
+
+        await forgotPasswordPage.fillPasswordInput(PASSWORD.newPassword);
+        await forgotPasswordPage.fillRepeatPasswordInput(PASSWORD.newPassword);
+        await forgotPasswordPage.clickContinue();
+
+        await step('Verify user is redirected to the Login page', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
+        });
+
+        await step('Verify user can log in with the new password', async () => {
+            await loginPage.fillEmailAddressInput(REGISTER_USER.email);
+            await loginPage.fillPasswordInput(PASSWORD.newPassword);
+            await loginPage.clickLogin();
+            await page.waitForURL(process.env.URL);
+            await expect(headerComponent.myProfileButton).toBeVisible();
+        });
+
+        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
     });
 });

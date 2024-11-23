@@ -26,9 +26,10 @@ export default class HeaderComponent {
         this.billingLink = this.page.getByRole('link', { name: 'Billing' });
         this.notificationsIndicator = this.page.locator('.badge-indicator_badge-indicator__counter__LipkI');
         this.notificationsIconButton = this.page.getByLabel('Notifications');
-        this.notificationDropdownHeader = this.page.getByText('Notifications');
+        this.notificationDropdownHeader = this.page.getByText('Notifications', { exact: true });
         this.newNotificationContent = this.page.locator('div[class^="list_item__"]');
         this.newNotificationIndicator = this.newNotificationContent.locator('circle');
+        this.hostingButton = this.page.getByRole('link', { name: 'Hosting', exact: true });
     }
 
     async clickMyProfileButton() {
@@ -191,6 +192,13 @@ export default class HeaderComponent {
     async clickNotificationsIconButton() {
         await step('Click on the notification icon button.', async () => {
             await this.notificationsIconButton.click();
+        });
+    }
+
+    async clickHostingButton() {
+        await step('Click on the "Hosting" button in Hearder.', async () => {
+            await this.productsButton.click();
+            await this.hostingButton.click();
         });
     }
 }

@@ -21,6 +21,7 @@ export const URL_ENDPOINT = {
     forgotPassword: '/auth/forgot-password',
     confirmEmail: '/auth/confirm-email',
     createContact: '/auth/create-contact',
+    blogSearchResults: '/blog/search',
     helpCategoryDomains: '/help/category/202000049481-domains',
     helpCategoryHosting: '/help/category/202000049482-hosting',
     helpCategoryEmails: '/help/category/202000049478-emails',
@@ -73,6 +74,9 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    signUp: '/users/auth/sign-up',
+    confirmEmail: '/users/auth/email-confirmation/confirm',
+    blogSearchResultsPage: '/blog/search',
 };
 
 export const DNS_TYPE = {
@@ -361,6 +365,59 @@ export const CONFIRMATION_WORD = {
 
 export const NOTIFICATIONS_CONTENT = {
     deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+};
+
+export const ALL_ABC = [
+    'All',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+];
+
+export const SUBJECT = {
+    signup: 'Trusted Domain Registrar | Verify you email',
+    resetPassword: 'Trusted Domain Registrar | Password Reset',
+};
+
+export const BLOG_BY_CATEGORY = {
+    title: 'By category',
+    allCategories: 'All Categories',
+    domainNames: 'Domain Names',
+    websitesHosting: 'Websites & Hosting',
+    marketing: 'Marketing',
+};
+
+export const INPUT_SEARCH = {
+    a: 'a',
+};
+
+export const LINKS = {
+    registeredDomains: 'Registered domains link in the Domains menu item',
+    hostedZones: 'Hosted-zones link in the Domains menu item',
+    hosting: 'Hosting link in the Products menu item',
 };
 
 export const HELP_PAGE_CATEGORY = [

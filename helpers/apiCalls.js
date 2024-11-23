@@ -210,7 +210,7 @@ export async function getVerificationCodeRequest(request) {
 }
 
 export async function deleteUserRequest(request, email, password) {
-    await step('Precondition: Delete earlier created user', async () => {
+    await step('Delete earlier created user', async () => {
         try {
             const deleteResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.userDelete}`, {
                 data: {
@@ -240,4 +240,64 @@ export async function deleteDnsRecordAPI(request, recordId, hostedZoneId, header
     } catch (error) {
         console.error(`An error occurred while deleting DNS record: ${error.message}`);
     }
+}
+
+export async function signUpRequest(request, email, password) {
+    await step('Sign up', async () => {
+        try {
+            const signUpResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.signUp}`, {
+                data: {
+                    email: email,
+                    password: password,
+                    notificationSettings: [
+                        {
+                            type: 'domain_notification',
+                            config: {
+                                email: true,
+                                browser: true,
+                            },
+                        },
+                    ],
+                },
+            });
+            if (!signUpResponse.ok()) {
+                throw new Error(`Failed to sign up: ${signUpResponse.statusText()}`);
+            }
+            console.log(`Signed up with ${email} successfully`);
+            const signUpData = await signUpResponse.json();
+
+            process.env.ACCESS_TOKEN = signUpData.accessToken;
+            process.env.CSRF_TOKEN = signUpData.csrfToken;
+
+            console.log('Access Token:', process.env.ACCESS_TOKEN);
+            console.log('CSRF Token:', process.env.CSRF_TOKEN);
+        } catch (error) {
+            console.error(`An error occurred during signing up with ${email}: ${error.message}`);
+        }
+    });
+}
+export async function confirmEmailRequest(request, verificationCode) {
+    await step('Confirm email', async () => {
+        try {
+            if (!process.env.ACCESS_TOKEN || !process.env.CSRF_TOKEN) {
+                throw new Error('Tokens are not set. Please sign in first.');
+            }
+
+            const response = await request.post(`${process.env.API_URL}${API_ENDPOINT.confirmEmail}`, {
+                headers: {
+                    Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+                    'x-csrf-token': process.env.CSRF_TOKEN,
+                },
+                data: {
+                    secret: verificationCode,
+                },
+            });
+            if (!response.ok()) {
+                throw new Error(`Failed to confirm email: ${response.statusText()}`);
+            }
+            console.log('Email confirmed successfully with the code ' + verificationCode);
+        } catch (error) {
+            console.error(`An error occurred during email confirmation: ${error.message}`);
+        }
+    });
 }
