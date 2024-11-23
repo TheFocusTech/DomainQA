@@ -331,7 +331,7 @@ test.describe('DNSSEC', () => {
             await expect(hostedZonesDetailPage.notUsingDnssecWarning).toBeVisible();
         });
 
-        await hostedZonesDetailPage.enableDnssecBtn.click();
+        await hostedZonesDetailPage.enableDnssecButton.click();
 
         await step('Validate "Enable DNSSEC" modal UI.', async () => {
             await expect(enableDnssecModal.dialog).toBeVisible();
@@ -341,9 +341,9 @@ test.describe('DNSSEC', () => {
             await expect(enableDnssecModal.descriptionModal).toHaveText(
                 'Domain Name System Security Extensions (DNSSEC) protect from threats like DNS cache poisoning attacks and DNS spoofing.'
             );
-            await expect(enableDnssecModal.cancelBtn).toBeVisible();
-            await expect(enableDnssecModal.enableBtn).toBeVisible();
-            await expect(enableDnssecModal.closeBtn).toBeVisible();
+            await expect(enableDnssecModal.cancelButton).toBeVisible();
+            await expect(enableDnssecModal.enableButton).toBeVisible();
+            await expect(enableDnssecModal.closeButton).toBeVisible();
         });
 
         await enableDnssecModal.closeModalRandomly();
@@ -352,8 +352,8 @@ test.describe('DNSSEC', () => {
             await expect(enableDnssecModal.dialog).not.toBeVisible();
         });
 
-        await hostedZonesDetailPage.clickEnableDnssecBtn();
-        await enableDnssecModal.clickEnableBtn();
+        await hostedZonesDetailPage.clickEnableDnssecButton();
+        await enableDnssecModal.clickEnableButton();
 
         await step('Verify the activation warning is visible.', async () => {
             await hostedZonesDetailPage.dnssecActivationWarning.waitFor({ state: 'visible' });

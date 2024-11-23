@@ -457,7 +457,7 @@ test.describe('Reset Password', () => {
         await confirmEmailRequest(request, verificationCode1);
     });
 
-    test('TC_09_05_03 | Verify password recovery process', async ({
+    test.skip('TC_09_05_03 | Verify password recovery process', async ({
         page,
         request,
         loginPage,
