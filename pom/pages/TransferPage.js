@@ -6,6 +6,8 @@ export default class TransferPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
+        this.bulkTransferButton = this.page.getByRole('button', { name: 'Bulk transfer' });
+        this.myTransfersButton = this.page.getByRole('link', { name: 'My transfers' });
     }
 
     async verifyTransferPage(heading, buttons) {
@@ -19,5 +21,17 @@ export default class TransferPage {
                 await expect(buttonLocator.or(linkLocator).first()).toBeVisible();
             });
         }
+    }
+
+    async clickBulkTransferButton() {
+        await step('Click on "Bulk transfer" button.', async () => {
+            await this.bulkTransferButton.click();
+        });
+    }
+
+    async clickMyTransfersButton() {
+        await step('Click on "My transfers" button.', async () => {
+            await this.myTransfersButton.click();
+        });
     }
 }
