@@ -9,6 +9,7 @@ export default class BlogPage {
         this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
         this.blogSearchPopupList = this.page.locator('li[class*="search-articles-list__item"]');
+        this.articlesList = this.page.locator('article h3');
         this.blogSearchButton = this.page.getByRole('button', { name: 'Search' });
     }
 
@@ -36,7 +37,13 @@ export default class BlogPage {
         });
     }
 
-    async clickSearchBtn() {
+    async clickRandomArticle() {
+        const articles = await this.articlesList.all();
+        const randomArticle = articles[Math.floor(Math.random() * articles.length)];
+        randomArticle.click();
+    }
+
+    async clickSearchButton() {
         await step('Click on search button', async () => {
             await this.blogSearchButton.first().click({ force: true });
         });
