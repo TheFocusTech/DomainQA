@@ -4,7 +4,6 @@ import { description, tags, severity, epic, step, tms, issue, feature } from 'al
 import {
     QASE_LINK,
     GOOGLE_DOC_LINK,
-    PASSWORD,
     TOAST_MESSAGE,
     MY_PROFILE_ITEMS,
     URL_ENDPOINT,
@@ -22,7 +21,7 @@ let code;
 let secretKey;
 
 test.describe('My profile', () => {
-    test.skip('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
+    test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
         page,
         loginPage,
         headerComponent,
@@ -61,7 +60,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
+    test('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         loginPage,
         headerComponent,
@@ -77,12 +76,11 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
-        const currentPassword = PASSWORD.password;
-        const newPassword = PASSWORD.password;
+        const email = `${process.env.EMAIL_PREFIX}500${process.env.EMAIL_DOMAIN}`;
+        const currentPassword = `${process.env.USER_PASSWORD}`;
+        const newPassword = `NEW_${process.env.USER_PASSWORD}`;
 
-        await step('Preconditions:', async () => {
-            await loginUser(page, headerComponent, loginPage);
-        });
+        await loginUser(page, headerComponent, loginPage, email, currentPassword);
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();
@@ -300,7 +298,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test.skip('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
+    test('TC_08_04_01 | Verify user can manage Account Notifications settings', async ({
         page,
         loginPage,
         headerComponent,
@@ -541,15 +539,13 @@ test.describe('My profile', () => {
         await epic('My profile');
         await feature('Account settings');
 
-        await step('Preconditions: Login as a registered user', async () => {
-            await loginUser(
-                page,
-                headerComponent,
-                loginPage,
-                `${process.env.EMAIL_PREFIX}600${process.env.EMAIL_DOMAIN}`,
-                `${process.env.USER_PASSWORD}`
-            );
-        });
+        await loginUser(
+            page,
+            headerComponent,
+            loginPage,
+            `${process.env.EMAIL_PREFIX}600${process.env.EMAIL_DOMAIN}`,
+            `${process.env.USER_PASSWORD}`
+        );
 
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickAccountSettingsLink();

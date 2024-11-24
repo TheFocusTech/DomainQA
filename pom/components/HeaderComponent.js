@@ -34,12 +34,13 @@ export default class HeaderComponent {
 
     async clickMyProfileButton() {
         await step('Click on the "My Profile" button.', async () => {
+            await this.myProfileButton.waitFor({ state: 'visible' });
             await this.myProfileButton.click();
         });
     }
 
     async clickLogoButton() {
-        await step('Click on the "My Profile" button', async () => {
+        await step('Click on the Logo button', async () => {
             await this.logoButton.click();
         });
     }
