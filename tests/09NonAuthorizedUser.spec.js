@@ -13,8 +13,7 @@ import {
     REGISTER_USER,
     SUBJECT,
     PASSWORD,
-    LINKS_FROM_HEADER,
-    BUTTONS_TRANSFER_PAGE,
+    HEADER_LINKS,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -507,27 +506,28 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    for (let link in LINKS_FROM_HEADER) {
-        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${LINKS_FROM_HEADER[link]}`, async ({
+    const links = [HEADER_LINKS[0].links[0].name, HEADER_LINKS[0].links[1].name, HEADER_LINKS[1].links[0].name];
+    for (let link of links) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${link} link in header`, async ({
             headerComponent,
             loginPage,
         }) => {
-            await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
             await severity('normal');
             await description(
-                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${LINKS_FROM_HEADER[link]}`
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${link} link in header`
             );
-            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
             await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
             await epic('Unauthorized_user');
 
-            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.registeredDomains) {
+            if (link === HEADER_LINKS[0].links[0].name) {
                 await headerComponent.clickRegisteredDomainsButton();
             }
-            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.hostedZones) {
+            if (link === HEADER_LINKS[0].links[1].name) {
                 await headerComponent.clickHostedZonesLink();
             }
-            if (LINKS_FROM_HEADER[link] === LINKS_FROM_HEADER.hosting) {
+            if (link === HEADER_LINKS[1].links[0].name) {
                 await headerComponent.clickHostingButton();
             }
 
@@ -539,27 +539,28 @@ test.describe('Unauthorized user', () => {
         });
     }
 
-    for (let button in BUTTONS_TRANSFER_PAGE) {
-        test(`TC_09_04_03 | Verify unauthorised user is redirected to the Login Page by clicking on ${BUTTONS_TRANSFER_PAGE[button]} button on Transfer Page`, async ({
+    const buttons = [HEADER_LINKS[0].links[2].buttons[1], HEADER_LINKS[0].links[2].buttons[2]];
+    for (let button of buttons) {
+        test(`TC_09_04_03 | Verify unauthorised user is redirected to the Login Page by clicking on ${button} button on Transfer Page`, async ({
             headerComponent,
             transferPage,
             loginPage,
         }) => {
-            await tags('Unauthorized_user', 'Redirect_to_Login_Page_page');
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
             await severity('normal');
             await description(
-                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${BUTTONS_TRANSFER_PAGE[button]} button on Transfer Page`
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${button} button on Transfer Page`
             );
-            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page page');
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
             await tms(`${GOOGLE_DOC_LINK}q2w803gtufhx`, 'ATC_09_04_03');
             await epic('Unauthorized_user');
 
             await headerComponent.clickTransferLink();
 
-            if (BUTTONS_TRANSFER_PAGE[button] === BUTTONS_TRANSFER_PAGE.bulkTransfer) {
+            if (button === HEADER_LINKS[0].links[2].buttons[1]) {
                 await transferPage.clickBulkTransferButton();
             }
-            if (BUTTONS_TRANSFER_PAGE[button] === BUTTONS_TRANSFER_PAGE.myTransfers) {
+            if (button === HEADER_LINKS[0].links[2].buttons[2]) {
                 await transferPage.clickMyTransfersButton();
             }
 
