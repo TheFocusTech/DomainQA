@@ -580,7 +580,7 @@ test.describe('Reset Password', () => {
         headerComponent,
         forgotPasswordPage,
     }) => {
-        test.setTimeout(360000);
+        test.setTimeout(90000);
         await tags('Unauthorized_user', 'Forgot password');
         await severity('normal');
         await description('To verify that user can reset the password.');
