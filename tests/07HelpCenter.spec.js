@@ -188,7 +188,6 @@ test.describe('Help Center', () => {
         await issue(`${QASE_LINK}/01-33`, 'Help center');
         await tms(`${GOOGLE_DOC_LINK}nc1tclwhmwhq`, 'ATC_07_02_01');
         await epic('Help center');
-        test.slow();
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -213,7 +212,6 @@ test.describe('Help Center', () => {
                         await helpCategoryPage.clickHelpCategorySearchInput();
                         await helpCategoryPage.waitForHelpCategorySearchPopup();
                         await helpCategoryPage.fillHelpCategorySearchInput(HELP_CATEGORY_SEARCH);
-                        /*await helpCategoryPage.waitForHelpCategorySearchPopup();*/
                         await expect(helpCategoryPage.helpCategorySearchPopup).toContainText(
                             new RegExp(HELP_CATEGORY_SEARCH, 'i')
                         );
