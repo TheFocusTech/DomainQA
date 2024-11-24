@@ -22,6 +22,11 @@ export const URL_ENDPOINT = {
     confirmEmail: '/auth/confirm-email',
     createContact: '/auth/create-contact',
     blogSearchResults: '/blog/search',
+    helpCategoryDomains: '/help/category/202000049481-domains',
+    helpCategoryHosting: '/help/category/202000049482-hosting',
+    helpCategoryEmails: '/help/category/202000049478-emails',
+    helpCategorySsl: '/help/category/202000049483-ssl',
+    helpCategoryLegal: '/help/category/202000029056-legal',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -29,11 +34,6 @@ export const INVALID_CREDS_AUTH = [
     { email: process.env.USER_EMAIL, password: 'invalidPassword', name: 'valid email and invalid password' },
     { email: 'invalidEmail@gmail.com', password: 'invalidPassword', name: 'invalid email and invalid password' },
 ];
-
-export const VALID_CREDS_AUTH = {
-    email: 'domain.aqa+100@gmail.com',
-    password: process.env.USER_PASSWORD,
-};
 
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
@@ -118,7 +118,7 @@ export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
     'Account settings',
     'Billing',
-    'Currency USD ($)',
+    /Currency USD \(\$|€\)/,
     'Log out',
 ];
 
@@ -408,3 +408,13 @@ export const BLOG_BY_CATEGORY = {
 export const INPUT_SEARCH = {
     a: 'a',
 };
+
+export const HELP_PAGE_CATEGORY = [
+    { title: 'Domains', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryDomains}` },
+    { title: 'Hosting', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryHosting}` },
+    { title: 'Emails', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryEmails}` },
+    { title: 'SSL', url: `${process.env.URL}${URL_ENDPOINT.helpCategorySsl}` },
+    { title: 'Legal', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryLegal}` },
+];
+
+export const HELP_CATEGORY_SEARCH = 'Refund Policy';

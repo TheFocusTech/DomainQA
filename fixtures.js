@@ -39,6 +39,7 @@ import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import BillingModal from './pom/modalWindows/BillingModal';
 import BlogArticlePage from './pom/pages/BlogArticlePage';
 import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
+import HelpCategoryPage from './pom/pages/HelpCategoryPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -202,5 +203,9 @@ export const test = base.extend({
     /** @type { BlogSearchResultsPage } */
     blogSearchResultsPage: async ({ page }, use) => {
         await use(new BlogSearchResultsPage(page));
+    },
+    /** @type { HelpCategoryPage } */
+    helpCategoryPage: async ({ page }, use) => {
+        await use(new HelpCategoryPage(page));
     },
 });

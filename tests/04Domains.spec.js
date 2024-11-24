@@ -172,11 +172,10 @@ test.describe('Hosted zones', () => {
         await deleteAllHostedZones(request, headers);
     });
 
-    test.skip('TC_04_03_02 | Verify user can delete hosted zone', async ({
+    test('TC_04_03_02 | Verify user can delete hosted zone', async ({
         page,
         loginPage,
         headerComponent,
-        createHostedZoneModal,
         hostedZonesPage,
         toastComponent,
         deleteHostedZoneModal,
@@ -192,7 +191,7 @@ test.describe('Hosted zones', () => {
 
         let domainName;
 
-        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
         await step('Preconditions: Create hosted zones via API.', async () => {
@@ -232,7 +231,7 @@ test.describe('Hosted zones', () => {
         });
     });
 
-    test.skip('TC_04_02 | Verify user can create hosted zone', async ({
+    test('TC_04_03_01| Verify user can create hosted zone', async ({
         page,
         loginPage,
         headerComponent,
@@ -251,7 +250,7 @@ test.describe('Hosted zones', () => {
 
         const domainName = await getRandomDomainName();
 
-        await loginUser(page, headerComponent, loginPage, createHostedZoneModal);
+        await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
         headers = await getCookies(page);
 
