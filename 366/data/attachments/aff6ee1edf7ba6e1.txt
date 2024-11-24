@@ -1,1 +1,0 @@
-Add new DNS-recordYour root domain name: *AName*IPv4-address*TTL*AutoComment0/1024CancelSave
