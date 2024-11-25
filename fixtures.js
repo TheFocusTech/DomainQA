@@ -212,5 +212,5 @@ export const test = base.extend({
     /** @type { HelpCenterArticlePage } */
     helpCenterArticlePage: async ({ page }, use) => {
         await use(new HelpCenterArticlePage(page));
-    }, 
+    },
 });

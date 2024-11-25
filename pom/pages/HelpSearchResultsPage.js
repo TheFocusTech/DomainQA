@@ -28,15 +28,15 @@ export default class HelpSearchResultsPage {
     async innerTextsHeaderText() {
         await this.headerTextVisible.waitFor({ state: 'visible' });
         return await this.headerText.allInnerTexts();
-    }    
-    
+    }
+
     async clickRandomArticle() {
         await this.articlesList.first().waitFor({ state: 'visible' });
         const articleCount = await this.articlesList.count();
         const randomIndex = Math.floor(Math.random() * articleCount);
         const nameArticle = await this.articlesList.nth(randomIndex).innerText();
         await step('Open a random article:', async () => {
-            await this.articlesList.nth(randomIndex).click();                    
+            await this.articlesList.nth(randomIndex).click();
         });
         return nameArticle;
     }

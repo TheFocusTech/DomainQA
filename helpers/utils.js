@@ -108,38 +108,40 @@ export function getRandomArray(rowOfNumbers, arrayLength) {
 }
 
 export async function getNameHeaders(helpCenterArticlePage) {
-    let count = await helpCenterArticlePage.hiddenHeader.count();    
-    let i=0;
+    let count = await helpCenterArticlePage.hiddenHeader.count();
     while (count > 0) {
-        await helpCenterArticlePage.clickHiddenHeaderButton(); 
+        await helpCenterArticlePage.clickHiddenHeaderButton();
         count = await helpCenterArticlePage.hiddenHeader.count();
-        i++;
     }
-    
+
     const headerArticles = await helpCenterArticlePage.allInnerTextsHeaderArticles();
     let dl = headerArticles.length;
-    while (dl>=0) {
-        await helpCenterArticlePage.headerArticles.nth(dl-1).click();
-        await helpCenterArticlePage.headerArticles.nth(dl-1).click();
-        dl--;            
+    while (dl >= 0) {
+        await helpCenterArticlePage.headerArticles.nth(dl - 1).click();
+        await helpCenterArticlePage.headerArticles.nth(dl - 1).click();
+        dl--;
     }
-    
-    const massivName = await helpCenterArticlePage.allInnerTextsSubheadings();      
+
+    const massivName = await helpCenterArticlePage.allInnerTextsSubheadings();
     return massivName;
 }
 
 export async function resultComparisonsHeaders(countH, page, helpCenterArticlePage, text) {
     let result = '';
-    for (let i=0; i<countH; i++) {
-        await page.locator('.accordion-slice_accordion-slice__C6mue').getByRole('link', { name: `${text[i]}`}).click({force: true});
-        
+    for (let i = 0; i < countH; i++) {
+        await page
+            .locator('.accordion-slice_accordion-slice__C6mue')
+            .getByRole('link', { name: `${text[i]}` })
+            .click({ force: true });
+
         await page.waitForTimeout(1500);
         let h1 = await helpCenterArticlePage.innerTextHeaderH1();
-        if (h1.includes(`${text[i]}`) === true) { result = 'true'; }
-        else {
-            result = 'false'; 
+        if (h1.includes(`${text[i]}`) === true) {
+            result = 'true';
+        } else {
+            result = 'false';
             break;
-            }        
+        }
     }
     return result;
 }

@@ -249,7 +249,7 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();        
+        // await helpCenterPage.clickHelpCenterSearchButton();
         await step('Go to the result search page.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
@@ -257,17 +257,19 @@ test.describe('Help Center', () => {
             await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
         });
 
-        const nameArticle = await helpSearchResultsPage.clickRandomArticle();                
+        const nameArticle = await helpSearchResultsPage.clickRandomArticle();
         await step('Verify go to the page of the selected random article.', async () => {
             await expect(helpCenterArticlePage.breadcrumbs).toContainText(`${nameArticle}`);
         });
 
-        await page.waitForTimeout(2000); 
-        let text = await getNameHeaders(helpCenterArticlePage);        
+        await page.waitForTimeout(2000);
+        let text = await getNameHeaders(helpCenterArticlePage);
 
         const countH = await helpCenterArticlePage.countSubheadings();
         await step('Verify clicking on a heading takes you to the name of the heading in the article.', async () => {
-            await expect((await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()).toEqual('true');
+            await expect(
+                (await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()
+            ).toEqual('true');
         });
     });
 });
