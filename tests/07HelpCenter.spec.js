@@ -17,6 +17,7 @@ import {
     resultCountCategoriesSearch,
     resultPageContainQuerySearch,
 } from '../helpers/utils';
+import exp from 'constants';
 
 test.describe('Help Center', () => {
     //test.use({ viewport: { width: 1600, height: 1200 } });
@@ -171,5 +172,96 @@ test.describe('Help Center', () => {
         await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {
             await expect((await resultPageContainQuerySearch(request)).toString()).toEqual('true');
         });
+    });
+
+    test('TC_07_01_06 | Verify the user can switch between headings in the selected article', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpSearchResultsPage,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify that relevant articles are displayed.');
+        await issue(`${QASE_LINK}suite=1&case=32`, 'Help center'); //проверить номер
+        await tms(`${GOOGLE_DOC_LINK}mcqxdodq1lkh`, 'ATC_07_01_06');
+        await epic('Help center');
+test.slow();
+        // await loginUser(page, headerComponent, loginPage);
+        // await page.waitForURL(process.env.URL);
+        // await headerComponent.clickHelpCenterButton();
+        // await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
+
+        // await helpCenterPage.clickHelpCenterSearchButton();
+        await step('Go to the result search page.', async () => {
+            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+        });
+        await step('Verify search for the input query is visible on the search results page.', async () => {
+            await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
+        });
+        
+        const articlesList = await page.locator('.article-snippet__title > a');
+
+        // await step('Open a random article:', async () => {
+            await articlesList.first().waitFor({ state: 'visible' });
+            const articleCount = await articlesList.count();
+            const randomIndex = Math.floor(Math.random() * articleCount);
+            const nameArticle = await articlesList.nth(randomIndex).innerText();
+            console.log(nameArticle);
+            await articlesList.nth(randomIndex).click();
+        // });
+        
+        //на странице HelpCenterArticle       
+        const breadcrumbs = await page.locator('a .breadcrumbs-link_breadcrumbs-link__text__y9WPv').nth(2);
+        await step('Verify go to the page of the selected article.', async () => {
+            await expect(breadcrumbs).toContainText(`${nameArticle}`);
+        });
+
+
+        await page.locator('.accordion-slice_accordion-slice__C6mue a').first().waitFor({ state: 'visible' });
+        
+        const hidden = await page.locator('div[class="accordion-slice_accordion-slice__C6mue"] div[class="accordion-slice_accordion-slice-body__a8TY_"]');
+        let count = await hidden.count();
+        console.log('Количество нераскрытых заголовков:', count);
+        
+        //кликаем пока все заголовки не будут раскрыты
+        let i=0;
+        while (await hidden.count() > 0) {
+            await page.locator('xpath=//div[@class="accordion-slice_accordion-slice__C6mue"]/div[@class="accordion-slice_accordion-slice-body__a8TY_"]/../header/button').nth(0).click();
+            i++;
+            console.log('clik', i);
+        }
+        console.log('Количество нераскрытых стало:', await hidden.count());
+                
+        //кликаем еще раз на все разделы дважды, т.к. они теперь все раскрыты
+        const headerArticles = await page.locator('.accordion-slice_accordion-slice-body__inner__LliMT .accordion-slice_accordion-slice__C6mue>header[class="accordion-slice_accordion-slice-header__c6ej2"]').allInnerTexts();
+        console.log('Заголовки:', headerArticles);
+        let dl = headerArticles.length;
+        console.log('длина:', dl);
+        
+        while (dl>=0) {
+            await page.locator('.accordion-slice_accordion-slice-body__inner__LliMT .accordion-slice_accordion-slice__C6mue>header[class="accordion-slice_accordion-slice-header__c6ej2"]').nth(dl-1).click();
+            await page.locator('.accordion-slice_accordion-slice-body__inner__LliMT .accordion-slice_accordion-slice__C6mue>header[class="accordion-slice_accordion-slice-header__c6ej2"]').nth(dl-1).click();           
+            dl--;            
+        }
+        //считываем все подзаголовки после клика
+        const subheadings2 = await page.locator('div[class="accordion-slice_accordion-slice__C6mue"] div[class="accordion-slice_accordion-slice-body__a8TY_ accordion-slice_accordion-slice-body--active__EfJPE"] a');
+        const countH2 = await subheadings2.count();
+        const subheadingsText2 = await subheadings2.allInnerTexts();       
+        console.log('Все подзаголовки после клика последнего раздела:', countH2, subheadingsText2);
+               
+        //кликаем на подзаголовок из массива и проверяем в тексте заголовок
+        for (let i=0; i<countH2; i++) {
+            await page.locator('.accordion-slice_accordion-slice__C6mue').getByRole('link', { name: `${subheadingsText2[i]}`}).click({force: true});
+            await breadcrumbs.waitFor({ state: 'visible' });
+            let res = await page.locator('.article_article__g4Mvt h1').innerText();
+           
+            console.log(res);
+            // console.log(await breadcrumbs.innerText());
+            // await expect(breadcrumbs).toContainText(`${subheadingsText2[i]}`);
+            await expect(await page.locator('.article_article__g4Mvt h1')).toContainText(`${subheadingsText2[i]}`);           
+        }
+
     });
 });
