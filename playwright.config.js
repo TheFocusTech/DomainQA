@@ -45,6 +45,8 @@ export default defineConfig({
             },
         ],
     ],
+    /* Save visual comparisons screnshots*/
+    snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
 
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
@@ -56,6 +58,12 @@ export default defineConfig({
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
         permissions: ['clipboard-read', 'clipboard-write'],
+        expect: {
+            toHaveScreenshot: {
+                maxDiffPixelRatio: 0.1,
+                maskColor: '#FF00FF',
+            },
+        },
     },
 
     /* Configure projects for major browsers */

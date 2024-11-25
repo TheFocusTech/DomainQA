@@ -17,9 +17,9 @@ export default class HostedZonesDetailPage {
         this.dnssecDescription = this.page.locator(
             'p:has-text("DNSSEC uses a cryptographic signature of published DNS records to protect your domain against forged DNS answers.")'
         );
-        this.enableDnssecBtn = this.page.getByRole('button', { name: 'Enable DNSSEC' });
-        this.disableDnssecBtn = this.page.getByRole('button', { name: 'Disable DNSSEC' });
-        this.getDnssecInfoBtn = this.page.getByRole('button', { name: 'Get DNSSEC info' });
+        this.enableDnssecButton = this.page.getByRole('button', { name: 'Enable DNSSEC' });
+        this.disableDnssecButton = this.page.getByRole('button', { name: 'Disable DNSSEC' });
+        this.getDnssecInfoButton = this.page.getByRole('button', { name: 'Get DNSSEC info' });
         this.kebabMenu = this.page.locator('button[class*="button-icon-overlay"]').first();
         this.editButton = this.page.getByRole('button', { name: 'Edit' });
         this.allkebabMenus = this.page.locator('button[class*="button-icon-overlay"]');
@@ -58,9 +58,9 @@ export default class HostedZonesDetailPage {
         return dnsRecords;
     }
 
-    async clickEnableDnssecBtn() {
+    async clickEnableDnssecButton() {
         await step('Click "Enable DNSSEC" button.', async () => {
-            await this.enableDnssecBtn.click();
+            await this.enableDnssecButton.click();
         });
     }
 

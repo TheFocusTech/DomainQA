@@ -7,14 +7,14 @@ export default class EnableDnssecModal {
         this.dialog = this.page.locator('section[role="dialog"]');
         this.title = this.page.locator('[class*="modal__title"]');
         this.descriptionModal = this.page.locator('[class*="modal__description"]');
-        this.cancelBtn = this.page.locator('#root-portal button').filter({ hasText: 'Cancel' });
-        this.enableBtn = this.page.locator('#root-portal button').filter({ hasText: 'Enable' });
-        this.closeBtn = this.page.locator('#root-portal').getByLabel('Button');
+        this.cancelButton = this.page.locator('#root-portal button').filter({ hasText: 'Cancel' });
+        this.enableButton = this.page.locator('#root-portal button').filter({ hasText: 'Enable' });
+        this.closeButton = this.page.locator('#root-portal').getByLabel('Button');
     }
 
-    async clickEnableBtn() {
+    async clickEnableButton() {
         await step('Click on "Enable" button.', async () => {
-            await this.enableBtn.click();
+            await this.enableButton.click();
         });
     }
 
@@ -24,10 +24,10 @@ export default class EnableDnssecModal {
 
             if (randomChoice === 0) {
                 console.log('Closing modal window by clicking "Cancel" button.');
-                await this.cancelBtn.click();
+                await this.cancelButton.click();
             } else if (randomChoice === 1) {
                 console.log('Closing modal window by clicking "x" icon.');
-                await this.closeBtn.click();
+                await this.closeButton.click();
             } else {
                 console.log('Closing modal window by clicking outside.');
                 await this.page.locator('body').click({ position: { x: 0, y: 0 } });

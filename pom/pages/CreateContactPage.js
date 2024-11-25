@@ -13,6 +13,7 @@ export default class CreateContactPage {
         this.phoneNumberInput = this.page.locator('[name="phoneNumber"]');
         this.emailInput = this.page.locator('[name="email"]');
         this.continueButton = this.page.getByRole('button', { name: 'Continue' });
+        this.loadingSpinner = this.page.locator('svg[class^="spinner_spinner"]');
     }
 
     async fillFirstNameInputIfEmpty(firstName) {
@@ -61,6 +62,8 @@ export default class CreateContactPage {
     async fillEmailInput(email) {
         await step('Fill in "Email" input field.', async () => {
             await this.emailInput.fill(email);
+            await this.loadingSpinner.waitFor({ state: 'visible' });
+            await this.loadingSpinner.waitFor({ state: 'hidden' });
         });
     }
 

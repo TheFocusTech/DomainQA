@@ -1,7 +1,15 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, NEGATIVE_EMAIL_DATA_SET, REGISTER_USER } from '../testData';
+import {
+    QASE_LINK,
+    GOOGLE_DOC_LINK,
+    URL_ENDPOINT,
+    NEGATIVE_EMAIL_DATA_SET,
+    REGISTER_USER,
+    CONTACTS,
+    SUBJECT,
+} from '../testData';
 import { deleteUserRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 
@@ -243,7 +251,11 @@ test.describe('Registration', () => {
             await expect(confirmEmailPage.continueButton).toBeVisible();
         });
 
-        const verificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+        const verificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
 
         await step(
             "Verify an email with a verification code is sent to the user's registered email address",
@@ -261,7 +273,11 @@ test.describe('Registration', () => {
 
         await confirmEmailPage.clickResendCodeButton();
 
-        const newVerificationCode = await getVerificationCodeFromEmail(await authorize(), REGISTER_USER.email);
+        const newVerificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
 
         await step(
             'Verify clicking on "Resend code" button again, resends the verification code to the email address',
@@ -271,5 +287,96 @@ test.describe('Registration', () => {
                 await expect(newVerificationCode).not.toBe(verificationCode);
             }
         );
+    });
+
+    test.skip('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+        page,
+        request,
+        headerComponent,
+        signupPage,
+        confirmEmailPage,
+        createContactPage,
+        settingsGeneralPage,
+        contactsPage,
+        contactDetailsPage,
+    }) => {
+        await tags('Registration', 'Positive');
+        await severity('normal');
+        await description('Verify the contact creation, redirection to Homepage, and user info accuracy');
+        await issue(`${QASE_LINK}/01-1`, 'User Registration');
+        await tms(`${GOOGLE_DOC_LINK}66p4zgc61ah0`, 'ATC_01_01_04');
+        await epic('Registration');
+
+        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+        await headerComponent.clickSignup();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
+        await signupPage.fillEmailAddressInput(REGISTER_USER.email);
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
+        await signupPage.fillPasswordInput(REGISTER_USER.password);
+        await signupPage.fillRepeatPasswordInput(REGISTER_USER.password);
+        await signupPage.clickContinueButton();
+
+        const verificationCode = await getVerificationCodeFromEmail(
+            await authorize(),
+            REGISTER_USER.email,
+            SUBJECT.signup
+        );
+
+        await confirmEmailPage.fillVerificationCodeInput(verificationCode);
+        await confirmEmailPage.clickContinueButton();
+
+        await step('Verify redirection to the "Create new contact" form', async () => {
+            await page.waitForURL(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+            expect(page.url()).toEqual(`${process.env.URL}${URL_ENDPOINT.createContact}`);
+        });
+
+        await step('Verify that the "Create new contact" form is visible', async () => {
+            await expect(createContactPage.createNewContactHeader).toBeVisible();
+        });
+
+        await createContactPage.fillFirstNameInputIfEmpty(CONTACTS.newUser['first name']);
+        await createContactPage.fillLastNameInputIfEmpty(CONTACTS.newUser['last name']);
+        await createContactPage.fillAddressLine1Input(CONTACTS.newUser['address line 1']);
+        await createContactPage.fillCityInput(CONTACTS.newUser.city);
+        await createContactPage.selectCountryByName(CONTACTS.newUser.country);
+        await createContactPage.fillPhoneNumberInput(CONTACTS.newUser['phone number']);
+        await createContactPage.fillEmailInput(REGISTER_USER.email);
+        await createContactPage.clickContinueButton();
+
+        await step('Verify the user is redirected to the Homepage.', async () => {
+            await page.waitForURL(`${process.env.URL}/`);
+            expect(page.url()).toEqual(`${process.env.URL}/`);
+        });
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickAccountSettingsLink();
+        await settingsGeneralPage.clickContactsButton();
+        await contactsPage.clickMoreButton();
+
+        await step(
+            'Verify the "More" dropdown menu is visible and has 3 options "View full info", "Edit", "Delete"',
+            async () => {
+                await expect(contactsPage.moreDropdownMenu).toBeVisible();
+                await expect(contactsPage.moreDropdownMenu).toHaveText(['View full infoEditDelete']);
+            }
+        );
+
+        await contactsPage.clickViewFullInfoButton();
+
+        const actualUserData = await contactDetailsPage.getUserInformation();
+
+        await step('Verify all the user\'s information in "Account Settings" is displayed accurately', async () => {
+            for (const key of Object.keys(CONTACTS.newUser)) {
+                const actualValue = actualUserData[key];
+                const expectedValue = CONTACTS.newUser[key];
+
+                expect(actualValue).toEqual(expectedValue);
+            }
+        });
     });
 });

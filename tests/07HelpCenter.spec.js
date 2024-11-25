@@ -8,6 +8,8 @@ import {
     HELP_SEARCH_POPUP_ALERT,
     INPUT_SEARCH_PART,
     NAME_SEARCH,
+    HELP_PAGE_CATEGORY,
+    HELP_CATEGORY_SEARCH,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { getCategoriesHelpSearchAPI, getResponseHelpSearchAPI } from '../helpers/apiCalls';
@@ -172,6 +174,58 @@ test.describe('Help Center', () => {
         await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {
             await expect((await resultPageContainQuerySearch(request)).toString()).toEqual('true');
         });
+    });
+
+    test('TC_07_02_01 | Verify the user can navigate through the Knowledge Base sections', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpCategoryPage,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify user can navigate through the Knowledge Base sections by clicking on headings');
+        await issue(`${QASE_LINK}/01-33`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}nc1tclwhmwhq`, 'ATC_07_02_01');
+        await epic('Help center');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickHelpCenterButton();
+        await page.waitForURL(URL_ENDPOINT.HelpCenter);
+
+        for (const { title, url } of HELP_PAGE_CATEGORY) {
+            await step(`Navigate to "${title}" section`, async () => {
+                await helpCenterPage.clickKnowledgeHeader(title);
+                await expect(page).toHaveURL(url);
+            });
+
+            await step(`Verify that the correct section header for "${title}" appears`, async () => {
+                await expect(helpCategoryPage.mainHeading).toHaveText(title);
+            });
+
+            if (title === 'Legal') {
+                await step(
+                    'Verify that relevant articles of search results are displayed on the modal window.',
+                    async () => {
+                        await helpCategoryPage.clickHelpCategorySearchInput();
+                        await helpCategoryPage.waitForHelpCategorySearchPopup();
+                        await helpCategoryPage.fillHelpCategorySearchInput(HELP_CATEGORY_SEARCH);
+                        await expect(helpCategoryPage.helpCategorySearchPopup).toContainText(
+                            new RegExp(HELP_CATEGORY_SEARCH, 'i')
+                        );
+                        await helpCategoryPage.closeModalWindow();
+                    }
+                );
+            }
+
+            await expect(helpCategoryPage.mainHeading).toBeVisible();
+            await expect(helpCategoryPage.mainHeading).toHaveText(title);
+
+            await headerComponent.clickHelpCenterButton();
+        }
     });
 
     test('TC_07_01_06 | Verify the user can switch between headings in the selected article', async ({

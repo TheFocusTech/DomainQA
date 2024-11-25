@@ -21,6 +21,12 @@ export const URL_ENDPOINT = {
     forgotPassword: '/auth/forgot-password',
     confirmEmail: '/auth/confirm-email',
     createContact: '/auth/create-contact',
+    blogSearchResults: '/blog/search',
+    helpCategoryDomains: '/help/category/202000049481-domains',
+    helpCategoryHosting: '/help/category/202000049482-hosting',
+    helpCategoryEmails: '/help/category/202000049478-emails',
+    helpCategorySsl: '/help/category/202000049483-ssl',
+    helpCategoryLegal: '/help/category/202000029056-legal',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -28,11 +34,6 @@ export const INVALID_CREDS_AUTH = [
     { email: process.env.USER_EMAIL, password: 'invalidPassword', name: 'valid email and invalid password' },
     { email: 'invalidEmail@gmail.com', password: 'invalidPassword', name: 'invalid email and invalid password' },
 ];
-
-export const VALID_CREDS_AUTH = {
-    email: 'domain.aqa+100@gmail.com',
-    password: process.env.USER_PASSWORD,
-};
 
 export const COLORS = {
     red: 'rgb(242, 62, 62)',
@@ -68,6 +69,9 @@ export const API_ENDPOINT = {
     userDelete: '/users/auth/qa/user-delete',
     deleteResourceRecord: (hostedZoneId, recordId) =>
         `/users/hosted-zones/${hostedZoneId}/resource-records/${recordId}`,
+    signUp: '/users/auth/sign-up',
+    confirmEmail: '/users/auth/email-confirmation/confirm',
+    blogSearchResultsPage: '/blog/search',
 };
 
 export const DNS_TYPE = {
@@ -114,7 +118,7 @@ export const MY_PROFILE_ITEMS = [
     `${process.env.USER_EMAIL}`,
     'Account settings',
     'Billing',
-    'Currency USD ($)',
+    /Currency USD \(\$|€\)/,
     'Log out',
 ];
 
@@ -300,6 +304,11 @@ export const API_HelpSearch = {
 
 export const CURRENCY_TYPE = [{ type: ['USD ($)', 'EUR (€)'] }, { type: ['EUR (€)', 'USD ($)'] }];
 
+export const REGISTER_USER = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
+    password: process.env.USER_PASSWORD,
+};
+
 export const CONTACTS = {
     predefined: {
         alias: 'Use a pre-defined contact (free and recommended option) as the first layer of WHOIS privacy',
@@ -318,9 +327,94 @@ export const CONTACTS = {
         email: 'protected@harakiri.org',
         emailWhoIs: 'Fill out the Contact Domain Owner form at https://harakiri.org/contact/',
     },
+    newUser: {
+        alias: 'Domain Admin',
+        'first name': 'Domain',
+        'last name': 'Admin',
+        'company name or organization': 'No details added',
+        'job title': 'No details added',
+        'address line 1': '123 Street',
+        'address line 2': 'No details added',
+        city: 'Paris',
+        'state / province': 'No details added',
+        'zip / postal code': '00000',
+        country: 'France',
+        'phone number': '+12345678901',
+        'fax number': 'No details added',
+        email: REGISTER_USER.email,
+    },
 };
 
-export const REGISTER_USER = {
-    email: `${process.env.EMAIL_PREFIX}qa.mail.template1000${process.env.EMAIL_DOMAIN}`,
-    password: process.env.USER_PASSWORD,
+export const ADVANCED_SEARCH_MODAL_TITLE = 'Advanced search';
+
+export const SETTING_GENERAL_HEADINGS = {
+    generalInfo: 'General info',
+    password: 'Password',
+    twoFactorAuth: 'Two-factor authentication (2FA)',
+    currency: 'Currency',
 };
+
+export const CONFIRMATION_WORD = {
+    delete: 'Delete',
+};
+
+export const NOTIFICATIONS_CONTENT = {
+    deleteAccount: 'Account deletion canceled Deletion of your account was canceled',
+};
+
+export const ALL_ABC = [
+    'All',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+];
+
+export const SUBJECT = {
+    signup: 'Trusted Domain Registrar | Verify you email',
+    resetPassword: 'Trusted Domain Registrar | Password Reset',
+};
+
+export const BLOG_BY_CATEGORY = {
+    title: 'By category',
+    allCategories: 'All Categories',
+    domainNames: 'Domain Names',
+    websitesHosting: 'Websites & Hosting',
+    marketing: 'Marketing',
+};
+
+export const INPUT_SEARCH = {
+    a: 'a',
+};
+
+export const HELP_PAGE_CATEGORY = [
+    { title: 'Domains', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryDomains}` },
+    { title: 'Hosting', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryHosting}` },
+    { title: 'Emails', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryEmails}` },
+    { title: 'SSL', url: `${process.env.URL}${URL_ENDPOINT.helpCategorySsl}` },
+    { title: 'Legal', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryLegal}` },
+];
+
+export const HELP_CATEGORY_SEARCH = 'Refund Policy';
