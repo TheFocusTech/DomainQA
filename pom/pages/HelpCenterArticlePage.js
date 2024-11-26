@@ -4,22 +4,22 @@ export default class HelpCenterArticlePage {
     constructor(page) {
         this.page = page;
 
-        this.breadcrumbs = this.page.locator('a .breadcrumbs-link_breadcrumbs-link__text__y9WPv').nth(2);
+        this.breadcrumbs = this.page.locator('a span[class*="breadcrumbs-link_breadcrumbs-link__text"]').nth(2);
         this.hiddenHeader = this.page.locator(
-            'div[class="accordion-slice_accordion-slice__C6mue"] div[class="accordion-slice_accordion-slice-body__a8TY_"]'
+            'div[class*="accordion-slice_accordion-slice__"] div[class="accordion-slice_accordion-slice-body__a8TY_"]'
         );
         this.hiddenHeaderButton = this.page
             .locator(
-                'xpath=//div[@class="accordion-slice_accordion-slice__C6mue"]/div[@class="accordion-slice_accordion-slice-body__a8TY_"]/../header/button'
+                'xpath=//div[contains(@class, "accordion-slice_accordion-slice__")]/div[@class="accordion-slice_accordion-slice-body__a8TY_"]/../header/button'
             )
             .nth(0);
         this.headerArticles = this.page.locator(
-            '.accordion-slice_accordion-slice-body__inner__LliMT .accordion-slice_accordion-slice__C6mue>header[class="accordion-slice_accordion-slice-header__c6ej2"]'
+            'div[class*="accordion-slice_accordion-slice-body__inner__"] div[class*="accordion-slice_accordion-slice__"]>header[class*="accordion-slice_accordion-slice-header__"]'
         );
         this.subheadings = this.page.locator(
-            'div[class="accordion-slice_accordion-slice__C6mue"] div[class="accordion-slice_accordion-slice-body__a8TY_ accordion-slice_accordion-slice-body--active__EfJPE"] a'
+            'div[class*="accordion-slice_accordion-slice__"] div[class*="accordion-slice_accordion-slice-body__a8TY_ accordion-slice_accordion-slice-body--active__"] a'
         );
-        this.headerH1 = this.page.locator('.article_article__g4Mvt h1');
+        this.headerH1 = this.page.locator('article[class*="article_article__"] h1');
     }
 
     async clickHiddenHeaderButton() {

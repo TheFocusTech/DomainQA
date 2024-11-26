@@ -241,7 +241,7 @@ test.describe('Help Center', () => {
         await tags('Help center', 'Positive');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
-        await issue(`${QASE_LINK}suite=1&case=32`, 'Help center');
+        await issue(`${QASE_LINK}/01-32`, 'Help center');
         await tms(`${GOOGLE_DOC_LINK}mcqxdodq1lkh`, 'ATC_07_01_06');
         await epic('Help center');
         test.slow();
@@ -264,7 +264,7 @@ test.describe('Help Center', () => {
 
         await page.waitForTimeout(2000);
         let text = await getNameHeaders(helpCenterArticlePage);
-
+     
         const countH = await helpCenterArticlePage.countSubheadings();
         await step('Verify clicking on a heading takes you to the name of the heading in the article.', async () => {
             await expect(

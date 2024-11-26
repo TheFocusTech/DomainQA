@@ -10,7 +10,7 @@ export default class HelpSearchResultsPage {
         this.accordionByCategoryButton = this.page.locator(
             '[class*="accordion-slice_accordion-slice-header"] > button'
         );
-        this.headerTextVisible = this.page.locator('.search-results_search-results__content__ilv4i');
+        this.headerTextVisible = this.page.locator('div[class*="search-results_search-results__content"]');
         this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');
         this.articlesList = this.page.locator('.article-snippet__title > a');
     }

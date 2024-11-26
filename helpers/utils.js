@@ -115,11 +115,11 @@ export async function getNameHeaders(helpCenterArticlePage) {
     }
 
     const headerArticles = await helpCenterArticlePage.allInnerTextsHeaderArticles();
-    let dl = headerArticles.length;
-    while (dl >= 0) {
-        await helpCenterArticlePage.headerArticles.nth(dl - 1).click();
-        await helpCenterArticlePage.headerArticles.nth(dl - 1).click();
-        dl--;
+    let lenHeaderArticles = headerArticles.length;
+    while (lenHeaderArticles >= 0) {
+        await helpCenterArticlePage.headerArticles.nth(lenHeaderArticles - 1).click();
+        await helpCenterArticlePage.headerArticles.nth(lenHeaderArticles - 1).click();
+        lenHeaderArticles--;
     }
 
     const massivName = await helpCenterArticlePage.allInnerTextsSubheadings();
@@ -130,7 +130,7 @@ export async function resultComparisonsHeaders(countH, page, helpCenterArticlePa
     let result = '';
     for (let i = 0; i < countH; i++) {
         await page
-            .locator('.accordion-slice_accordion-slice__C6mue')
+            .locator('div[class*="accordion-slice_accordion-slice__"]')
             .getByRole('link', { name: `${text[i]}` })
             .click({ force: true });
 
