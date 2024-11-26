@@ -16,6 +16,7 @@ import {
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
+import { CONTACT_US_INPUT_NAME } from '../pom/pages/HelpContactUsPage';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -570,6 +571,95 @@ test.describe('Unauthorized user', () => {
             });
         });
     }
+
+    test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form`, async ({
+        page,
+        homePage,
+        footerComponent,
+        helpContactusPage,
+    }) => {
+        await tags('Unauthorized_user', 'Contact_us_form');
+        await severity('normal');
+        await description(`Verify unauthorized users can submit the "Contact Us" form`);
+        await issue(`${QASE_LINK}/01-19`, 'Contact Us form');
+        await tms(`${GOOGLE_DOC_LINK}u35mzacv094r`, 'ATC_09_06');
+        await epic('Unauthorized_user');
+
+        await step('Navigate to Home page.', async () => {
+            await expect(homePage.mainHeading).toBeVisible();
+        });
+
+        const email = 'myemail@gmail.com';
+        const typeItem = 'Account Management & Access';
+        const natureOfRequestItem = 'Password Reset';
+        const subjectText = 'Subject of the message';
+        const descriptionText = 'Message description';
+
+        await step('Click "Contact Us" button', async () => {
+            await expect(footerComponent.contactUsLink).toBeVisible();
+            await footerComponent.clickContactUsLink();
+        });
+
+        await step('Verify user is on the Contact Us page', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+        });
+
+        await step('Verify the Contact Us Page is open', async () => {
+            await helpContactusPage.isHeaderVisible();
+            await helpContactusPage.verifyHeaderText('Contact us');
+        });
+
+        await step('Fill the "Your e-mail" field', async () => {
+            // const emailLocator = helpContactusPage.getInputField(INPUT_NAME.email);
+            await helpContactusPage.isInputVisible(CONTACT_US_INPUT_NAME.email);
+            await helpContactusPage.verifyInputPlaceholder(CONTACT_US_INPUT_NAME.email, 'Enter your email');
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.email, email);
+            await helpContactusPage.verifyInputValue(CONTACT_US_INPUT_NAME.email, email);
+        });
+
+        await step('Select the "Type" item', async () => {
+            await helpContactusPage.isDropdownVisible('Type');
+            await helpContactusPage.verifyDropdownPlaceholder('Type', 'Choose type');
+            await expect(await helpContactusPage.getDropdownCount()).toEqual(1);
+            await helpContactusPage.clickDropdownMenu('Type');
+            await helpContactusPage.selectDropdownItem(typeItem);
+            await helpContactusPage.verifyDropdownValue('Type', typeItem);
+        });
+
+        await step('Select the "Nature of Request" item', async () => {
+            await helpContactusPage.isDropdownVisible('Nature of Request');
+            await helpContactusPage.verifyDropdownPlaceholder('Nature of Request', 'Choose type');
+            await helpContactusPage.clickDropdownMenu('Nature of Request');
+            await helpContactusPage.selectDropdownItem(natureOfRequestItem);
+            await helpContactusPage.verifyDropdownValue('Nature of Request', natureOfRequestItem);
+        });
+
+        await step('Fill the "E-mail subject" field', async () => {
+            await helpContactusPage.isInputVisible(CONTACT_US_INPUT_NAME.subject);
+            await helpContactusPage.verifyInputPlaceholder(
+                CONTACT_US_INPUT_NAME.subject,
+                'Choose a clear and precise subject'
+            );
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.subject, subjectText);
+            await helpContactusPage.verifyInputValue(CONTACT_US_INPUT_NAME.subject, subjectText);
+        });
+
+        await step('Fill the "Description" text', async () => {
+            await helpContactusPage.isDescriptionVisible();
+            await helpContactusPage.verifyDescriptionPlaceholder(
+                'Describe your problem and its context as clearly as possible'
+            );
+            await helpContactusPage.fillDescriptionField(descriptionText);
+            await helpContactusPage.verifyDescriptionText(descriptionText);
+        });
+
+        await step('Click "Submit" button', async () => {
+            await helpContactusPage.isSubmitButtonVisible();
+            await helpContactusPage.clickSubmitButton();
+            await helpContactusPage.isThankYouAlertVisible();
+            await helpContactusPage.verifyThankYouAlertText('Thank you!');
+        });
+    });
 });
 
 test.describe('Reset Password', () => {
