@@ -8,7 +8,7 @@ export default class BlogSearchResultsPage {
         this.accordionTrigger = page.getByLabel('Accordion slice trigger');
         this.byCategoryTitle = page.getByText('By category');
         this.subCategories = page.locator('button[class^="button-article_button-article"]');
-        this.searchResultHeader = page.locator('h2[class*="list_search-result"]');
+        this.searchResultHeader = page.locator('h2[class^="list_search-result"]');
         this.articleTitle = page.locator('a[class^="article-card_blog-article-card__category"]');
         this.categoryCounter = page.locator('span.counter-wrapper_counter-wrapper__counter__S15Z5');
         this.accordionDropdown = page.locator('div.accordion-slice_accordion-slice-body__a8TY_');

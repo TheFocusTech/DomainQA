@@ -133,6 +133,7 @@ test.describe('Blog', () => {
             await blogSearchResultsPage.accordionTriggerclick();
 
             await step('Verify the category q-ty equal header q-ty.', async () => {
+                await page.waitForTimeout(5000);
                 const count = await blogSearchResultsPage.categoryButtonList.count();
                 for (let i = 0; i < count; i++) {
                     const innerText = await blogSearchResultsPage.categoryButtonList.nth(i).allTextContents();
@@ -142,7 +143,6 @@ test.describe('Blog', () => {
                     await blogSearchResultsPage.searchResultHeader.waitFor({ state: 'visible' });
                     const searchResultHeaderText = await blogSearchResultsPage.searchResultHeader.allTextContents();
                     let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
-                    console.log(headerCount);
 
                     expect(categoryCount).toEqual(headerCount);
 
