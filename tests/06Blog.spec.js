@@ -126,7 +126,7 @@ test.describe('Blog', () => {
             await blogSearchResultsPage.accordionTriggerclick();
 
             await expect(blogSearchResultsPage.accordionDropdown).not.toHaveClass(
-                'accordion-slice_accordion-slice-body--active__EfJPE'
+                /accordion-slice_accordion-slice-body--active/
             );
         });
         await step('Verify the quantity and title of selected category.', async () => {
