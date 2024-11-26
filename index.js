@@ -84,9 +84,7 @@ export async function getVerificationCodeFromEmail(auth, email, subject) {
             await delay(5000);
             const messagesResponse = await gmail.users.messages.list({
                 userId: 'me',
-                q: `to:${email}`,
-                subject: subject,
-                after: `${Math.floor(new Date().getTime() / 1000) - 60}`,
+                q: `to:${email} subject:${subject} after:${Math.floor(Date.now() / 1000) - 60}`,
             });
             const messages = messagesResponse.data.messages;
             if (!messages || messages.length === 0) {
