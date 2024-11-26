@@ -1,0 +1,8 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"Domains","Search non-registered domain","","0","0","1","0","0"
+"Registration","","","0","0","7","0","0"
+"Domains","","","0","0","16","0","0"
+"Navigation","","","0","0","13","0","0"
+"Domains","Search registered domain","","0","0","1","0","0"
+"","","","0","0","0","2","0"
+"Authorization","","","0","0","2","0","0"
