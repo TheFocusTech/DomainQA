@@ -82,7 +82,7 @@ test.describe('Blog', () => {
         });
     });
 
-    test.skip('TC_06_04 | Verify switching between Blog articles By category', async ({
+    test('TC_06_04 | Verify switching between Blog articles By category', async ({
         page,
         headerComponent,
         loginPage,
