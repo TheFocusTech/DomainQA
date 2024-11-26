@@ -264,7 +264,7 @@ test.describe('Help Center', () => {
 
         await page.waitForTimeout(2000);
         let text = await getNameHeaders(helpCenterArticlePage);
-     
+
         const countH = await helpCenterArticlePage.countSubheadings();
         await step('Verify clicking on a heading takes you to the name of the heading in the article.', async () => {
             await expect(
