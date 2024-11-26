@@ -6,7 +6,7 @@ export default class BlogSearchResultsPage {
 
         this.header = page.getByRole('heading', { name: 'Search results' });
         this.accordionTrigger = page.getByLabel('Accordion slice trigger');
-        this.byCategoryTitle = page.locator('div.accordion-slice_accordion-slice-header__slot__AlUo4');
+        this.byCategoryTitle = page.getByText('By category');
         this.subCategories = page.locator('button[class^="button-article_button-article"]');
         this.searchResultHeader = page.locator('h2[class*="list_search-result"]');
         this.articleTitle = page.locator('a[class^="article-card_blog-article-card__category"]');
