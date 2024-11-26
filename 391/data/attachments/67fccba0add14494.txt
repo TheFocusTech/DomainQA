@@ -1,0 +1,7 @@
+Heading position for index 0: { top: 80, bottom: 120 }
+Heading position for index 1: { top: 80, bottom: 112 }
+Heading position for index 2: { top: 80, bottom: 112 }
+Heading position for index 3: { top: 80, bottom: 104 }
+Heading position for index 4: { top: 80, bottom: 104 }
+Heading position for index 5: { top: 80, bottom: 104 }
+Heading position for index 6: { top: 80, bottom: 120 }
