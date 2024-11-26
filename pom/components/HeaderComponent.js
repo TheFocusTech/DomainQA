@@ -24,7 +24,7 @@ export default class HeaderComponent {
         this.logo = this.page.locator('header a[class^="logo"]');
         this.currencyButton = this.page.getByRole('button', { name: 'Currency ' });
         this.billingLink = this.page.getByRole('link', { name: 'Billing' });
-        this.notificationsIndicator = this.page.locator('.badge-indicator_badge-indicator__counter__LipkI');
+        this.notificationsIndicator = this.page.locator('[class^="badge-indicator_badge-indicator__counter"]');
         this.notificationsIconButton = this.page.getByLabel('Notifications');
         this.notificationDropdownHeader = this.page.getByText('Notifications', { exact: true });
         this.newNotificationContent = this.page.locator('div[class^="list_item__"]');
