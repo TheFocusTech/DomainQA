@@ -21,7 +21,6 @@ import {
     getNameHeaders,
     resultComparisonsHeaders,
 } from '../helpers/utils';
-// import exp from 'constants';
 
 test.describe('Help Center', () => {
     //test.use({ viewport: { width: 1600, height: 1200 } });

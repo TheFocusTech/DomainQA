@@ -122,8 +122,8 @@ export async function getNameHeaders(helpCenterArticlePage) {
         lenHeaderArticles--;
     }
 
-    const massivName = await helpCenterArticlePage.allInnerTextsSubheadings();
-    return massivName;
+    const textsSubheadingsList = await helpCenterArticlePage.allInnerTextsSubheadings();
+    return textsSubheadingsList;
 }
 
 export async function resultComparisonsHeaders(countH, page, helpCenterArticlePage, text) {
