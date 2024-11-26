@@ -1,0 +1,2 @@
+An error occurred while creating hosted zone: POST hosted zones request failed with status: 400 for domain: api-20241126184201.com
+An error occurred while deleting hosted zone: DELETE hosted zone 3e5b4166-f02a-470a-81ab-659bd84bfd55 request failed with status: 400
