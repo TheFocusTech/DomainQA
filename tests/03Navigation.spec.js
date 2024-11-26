@@ -163,7 +163,7 @@ test.describe('Navigation', () => {
             await severity('critical');
             await description(`To verify that user can navigate to Home page from ${name}.`);
             await issue(`${QASE_LINK}/01-5`, 'Home page');
-            await tms(`${GOOGLE_DOC_LINK}`, 'ATC_03_02');
+            await tms(`${GOOGLE_DOC_LINK}iorqz03kqwtq`, 'ATC_03_02');
             await epic('Navigation');
 
             await action({ headerComponent, footerComponent, registeredDomainsPage });
