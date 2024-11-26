@@ -272,5 +272,4 @@ test.describe('Help Center', () => {
             ).toEqual('true');
         });
     });
-    
 });
