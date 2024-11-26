@@ -40,6 +40,7 @@ import BillingModal from './pom/modalWindows/BillingModal';
 import BlogArticlePage from './pom/pages/BlogArticlePage';
 import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
 import HelpCategoryPage from './pom/pages/HelpCategoryPage';
+import HelpContactUsPage from './pom/pages/HelpContactUsPage';
 import HelpCenterArticlePage from './pom/pages/HelpCenterArticlePage';
 
 export const test = base.extend({
@@ -208,6 +209,10 @@ export const test = base.extend({
     /** @type { HelpCategoryPage } */
     helpCategoryPage: async ({ page }, use) => {
         await use(new HelpCategoryPage(page));
+    },
+    /** @type { HelpContactUsPage } */
+    helpContactusPage: async ({ page }, use) => {
+        await use(new HelpContactUsPage(page));
     },
     /** @type { HelpCenterArticlePage } */
     helpCenterArticlePage: async ({ page }, use) => {
