@@ -110,10 +110,15 @@ export default class HelpContactUsPage {
         this.submitButton = this.page.getByRole('button', { name: 'Submit' });
 
         this.thankYouAlert = this.page.locator('[class*="alert-base_alert__title"]');
+        this.alertDescriptionText = this.page.locator('[class*="alert-base_alert__description"]');
     }
 
     getInputLocator(name) {
         return this.page.locator(`input[name="${name}"]`);
+    }
+
+    getLinkButtonLocator(name) {
+        return this.page.getByRole('link', { name: `${name}` });
     }
 
     async getDropdownLocator(dropdownName) {
@@ -176,6 +181,11 @@ export default class HelpContactUsPage {
         await this.submitButton.click();
     }
 
+    async clickLinkButton(name) {
+        let buttonLocator = await this.getLinkButtonLocator(name);
+        await buttonLocator.click();
+    }
+
     async getDropdownCount() {
         return await this.dropdownMenu.count();
     }
@@ -219,6 +229,13 @@ export default class HelpContactUsPage {
         });
     }
 
+    async isLinkButtonVisible(name) {
+        await step(`Verify is "${name}" button visible`, async () => {
+            let buttonLocator = await this.getLinkButtonLocator(name);
+            await expect(buttonLocator).toBeVisible();
+        });
+    }
+
     async isThankYouAlertVisible() {
         await step('Verify is "Thenk you!" alert visible', async () => {
             await expect(this.thankYouAlert).toBeVisible();
@@ -234,8 +251,6 @@ export default class HelpContactUsPage {
                     : CONTACT_US_DROPDOWN.find((c) => c.name === type).subcategories;
             let dropdownItemsSorted = dropdownItems.sort();
             let subItemsSorted = subItems.sort();
-            console.log('->', dropdownItemsSorted);
-            console.log('->', subItemsSorted);
             expect(
                 dropdownItemsSorted.length === subItemsSorted.length &&
                     dropdownItemsSorted.every((value, index) => value === subItemsSorted[index])
@@ -292,6 +307,12 @@ export default class HelpContactUsPage {
     async verifyThankYouAlertText(value) {
         await step('Verify text of the "Thank you" alert', async () => {
             await expect(this.thankYouAlert).toHaveText(value);
+        });
+    }
+
+    async verifyAlertDescriptionText(value) {
+        await step('Verify text of the "Thank you" alert description', async () => {
+            await expect(this.alertDescriptionText).toHaveText(value);
         });
     }
 }
