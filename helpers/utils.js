@@ -106,3 +106,42 @@ export function getRandomArray(rowOfNumbers, arrayLength) {
     }
     return array;
 }
+
+export async function getNameHeaders(helpCenterArticlePage) {
+    let count = await helpCenterArticlePage.hiddenHeader.count();
+    while (count > 0) {
+        await helpCenterArticlePage.clickHiddenHeaderButton();
+        count = await helpCenterArticlePage.hiddenHeader.count();
+    }
+
+    const headerArticles = await helpCenterArticlePage.allInnerTextsHeaderArticles();
+    let lenHeaderArticles = headerArticles.length;
+    while (lenHeaderArticles >= 0) {
+        await helpCenterArticlePage.headerArticles.nth(lenHeaderArticles - 1).click();
+        await helpCenterArticlePage.headerArticles.nth(lenHeaderArticles - 1).click();
+        lenHeaderArticles--;
+    }
+
+    const textsSubheadingsList = await helpCenterArticlePage.allInnerTextsSubheadings();
+    return textsSubheadingsList;
+}
+
+export async function resultComparisonsHeaders(countH, page, helpCenterArticlePage, text) {
+    let result = '';
+    for (let i = 0; i < countH; i++) {
+        await page
+            .locator('div[class*="accordion-slice_accordion-slice__"]')
+            .getByRole('link', { name: `${text[i]}` })
+            .click({ force: true });
+
+        await page.waitForTimeout(1500);
+        let h1 = await helpCenterArticlePage.innerTextHeaderH1();
+        if (h1.includes(`${text[i]}`) === true) {
+            result = 'true';
+        } else {
+            result = 'false';
+            break;
+        }
+    }
+    return result;
+}
