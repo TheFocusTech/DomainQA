@@ -1,0 +1,46 @@
+-> [
+  'Account Management & Access',
+  'Affiliate',
+  'Bug/Technical Issue',
+  'Commercial Matters',
+  'Domains',
+  'Feature/Product Request',
+  'Feedback',
+  'Hosting',
+  'Media Inquiries',
+  'Payment, Sales & Billing Issues',
+  'Pre-Sales',
+  'Private Email',
+  'SSL'
+]
+-> [
+  'Account Management & Access',
+  'Affiliate',
+  'Bug/Technical Issue',
+  'Commercial Matters',
+  'Domains',
+  'Feature/Product Request',
+  'Feedback',
+  'Hosting',
+  'Media Inquiries',
+  'Payment, Sales & Billing Issues',
+  'Pre-Sales',
+  'Private Email',
+  'SSL'
+]
+-> [
+  'Configuration',
+  'Mailbox Suspended',
+  'Other',
+  'Problems Receiving Emails',
+  'Problems Sending Emails',
+  'Suspicious Phishing/Hacked Mails'
+]
+-> [
+  'Configuration',
+  'Mailbox Suspended',
+  'Other',
+  'Problems Receiving Emails',
+  'Problems Sending Emails',
+  'Suspicious Phishing/Hacked Mails'
+]
