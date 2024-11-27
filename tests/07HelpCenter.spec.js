@@ -149,7 +149,7 @@ test.describe('Help Center', () => {
         await step('Verify Dropdown “By Category” is hidden.', async () => {
             await helpSearchResultsPage.clickAccordionByCategoryLabel();
             await expect(helpSearchResultsPage.accordionByCategoryButton).not.toHaveClass(
-                'accordion-slice_accordion-slice-header__trigger--active__xgc2K'
+                /accordion-slice_accordion-slice-header__trigger--active/
             );
         });
     });

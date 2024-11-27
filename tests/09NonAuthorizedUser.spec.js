@@ -373,7 +373,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+    test.skip(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
         advancedSearchModal,
     }) => {

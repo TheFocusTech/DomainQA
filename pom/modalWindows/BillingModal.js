@@ -8,7 +8,7 @@ export default class BillingModal {
         this.byBankCardButton = this.page.getByText('By bank card');
         this.topUpByBankCardModalWindowHeader = this.page.getByText('Top up by bank card');
         this.backToTopUpButton = this.page
-            .locator('.modal-header_modal-header__slot__1oCdj')
+            .locator('[class^="modal-header_modal-header__slot"]')
             .filter({ hasText: 'Back to Top up' });
         this.addNewCardButton = this.page.getByRole('button', { name: 'Add new card' });
         this.cancelButton = this.page.locator('[type="button"]').filter({ hasText: 'Cancel' });

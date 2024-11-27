@@ -82,7 +82,7 @@ test.describe('Blog', () => {
         });
     });
 
-    test.skip('TC_06_04 | Verify switching between Blog articles By category', async ({
+    test('TC_06_04 | Verify switching between Blog articles By category', async ({
         page,
         headerComponent,
         loginPage,
@@ -126,13 +126,14 @@ test.describe('Blog', () => {
             await blogSearchResultsPage.accordionTriggerclick();
 
             await expect(blogSearchResultsPage.accordionDropdown).not.toHaveClass(
-                'accordion-slice_accordion-slice-body--active__EfJPE'
+                /accordion-slice_accordion-slice-body--active/
             );
         });
         await step('Verify the quantity and title of selected category.', async () => {
             await blogSearchResultsPage.accordionTriggerclick();
 
             await step('Verify the category q-ty equal header q-ty.', async () => {
+                await page.waitForTimeout(5000);
                 const count = await blogSearchResultsPage.categoryButtonList.count();
                 for (let i = 0; i < count; i++) {
                     const innerText = await blogSearchResultsPage.categoryButtonList.nth(i).allTextContents();
@@ -142,7 +143,6 @@ test.describe('Blog', () => {
                     await blogSearchResultsPage.searchResultHeader.waitFor({ state: 'visible' });
                     const searchResultHeaderText = await blogSearchResultsPage.searchResultHeader.allTextContents();
                     let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
-                    console.log(headerCount);
 
                     expect(categoryCount).toEqual(headerCount);
 
