@@ -1,7 +1,0 @@
-Signed up with domain.aqa+qa.mail.template1000-r@gmail.com successfully
-Waiting for the verification code email to arrive...
-Verification code is: 962775
-Email confirmed successfully with the code 962775
-Waiting for the verification code email to arrive...
-Verification code is: 352143
-User was successfully deleted
