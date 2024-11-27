@@ -229,7 +229,7 @@ export default class HelpContactUsPage {
         await step(`Verify is the list of dropdown items corresponds to the "${type}".`, async () => {
             let dropdownItems = await this.items.allInnerTexts();
             let subItems =
-                (type === 'Type')
+                type === 'Type'
                     ? CONTACT_US_DROPDOWN.map((c) => c.name)
                     : CONTACT_US_DROPDOWN.find((c) => c.name === type).subcategories;
             let dropdownItemsSorted = dropdownItems.sort();
