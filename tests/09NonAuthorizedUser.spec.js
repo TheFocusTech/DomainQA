@@ -12,6 +12,7 @@ import {
     ALL_ABC,
     SUBJECT,
     HEADER_LINKS,
+    SEARCH_DOMAIN,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -570,85 +571,112 @@ test.describe('Unauthorized user', () => {
             });
         });
     }
-});
 
-test.describe('Reset Password', () => {
-    test('TC_09_05_03 | Verify password recovery process', async ({
-        page,
-        request,
+    test(`TC_09_04_04|  Verify unauthorised user must redirect to the login page from Domain availability Page`, async ({
+        domainAvailabilityPage,
+        homePage,
+        pageTitleComponent,
         loginPage,
-        headerComponent,
-        forgotPasswordPage,
     }) => {
-        test.setTimeout(90000);
-        await tags('Unauthorized_user', 'Forgot password');
+        await tags('Unauthorized_user', 'Domains');
         await severity('normal');
-        await description('To verify that user can reset the password.');
-        await issue(`${QASE_LINK}/01-34`, 'Reset password');
-        await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
+        await description(`Verify unauthorised user must redirect to the login page from Domain availability Page`);
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}grun8oizo8vy`, 'ATC_09_04_04');
         await epic('Unauthorized_user');
 
-        const email = `${process.env.EMAIL_PREFIX}qa.mail.template1000-r${process.env.EMAIL_DOMAIN}`;
-        const password = process.env.USER_PASSWORD;
-        const newPassword = `NEW_${process.env.USER_PASSWORD}`;
-        const codePattern = /^[0-9]{6}$/;
+        await homePage.fillDomainSearchInput(SEARCH_DOMAIN);
+        await homePage.clickSearchButton();
+        await domainAvailabilityPage.clickBuyButton();
 
-        await deleteUserRequest(request, email, newPassword);
-        await deleteUserRequest(request, email, password);
-
-        await step('Preconditions: Register a new user and confirm email', async () => {
-            await signUpRequest(request, email, password);
-            await delay(10000);
-
-            const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.signup);
-            await confirmEmailRequest(request, verificationCode);
+        await step(`Verify Login Page Element Validation `, async () => {
+            await expect(pageTitleComponent.pageTitle).toHaveText(ACCESSIBLE_PAGE_TITLE.Login);
+            await expect(loginPage.loginButton).toBeVisible();
         });
+    });
 
-        await step('Navigate to Home page.', async () => {
-            await page.goto('/');
-        });
+    test.describe('Reset Password', () => {
+        test('TC_09_05_03 | Verify password recovery process', async ({
+            page,
+            request,
+            loginPage,
+            headerComponent,
+            forgotPasswordPage,
+        }) => {
+            test.setTimeout(90000);
+            await tags('Unauthorized_user', 'Forgot password');
+            await severity('normal');
+            await description('To verify that user can reset the password.');
+            await issue(`${QASE_LINK}/01-34`, 'Reset password');
+            await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
+            await epic('Unauthorized_user');
 
-        await headerComponent.clickLogin();
-        await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+            const email = `${process.env.EMAIL_PREFIX}qa.mail.template1000-r${process.env.EMAIL_DOMAIN}`;
+            const password = process.env.USER_PASSWORD;
+            const newPassword = `NEW_${process.env.USER_PASSWORD}`;
+            const codePattern = /^[0-9]{6}$/;
 
-        await loginPage.clickForgotPassword();
-        await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
+            await deleteUserRequest(request, email, newPassword);
+            await deleteUserRequest(request, email, password);
 
-        await forgotPasswordPage.fillEmailInput(email);
-        await forgotPasswordPage.clickSendCode();
-        await delay(20000);
+            await step('Preconditions: Register a new user and confirm email', async () => {
+                await signUpRequest(request, email, password);
+                await delay(10000);
 
-        const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.resetPassword);
+                const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.signup);
+                await confirmEmailRequest(request, verificationCode);
+            });
 
-        await step('Verify an email with a verification code is sent', () => {
-            expect(verificationCode).not.toBeNull();
-            expect(verificationCode).toMatch(codePattern);
-        });
+            await step('Navigate to Home page.', async () => {
+                await page.goto('/');
+            });
 
-        await forgotPasswordPage.fillCodeField(verificationCode);
-        await forgotPasswordPage.clickContinue();
-
-        await step('Verify "Create password" form is displayed', async () => {
-            await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
-        });
-
-        await forgotPasswordPage.fillPasswordInput(newPassword);
-        await forgotPasswordPage.fillRepeatPasswordInput(newPassword);
-        await forgotPasswordPage.clickContinue();
-
-        await step('Verify user is redirected to the Login page', async () => {
+            await headerComponent.clickLogin();
             await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
-            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
-        });
 
-        await step('Verify user can log in with the new password', async () => {
-            await loginPage.fillEmailAddressInput(email);
-            await loginPage.fillPasswordInput(newPassword);
-            await loginPage.clickLogin();
-            await page.waitForURL(process.env.URL);
-            await expect(headerComponent.myProfileButton).toBeVisible();
-        });
+            await loginPage.clickForgotPassword();
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
 
-        await deleteUserRequest(request, email, newPassword);
+            await forgotPasswordPage.fillEmailInput(email);
+            await forgotPasswordPage.clickSendCode();
+            await delay(20000);
+
+            const verificationCode = await getVerificationCodeFromEmail(
+                await authorize(),
+                email,
+                SUBJECT.resetPassword
+            );
+
+            await step('Verify an email with a verification code is sent', () => {
+                expect(verificationCode).not.toBeNull();
+                expect(verificationCode).toMatch(codePattern);
+            });
+
+            await forgotPasswordPage.fillCodeField(verificationCode);
+            await forgotPasswordPage.clickContinue();
+
+            await step('Verify "Create password" form is displayed', async () => {
+                await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
+            });
+
+            await forgotPasswordPage.fillPasswordInput(newPassword);
+            await forgotPasswordPage.fillRepeatPasswordInput(newPassword);
+            await forgotPasswordPage.clickContinue();
+
+            await step('Verify user is redirected to the Login page', async () => {
+                await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+                await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
+            });
+
+            await step('Verify user can log in with the new password', async () => {
+                await loginPage.fillEmailAddressInput(email);
+                await loginPage.fillPasswordInput(newPassword);
+                await loginPage.clickLogin();
+                await page.waitForURL(process.env.URL);
+                await expect(headerComponent.myProfileButton).toBeVisible();
+            });
+
+            await deleteUserRequest(request, email, newPassword);
+        });
     });
 });

@@ -94,6 +94,8 @@ export const OCCUPIED_DOMAIN = 'purrweb';
 
 export const AVAILABLE_DOMAIN = 'strain123';
 
+export const SEARCH_DOMAIN = 'dffdrtg.com';
+
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
     HomePage: 'Millions of domains with the ultimate privacy protection',
@@ -103,6 +105,7 @@ export const ACCESSIBLE_PAGE_TITLE = {
     HelpCenter: 'How can we help you?',
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
+    Login: 'Welcome to Trustname',
 };
 
 export const WHOIS_SEARCH_RESULT_TITLES = [
