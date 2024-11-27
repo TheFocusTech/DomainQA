@@ -671,6 +671,104 @@ test.describe('Unauthorized user', () => {
             });
         });
     }
+
+    test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Return Home" button.`, async ({
+        page,
+        homePage,
+        footerComponent,
+        helpContactusPage,
+    }) => {
+        await tags('Unauthorized_user', 'Contact_us_form');
+        await severity('normal');
+        await description(`Verify unauthorized users can submit the "Contact Us" form`);
+        await issue(`${QASE_LINK}/01-19`, 'Contact Us form');
+        await tms(`${GOOGLE_DOC_LINK}u35mzacv094r`, 'ATC_09_06');
+        await epic('Unauthorized_user');
+
+        await step('Navigate to Home page.', async () => {
+            await expect(homePage.mainHeading).toBeVisible();
+        });
+
+        const email = 'myemail@gmail.com';
+        const subjectText = 'Subject of the message';
+        const descriptionText = 'Message description';
+
+        let randomNumber = Math.floor(Math.random() * typeDropdownItems.length);
+        const typeItem = typeDropdownItems.length > 0 ? typeDropdownItems[Math.floor(randomNumber)] : '';
+        const subItems = CONTACT_US_DROPDOWN.find((c) => c.name === typeItem).subcategories;
+        randomNumber = Math.floor(Math.random() * subItems.length);
+        const natureOfRequestItem = subItems.length > 0 ? subItems[Math.floor(randomNumber)] : '';
+
+        await step('Fill all nessesery fields and click the Submit button', async () => {
+            await footerComponent.clickContactUsLink();
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.email, email);
+            await helpContactusPage.clickDropdownMenu('Type');
+            await helpContactusPage.selectDropdownItem(typeItem);
+            if (subItems.length > 0) {
+                await helpContactusPage.clickDropdownMenu('Nature of Request');
+                await helpContactusPage.selectDropdownItem(natureOfRequestItem);
+            }
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.subject, subjectText);
+            await helpContactusPage.fillDescriptionField(descriptionText);
+            await helpContactusPage.clickSubmitButton();
+        });
+
+        await step('Click "Return Home" button', async () => {
+            await helpContactusPage.isLinkButtonVisible('Return Home');
+            await helpContactusPage.clickLinkButton('Return Home');
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.HelpCenter);
+        });
+    });
+
+    test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Go to Trustname" button.`, async ({
+        page,
+        homePage,
+        footerComponent,
+        helpContactusPage,
+    }) => {
+        await tags('Unauthorized_user', 'Contact_us_form');
+        await severity('normal');
+        await description(`Verify unauthorized users can submit the "Contact Us" form`);
+        await issue(`${QASE_LINK}/01-19`, 'Contact Us form');
+        await tms(`${GOOGLE_DOC_LINK}u35mzacv094r`, 'ATC_09_06');
+        await epic('Unauthorized_user');
+
+        await step('Navigate to Home page.', async () => {
+            await expect(homePage.mainHeading).toBeVisible();
+        });
+
+        const email = 'myemail@gmail.com';
+        const subjectText = 'Subject of the message';
+        const descriptionText = 'Message description';
+
+        let randomNumber = Math.floor(Math.random() * typeDropdownItems.length);
+        const typeItem = typeDropdownItems.length > 0 ? typeDropdownItems[Math.floor(randomNumber)] : '';
+        const subItems = CONTACT_US_DROPDOWN.find((c) => c.name === typeItem).subcategories;
+        randomNumber = Math.floor(Math.random() * subItems.length);
+        const natureOfRequestItem = subItems.length > 0 ? subItems[Math.floor(randomNumber)] : '';
+
+        await step('Fill all nessesery fields and click the Submit button', async () => {
+            await footerComponent.clickContactUsLink();
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.email, email);
+            await helpContactusPage.clickDropdownMenu('Type');
+            await helpContactusPage.selectDropdownItem(typeItem);
+            if (subItems.length > 0) {
+                await helpContactusPage.clickDropdownMenu('Nature of Request');
+                await helpContactusPage.selectDropdownItem(natureOfRequestItem);
+            }
+            await helpContactusPage.fillInputField(CONTACT_US_INPUT_NAME.subject, subjectText);
+            await helpContactusPage.fillDescriptionField(descriptionText);
+            await helpContactusPage.clickSubmitButton();
+        });
+
+        await step('Click "Go to Trustname" button', async () => {
+            await helpContactusPage.isLinkButtonVisible('Go to Trustname');
+            await helpContactusPage.clickLinkButton('Go to Trustname');
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.HomePage);
+        });
+    });
 });
 
 test.describe('Reset Password', () => {
