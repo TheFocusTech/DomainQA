@@ -8,6 +8,90 @@ export const CONTACT_US_INPUT_NAME = {
     subject: 'emailSubject',
 };
 
+export const CONTACT_US_DROPDOWN = [
+    {
+        name: 'Account Management & Access',
+        subcategories: ['Password Reset', 'Credentials/Username Issues', '2FA Issues', 'Other'],
+    },
+    {
+        name: 'Payment, Sales & Billing Issues',
+        subcategories: ['Order Status', 'Declined Payment', 'Refund', 'Invoice', 'Other'],
+    },
+    {
+        name: 'Domains',
+        subcategories: [
+            'Nameserver Changes',
+            'DNSSEC',
+            'DNS Records',
+            'Transfer to Trustname',
+            'Transfer from Trustname',
+            'Transfer Disputes',
+            'Domain Contact Issue',
+            'Whois Verification',
+            'Web Forwarding',
+            'Renewal',
+            'Other',
+        ],
+    },
+    {
+        name: 'Pre-Sales',
+        subcategories: ['Domains', 'Hosting', 'SSL', 'Other'],
+    },
+    {
+        name: 'Hosting',
+        subcategories: [
+            'Database',
+            'File Transfer',
+            'Server Creation',
+            'VPS & Dedicated Servers',
+            'Blocked Server',
+            'Attach to a Domain',
+            'Change the Owner',
+            'Renewal, Credentials/Access Issues',
+            'Other',
+        ],
+    },
+    {
+        name: 'SSL',
+        subcategories: ['Revocation', 'Other'],
+    },
+    {
+        name: 'Private Email',
+        subcategories: [
+            'Mailbox Suspended',
+            'Configuration',
+            'Problems Sending Emails',
+            'Problems Receiving Emails',
+            'Suspicious Phishing/Hacked Mails',
+            'Other',
+        ],
+    },
+    {
+        name: 'Affiliate',
+        subcategories: [],
+    },
+    {
+        name: 'Bug/Technical Issue',
+        subcategories: [],
+    },
+    {
+        name: 'Feature/Product Request',
+        subcategories: [],
+    },
+    {
+        name: 'Commercial Matters',
+        subcategories: [],
+    },
+    {
+        name: 'Media Inquiries',
+        subcategories: [],
+    },
+    {
+        name: 'Feedback',
+        subcategories: [],
+    },
+];
+
 export default class HelpContactUsPage {
     constructor(page) {
         this.page = page;
@@ -18,14 +102,14 @@ export default class HelpContactUsPage {
         this.descriptionField = this.page.locator('textarea[name="description"]');
 
         this.dropdownMenu = this.page.getByRole('combobox');
-        this.items = this.page.getByRole('options');
-        this.dropdownPlaceholder = this.page.locator('[class*="css-1p445j8-placeholder"]');
-        this.dropdownValue = this.page.locator('[class*="css-yclm7v-singleValue"]');
+        this.items = this.page.getByRole('option');
+        this.dropdownPlaceholder = this.page.locator('[class*="placeholder"]');
+        this.dropdownValue = this.page.locator('[class*="singleValue"]');
 
         this.attachFileButton = this.page.getByRole('button', { class: 'files-field__button-attach' });
         this.submitButton = this.page.getByRole('button', { name: 'Submit' });
 
-        this.thankYouAlert = this.page.locator('.alert-base_alert__title__MdWow');
+        this.thankYouAlert = this.page.locator('[class*="alert-base_alert__title"]');
     }
 
     getInputLocator(name) {
@@ -138,6 +222,24 @@ export default class HelpContactUsPage {
     async isThankYouAlertVisible() {
         await step('Verify is "Thenk you!" alert visible', async () => {
             await expect(this.thankYouAlert).toBeVisible();
+        });
+    }
+
+    async verifyDropdownItems(type) {
+        await step(`Verify is the list of dropdown items corresponds to the "${type}".`, async () => {
+            let dropdownItems = await this.items.allInnerTexts();
+            let subItems =
+                (type === 'Type')
+                    ? CONTACT_US_DROPDOWN.map((c) => c.name)
+                    : CONTACT_US_DROPDOWN.find((c) => c.name === type).subcategories;
+            let dropdownItemsSorted = dropdownItems.sort();
+            let subItemsSorted = subItems.sort();
+            console.log('->', dropdownItemsSorted);
+            console.log('->', subItemsSorted);
+            expect(
+                dropdownItemsSorted.length === subItemsSorted.length &&
+                    dropdownItemsSorted.every((value, index) => value === subItemsSorted[index])
+            ).toBeTruthy();
         });
     }
 
