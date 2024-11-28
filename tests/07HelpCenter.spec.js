@@ -18,6 +18,8 @@ import {
     resultNameCategoriesSearch,
     resultCountCategoriesSearch,
     resultPageContainQuerySearch,
+    getNameHeaders,
+    resultComparisonsHeaders,
 } from '../helpers/utils';
 
 test.describe('Help Center', () => {
@@ -225,5 +227,48 @@ test.describe('Help Center', () => {
 
             await headerComponent.clickHelpCenterButton();
         }
+    });
+
+    test('TC_07_01_06 | Verify the user can switch between headings in the selected article', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpSearchResultsPage,
+        helpCenterArticlePage,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify that relevant articles are displayed.');
+        await issue(`${QASE_LINK}/01-32`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}mcqxdodq1lkh`, 'ATC_07_01_06');
+        await epic('Help center');
+        test.slow();
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+        await headerComponent.clickHelpCenterButton();
+        await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
+        // await helpCenterPage.clickHelpCenterSearchButton();
+        await step('Go to the result search page.', async () => {
+            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+        });
+        await step('Verify search for the input query is visible on the search results page.', async () => {
+            await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
+        });
+
+        const nameArticle = await helpSearchResultsPage.clickRandomArticle();
+        await step('Verify go to the page of the selected random article.', async () => {
+            await expect(helpCenterArticlePage.breadcrumbs).toContainText(`${nameArticle}`);
+        });
+
+        await page.waitForTimeout(2000);
+        let text = await getNameHeaders(helpCenterArticlePage);
+
+        const countH = await helpCenterArticlePage.countSubheadings();
+        await step('Verify clicking on a heading takes you to the name of the heading in the article.', async () => {
+            await expect(
+                (await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()
+            ).toEqual('true');
+        });
     });
 });
