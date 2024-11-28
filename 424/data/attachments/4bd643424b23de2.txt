@@ -1,0 +1,6 @@
+Failed to delete: No user with this email exists.
+Failed to delete: No user with this email exists.
+An error occurred during signing up with domain.aqa+qa.mail.template1000-r@gmail.com: Failed to sign up: Bad Request
+No messages found within the last minute.
+An error occurred during email confirmation: Tokens are not set. Please sign in first.
+No messages found within the last minute.
