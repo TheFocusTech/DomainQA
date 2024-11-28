@@ -666,8 +666,14 @@ test.describe('Unauthorized user', () => {
             await step('Click "Submit" button', async () => {
                 await helpContactusPage.isSubmitButtonVisible();
                 await helpContactusPage.clickSubmitButton();
+            });
+
+            await step('Verify the "Thank you!" alert.', async () => {
                 await helpContactusPage.isThankYouAlertVisible();
                 await helpContactusPage.verifyThankYouAlertText('Thank you!');
+                await helpContactusPage.verifyAlertDescriptionText(
+                    'Your report has been successfully submitted.\nWe will send you a reply to ' + email
+                );
             });
         });
     }
