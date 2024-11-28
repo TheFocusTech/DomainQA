@@ -105,7 +105,6 @@ export const ACCESSIBLE_PAGE_TITLE = {
     HelpCenter: 'How can we help you?',
     ReportAbuse: 'Report Abuse',
     ContactUs: 'Contact us',
-    Login: 'Welcome to Trustname',
 };
 
 export const WHOIS_SEARCH_RESULT_TITLES = [
@@ -421,3 +420,4 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
+export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname'

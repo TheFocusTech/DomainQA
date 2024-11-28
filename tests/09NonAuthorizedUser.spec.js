@@ -13,6 +13,7 @@ import {
     SUBJECT,
     HEADER_LINKS,
     SEARCH_DOMAIN,
+    LOGIN_PAGE_HEADER_TEXT,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -590,7 +591,7 @@ test.describe('Unauthorized user', () => {
         await domainAvailabilityPage.clickBuyButton();
 
         await step(`Verify Login Page Element Validation `, async () => {
-            await expect(pageTitleComponent.pageTitle).toHaveText(ACCESSIBLE_PAGE_TITLE.Login);
+            await expect(pageTitleComponent.pageTitle).toHaveText(LOGIN_PAGE_HEADER_TEXT);
             await expect(loginPage.loginButton).toBeVisible();
         });
     });
