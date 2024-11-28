@@ -420,4 +420,4 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
-export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname'
+export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname';
