@@ -8,9 +8,9 @@ export default class AccountDeletionModal {
             .locator('label')
             .filter({ hasText: 'Yes, I consent to delete my' })
             .locator('div');
-        this.cancelButton = this.page.locator('button:has-text("Cancel")');
+        this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
         this.continueButton = this.page.locator('button').filter({ hasText: 'Continue' });
-        this.closeButton = this.page.getByLabel('Button');
+        this.closeButton = this.page.locator('div[class^="modal-root"] button svg');
         this.accountDeletionModalContainer = this.page.locator('#root-portal');
         this.deleteAccountHeading = this.page.locator('h2').filter({ hasText: 'Delete account' });
         this.deleteField = this.page.getByPlaceholder('Delete');

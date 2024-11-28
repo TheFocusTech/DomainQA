@@ -289,7 +289,7 @@ test.describe('Registration', () => {
         );
     });
 
-    test.skip('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+    test('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
         page,
         request,
         headerComponent,
@@ -306,6 +306,7 @@ test.describe('Registration', () => {
         await issue(`${QASE_LINK}/01-1`, 'User Registration');
         await tms(`${GOOGLE_DOC_LINK}66p4zgc61ah0`, 'ATC_01_01_04');
         await epic('Registration');
+        test.slow();
 
         await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
 

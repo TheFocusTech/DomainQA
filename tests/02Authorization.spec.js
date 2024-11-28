@@ -101,7 +101,7 @@ test.describe('Delete Account', () => {
         });
     });
 
-    test.skip('TC_02_04 | Account Deletion Without 2FA', async ({
+    test('TC_02_04 | Account Deletion Without 2FA', async ({
         page,
         loginPage,
         headerComponent,
@@ -117,13 +117,10 @@ test.describe('Delete Account', () => {
         await tms(`${GOOGLE_DOC_LINK}iiqbm2c7rcc8`, 'ATC_02_04');
         await epic('Authorization');
 
-        await loginUser(
-            page,
-            headerComponent,
-            loginPage,
-            `${process.env.EMAIL_PREFIX}100${process.env.EMAIL_DOMAIN}`,
-            `${process.env.USER_PASSWORD}`
-        );
+        const email = `${process.env.EMAIL_PREFIX}100${process.env.EMAIL_DOMAIN}`;
+        const password = `${process.env.USER_PASSWORD}`;
+
+        await loginUser(page, headerComponent, loginPage, email, password);
 
         await step('User clicks on "My Profile."', async () => {
             await headerComponent.clickMyProfileButton();
@@ -140,10 +137,6 @@ test.describe('Delete Account', () => {
         await step('Click on "Delete account":', async () => {
             await settingsGeneralPage.clickDeleteAccountButton();
         });
-
-        //await step('Verify that the deletion modal opens.', async () => {
-        // await expect(accountDeletionModal.modal).toBeVisible();
-        //});
 
         await step('Verify modal contents:', async () => {
             await expect(accountDeletionModal.consentCheckbox).toBeVisible();
