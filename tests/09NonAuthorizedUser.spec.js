@@ -678,7 +678,7 @@ test.describe('Unauthorized user', () => {
         });
     }
 
-    test.skip(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Return Home" button.`, async ({
+    test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Return Home" button.`, async ({
         page,
         homePage,
         footerComponent,
@@ -723,11 +723,11 @@ test.describe('Unauthorized user', () => {
         await step('Click "Return Home" button', async () => {
             await helpContactusPage.isLinkButtonVisible('Return Home');
             await helpContactusPage.clickLinkButton('Return Home');
-            await page.waitForURL(process.env.URL + URL_ENDPOINT.HomePage);
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.HelpCenter);
         });
     });
 
-    test.skip(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Go to Trustname" button.`, async ({
+    test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form: "Go to Trustname" button.`, async ({
         page,
         homePage,
         footerComponent,
@@ -772,7 +772,7 @@ test.describe('Unauthorized user', () => {
         await step('Click "Go to Trustname" button', async () => {
             await helpContactusPage.isLinkButtonVisible('Go to Trustname');
             await helpContactusPage.clickLinkButton('Go to Trustname');
-            await page.waitForURL(process.env.URL + URL_ENDPOINT.HelpCenter);
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.HomePage);
         });
     });
 });
