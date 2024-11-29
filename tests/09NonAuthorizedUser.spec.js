@@ -12,8 +12,9 @@ import {
     ALL_ABC,
     SUBJECT,
     HEADER_LINKS,
+    RESET_PASSWORD,
 } from '../testData';
-import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
+import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
 
@@ -580,7 +581,7 @@ test.describe('Reset Password', () => {
         headerComponent,
         forgotPasswordPage,
     }) => {
-        test.setTimeout(90000);
+        test.setTimeout(60000);
         await tags('Unauthorized_user', 'Forgot password');
         await severity('normal');
         await description('To verify that user can reset the password.');
@@ -588,21 +589,21 @@ test.describe('Reset Password', () => {
         await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
         await epic('Unauthorized_user');
 
-        const email = `${process.env.EMAIL_PREFIX}qa.mail.template1000-r${process.env.EMAIL_DOMAIN}`;
-        const password = process.env.USER_PASSWORD;
-        const newPassword = `NEW_${process.env.USER_PASSWORD}`;
-        const codePattern = /^[0-9]{6}$/;
+        const email = RESET_PASSWORD.email;
+        const defaultPassword = RESET_PASSWORD.defaultPassword;
+        const newPassword = RESET_PASSWORD.newPassword;
+        const codePattern = RESET_PASSWORD.codePattern;
 
-        await deleteUserRequest(request, email, newPassword);
-        await deleteUserRequest(request, email, password);
+        await step(
+            'Preconditions: Attempt to sign in with the new password, and once signed in, change it back to the default.',
+            async () => {
+                const response = await signInRequest(request, email, newPassword);
 
-        await step('Preconditions: Register a new user and confirm email', async () => {
-            await signUpRequest(request, email, password);
-            await delay(10000);
-
-            const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.signup);
-            await confirmEmailRequest(request, verificationCode);
-        });
+                if (response.ok()) {
+                    await changePasswordRequest(request, newPassword, defaultPassword);
+                }
+            }
+        );
 
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
@@ -648,7 +649,5 @@ test.describe('Reset Password', () => {
             await page.waitForURL(process.env.URL);
             await expect(headerComponent.myProfileButton).toBeVisible();
         });
-
-        await deleteUserRequest(request, email, newPassword);
     });
 });

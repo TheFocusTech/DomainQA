@@ -72,6 +72,7 @@ export const API_ENDPOINT = {
     signUp: '/users/auth/sign-up',
     confirmEmail: '/users/auth/email-confirmation/confirm',
     blogSearchResultsPage: '/blog/search',
+    changePassword: '/users/profile/change-password',
 };
 
 export const DNS_TYPE = {
@@ -418,3 +419,10 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
+
+export const RESET_PASSWORD = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template2${process.env.EMAIL_DOMAIN}`,
+    defaultPassword: process.env.USER_PASSWORD,
+    newPassword: `${process.env.USER_PASSWORD}0`,
+    codePattern: /^[0-9]{6}$/,
+};
