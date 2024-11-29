@@ -421,4 +421,3 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
-
