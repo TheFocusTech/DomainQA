@@ -80,28 +80,47 @@ export async function getVerificationCodeFromEmail(auth, email, subject) {
     await step('Get verification code from email', async () => {
         try {
             const gmail = google.gmail({ version: 'v1', auth });
-            console.log('Waiting for the verification code email to arrive...');
-            await delay(5000);
+            await delay(10000);
+
             const messagesResponse = await gmail.users.messages.list({
                 userId: 'me',
-                q: `to:${email} subject:${subject} after:${Math.floor(Date.now() / 1000) - 60}`,
+                q: `to:${email} after:${Math.floor(Date.now() / 1000) - 60}`,
             });
-            const messages = messagesResponse.data.messages;
-            if (!messages || messages.length === 0) {
-                console.warn('No messages found within the last minute.');
+
+            const messages = messagesResponse.data.messages || [];
+            console.log('****************** Messages received within the last minute: ', messages.length);
+
+            if (!messages.length) {
+                console.warn('No messages found.');
                 return null;
             }
-            await delay(5000);
-            const lastMessageResponse = await gmail.users.messages.get({
-                userId: 'me',
-                id: messages[0].id,
-            });
-            const message = lastMessageResponse.data;
-            const bodyData = message.payload.body.data;
+            let selectedMessage = null;
+            for (const message of messages) {
+                const messageResponse = await gmail.users.messages.get({
+                    userId: 'me',
+                    id: message.id,
+                });
+
+                const headers = messageResponse.data.payload.headers || [];
+
+                const header = headers.find((h) => h.name === 'Subject');
+                if (header && header.value === subject) {
+                    selectedMessage = messageResponse.data;
+                    break;
+                }
+            }
+
+            if (!selectedMessage) {
+                console.warn('No matching message with the required header was found.');
+                return null;
+            }
+
+            const bodyData = selectedMessage.payload.body.data;
             if (!bodyData) {
                 console.warn('Message body not found.');
                 return null;
             }
+
             decodedBody = Buffer.from(bodyData, 'base64').toString().trim();
             console.log('Verification code is:', decodedBody);
             return decodedBody;
