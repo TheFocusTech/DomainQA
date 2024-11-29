@@ -6,6 +6,7 @@ export default class SslCertificatesPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
+        this.subscriptionSslCertificatesCell = this.page.locator('th');
     }
 
     async verifySslCertificatesPage(heading, buttons) {
@@ -18,5 +19,17 @@ export default class SslCertificatesPage {
                 await expect(buttonLocator).toBeVisible();
             });
         }
+    }
+
+    async clickSelectButton(subscription) {
+        await step(
+            `Click on the "Select" button on the "${subscription}" subscription of SSL certificates.`,
+            async () => {
+                const selectButton = this.subscriptionSslCertificatesCell
+                    .filter({ hasText: `${subscription}` })
+                    .getByRole('button', { name: 'Select' });
+                await selectButton.click();
+            }
+        );
     }
 }
