@@ -422,3 +422,10 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
+
+export const SSL_CERTIFICATES_SUBSCRIPTIONS = {
+    subscription1: 'Free',
+    subscription2: 'DV',
+    subscription3: 'OV',
+    subscription4: 'EV',
+};
