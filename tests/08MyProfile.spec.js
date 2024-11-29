@@ -604,7 +604,7 @@ test.describe('My profile', () => {
 
         await step('Verify that the user is redirected to the Home screen.', async () => {
             await page.waitForLoadState('networkidle');
-            expect(page.url()).toEqual('https://domain-registrar-web-staging.vercel.app/');
+            expect(page.url()).toEqual(process.env.URL);
         });
 
         await step('Navigate to page Account Settings', async () => {
@@ -624,7 +624,7 @@ test.describe('My profile. Section 2FA', () => {
     let secretKey;
     let code;
 
-    test.afterEach('Postconditions: Disable 2FA in case it was not disbaled on UI', async ({ request, page }) => {
+    test.afterEach('Postconditions: Disable 2FA in case it was not disabled on UI', async ({ request, page }) => {
         headers = await getCookies(page);
         const response = await getProfileData(request, headers);
         if (response.otpEnabled === true) {

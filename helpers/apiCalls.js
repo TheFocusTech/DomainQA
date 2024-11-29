@@ -301,7 +301,7 @@ export async function confirmEmailRequest(request, verificationCode) {
 
 export async function disable2FA(request, headers) {
     const authHeaders = getAuthHeaders(headers);
-    const url = `${process.env.API_URL}${API_ENDPOINT.profile}/otp/disable`;
+    const url = `${process.env.API_URL}${API_ENDPOINT.profile}${API_ENDPOINT.otpDisable}`;
     try {
         const response = await request.post(url, { headers: authHeaders });
         if (!response.ok()) {

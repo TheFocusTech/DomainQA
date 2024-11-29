@@ -73,6 +73,7 @@ export const API_ENDPOINT = {
     confirmEmail: '/users/auth/email-confirmation/confirm',
     blogSearchResultsPage: '/blog/search',
     profile: '/users/profile',
+    otpDisable: '/otp/disable',
 };
 
 export const DNS_TYPE = {
