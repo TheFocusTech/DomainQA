@@ -10,8 +10,9 @@ export default class HelpSearchResultsPage {
         this.accordionByCategoryButton = this.page.locator(
             '[class*="accordion-slice_accordion-slice-header"] > button'
         );
-        this.headerTextVisible = this.page.locator('.search-results_search-results__content__ilv4i');
+        this.headerTextVisible = this.page.locator('div[class*="search-results_search-results__content"]');
         this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');
+        this.articlesList = this.page.locator('.article-snippet__title > a');
     }
 
     async allInnerTextsCategoriesButtons() {
@@ -27,5 +28,16 @@ export default class HelpSearchResultsPage {
     async innerTextsHeaderText() {
         await this.headerTextVisible.waitFor({ state: 'visible' });
         return await this.headerText.allInnerTexts();
+    }
+
+    async clickRandomArticle() {
+        await this.articlesList.first().waitFor({ state: 'visible' });
+        const articleCount = await this.articlesList.count();
+        const randomIndex = Math.floor(Math.random() * articleCount);
+        const nameArticle = await this.articlesList.nth(randomIndex).innerText();
+        await step('Open a random article:', async () => {
+            await this.articlesList.nth(randomIndex).click();
+        });
+        return nameArticle;
     }
 }

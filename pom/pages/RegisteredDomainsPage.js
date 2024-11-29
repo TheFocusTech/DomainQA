@@ -15,10 +15,10 @@ export default class RegisteredDomainsPage {
         await step(`Verify that Registered Domains page has "${heading}" heading.`, async () => {
             await expect(this.mainHeading).toContainText(heading);
         });
-        await step(`Verify that Registered Domains page has "${heading}" text.`, async () => {
+        await step(`Verify that Registered Domains page has "${title}" text.`, async () => {
             await expect(this.alertTitle).toHaveText(title);
         });
-        await step(`Verify that Registered Domains page has "${heading}" text.`, async () => {
+        await step(`Verify that Registered Domains page has "${description}" text.`, async () => {
             await expect(this.alertDescription).toHaveText(description);
         });
         for (const button of buttons) {

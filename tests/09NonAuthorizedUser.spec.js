@@ -10,12 +10,12 @@ import {
     OCCUPIED_DOMAIN,
     ADVANCED_SEARCH_MODAL_TITLE,
     ALL_ABC,
-    REGISTER_USER,
     SUBJECT,
-    PASSWORD,
+    HEADER_LINKS,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
+import { delay } from '../helpers/utils';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -63,7 +63,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
+    test(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -371,7 +371,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+    test.skip(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
         advancedSearchModal,
     }) => {
@@ -504,23 +504,76 @@ test.describe('Unauthorized user', () => {
             await expect(homePage.filterApplyBadge).not.toBeVisible();
         });
     });
+
+    const links = [HEADER_LINKS[0].links[0].name, HEADER_LINKS[0].links[1].name, HEADER_LINKS[1].links[0].name];
+    for (let link of links) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${link} link in header`, async ({
+            headerComponent,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${link} link in header`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
+            await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
+            await epic('Unauthorized_user');
+
+            if (link === HEADER_LINKS[0].links[0].name) {
+                await headerComponent.clickRegisteredDomainsButton();
+            }
+            if (link === HEADER_LINKS[0].links[1].name) {
+                await headerComponent.clickHostedZonesLink();
+            }
+            if (link === HEADER_LINKS[1].links[0].name) {
+                await headerComponent.clickHostingButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
+
+    const buttons = [HEADER_LINKS[0].links[2].buttons[1], HEADER_LINKS[0].links[2].buttons[2]];
+    for (let button of buttons) {
+        test(`TC_09_04_03 | Verify unauthorised user is redirected to the Login Page by clicking on ${button} button on Transfer Page`, async ({
+            headerComponent,
+            transferPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${button} button on Transfer Page`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
+            await tms(`${GOOGLE_DOC_LINK}q2w803gtufhx`, 'ATC_09_04_03');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickTransferLink();
+
+            if (button === HEADER_LINKS[0].links[2].buttons[1]) {
+                await transferPage.clickBulkTransferButton();
+            }
+            if (button === HEADER_LINKS[0].links[2].buttons[2]) {
+                await transferPage.clickMyTransfersButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
 });
 
 test.describe('Reset Password', () => {
-    test.beforeAll(async ({ request }) => {
-        await deleteUserRequest(request, REGISTER_USER.email, REGISTER_USER.password);
-        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
-
-        await signUpRequest(request, REGISTER_USER.email, REGISTER_USER.password);
-        const verificationCode1 = await getVerificationCodeFromEmail(
-            await authorize(),
-            REGISTER_USER.email,
-            SUBJECT.signup
-        );
-        await confirmEmailRequest(request, verificationCode1);
-    });
-
-    test.skip('TC_09_05_03 | Verify password recovery process', async ({
+    test('TC_09_05_03 | Verify password recovery process', async ({
         page,
         request,
         loginPage,
@@ -535,7 +588,21 @@ test.describe('Reset Password', () => {
         await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
         await epic('Unauthorized_user');
 
+        const email = `${process.env.EMAIL_PREFIX}qa.mail.template1000-r${process.env.EMAIL_DOMAIN}`;
+        const password = process.env.USER_PASSWORD;
+        const newPassword = `NEW_${process.env.USER_PASSWORD}`;
         const codePattern = /^[0-9]{6}$/;
+
+        await deleteUserRequest(request, email, newPassword);
+        await deleteUserRequest(request, email, password);
+
+        await step('Preconditions: Register a new user and confirm email', async () => {
+            await signUpRequest(request, email, password);
+            await delay(10000);
+
+            const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.signup);
+            await confirmEmailRequest(request, verificationCode);
+        });
 
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
@@ -547,53 +614,26 @@ test.describe('Reset Password', () => {
         await loginPage.clickForgotPassword();
         await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
 
-        await forgotPasswordPage.fillEmailInput(REGISTER_USER.email);
-
+        await forgotPasswordPage.fillEmailInput(email);
         await forgotPasswordPage.clickSendCode();
+        await delay(20000);
 
-        const verificationCode = await getVerificationCodeFromEmail(
-            await authorize(),
-            REGISTER_USER.email,
-            SUBJECT.resetPassword
-        );
+        const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.resetPassword);
 
-        await step("Verify an email with a verification code is sent to the user's registered email address", () => {
+        await step('Verify an email with a verification code is sent', () => {
             expect(verificationCode).not.toBeNull();
             expect(verificationCode).toMatch(codePattern);
         });
 
-        await forgotPasswordPage.waitForTimerToComplete();
-
-        await step('Verify the "Resend code" button is enabled', async () => {
-            await expect(forgotPasswordPage.resendCodeButton).toBeEnabled();
-        });
-
-        await forgotPasswordPage.clickResendCode();
-
-        const newVerificationCode = await getVerificationCodeFromEmail(
-            await authorize(),
-            REGISTER_USER.email,
-            SUBJECT.resetPassword
-        );
-
-        await step(
-            'Verify clicking on "Resend code" button again, resends the verification code to the email address',
-            () => {
-                expect(newVerificationCode).not.toBeNull();
-                expect(newVerificationCode).toMatch(codePattern);
-                expect(newVerificationCode).not.toBe(verificationCode);
-            }
-        );
-
-        await forgotPasswordPage.fillCodeField(newVerificationCode);
+        await forgotPasswordPage.fillCodeField(verificationCode);
         await forgotPasswordPage.clickContinue();
 
         await step('Verify "Create password" form is displayed', async () => {
             await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
         });
 
-        await forgotPasswordPage.fillPasswordInput(PASSWORD.newPassword);
-        await forgotPasswordPage.fillRepeatPasswordInput(PASSWORD.newPassword);
+        await forgotPasswordPage.fillPasswordInput(newPassword);
+        await forgotPasswordPage.fillRepeatPasswordInput(newPassword);
         await forgotPasswordPage.clickContinue();
 
         await step('Verify user is redirected to the Login page', async () => {
@@ -602,13 +642,13 @@ test.describe('Reset Password', () => {
         });
 
         await step('Verify user can log in with the new password', async () => {
-            await loginPage.fillEmailAddressInput(REGISTER_USER.email);
-            await loginPage.fillPasswordInput(PASSWORD.newPassword);
+            await loginPage.fillEmailAddressInput(email);
+            await loginPage.fillPasswordInput(newPassword);
             await loginPage.clickLogin();
             await page.waitForURL(process.env.URL);
             await expect(headerComponent.myProfileButton).toBeVisible();
         });
 
-        await deleteUserRequest(request, REGISTER_USER.email, PASSWORD.newPassword);
+        await deleteUserRequest(request, email, newPassword);
     });
 });

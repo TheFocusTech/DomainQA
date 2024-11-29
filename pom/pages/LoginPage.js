@@ -15,6 +15,8 @@ export default class LoginPage {
         this.verificationCodeField = this.page.getByPlaceholder('Enter verification code');
         this.continueButton = this.page.getByText('Continue');
         this.backToLogInButton = this.page.getByText('Back to Log in');
+        this.header = this.page.getByRole('heading', { name: 'Welcome to Trustname' });
+        this.description = this.page.getByText('Don’t have an account? Sign up');
     }
 
     async fillEmailAddressInput(email) {

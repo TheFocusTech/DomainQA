@@ -7,10 +7,10 @@ export default class ChangePasswordModal {
         this.currentPasswordField = this.page.getByLabel('Current password');
         this.newPasswordField = this.page.getByLabel('New password', { exact: true });
         this.repeatNewPassword = this.page.getByLabel('Repeat new password');
-        this.closeButton = this.page.getByLabel('Button');
+        this.closeButton = this.page.locator('#root-portal').getByLabel('Button');
         this.cancelButton = this.page.locator('button').filter({ hasText: 'Cancel' });
         this.changeButton = this.page.locator('#root-portal button').filter({ hasText: 'Change' });
-        this.goodPasswordRule = this.page.locator('.rules_rule__icon--success___5a9K');
+        this.goodPasswordRule = this.page.locator('[class*="rules_rule__icon--success"]');
     }
 
     async fillCurrentPasswordField(password) {

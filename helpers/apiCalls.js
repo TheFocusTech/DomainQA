@@ -268,9 +268,6 @@ export async function signUpRequest(request, email, password) {
 
             process.env.ACCESS_TOKEN = signUpData.accessToken;
             process.env.CSRF_TOKEN = signUpData.csrfToken;
-
-            console.log('Access Token:', process.env.ACCESS_TOKEN);
-            console.log('CSRF Token:', process.env.CSRF_TOKEN);
         } catch (error) {
             console.error(`An error occurred during signing up with ${email}: ${error.message}`);
         }

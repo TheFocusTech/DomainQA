@@ -12,6 +12,7 @@ export default class HelpCenterPage {
         this.helpSearchPopup = this.page.locator('div[class*="search-article-result"]');
         this.helpSearchPopupAlert = this.page.locator('h2[class*="alert-base"]');
         this.mainHeading = this.page.locator('main h1');
+        this.knowledgeCategoryHeaders = this.page.locator('button[class*="card-folder_card-folder"]');
     }
 
     async fillHelpSearchInput(name) {
@@ -53,5 +54,11 @@ export default class HelpCenterPage {
                 await expect(buttonLocator.or(linkLocator).first()).toBeVisible();
             });
         }
+    }
+
+    async clickKnowledgeHeader(title) {
+        await step('Click on Knowledge base category headers', async () => {
+            this.knowledgeCategoryHeaders.filter({ hasText: title }).click();
+        });
     }
 }
