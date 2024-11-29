@@ -35,7 +35,7 @@ const accessiblePageRedirectCases = Object.keys(ACCESSIBLE_PAGE_TITLE).map((key)
     expectedTitle: ACCESSIBLE_PAGE_TITLE[key],
 }));
 
-export const CONTACT_US_DROPDOWN = [
+const CONTACT_US_DROPDOWN = [
     {
         name: 'Account Management & Access',
         subcategories: ['Password Reset', 'Credentials/Username Issues', '2FA Issues', 'Other'],
@@ -658,7 +658,7 @@ test.describe('Unauthorized user', () => {
 
     const typeDropdownItems = CONTACT_US_DROPDOWN.map((c) => c.name);
     for (let typeItem of typeDropdownItems) {
-        test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form for ${typeItem} "Type" dropdown item.`, async ({
+        test(`TC_09_06 | Verify unauthorized users can submit the "Contact Us" form for "${typeItem}" Type dropdown item.`, async ({
             page,
             homePage,
             footerComponent,
