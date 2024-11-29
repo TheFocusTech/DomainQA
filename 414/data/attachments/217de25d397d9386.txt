@@ -1,3 +1,0 @@
-Failed to delete: No user with this email exists.
-Failed to delete: No user with this email exists.
-No messages found within the last minute.
