@@ -1,0 +1,4 @@
+Created hosted zone api-20241129194320.com with id eae702d9-db03-41da-ac31-e79cfda672cd
+Total number of hosted zones: 2
+Total number of hosted zones: 0
+All zones deleted
