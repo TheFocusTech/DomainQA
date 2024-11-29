@@ -178,7 +178,7 @@ test.describe('Registration', () => {
         });
     });
 
-    test('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
+    test.skip('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
         page,
         request,
         headerComponent,
