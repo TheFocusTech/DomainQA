@@ -17,7 +17,6 @@ import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helper
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
 import { CONTACT_US_INPUT_NAME } from '../pom/pages/HelpContactUsPage';
-import { CONTACT_US_DROPDOWN } from '../pom/pages/HelpContactUsPage';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -35,6 +34,90 @@ const accessiblePageRedirectCases = Object.keys(ACCESSIBLE_PAGE_TITLE).map((key)
     action: nonAuthUserAccessiblePageActions[key],
     expectedTitle: ACCESSIBLE_PAGE_TITLE[key],
 }));
+
+export const CONTACT_US_DROPDOWN = [
+    {
+        name: 'Account Management & Access',
+        subcategories: ['Password Reset', 'Credentials/Username Issues', '2FA Issues', 'Other'],
+    },
+    {
+        name: 'Payment, Sales & Billing Issues',
+        subcategories: ['Order Status', 'Declined Payment', 'Refund', 'Invoice', 'Other'],
+    },
+    {
+        name: 'Domains',
+        subcategories: [
+            'Nameserver Changes',
+            'DNSSEC',
+            'DNS Records',
+            'Transfer to Trustname',
+            'Transfer from Trustname',
+            'Transfer Disputes',
+            'Domain Contact Issue',
+            'Whois Verification',
+            'Web Forwarding',
+            'Renewal',
+            'Other',
+        ],
+    },
+    {
+        name: 'Pre-Sales',
+        subcategories: ['Domains', 'Hosting', 'SSL', 'Other'],
+    },
+    {
+        name: 'Hosting',
+        subcategories: [
+            'Database',
+            'File Transfer',
+            'Server Creation',
+            'VPS & Dedicated Servers',
+            'Blocked Server',
+            'Attach to a Domain',
+            'Change the Owner',
+            'Renewal, Credentials/Access Issues',
+            'Other',
+        ],
+    },
+    {
+        name: 'SSL',
+        subcategories: ['Revocation', 'Other'],
+    },
+    {
+        name: 'Private Email',
+        subcategories: [
+            'Mailbox Suspended',
+            'Configuration',
+            'Problems Sending Emails',
+            'Problems Receiving Emails',
+            'Suspicious Phishing/Hacked Mails',
+            'Other',
+        ],
+    },
+    {
+        name: 'Affiliate',
+        subcategories: [],
+    },
+    {
+        name: 'Bug/Technical Issue',
+        subcategories: [],
+    },
+    {
+        name: 'Feature/Product Request',
+        subcategories: [],
+    },
+    {
+        name: 'Commercial Matters',
+        subcategories: [],
+    },
+    {
+        name: 'Media Inquiries',
+        subcategories: [],
+    },
+    {
+        name: 'Feedback',
+        subcategories: [],
+    },
+];
 
 test.describe('Unauthorized user', () => {
     test.beforeEach(async ({ page }) => {
@@ -596,9 +679,9 @@ test.describe('Unauthorized user', () => {
             const subjectText = 'Subject of the message';
             const descriptionText = 'Message description';
 
-            const subItems = CONTACT_US_DROPDOWN.find((c) => c.name === typeItem).subcategories;
+            let subItems = CONTACT_US_DROPDOWN.find((c) => c.name === typeItem).subcategories;
             let randomNumber = Math.floor(Math.random() * subItems.length);
-            const natureOfRequestItem = subItems.length > 0 ? subItems[Math.floor(randomNumber)] : '';
+            let natureOfRequestItem = subItems.length > 0 ? subItems[Math.floor(randomNumber)] : '';
 
             await step('Click "Contact Us" button', async () => {
                 await expect(footerComponent.contactUsLink).toBeVisible();
@@ -626,7 +709,7 @@ test.describe('Unauthorized user', () => {
                 await helpContactusPage.verifyDropdownPlaceholder('Type', 'Choose type');
                 await expect(await helpContactusPage.getDropdownCount()).toEqual(1);
                 await helpContactusPage.clickDropdownMenu('Type');
-                await helpContactusPage.verifyDropdownItems('Type');
+                await helpContactusPage.verifyDropdownItems('Type', typeDropdownItems);
                 await helpContactusPage.selectDropdownItem(typeItem);
                 await helpContactusPage.verifyDropdownValue('Type', typeItem);
             });
@@ -638,7 +721,7 @@ test.describe('Unauthorized user', () => {
                     await helpContactusPage.isDropdownVisible('Nature of Request');
                     await helpContactusPage.verifyDropdownPlaceholder('Nature of Request', 'Choose type');
                     await helpContactusPage.clickDropdownMenu('Nature of Request');
-                    await helpContactusPage.verifyDropdownItems(typeItem);
+                    await helpContactusPage.verifyDropdownItems(typeItem, subItems);
                     await helpContactusPage.selectDropdownItem(natureOfRequestItem);
                     await helpContactusPage.verifyDropdownValue('Nature of Request', natureOfRequestItem);
                 }
