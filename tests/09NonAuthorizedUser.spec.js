@@ -12,10 +12,12 @@ import {
     ALL_ABC,
     SUBJECT,
     HEADER_LINKS,
+    CONTACT_US_DROPDOWN,
 } from '../testData';
 import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
+import { faker } from '@faker-js/faker';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -650,5 +652,66 @@ test.describe('Reset Password', () => {
         });
 
         await deleteUserRequest(request, email, newPassword);
+    });
+});
+
+test.describe('Contact Us', async () => {
+    CONTACT_US_DROPDOWN.forEach((item, index) => {
+        test(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
+            page,
+            footerComponent,
+            helpContactusPage,
+        }) => {
+            await tags('Unauthorized_user', 'Contact_us_form');
+            await severity('normal');
+            await description(`Verify unauthorized users can submit the "Contact Us" form`);
+            await issue(`${QASE_LINK}/01-19`, 'Contact Us form');
+            await tms(`${GOOGLE_DOC_LINK}u35mzacv094r`, 'ATC_09_06');
+            await epic('Unauthorized_user');
+
+            await step('Navigate to Home page.', async () => {
+                await page.goto('/');
+            });
+
+            const email = faker.internet.email().toLocaleLowerCase();
+            await footerComponent.clickContactUsLink();
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+            await helpContactusPage.fillEmailInput(email);
+            await helpContactusPage.clickTypeDropdown();
+            await helpContactusPage.chooseTypeOption(item.name);
+            if (item.subcategories.length > 0) {
+                await helpContactusPage.clickRequestTypeDropdown();
+                const randomSubcategory = Math.floor(Math.random() * item.subcategories.length);
+                await helpContactusPage.chooseTypeOption(item.subcategories[randomSubcategory]);
+            }
+            await helpContactusPage.fillSubjectInput(email);
+            await helpContactusPage.filldescriptionInput(faker.lorem.lines(2));
+            await helpContactusPage.clickSubmitButton();
+            await helpContactusPage.heading.waitFor({ state: 'visible' });
+            await step('Verify header has "Thank you!" text ', async () => {
+                expect(await helpContactusPage.heading).toHaveText('Thank you!');
+            });
+            await step('Verify text after successful submit.', async () => {
+                expect(await helpContactusPage.successMessage).toHaveText(
+                    `Your report has been successfully submitted. We will send you a reply to ${email}`
+                );
+            });
+            await step('Verify "Return Home" and "Go To Trustname" buttons are visible after submit', async () => {
+                expect(await helpContactusPage.returnHomeButton).toBeVisible();
+                expect(await helpContactusPage.goToTrustnameButton).toBeVisible();
+            });
+            await step(
+                'Verify that randomly click on "Return Home" or "Go To Trustname" button redirect to correct page',
+                async () => {
+                    let randomNumber = Math.floor(Math.random() * 2);
+                    await helpContactusPage.randomlyClickButton(randomNumber);
+                    if (randomNumber === 0) {
+                        await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.HelpCenter);
+                    } else {
+                        await expect(page).toHaveURL(process.env.URL);
+                    }
+                }
+            );
+        });
     });
 });

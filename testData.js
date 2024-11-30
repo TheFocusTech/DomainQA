@@ -418,3 +418,87 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
+
+export const CONTACT_US_DROPDOWN = [
+    {
+        name: 'Account Management & Access',
+        subcategories: ['Password Reset', 'Credentials/Username Issues', '2FA Issues', 'Other'],
+    },
+    {
+        name: 'Payment, Sales & Billing Issues',
+        subcategories: ['Order Status', 'Declined Payment', 'Refund', 'Invoice', 'Other'],
+    },
+    {
+        name: 'Domains',
+        subcategories: [
+            'Nameserver Changes',
+            'DNSSEC',
+            'DNS Records',
+            'Transfer to Trustname',
+            'Transfer from Trustname',
+            'Transfer Disputes',
+            'Domain Contact Issue',
+            'Whois Verification',
+            'Web Forwarding',
+            'Renewal',
+            'Other',
+        ],
+    },
+    {
+        name: 'Pre-Sales',
+        subcategories: ['Domains', 'Hosting', 'SSL', 'Other'],
+    },
+    {
+        name: 'Hosting',
+        subcategories: [
+            'Database',
+            'File Transfer',
+            'Server Creation',
+            'VPS & Dedicated Servers',
+            'Blocked Server',
+            'Attach to a Domain',
+            'Change the Owner',
+            'Renewal, Credentials/Access Issues',
+            'Other',
+        ],
+    },
+    {
+        name: 'SSL',
+        subcategories: ['Revocation', 'Other'],
+    },
+    {
+        name: 'Private Email',
+        subcategories: [
+            'Mailbox Suspended',
+            'Configuration',
+            'Problems Sending Emails',
+            'Problems Receiving Emails',
+            'Suspicious Phishing/Hacked Mails',
+            'Other',
+        ],
+    },
+    {
+        name: 'Affiliate',
+        subcategories: [],
+    },
+    {
+        name: 'Bug/Technical Issue',
+        subcategories: [],
+    },
+    {
+        name: 'Feature/Product Request',
+        subcategories: [],
+    },
+    {
+        name: 'Commercial Matters',
+        subcategories: [],
+    },
+    {
+        name: 'Media Inquiries',
+        subcategories: [],
+    },
+    {
+        name: 'Feedback',
+        subcategories: [],
+    },
+];
