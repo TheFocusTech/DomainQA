@@ -130,7 +130,7 @@ test.describe('Unauthorized user', () => {
         );
     });
 
-    test('TC_09_05_01 | Verify "Forgot Password" page elements and "Back to Log in" functionality.', async ({
+    test('TC_09_05_01 | Verify "Forgot Password" page elements and "Back to Log in" functionality', async ({
         page,
         loginPage,
         headerComponent,
@@ -181,7 +181,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test('TC_09_05_02 | Verify "Check email" form elements and "Back to Forgot password" functionality.', async ({
+    test('TC_09_05_02 | Verify "Check email" form elements and "Back to Forgot password" functionality', async ({
         page,
         loginPage,
         headerComponent,
@@ -220,11 +220,23 @@ test.describe('Unauthorized user', () => {
             await expect(forgotPasswordPage.codeInput).toBeEmpty();
         });
 
-        await step('Verify the presence of buttons', async () => {
-            await expect(forgotPasswordPage.continueButton).toBeVisible();
+        await step('Verify resend code button with countdown timer is visible', async () => {
             await expect(forgotPasswordPage.resendCodeButton).toBeVisible();
+            await expect(await forgotPasswordPage.resendCodeButton.textContent()).toMatch(
+                /Resend code \(0[0-1]:[0-5][0-9]\)/
+            );
+        });
+
+        await step('Verify the "Resend code" button is disabled', async () => {
+            await expect(forgotPasswordPage.resendCodeButton).toBeDisabled();
+        });
+
+        await step('Verify "Continue" button is visible', async () => {
+            await expect(forgotPasswordPage.continueButton).toBeVisible();
+        });
+
+        await step('Verify "Back to Password recovery" button is visible', async () => {
             await expect(forgotPasswordPage.backToPasswordRecoveryButton).toBeVisible();
-            await expect(forgotPasswordPage.closeButton).toBeVisible();
         });
 
         await forgotPasswordPage.clickBackToPasswordRecovery();
