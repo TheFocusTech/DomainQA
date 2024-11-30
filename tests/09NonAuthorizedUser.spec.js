@@ -704,6 +704,7 @@ test.describe('Contact Us', async () => {
             const email = faker.internet.email().toLocaleLowerCase();
             await footerComponent.clickContactUsLink();
             await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+            await page.waitForLoadState('networkidle');
             await helpContactusPage.fillEmailInput(email);
             await helpContactusPage.clickTypeDropdown();
             await helpContactusPage.chooseTypeOption(item.name);
@@ -712,8 +713,8 @@ test.describe('Contact Us', async () => {
                 const randomSubcategory = Math.floor(Math.random() * item.subcategories.length);
                 await helpContactusPage.chooseTypeOption(item.subcategories[randomSubcategory]);
             }
-            await helpContactusPage.fillSubjectInput(email);
-            await helpContactusPage.filldescriptionInput(faker.lorem.lines(2));
+            await helpContactusPage.fillSubjectInput('AUTOTST');
+            await helpContactusPage.fillDescriptionInput(faker.lorem.lines(2));
             await helpContactusPage.clickSubmitButton();
             await helpContactusPage.heading.waitFor({ state: 'visible' });
             await step('Verify header has "Thank you!" text ', async () => {
