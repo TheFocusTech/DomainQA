@@ -74,6 +74,7 @@ export const API_ENDPOINT = {
     blogSearchResultsPage: '/blog/search',
     profile: '/users/profile',
     otpDisable: '/otp/disable',
+    changePassword: '/users/profile/change-password',
 };
 
 export const DNS_TYPE = {
@@ -428,4 +429,11 @@ export const SSL_CERTIFICATES_SUBSCRIPTIONS = {
     subscription2: 'DV',
     subscription3: 'OV',
     subscription4: 'EV',
+};
+
+export const RESET_PASSWORD = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template2${process.env.EMAIL_DOMAIN}`,
+    defaultPassword: process.env.USER_PASSWORD,
+    newPassword: `${process.env.USER_PASSWORD}0`,
+    codePattern: /^[0-9]{6}$/,
 };
