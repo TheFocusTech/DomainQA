@@ -72,6 +72,8 @@ export const API_ENDPOINT = {
     signUp: '/users/auth/sign-up',
     confirmEmail: '/users/auth/email-confirmation/confirm',
     blogSearchResultsPage: '/blog/search',
+    profile: '/users/profile',
+    otpDisable: '/otp/disable',
 };
 
 export const DNS_TYPE = {
@@ -408,6 +410,8 @@ export const BLOG_BY_CATEGORY = {
 export const INPUT_SEARCH = {
     a: 'a',
 };
+
+export const SECRET_KEY_2FA = 'IVNDKWCHJVFU2UCCJ5LESTSKGNFUKN2TJM3DERKNJIZEGU2TIJMUOWSQIU3DOS2PJRHDGR2HGNKFOSSWGJIQ';
 
 export const HELP_PAGE_CATEGORY = [
     { title: 'Domains', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryDomains}` },
