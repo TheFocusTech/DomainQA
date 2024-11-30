@@ -681,9 +681,9 @@ test.describe('Reset Password', () => {
             await expect(headerComponent.myProfileButton).toBeVisible();
         });
     });
-})
+});
 
-    test.describe('Unauthorised user Domain availability Page', () => {
+test.describe('Unauthorised user Domain availability Page', () => {
     test(`TC_09_04_04|  Verify unauthorised user must redirect to the login page from Domain availability Page`, async ({
         page,
         domainAvailabilityPage,
