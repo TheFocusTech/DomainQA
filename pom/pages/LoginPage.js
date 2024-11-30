@@ -12,6 +12,11 @@ export default class LoginPage {
         this.forgotPasswordLink = this.page.getByRole('button', { name: 'Forgot password?' });
         this.errorMessageRequiredField = this.page.getByText('Required field');
         this.errorMessageWrongCredentials = this.page.getByText('Wrong email or password');
+        this.verificationCodeField = this.page.getByPlaceholder('Enter verification code');
+        this.continueButton = this.page.getByText('Continue');
+        this.backToLogInButton = this.page.getByText('Back to Log in');
+        this.header = this.page.getByRole('heading', { name: 'Welcome to Trustname' });
+        this.description = this.page.getByText('Don’t have an account? Sign up');
     }
 
     async fillEmailAddressInput(email) {

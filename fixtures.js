@@ -37,6 +37,10 @@ import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import BillingModal from './pom/modalWindows/BillingModal';
+import BlogArticlePage from './pom/pages/BlogArticlePage';
+import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
+import HelpCategoryPage from './pom/pages/HelpCategoryPage';
+import HelpCenterArticlePage from './pom/pages/HelpCenterArticlePage';
 import ReportAbusePage from './pom/pages/ReportAbusePage';
 import StatusReportAbusePage from './pom/pages/StatusReportAbusePage';
 
@@ -194,6 +198,22 @@ export const test = base.extend({
     /** @type { BillingModal } */
     billingModal: async ({ page }, use) => {
         await use(new BillingModal(page));
+    },
+    /** @type { BlogArticlePage } */
+    blogArticlePage: async ({ page }, use) => {
+        await use(new BlogArticlePage(page));
+    },
+    /** @type { BlogSearchResultsPage } */
+    blogSearchResultsPage: async ({ page }, use) => {
+        await use(new BlogSearchResultsPage(page));
+    },
+    /** @type { HelpCategoryPage } */
+    helpCategoryPage: async ({ page }, use) => {
+        await use(new HelpCategoryPage(page));
+    },
+    /** @type { HelpCenterArticlePage } */
+    helpCenterArticlePage: async ({ page }, use) => {
+        await use(new HelpCenterArticlePage(page));
     },
     /** @type { ReportAbusePage } */
     reportAbusePage: async ({ page }, use) => {

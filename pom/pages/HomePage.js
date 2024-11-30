@@ -11,6 +11,9 @@ export default class HomePage {
         this.mainHeading = this.page.locator('main h1');
         this.filterApplyBadge = this.page.locator('span[class*="badge-indicator__counter"]');
         this.resultsList = this.page.locator('div[class*="domains-list-cards"]');
+        this.listCardButtons = this.page.locator(
+            '[class*="domains-list_domains-list-cards"] [class*="button-accent_button-accent__text__"]'
+        );
     }
 
     async fillDomainSearchInput(nameDomain) {
@@ -41,5 +44,18 @@ export default class HomePage {
         await step('Click on "Filter" button.', async () => {
             await this.filterButton.click();
         });
+    }
+
+    async getListCardButtonsName() {
+        let arrButtonNames = [];
+        await step('Get buttons name related to card', async () => {
+            await this.resultsList.waitFor();
+            const allButtons = await this.listCardButtons.all();
+            for (const button of allButtons) {
+                const name = await button.textContent();
+                arrButtonNames.push(name);
+            }
+        });
+        return arrButtonNames;
     }
 }

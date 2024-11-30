@@ -25,12 +25,14 @@ export default class AdvancedSearchModal {
         this.filterByTLDField = this.page.getByText('Filter by TLD');
         this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
-        this.abcSwipperButton = this.page.locator('.tld-item_tld-item__lztWX');
+        this.abcSwipperButton = this.page.locator('[class^="tld-item_tld-item"]');
         this.defaultCategory = this.page.getByText('All TLDs');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
-        this.categoryList = this.page.locator('section.tld-category-list_tld-category-list__item-wrapper__lzJ5f');
+        this.categoryList = this.page.locator('section[class^="tld-category-list_tld-category-list__item-wrapper"]');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
+        this.toggleInput = this.page.locator('input[name="hideRegistered"]');
+        this.toggleControl = this.page.locator('div[class*="toggle_toggle-control"]');
     }
 
     async selectCategory(category) {
@@ -108,5 +110,16 @@ export default class AdvancedSearchModal {
     async getAbcSwipperButtonTexts() {
         let buttonTexts = await this.abcSwipperButton.allTextContents();
         return buttonTexts;
+    }
+
+    async clickToggleHideRegistered() {
+        await step('Activate the toggle "Hide registered"', async () => {
+            const value = await this.toggleInput.evaluate((el) => {
+                return el.value;
+            });
+            if (value === 'false') {
+                await this.toggleControl.click();
+            }
+        });
     }
 }

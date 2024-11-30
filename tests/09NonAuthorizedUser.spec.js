@@ -10,7 +10,14 @@ import {
     OCCUPIED_DOMAIN,
     ADVANCED_SEARCH_MODAL_TITLE,
     ALL_ABC,
+    SUBJECT,
+    HEADER_LINKS,
+    SSL_CERTIFICATES_SUBSCRIPTIONS,
+    RESET_PASSWORD,
 } from '../testData';
+import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
+import { authorize, getVerificationCodeFromEmail } from '../index';
+import { delay } from '../helpers/utils';
 import { ABUSE_REPORT_TYPES, REQUIRED_FIELDS } from '../abuseReportData';
 
 const nonAuthUserAccessiblePageActions = {
@@ -59,7 +66,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
+    test(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -134,7 +141,7 @@ test.describe('Unauthorized user', () => {
         await severity('normal');
         await description('To verify Forgot Password page elements and "Back to Log in" functionality.');
         await issue(`${QASE_LINK}/01-34`, 'Reset password');
-        await tms(`${GOOGLE_DOC_LINK}mnbc66oz78zb`, 'ATC_09_05_01');
+        await tms(`${GOOGLE_DOC_LINK}b6bkqpuifgij`, 'ATC_09_05_01');
         await epic('Unauthorized_user');
 
         await headerComponent.clickLogin();
@@ -185,7 +192,7 @@ test.describe('Unauthorized user', () => {
         await severity('normal');
         await description('To verify Check email form elements and "Back to Forgot password" functionality.');
         await issue(`${QASE_LINK}/01-34`, 'Reset password');
-        await tms(`${GOOGLE_DOC_LINK}mnbc66oz78zb`, 'ATC_09_05_02');
+        await tms(`${GOOGLE_DOC_LINK}e2oglh5bachy`, 'ATC_09_05_02');
         await epic('Unauthorized_user');
 
         await headerComponent.clickLogin();
@@ -367,7 +374,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+    test.skip(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
         advancedSearchModal,
     }) => {
@@ -437,7 +444,244 @@ test.describe('Unauthorized user', () => {
             await expect(advancedSearchModal.closeButton).toBeVisible();
         });
     });
+
+    test(`TC_09_03_03 | Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`, async ({
+        advancedSearchModal,
+        homePage,
+    }) => {
+        await tags('Unauthorized_user', 'Search_domains');
+        await severity('normal');
+        await description(
+            `Verify that activating the 'Hide registered' toggle displays only unregistered domains in the search results, 'Reset' and 'X' buttons`
+        );
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}vzpec8fhdas9`, 'ATC_09_03_03');
+        await epic('Unauthorized_user');
+
+        await homePage.domainSearchInput.isVisible();
+        await homePage.fillDomainSearchInput('hourse.com');
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        let arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await advancedSearchModal.clickToggleHideRegistered();
+        await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
+
+        await advancedSearchModal.clickApplyButton();
+        await expect(advancedSearchModal.toggleControl).not.toBeVisible();
+
+        await step('Verify the filter button has badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).toBeVisible();
+        });
+
+        await step('Click on the "Search" button', async () => {
+            await homePage.searchButton.click();
+        });
+
+        arrButtonNames = await homePage.getListCardButtonsName();
+        expect(arrButtonNames).not.toContain('Who owns?');
+        expect(arrButtonNames).toContain('Buy');
+
+        await homePage.clickFilterButton();
+
+        await step('Click Reset button', async () => {
+            await advancedSearchModal.resetButton.click();
+        });
+
+        await step('Verify Hide registered toggle is not active', async () => {
+            await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'false');
+        });
+
+        await step('Click "X" button', async () => {
+            await advancedSearchModal.closeButton.click();
+        });
+
+        await step('Verify the Filter button does NOT have badge indicator', async () => {
+            await expect(homePage.filterApplyBadge).not.toBeVisible();
+        });
+    });
+
+    const links = [HEADER_LINKS[0].links[0].name, HEADER_LINKS[0].links[1].name, HEADER_LINKS[1].links[0].name];
+    for (let link of links) {
+        test(`TC_09_04_01 | Verify unauthorised user is redirected to the Login Page by clicking on the ${link} link in header`, async ({
+            headerComponent,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${link} link in header`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
+            await tms(`${GOOGLE_DOC_LINK}d35uri5uazho`, 'ATC_09_04_01');
+            await epic('Unauthorized_user');
+
+            if (link === HEADER_LINKS[0].links[0].name) {
+                await headerComponent.clickRegisteredDomainsButton();
+            }
+            if (link === HEADER_LINKS[0].links[1].name) {
+                await headerComponent.clickHostedZonesLink();
+            }
+            if (link === HEADER_LINKS[1].links[0].name) {
+                await headerComponent.clickHostingButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
+
+    const buttons = [HEADER_LINKS[0].links[2].buttons[1], HEADER_LINKS[0].links[2].buttons[2]];
+    for (let button of buttons) {
+        test(`TC_09_04_03 | Verify unauthorised user is redirected to the Login Page by clicking on ${button} button on Transfer Page`, async ({
+            headerComponent,
+            transferPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized_user', 'Redirect_to_Login_Page');
+            await severity('normal');
+            await description(
+                `Verify an unauthorized user is redirected to the Login Page by clicking on the ${button} button on Transfer Page`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Redirect to Login Page');
+            await tms(`${GOOGLE_DOC_LINK}q2w803gtufhx`, 'ATC_09_04_03');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickTransferLink();
+
+            if (button === HEADER_LINKS[0].links[2].buttons[1]) {
+                await transferPage.clickBulkTransferButton();
+            }
+            if (button === HEADER_LINKS[0].links[2].buttons[2]) {
+                await transferPage.clickMyTransfersButton();
+            }
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    }
+
+    const sslCertificatesSubscription = Object.values(SSL_CERTIFICATES_SUBSCRIPTIONS);
+    sslCertificatesSubscription.forEach((subscription) => {
+        test(`TC_09_04_02 | Verify unauthorised user will be redirected to the Login Page from SSL Сertificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`, async ({
+            headerComponent,
+            sslCertificatesPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized user', 'Redirect to Login Page');
+            await severity('normal');
+            await description(
+                `Verify that an unauthorized user will be redirected to the Login Page from the Certificates Page after clicking the Select button`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Unauthorized user');
+            await tms(`${GOOGLE_DOC_LINK}63m6yfip96dy`, 'ATC_09_04_02');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickButton(HEADER_LINKS[1].trigger);
+            await headerComponent.clickLink(HEADER_LINKS[1].links[1].name);
+            await sslCertificatesPage.clickSelectButton(subscription);
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    });
 });
+
+test.describe('Reset Password', () => {
+    test('TC_09_05_03 | Verify password recovery process', async ({
+        page,
+        request,
+        loginPage,
+        headerComponent,
+        forgotPasswordPage,
+    }) => {
+        test.setTimeout(60000);
+        await tags('Unauthorized_user', 'Forgot password');
+        await severity('normal');
+        await description('To verify that user can reset the password.');
+        await issue(`${QASE_LINK}/01-34`, 'Reset password');
+        await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
+        await epic('Unauthorized_user');
+
+        const email = RESET_PASSWORD.email;
+        const defaultPassword = RESET_PASSWORD.defaultPassword;
+        const newPassword = RESET_PASSWORD.newPassword;
+        const codePattern = RESET_PASSWORD.codePattern;
+
+        await step(
+            'Preconditions: Attempt to sign in with the new password, and once signed in, change it back to the default.',
+            async () => {
+                const response = await signInRequest(request, email, newPassword);
+
+                if (response.ok()) {
+                    await changePasswordRequest(request, newPassword, defaultPassword);
+                }
+            }
+        );
+
+        await step('Navigate to Home page.', async () => {
+            await page.goto('/');
+        });
+
+        await headerComponent.clickLogin();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+
+        await loginPage.clickForgotPassword();
+        await page.waitForURL(process.env.URL + URL_ENDPOINT.forgotPassword);
+
+        await forgotPasswordPage.fillEmailInput(email);
+        await forgotPasswordPage.clickSendCode();
+        await delay(20000);
+
+        const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.resetPassword);
+
+        await step('Verify an email with a verification code is sent', () => {
+            expect(verificationCode).not.toBeNull();
+            expect(verificationCode).toMatch(codePattern);
+        });
+
+        await forgotPasswordPage.fillCodeField(verificationCode);
+        await forgotPasswordPage.clickContinue();
+
+        await step('Verify "Create password" form is displayed', async () => {
+            await expect(forgotPasswordPage.headerCreatePassword).toBeVisible();
+        });
+
+        await forgotPasswordPage.fillPasswordInput(newPassword);
+        await forgotPasswordPage.fillRepeatPasswordInput(newPassword);
+        await forgotPasswordPage.clickContinue();
+
+        await step('Verify user is redirected to the Login page', async () => {
+            await page.waitForURL(process.env.URL + URL_ENDPOINT.login);
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.login);
+        });
+
+        await step('Verify user can log in with the new password', async () => {
+            await loginPage.fillEmailAddressInput(email);
+            await loginPage.fillPasswordInput(newPassword);
+            await loginPage.clickLogin();
+            await page.waitForURL(process.env.URL);
+            await expect(headerComponent.myProfileButton).toBeVisible();
+        });
+    });
+});
+
 test.describe('Report Abuse submission for each type of report', () => {
     test.beforeEach(async ({ page, footerComponent, reportAbusePage }) => {
         await step('Open Home page as Non authorized user', async () => {

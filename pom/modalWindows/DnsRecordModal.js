@@ -43,6 +43,7 @@ export default class DnsRecordModal {
         this.algorithm = this.page.locator('input[name="type_ds__algorithm"]');
         this.digest = this.page.locator('input[name="type_ds__digest"]');
         this.title = this.page.locator('[class*="modal-title_modal-title"]');
+        this.description = this.page.locator('[class*="create-form_body__description-outer__"]');
     }
 
     async getRootDomainName() {
