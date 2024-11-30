@@ -333,8 +333,9 @@ export async function getProfileData(request, headers) {
         console.error(`Failed to get profile data: ${error.message}`);
         return null;
     }
+}
 
-  export async function changePasswordRequest(request, currentPassword, newPassword) {
+export async function changePasswordRequest(request, currentPassword, newPassword) {
     await step('Change passwword', async () => {
         try {
             if (!process.env.ACCESS_TOKEN || !process.env.CSRF_TOKEN) {
@@ -359,3 +360,4 @@ export async function getProfileData(request, headers) {
             console.error(`An error occurred during changing password: ${error.message}`);
         }
     });
+}
