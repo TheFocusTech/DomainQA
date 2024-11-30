@@ -7,7 +7,7 @@ export default class HelpContactUsPage {
         this.emailInput = this.page.getByPlaceholder('Enter your email');
         this.typeDropdown = this.page.getByRole('combobox');
         this.requestTypeDropdown = this.page.getByRole('combobox').nth(1);
-        this.subjectInput = this.page.getByPlaceholder('Choose a clear and precise subject');
+        this.subjectInput = this.page.locator('input[name="emailSubject"]');
         this.descriptionInput = this.page.getByPlaceholder(
             'Describe your problem and its context as clearly as possible'
         );

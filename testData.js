@@ -51,6 +51,7 @@ export const TOAST_MESSAGE = {
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
     dnsRecordDeleted: 'DNS-record deleted',
+    failedToAddCard: 'Failed to add card',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
