@@ -597,7 +597,7 @@ test.describe('My profile', () => {
         await billingModal.clickByBankCardButton();
         await billingModal.clickAddNewCardButton();
         await checkoutStripePage.clickBackButton();
-        await step('Verify that the Error toast message is shown.', async () => {
+        await step('Verify that the Error toast message "Failed to add card" is shown.', async () => {
             expect(await toastComponent.toastBody.first()).toContainText(TOAST_MESSAGE.failedToAddCard);
         });
         await step('Verify that user redirect to Billing page', async () => {
