@@ -37,6 +37,8 @@ import ConfirmEmailPage from './pom/pages/ConfirmEmailPage';
 import CreateContactPage from './pom/pages/CreateContactPage';
 import AdvancedSearchModal from './pom/modalWindows/AdvancedSearchModal';
 import BillingModal from './pom/modalWindows/BillingModal';
+import ReportAbusePage from './pom/pages/ReportAbusePage';
+import StatusReportAbusePage from './pom/pages/StatusReportAbusePage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -192,5 +194,13 @@ export const test = base.extend({
     /** @type { BillingModal } */
     billingModal: async ({ page }, use) => {
         await use(new BillingModal(page));
+    },
+    /** @type { ReportAbusePage } */
+    reportAbusePage: async ({ page }, use) => {
+        await use(new ReportAbusePage(page));
+    },
+    /** @type { StatusReportAbusePage } */
+    statusReportAbusePage: async ({ page }, use) => {
+        await use(new StatusReportAbusePage(page));
     },
 });
