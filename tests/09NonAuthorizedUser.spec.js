@@ -12,6 +12,7 @@ import {
     ALL_ABC,
     SUBJECT,
     HEADER_LINKS,
+    SSL_CERTIFICATES_SUBSCRIPTIONS,
     RESET_PASSWORD,
 } from '../testData';
 import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
@@ -571,6 +572,34 @@ test.describe('Unauthorized user', () => {
             });
         });
     }
+
+    const sslCertificatesSubscription = Object.values(SSL_CERTIFICATES_SUBSCRIPTIONS);
+    sslCertificatesSubscription.forEach((subscription) => {
+        test(`TC_09_04_02 | Verify unauthorised user will be redirected to the Login Page from SSL Сertificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`, async ({
+            headerComponent,
+            sslCertificatesPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized user', 'Redirect to Login Page');
+            await severity('normal');
+            await description(
+                `Verify that an unauthorized user will be redirected to the Login Page from the Certificates Page after clicking the Select button`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Unauthorized user');
+            await tms(`${GOOGLE_DOC_LINK}63m6yfip96dy`, 'ATC_09_04_02');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickButton(HEADER_LINKS[1].trigger);
+            await headerComponent.clickLink(HEADER_LINKS[1].links[1].name);
+            await sslCertificatesPage.clickSelectButton(subscription);
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    });
 });
 
 test.describe('Reset Password', () => {

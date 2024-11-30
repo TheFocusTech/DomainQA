@@ -304,7 +304,37 @@ export async function confirmEmailRequest(request, verificationCode) {
     });
 }
 
-export async function changePasswordRequest(request, currentPassword, newPassword) {
+export async function disable2FA(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.profile}${API_ENDPOINT.otpDisable}`;
+    try {
+        const response = await request.post(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`Failed to disable OTP: ${response.status()}`);
+        }
+        const res = (await response.json()).result;
+        return res.otpEnabled;
+    } catch (error) {
+        console.error(`Failed to disable OTP: ${error.message}`);
+        return null;
+    }
+}
+
+export async function getProfileData(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.profile}`;
+    try {
+        const response = await request.get(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`Failed to get profile data: ${response.status()}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error(`Failed to get profile data: ${error.message}`);
+        return null;
+    }
+
+  export async function changePasswordRequest(request, currentPassword, newPassword) {
     await step('Change passwword', async () => {
         try {
             if (!process.env.ACCESS_TOKEN || !process.env.CSRF_TOKEN) {
@@ -329,4 +359,3 @@ export async function changePasswordRequest(request, currentPassword, newPasswor
             console.error(`An error occurred during changing password: ${error.message}`);
         }
     });
-}
