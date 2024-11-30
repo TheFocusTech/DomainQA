@@ -4,7 +4,6 @@ export default class BillingModal {
     constructor(page) {
         this.page = page;
 
-        this.topUpButton = this.page.getByRole('button', { name: 'Top up' });
         this.byBankCardButton = this.page.getByText('By bank card');
         this.topUpByBankCardModalWindowHeader = this.page.getByText('Top up by bank card');
         this.backToTopUpButton = this.page
@@ -14,12 +13,6 @@ export default class BillingModal {
         this.cancelButton = this.page.locator('[type="button"]').filter({ hasText: 'Cancel' });
         this.noCardsYetMessage = this.page.getByRole('heading', { name: 'No cards yet' });
         this.labelOfCurrencyInputField = this.page.getByLabel('Amount (USD)');
-    }
-
-    async clickTopUpButton() {
-        await step('Click Top up button.', async () => {
-            await this.topUpButton.click();
-        });
     }
 
     async clickByBankCardButton() {

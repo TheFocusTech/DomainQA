@@ -416,7 +416,6 @@ test.describe('My profile', () => {
             await expect(billingModal.labelOfCurrencyInputField).toBeVisible();
 
             await expect(billingModal.cancelButton).toBeVisible();
-            await expect(billingModal.topUpButton).toBeVisible();
         });
     });
 
@@ -593,6 +592,7 @@ test.describe('My profile', () => {
         await step('Verify that the wallet balanse is shown.', async () => {
             expect(billingPage.walletBalance).toBeVisible();
         });
+
         await billingPage.clickTopUpButton();
         await billingModal.clickByBankCardButton();
         await billingModal.clickAddNewCardButton();
