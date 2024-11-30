@@ -27,6 +27,7 @@ export const URL_ENDPOINT = {
     helpCategoryEmails: '/help/category/202000049478-emails',
     helpCategorySsl: '/help/category/202000049483-ssl',
     helpCategoryLegal: '/help/category/202000029056-legal',
+    billing: '/billing',
 };
 
 export const INVALID_CREDS_AUTH = [

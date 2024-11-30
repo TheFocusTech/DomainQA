@@ -584,15 +584,25 @@ test.describe('My profile', () => {
         await issue(`${QASE_LINK}/01-25`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}osrkpreooet0`, 'ATC_08_05');
         await epic('My profile');
+        test.slow();
+
         await loginUser(page, headerComponent, loginPage);
+
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickBillingLink();
-        expect(billingPage.walletBalance).toBeVisible();
+        await step('Verify that the wallet balanse is shown.', async () => {
+            expect(billingPage.walletBalance).toBeVisible();
+        });
         await billingPage.clickTopUpButton();
         await billingModal.clickByBankCardButton();
         await billingModal.clickAddNewCardButton();
         await checkoutStripePage.clickBackButton();
-        expect(await toastComponent.toastBody.first()).toContainText(TOAST_MESSAGE.failedToAddCard);
+        await step('Verify that the Error toast message is shown.', async () => {
+            expect(await toastComponent.toastBody.first()).toContainText(TOAST_MESSAGE.failedToAddCard);
+        });
+        await step('Verify that user redirect to Billing page', async () => {
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.billing);
+        });
     });
 
     test.skip('TC_02_03 | User Authorization with 2FA: Use predefined user', async ({
