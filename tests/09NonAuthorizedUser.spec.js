@@ -12,9 +12,11 @@ import {
     ALL_ABC,
     SUBJECT,
     HEADER_LINKS,
+    SSL_CERTIFICATES_SUBSCRIPTIONS,
+    RESET_PASSWORD,
     CONTACT_US_DROPDOWN,
 } from '../testData';
-import { deleteUserRequest, confirmEmailRequest, signUpRequest } from '../helpers/apiCalls';
+import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
 import { faker } from '@faker-js/faker';
@@ -572,17 +574,45 @@ test.describe('Unauthorized user', () => {
             });
         });
     }
+
+    const sslCertificatesSubscription = Object.values(SSL_CERTIFICATES_SUBSCRIPTIONS);
+    sslCertificatesSubscription.forEach((subscription) => {
+        test(`TC_09_04_02 | Verify unauthorised user will be redirected to the Login Page from SSL Сertificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`, async ({
+            headerComponent,
+            sslCertificatesPage,
+            loginPage,
+        }) => {
+            await tags('Unauthorized user', 'Redirect to Login Page');
+            await severity('normal');
+            await description(
+                `Verify that an unauthorized user will be redirected to the Login Page from the Certificates Page after clicking the Select button`
+            );
+            await issue(`${QASE_LINK}/01-18`, 'Unauthorized user');
+            await tms(`${GOOGLE_DOC_LINK}63m6yfip96dy`, 'ATC_09_04_02');
+            await epic('Unauthorized_user');
+
+            await headerComponent.clickButton(HEADER_LINKS[1].trigger);
+            await headerComponent.clickLink(HEADER_LINKS[1].links[1].name);
+            await sslCertificatesPage.clickSelectButton(subscription);
+
+            await step('Verify the Login Page is open', async () => {
+                await expect(loginPage.header).toBeVisible();
+                await expect(loginPage.description).toBeVisible();
+                await expect(loginPage.loginButton).toBeVisible();
+            });
+        });
+    });
 });
 
 test.describe('Reset Password', () => {
-    test.skip('TC_09_05_03 | Verify password recovery process', async ({
+    test('TC_09_05_03 | Verify password recovery process', async ({
         page,
         request,
         loginPage,
         headerComponent,
         forgotPasswordPage,
     }) => {
-        test.setTimeout(90000);
+        test.setTimeout(60000);
         await tags('Unauthorized_user', 'Forgot password');
         await severity('normal');
         await description('To verify that user can reset the password.');
@@ -590,21 +620,21 @@ test.describe('Reset Password', () => {
         await tms(`${GOOGLE_DOC_LINK}9prb2gacbixm`, 'ATC_09_05_03');
         await epic('Unauthorized_user');
 
-        const email = `${process.env.EMAIL_PREFIX}qa.mail.template1000-r${process.env.EMAIL_DOMAIN}`;
-        const password = process.env.USER_PASSWORD;
-        const newPassword = `NEW_${process.env.USER_PASSWORD}`;
-        const codePattern = /^[0-9]{6}$/;
+        const email = RESET_PASSWORD.email;
+        const defaultPassword = RESET_PASSWORD.defaultPassword;
+        const newPassword = RESET_PASSWORD.newPassword;
+        const codePattern = RESET_PASSWORD.codePattern;
 
-        await deleteUserRequest(request, email, newPassword);
-        await deleteUserRequest(request, email, password);
+        await step(
+            'Preconditions: Attempt to sign in with the new password, and once signed in, change it back to the default.',
+            async () => {
+                const response = await signInRequest(request, email, newPassword);
 
-        await step('Preconditions: Register a new user and confirm email', async () => {
-            await signUpRequest(request, email, password);
-            await delay(10000);
-
-            const verificationCode = await getVerificationCodeFromEmail(await authorize(), email, SUBJECT.signup);
-            await confirmEmailRequest(request, verificationCode);
-        });
+                if (response.ok()) {
+                    await changePasswordRequest(request, newPassword, defaultPassword);
+                }
+            }
+        );
 
         await step('Navigate to Home page.', async () => {
             await page.goto('/');
@@ -650,8 +680,6 @@ test.describe('Reset Password', () => {
             await page.waitForURL(process.env.URL);
             await expect(headerComponent.myProfileButton).toBeVisible();
         });
-
-        await deleteUserRequest(request, email, newPassword);
     });
 });
 
