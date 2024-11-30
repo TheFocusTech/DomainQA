@@ -24,7 +24,7 @@ import {
 
 test.describe('Help Center', () => {
     //test.use({ viewport: { width: 1600, height: 1200 } });
-    //// test.describe.configure({ retries: 2, timeout: 60000 });
+    // test.describe.configure({ retries: 2, timeout: 60000 });
 
     test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
@@ -37,7 +37,7 @@ test.describe('Help Center', () => {
         await description(
             'To verify the user gets alert-message when searches in the Help Center with random characters.'
         );
-        await issue(`${QASE_LINK}/01-32`, 'User Login');
+        await issue(`${QASE_LINK}/01-32`, 'Help Center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
         await epic('HelpCenter');
         test.slow();
@@ -49,7 +49,6 @@ test.describe('Help Center', () => {
             await headerComponent.clickHelpCenterButton();
             await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
-
         //const randomString = await helpCenterPage.fillSearchInput();
 
         await step('Verify the user gets popup alert-message and empty list after input.', async () => {
@@ -270,5 +269,70 @@ test.describe('Help Center', () => {
                 (await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()
             ).toEqual('true');
         });
+    });
+
+    test('TC_07_02_02 | Verify the user can navigate through the articles', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpCategoryPage,
+        helpSearchResultsPage,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify the user can navigate through the articles');
+        await issue(`${QASE_LINK}/01-33`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}zr98ob9xnls`, 'ATC_07_02_02');
+        await epic('Help center');
+
+        test.slow();
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickHelpCenterButton();
+        await page.waitForURL(URL_ENDPOINT.HelpCenter);
+
+        for (const { title, url } of HELP_PAGE_CATEGORY) {
+            await step('Navigate to "${title}" section', async () => {
+                await helpCenterPage.clickKnowledgeHeader(title);
+                await expect(page).toHaveURL(url);
+            });
+
+            await step('Verify that the correct section header for "${title}" appears', async () => {
+                await expect(helpCategoryPage.mainHeading).toHaveText(title);
+            });
+
+            await step('Verify the list of categories related  to corresponding title are displayed.', async () => {
+                await expect(helpCategoryPage.mainHeading).toBeVisible();
+                await expect(helpCategoryPage.mainHeading).toHaveText(title);
+            });
+
+            // const accordionLoaded = await helpSearchResultsPage.accordionByCategoryButton.allInnerTexts();
+            // console.log(accordionLoaded);
+            //await helpSearchResultsPage.locator(accordionByCategoryButton).allIsVisible();
+
+            await step('Verify the user is redirected to the article page and see relevant article', async () => {
+                await helpSearchResultsPage.clickAccordionButton();
+                await helpSearchResultsPage.clickAccordionArticleHeader();
+
+                //const articleHeader = await helpSearchResultsPage.accordionArticleHeader.allInnerTexts();
+                await expect(helpSearchResultsPage.accordionArticleHeader).toBeVisible();
+                //await expect(helpSearchResultsPage.accordionArticleHeader).includes(articleHeader);
+            });
+
+            await step('Verify that dropdown is closed', async () => {
+                await helpSearchResultsPage.clickAccordionButton();
+                await expect(helpSearchResultsPage.accordionArticleHeader).not.toBeVisible();
+            });
+
+            const noResultsVisible = await helpCategoryPage.helpSearchPopupAlert.isVisible();
+            if (noResultsVisible) {
+                await headerComponent.clickHelpCenterButton();
+                continue;
+            }
+            // await headerComponent.clickHelpCenterButton();
+        }
     });
 });

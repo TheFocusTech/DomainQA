@@ -13,6 +13,8 @@ export default class HelpSearchResultsPage {
         this.headerTextVisible = this.page.locator('div[class*="search-results_search-results__content"]');
         this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');
         this.articlesList = this.page.locator('.article-snippet__title > a');
+        this.accordionButton = this.page.locator('[class*="accordion-slice_accordion-slice__"] button');
+        this.accordionArticleHeader = this.page.locator('div[class*="accordion-segment_accordion-segment__"] a');
     }
 
     async allInnerTextsCategoriesButtons() {
@@ -39,5 +41,18 @@ export default class HelpSearchResultsPage {
             await this.articlesList.nth(randomIndex).click();
         });
         return nameArticle;
+    }
+    async clickAccordionButton() {
+        await step('Click on category button.', async () => {
+            await this.accordionButton.first().click({ force: true });
+        });
+    }
+
+    async clickAccordionArticleHeader() {
+        await step('Click on article header.', async () => {
+            const text = await this.accordionArticleHeader.innerText();
+            console.log(text);
+            await this.accordionArticleHeader.click();
+        });
     }
 }
