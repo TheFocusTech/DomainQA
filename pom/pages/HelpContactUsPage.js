@@ -14,7 +14,6 @@ export default class HelpContactUsPage {
         this.successMessage = this.page.locator('h2+p');
         this.returnHomeButton = this.page.getByRole('link', { name: 'Return Home' });
         this.goToTrustnameButton = this.page.getByRole('link', { name: 'Go to Trustname' });
-        this.errorField = this.page.getByText('Required field');
     }
 
     async fillEmailInput(email) {
