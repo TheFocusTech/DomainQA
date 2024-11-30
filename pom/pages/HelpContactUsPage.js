@@ -7,7 +7,7 @@ export default class HelpContactUsPage {
         this.emailInput = this.page.getByPlaceholder('Enter your email');
         this.typeDropdown = this.page.getByRole('combobox');
         this.requestTypeDropdown = this.page.getByRole('combobox').nth(1);
-        this.subjectInput = this.page.getByPlaceholder('Choose a clear and precise subject');
+        this.subjectInput = this.page.locator('input[name="emailSubject"]');
         this.descriptionInput = this.page.getByPlaceholder(
             'Describe your problem and its context as clearly as possible'
         );
@@ -50,7 +50,7 @@ export default class HelpContactUsPage {
             this.subjectInput.fill(subject);
         });
     }
-    async filldescriptionInput(description) {
+    async fillDescriptionInput(description) {
         await step('Fill in the "Description" input field.', async () => {
             this.descriptionInput.waitFor({ state: 'visible' });
             this.descriptionInput.fill(description);

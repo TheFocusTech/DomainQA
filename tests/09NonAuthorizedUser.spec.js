@@ -713,7 +713,7 @@ test.describe('Contact Us', async () => {
                 await helpContactusPage.chooseTypeOption(item.subcategories[randomSubcategory]);
             }
             await helpContactusPage.fillSubjectInput(email);
-            await helpContactusPage.filldescriptionInput(faker.lorem.lines(2));
+            await helpContactusPage.fillDescriptionInput(faker.lorem.lines(2));
             await helpContactusPage.clickSubmitButton();
             await helpContactusPage.heading.waitFor({ state: 'visible' });
             await step('Verify header has "Thank you!" text ', async () => {
