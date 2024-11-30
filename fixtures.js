@@ -41,6 +41,7 @@ import BlogArticlePage from './pom/pages/BlogArticlePage';
 import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
 import HelpCategoryPage from './pom/pages/HelpCategoryPage';
 import HelpCenterArticlePage from './pom/pages/HelpCenterArticlePage';
+import HelpContactUsPage from './pom/pages/HelpContactUsPage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -212,5 +213,9 @@ export const test = base.extend({
     /** @type { HelpCenterArticlePage } */
     helpCenterArticlePage: async ({ page }, use) => {
         await use(new HelpCenterArticlePage(page));
+    },
+    /** @type { HelpContactUsPage } */
+    helpContactusPage: async ({ page }, use) => {
+        await use(new HelpContactUsPage(page));
     },
 });
