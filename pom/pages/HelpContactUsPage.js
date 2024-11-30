@@ -8,14 +8,13 @@ export default class HelpContactUsPage {
         this.typeDropdown = this.page.getByRole('combobox');
         this.requestTypeDropdown = this.page.getByRole('combobox').nth(1);
         this.subjectInput = this.page.locator('input[name="emailSubject"]');
-        this.descriptionInput = this.page.getByPlaceholder(
-            'Describe your problem and its context as clearly as possible'
-        );
+        this.descriptionInput = this.page.locator('textarea[name="description"]');
         this.submitButton = this.page.getByRole('button', { name: 'Submit' });
         this.heading = this.page.locator('.page-report  h2');
         this.successMessage = this.page.locator('h2+p');
         this.returnHomeButton = this.page.getByRole('link', { name: 'Return Home' });
         this.goToTrustnameButton = this.page.getByRole('link', { name: 'Go to Trustname' });
+        this.errorField = this.page.getByText('Required field');
     }
 
     async fillEmailInput(email) {
@@ -48,8 +47,10 @@ export default class HelpContactUsPage {
         await step('Fill in the "Email subject" input field.', async () => {
             this.subjectInput.waitFor({ state: 'visible' });
             this.subjectInput.fill(subject);
+            await this.subjectInput.inputValue();
         });
     }
+
     async fillDescriptionInput(description) {
         await step('Fill in the "Description" input field.', async () => {
             this.descriptionInput.waitFor({ state: 'visible' });

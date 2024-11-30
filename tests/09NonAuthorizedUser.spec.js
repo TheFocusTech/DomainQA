@@ -704,6 +704,7 @@ test.describe('Contact Us', async () => {
             const email = faker.internet.email().toLocaleLowerCase();
             await footerComponent.clickContactUsLink();
             await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+            await page.waitForLoadState('networkidle');
             await helpContactusPage.fillEmailInput(email);
             await helpContactusPage.clickTypeDropdown();
             await helpContactusPage.chooseTypeOption(item.name);
