@@ -31,13 +31,13 @@ export default class HelpSearchResultsPage {
     }
 
     async clickRandomArticle() {
-        await this.articlesList.first().waitFor({ state: 'visible' });
-        const articleCount = await this.articlesList.count();
-        const randomIndex = Math.floor(Math.random() * articleCount);
-        const nameArticle = await this.articlesList.nth(randomIndex).innerText();
-        await step('Open a random article:', async () => {
+        return await step('Click on random article.', async () => {
+            await this.articlesList.first().waitFor({ state: 'visible' });
+            const articleCount = await this.articlesList.count();
+            const randomIndex = Math.floor(Math.random() * articleCount);
+            const nameArticle = await this.articlesList.nth(randomIndex).innerText();
             await this.articlesList.nth(randomIndex).click();
+            return nameArticle;
         });
-        return nameArticle;
     }
 }
