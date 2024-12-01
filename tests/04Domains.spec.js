@@ -320,7 +320,7 @@ test.describe('DNSSEC', () => {
         await severity('normal');
         await description('To verify DNSSEC can be enabled');
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
-        await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_04_08');
+        await tms(`${GOOGLE_DOC_LINK}lljlr5vp8gu`, 'ATC_04_08');
         await epic('Domains');
 
         await page.waitForSelector('button:has-text("Enable DNSSEC")', { state: 'visible' });
@@ -331,7 +331,7 @@ test.describe('DNSSEC', () => {
             await expect(hostedZonesDetailPage.notUsingDnssecWarning).toBeVisible();
         });
 
-        await hostedZonesDetailPage.enableDnssecButton.click();
+        await hostedZonesDetailPage.clickEnableDnssecButton();
 
         await step('Validate "Enable DNSSEC" modal UI.', async () => {
             await expect(enableDnssecModal.dialog).toBeVisible();
