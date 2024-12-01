@@ -690,39 +690,46 @@ test.describe('My profile. Section 2FA', () => {
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
-        await step('Navigate to page Account Settings', async () => {
+        await step('Navigate to page Account Settings.', async () => {
             await page.goto(`${process.env.URL}${URL_ENDPOINT.accountSettings}`, {
                 waitUntil: 'networkidle',
             });
         });
 
-        await step('Enable 2FA by clicking on toggle', async () => {
+        await step('Enable 2FA by clicking on toggle.', async () => {
             await settingsGeneralPage.clickTwoFAToggle();
+        });
+
+        await step('2FA modal dialog opened.', async () => {
             await expect(twoFactorAuthModal.dialog).toBeVisible();
         });
 
-        await step('Generate verification code', async () => {
+        await step('Copy secret key and generate verification code.', async () => {
             secretKey = await twoFactorAuthModal.getSecretKey();
+            code = generateVerificationCode(secretKey);
         });
 
-        await step('Set verification code to 2FA input', async () => {
-            code = generateVerificationCode(secretKey);
+        await step('Set verification code to 2FA input.', async () => {
             await twoFactorAuthModal.enterVerificationCode(code.otp);
         });
 
-        await step('Click button Enable 2FA in dialog', async () => {
+        await step('Click button Enable 2FA in dialog.', async () => {
             await twoFactorAuthModal.enableButton.click();
             await expect(twoFactorAuthModal.dialog).not.toBeVisible();
         });
 
-        await expect(settingsGeneralPage.checkbox).toBeChecked();
-        await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+        await step('Verify toggle is checked.', async () => {
+            await expect(settingsGeneralPage.checkbox).toBeChecked();
+            await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+        });
 
-        await step('Disable 2FA', async () => {
+        await step('Disable 2FA.', async () => {
             await settingsGeneralPage.clickTwoFAToggle();
         });
 
-        await expect(settingsGeneralPage.checkbox).not.toBeChecked();
-        await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+        await step('Verify toggle is unchecked.', async () => {
+            await expect(settingsGeneralPage.checkbox).not.toBeChecked();
+            await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+        });
     });
 });
