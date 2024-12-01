@@ -141,10 +141,6 @@ test.describe('Delete Account', () => {
             await settingsGeneralPage.clickDeleteAccountButton();
         });
 
-        //await step('Verify that the deletion modal opens.', async () => {
-        // await expect(accountDeletionModal.modal).toBeVisible();
-        //});
-
         await step('Verify modal contents:', async () => {
             await expect(accountDeletionModal.consentCheckbox).toBeVisible();
             await expect(accountDeletionModal.cancelButton).toBeVisible();
