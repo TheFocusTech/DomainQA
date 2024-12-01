@@ -9,8 +9,10 @@ import {
     INPUT_SEARCH_RELEVANT_NAME,
     BLOG_BY_CATEGORY,
     INPUT_SEARCH,
+    BLOG_SEARCH_RESULT_MESSAGE,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
+import { getRandomCharacters } from '../helpers/utils';
 
 test.describe('Blog', () => {
     test('TC_06_06 |Verify Autocomplete Suggestions Displayed for Partial and Empty Search Input', async ({
@@ -242,5 +244,41 @@ test.describe('Blog', () => {
 
             expect(isOverlapping).toBe(false);
         }
+    });
+
+    test('TC_06_01 | Verify Blog search functionality with random characters', async ({
+        blogPage,
+        page,
+        headerComponent,
+        loginPage,
+    }) => {
+        await tags('Blog', 'Negative');
+        await severity('normal');
+        await description('To verify that "No results for... " message appears after search with random characters.');
+        await issue(`${QASE_LINK}/01-29`, 'Blog');
+        await tms(`${GOOGLE_DOC_LINK}ior9d5z2nkji`, 'ATC_06_01');
+        await epic('Blog');
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickBlogButton();
+        await page.waitForURL(URL_ENDPOINT.blogPage);
+
+        const randomString = await getRandomCharacters(10);
+
+        await blogPage.fillBlogSearchInput(randomString);
+        await blogPage.clickSearchButton();
+
+        await step('Wait for load page with search results', async () => {
+            await page.goto(`${process.env.URL}/blog/search?search=${randomString}`);
+            await page.waitForLoadState('load');
+        });
+
+        await step('Verify that message “No results for” is visible on the page', async () => {
+            await expect(blogPage.searchResultMessage).toHaveText(
+                `${BLOG_SEARCH_RESULT_MESSAGE.noResult} ${randomString}`
+            );
+        });
     });
 });

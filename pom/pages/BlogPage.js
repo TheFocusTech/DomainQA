@@ -6,12 +6,13 @@ export default class BlogPage {
         this.page = page;
 
         this.mainHeading = this.page.locator('main h1');
-        this.blogPlaceholder = this.page.getByPlaceholder('Enter the search term');
+        this.blogSearchInput = this.page.getByPlaceholder('Enter the search term');
         this.blogSearchPopup = this.page.locator('div[class*="search-result"]');
         this.blogSearchPopupList = this.page.locator('li[class*="search-articles-list__item"]');
         this.articlesList = this.page.locator('article h3');
         this.blogSearchButton = this.page.getByRole('button', { name: 'Search' });
         this.rescentSearchHeading = this.page.locator('div[class*="search-result"] h3');
+        this.searchResultMessage = this.page.locator('h2:has-text("results for")');
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -28,7 +29,7 @@ export default class BlogPage {
 
     async fillBlogSearchInput(name) {
         await step('Fill in the Blog search input field.', async () => {
-            await this.blogPlaceholder.fill(name);
+            await this.blogSearchInput.fill(name);
         });
     }
 
