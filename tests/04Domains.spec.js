@@ -391,7 +391,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_13 | Dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
+    test(`TC_04_13 | Visual Test: Verify text in dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
         await tags('Visual Test', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Create hosted zone"');
@@ -406,8 +406,10 @@ test.describe('DNS Records', () => {
             await expect(hostedZonesPage.createHostedZoneModal).toBeVisible();
         });
 
-        const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
-        expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
+        await step('Compare two snapshots with text are same.', async () => {
+            const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
+            expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
+        });
     });
 
     test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
@@ -558,7 +560,7 @@ test.describe('DNS Records', () => {
                 await hostedZonesDetailPage.clickAddRecordButton();
             });
 
-            await step(`Fill form for ${dnsType}`, async () => {
+            await step(`Fill form for ${dnsType}, ignore description field`, async () => {
                 dnsObj = await dnsRecordModal.fillForm(dnsType, false);
             });
 
@@ -662,7 +664,10 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
+    test(`TC_04_14 | Visual Test: Verify text in dialog "Add new DNS-record".`, async ({
+        page,
+        hostedZonesDetailPage,
+    }) => {
         await tags('Visual Test', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Add new DNS-record"');
@@ -679,10 +684,13 @@ test.describe('DNS Records', () => {
             await hostedZonesDetailPage.clickAddRecordButton();
         });
 
-        await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
+        await step('Compare two snapshots with text are same.', async () => {
+            await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
 
-        const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
-        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
-        expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
+            const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
+            const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
+
+            expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
+        });
     });
 });
