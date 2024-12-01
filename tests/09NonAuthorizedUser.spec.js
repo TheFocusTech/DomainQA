@@ -59,7 +59,7 @@ test.describe('Unauthorized user', () => {
             await description(`Verify that ${linkName} page is accessible for non authorized user`);
             await issue(`${QASE_LINK}/01-16`, 'Redirect to available pages');
             await tms(`${GOOGLE_DOC_LINK}jcvsnakk56kb`, 'ATC_09_01');
-            await epic('Non_authorized_user');
+            await epic('Unauthorized_user');
 
             await action({ headerComponent, footerComponent });
             await step(`Verify user is on ${linkName} page`, async () => {
