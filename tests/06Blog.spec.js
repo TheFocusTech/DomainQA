@@ -13,35 +13,48 @@ import {
 import { loginUser } from '../helpers/preconditions';
 
 test.describe('Blog', () => {
-    test('TC_06_08 | Verify Autocomplete Suggestions Displayed for Partial Search Input', async ({
+    test('TC_06_06 |Verify Autocomplete Suggestions Displayed for Partial and Empty Search Input', async ({
         page,
         headerComponent,
         loginPage,
         blogPage,
+        blogSearchResultsPage,
     }) => {
         await tags('Blog', 'Positive');
         await severity('normal');
         await description(
-            'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog'
+            'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog and previous search history if empty.'
         );
         await issue(`${QASE_LINK}/01-29`, 'Blog');
-        await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_08');
+        await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_06');
         await epic('Blog');
+        test.slow();
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
         await headerComponent.clickBlogButton();
         await page.waitForURL(URL_ENDPOINT.blogPage);
+        await blogPage.fillBlogSearchInput(INPUT_SEARCH_PART);
+        await blogPage.waitForBlogSearchPopup();
 
         await step(
             'Verify that autocomplete suggestions that match the input are displayed in popup search window',
             async () => {
-                await blogPage.fillBlogSearchInput(INPUT_SEARCH_PART);
-                await blogPage.waitForBlogSearchPopup();
                 await expect(blogPage.blogSearchPopup).toContainText(new RegExp(INPUT_SEARCH_PART, 'i'));
             }
         );
+
+        await blogPage.clickSearchButton();
+        await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH_PART}`);
+        await blogSearchResultsPage.clickBlogBreadcrumbs();
+        await page.waitForURL(`${process.env.URL}/blog`);
+        await blogPage.fillBlogSearchInput('');
+        await blogPage.waitForBlogSearchPopup();
+
+        await step('Verify that "Recent Searches" are displayed in popup search window', async () => {
+            await expect(blogPage.rescentSearchHeading.first()).toHaveText('Recent Searches');
+        });
     });
 
     test('TC_06_02 | Verify Search Results and Search Field Behaviors', async ({
@@ -123,14 +136,14 @@ test.describe('Blog', () => {
             }
         });
         await step('Verify the drop-down category list is NOT visible.', async () => {
-            await blogSearchResultsPage.accordionTriggerclick();
+            await blogSearchResultsPage.clickAccordionTrigger();
 
             await expect(blogSearchResultsPage.accordionDropdown).not.toHaveClass(
                 /accordion-slice_accordion-slice-body--active/
             );
         });
         await step('Verify the quantity and title of selected category.', async () => {
-            await blogSearchResultsPage.accordionTriggerclick();
+            await blogSearchResultsPage.clickAccordionTrigger();
 
             await step('Verify the category q-ty equal header q-ty.', async () => {
                 await page.waitForTimeout(5000);

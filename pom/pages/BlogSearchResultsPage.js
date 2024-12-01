@@ -15,11 +15,18 @@ export default class BlogSearchResultsPage {
             '//div[contains(@class, "accordion-slice_accordion-slice-body__inner")]/parent::div'
         );
         this.categoryButtonList = page.locator('div[class^="accordion-segment_accordion-segment"]');
+        this.blogBreadcrumbs = page.getByRole('main').getByRole('link', { name: 'Blog' });
     }
 
-    async accordionTriggerclick() {
+    async clickAccordionTrigger() {
         await step('Click on accordion button', async () => {
             await this.accordionTrigger.click();
+        });
+    }
+
+    async clickBlogBreadcrumbs() {
+        await step('Click on "Blog" link in breadcrumbs', async () => {
+            await this.blogBreadcrumbs.click();
         });
     }
 }

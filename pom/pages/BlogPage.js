@@ -11,6 +11,7 @@ export default class BlogPage {
         this.blogSearchPopupList = this.page.locator('li[class*="search-articles-list__item"]');
         this.articlesList = this.page.locator('article h3');
         this.blogSearchButton = this.page.getByRole('button', { name: 'Search' });
+        this.rescentSearchHeading = this.page.locator('div[class*="search-result"] h3');
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -26,13 +27,13 @@ export default class BlogPage {
     }
 
     async fillBlogSearchInput(name) {
-        await step('Fill the keyword into the Blog search input field.', async () => {
+        await step('Fill in the Blog search input field.', async () => {
             await this.blogPlaceholder.fill(name);
         });
     }
 
     async waitForBlogSearchPopup() {
-        await step('Wait search result in popup.', async () => {
+        await step('Wait for the search result in the popup.', async () => {
             await this.blogSearchPopup.waitFor({ state: 'visible' });
         });
     }
@@ -44,7 +45,7 @@ export default class BlogPage {
     }
 
     async clickSearchButton() {
-        await step('Click on search button', async () => {
+        await step('Click on Search button', async () => {
             await this.blogSearchButton.first().click({ force: true });
         });
     }

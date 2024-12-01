@@ -23,6 +23,7 @@ const navigationActions = {
     'SSL certificates': async ({ sslCertificatesPage, heading, buttons }) => {
         await sslCertificatesPage.verifySslCertificatesPage(heading, buttons);
     },
+    // Uncomment this code after the implementation of email feature.
     // Email: async ({ emailPage, heading, title, description, buttons }) => {
     //     await emailPage.verifyEmailPage(heading, title, description, buttons);
     // },

@@ -23,9 +23,6 @@ import {
 } from '../helpers/utils';
 
 test.describe('Help Center', () => {
-    //test.use({ viewport: { width: 1600, height: 1200 } });
-    //// test.describe.configure({ retries: 2, timeout: 60000 });
-
     test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
         headerComponent,
@@ -37,9 +34,9 @@ test.describe('Help Center', () => {
         await description(
             'To verify the user gets alert-message when searches in the Help Center with random characters.'
         );
-        await issue(`${QASE_LINK}/01-32`, 'Help Center');
+        await issue(`${QASE_LINK}/01-32`, 'Help center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
-        await epic('Help сenter');
+        await epic('Help center');
         test.slow();
 
         await loginUser(page, headerComponent, loginPage);
@@ -107,7 +104,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify the user can switch between categories and hide categories.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -119,7 +116,7 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
         await step('Click search button.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
@@ -168,7 +165,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -179,7 +176,7 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
         await step('Click search button.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
@@ -252,7 +249,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         helpCenterArticlePage,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -263,7 +260,7 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
         await step('Click search button.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
