@@ -25,7 +25,7 @@ test.describe('Blog', () => {
         await tags('Blog', 'Positive');
         await severity('normal');
         await description(
-            'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog and previous search history if empty.'
+            'Verify that user can see autocomplete suggestions that correspond to the entered letters in the Blog search, as well as previous search history when the search field is empty.'
         );
         await issue(`${QASE_LINK}/01-29`, 'Blog');
         await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_06');
