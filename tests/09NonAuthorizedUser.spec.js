@@ -376,6 +376,7 @@ test.describe('Unauthorized user', () => {
 
         await homePage.clickFilterButton();
         const tldName = await advancedSearchModal.randomTLD(0).textContent();
+
         await step('Click on the choicebox “.com” (can be random TLD)', async () => {
             await advancedSearchModal.randomTLD(0).click();
         });
@@ -487,18 +488,25 @@ test.describe('Unauthorized user', () => {
         });
 
         let arrButtonNames = await homePage.getListCardButtonsName();
-        expect(arrButtonNames).toContain('Who owns?');
-        expect(arrButtonNames).toContain('Buy');
+
+        await step(
+            'Verify that both registered and unregistered domains are displayed in the search results',
+            async () => {
+                expect(arrButtonNames).toContain('Who owns?');
+                expect(arrButtonNames).toContain('Buy');
+            }
+        );
 
         await homePage.clickFilterButton();
 
-        await advancedSearchModal.clickToggleHideRegistered();
-        await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
-
-        await advancedSearchModal.clickApplyButton();
-        await expect(advancedSearchModal.toggleControl).not.toBeVisible();
+        await step('Activate the toggle "Hide registered".', async () => {
+            await advancedSearchModal.clickToggleHideRegistered();
+            await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
+        });
 
         await step('Verify the filter button has badge indicator', async () => {
+            await advancedSearchModal.clickApplyButton();
+            await expect(advancedSearchModal.toggleControl).not.toBeVisible();
             await expect(homePage.filterApplyBadge).toBeVisible();
         });
 
@@ -506,9 +514,11 @@ test.describe('Unauthorized user', () => {
             await homePage.searchButton.click();
         });
 
-        arrButtonNames = await homePage.getListCardButtonsName();
-        expect(arrButtonNames).not.toContain('Who owns?');
-        expect(arrButtonNames).toContain('Buy');
+        await step('Only unregistered domains that have BUY button are displayed in the search results', async () => {
+            arrButtonNames = await homePage.getListCardButtonsName();
+            expect(arrButtonNames).not.toContain('Who owns?');
+            expect(arrButtonNames).toContain('Buy');
+        });
 
         await homePage.clickFilterButton();
 
