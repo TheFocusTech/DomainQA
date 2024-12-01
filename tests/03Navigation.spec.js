@@ -128,8 +128,8 @@ test.describe('Navigation', () => {
                     await headerComponent.clickButton(link.trigger);
 
                     await headerComponent.clickLink(dropdownLink.name);
-                    await page.waitForURL(dropdownLink.expectedUrl);
                     await step(`Verify user is redirect to ${dropdownLink.name} page`, async () => {
+                        await page.waitForURL(dropdownLink.expectedUrl);
                         await expect(page).toHaveURL(dropdownLink.expectedUrl);
                     });
                     await navigationActions[dropdownLink.name]({

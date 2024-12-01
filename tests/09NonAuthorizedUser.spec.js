@@ -715,10 +715,12 @@ test.describe('Contact Us', async () => {
                 await page.goto('/');
             });
 
-            const email = faker.internet.email().toLocaleLowerCase();
+            const email = faker.internet.email().toLowerCase();
             await footerComponent.clickContactUsLink();
-            await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
-            await page.waitForLoadState('networkidle');
+            await step('Wait for full loading page', async () => {
+                await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+                await page.waitForLoadState('networkidle');
+            });
             await helpContactusPage.fillEmailInput(email);
             await helpContactusPage.clickTypeDropdown();
             await helpContactusPage.chooseTypeOption(item.name);
@@ -730,8 +732,8 @@ test.describe('Contact Us', async () => {
             await helpContactusPage.fillSubjectInput('AUTOTST');
             await helpContactusPage.fillDescriptionInput(faker.lorem.lines(2));
             await helpContactusPage.clickSubmitButton();
-            await helpContactusPage.heading.waitFor({ state: 'visible' });
             await step('Verify header has "Thank you!" text ', async () => {
+                await helpContactusPage.heading.waitFor({ state: 'visible' });
                 expect(await helpContactusPage.heading).toHaveText('Thank you!');
             });
             await step('Verify text after successful submit.', async () => {

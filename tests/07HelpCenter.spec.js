@@ -37,7 +37,7 @@ test.describe('Help Center', () => {
         await description(
             'To verify the user gets alert-message when searches in the Help Center with random characters.'
         );
-        await issue(`${QASE_LINK}/01-32`, 'User Login');
+        await issue(`${QASE_LINK}/01-32`, 'Help Center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
         await epic('HelpCenter');
         test.slow();

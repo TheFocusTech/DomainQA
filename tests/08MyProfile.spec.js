@@ -387,6 +387,7 @@ test.describe('My profile', () => {
         loginPage,
         headerComponent,
         billingModal,
+        billingPage,
     }) => {
         await tags('My profile', 'Billing');
         await severity('normal');
@@ -403,7 +404,7 @@ test.describe('My profile', () => {
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickBillingLink();
 
-        await billingModal.clickTopUpButton();
+        await billingPage.clickTopUpButton();
         await billingModal.clickByBankCardButton();
 
         await step('Verify Modal Window “Top Up - by Bank Card” opens with Relevant detailes.', async () => {
@@ -415,7 +416,6 @@ test.describe('My profile', () => {
             await expect(billingModal.labelOfCurrencyInputField).toBeVisible();
 
             await expect(billingModal.cancelButton).toBeVisible();
-            await expect(billingModal.topUpButton).toBeVisible();
         });
     });
 
@@ -563,6 +563,45 @@ test.describe('My profile', () => {
             await expect(headerComponent.newNotificationContent.first()).toContainText(
                 NOTIFICATIONS_CONTENT.deleteAccount
             );
+        });
+    });
+
+    test('TC_08_05 | Verify the user is able to see a Wallet balance and Top-Up button options in the Billing section', async ({
+        page,
+        loginPage,
+        headerComponent,
+        billingModal,
+        billingPage,
+        checkoutStripePage,
+        toastComponent,
+    }) => {
+        await tags('My profile', 'Positive', 'Billing');
+        await severity('normal');
+        await description(
+            'Verify the user is able to see a Wallet balance and Top-Up button options in the Billing section'
+        );
+        await issue(`${QASE_LINK}/01-25`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}osrkpreooet0`, 'ATC_08_05');
+        await epic('My profile');
+        test.slow();
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickBillingLink();
+        await step('Verify that the wallet balanse is shown.', async () => {
+            expect(billingPage.walletBalance).toBeVisible();
+        });
+
+        await billingPage.clickTopUpButton();
+        await billingModal.clickByBankCardButton();
+        await billingModal.clickAddNewCardButton();
+        await checkoutStripePage.clickBackButton();
+        await step('Verify that the Error toast message "Failed to add card" is shown.', async () => {
+            expect(await toastComponent.toastBody.first()).toContainText(TOAST_MESSAGE.failedToAddCard);
+        });
+        await step('Verify that user redirect to Billing page', async () => {
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.billing);
         });
     });
 

@@ -25,7 +25,7 @@ export default class AdvancedSearchModal {
         this.filterByTLDField = this.page.getByText('Filter by TLD');
         this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
-        this.abcSwipperButton = this.page.locator('[class^="tld-item_tld-item"]');
+        this.abcSwipperButton = this.page.locator('button[class*="tld-item_tld-item"]');
         this.defaultCategory = this.page.getByText('All TLDs');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
         this.categoryList = this.page.locator('section[class^="tld-category-list_tld-category-list__item-wrapper"]');

@@ -175,7 +175,7 @@ test.describe('Blog', () => {
             'Verify that user can see autocomplete suggestions correspond to the entered letters in Blog'
         );
         await issue(`${QASE_LINK}/01-29`, 'Blog');
-        await tms(`${GOOGLE_DOC_LINK}wu2onbnm0a9o`, 'ATC_06_08');
+        await tms(`${GOOGLE_DOC_LINK}p1toz82dzosx`, 'ATC_06_05');
         await epic('Blog');
         test.slow();
 
