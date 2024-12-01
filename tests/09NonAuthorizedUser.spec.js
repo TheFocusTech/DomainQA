@@ -262,12 +262,14 @@ test.describe('Unauthorized user', () => {
         await description(
             `Verify unauthorized user can select TLD in different categories and see relevant search results`
         );
-        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await issue(`${QASE_LINK}/01-17`, 'Search domain with filters');
         await tms(`${GOOGLE_DOC_LINK}5vbs55mgoksg`, 'ATC_09_02_05');
         await epic('Unauthorized_user');
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        await step(`Verify that modal window has title ${ADVANCED_SEARCH_MODAL_TITLE}`, async () => {
+            expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        });
 
         const numberOfCategories = 3;
         const numberOfTLDs = 2;
@@ -283,7 +285,9 @@ test.describe('Unauthorized user', () => {
         );
 
         await advancedSearchModal.clickApplyButton();
-        await expect(await homePage.filterApplyBadge).toBeVisible();
+        await step(`Verify the Filter button has badge indicator`, async () => {
+            await expect(await homePage.filterApplyBadge).toBeVisible();
+        });
 
         await homePage.clickSearchButton();
         await expect(await domainAvailabilityPage.resultsSection).toBeVisible();
@@ -305,13 +309,15 @@ test.describe('Unauthorized user', () => {
         await tags('Unauthorized_user', 'Search_domains');
         await severity('normal');
         await description(`Verify that user can select several TLDs and see relevant search results`);
-        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await issue(`${QASE_LINK}/01-17`, 'Search domain with filters');
         await tms(`${GOOGLE_DOC_LINK}cba4s4hsjfkn`, 'ATC_09_03_06');
         await epic('Unauthorized_user');
 
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        await step(`Verify that modal window has title ${ADVANCED_SEARCH_MODAL_TITLE}`, async () => {
+            expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        });
 
         const category = 'All';
         const numberOfTLDs = 5;

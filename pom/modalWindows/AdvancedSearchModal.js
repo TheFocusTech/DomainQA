@@ -44,7 +44,7 @@ export default class AdvancedSearchModal {
 
     async selectTLDs(category, numberOfTLDs) {
         const listOfTLD = [];
-        await step(`Select in ${category} category ${numberOfTLDs} TLDs`, async () => {
+        await step(`In ${category} category select ${numberOfTLDs} TLDs`, async () => {
             const count = await this.TLDsList.count();
             let listOfTLDIndex = getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
@@ -58,7 +58,7 @@ export default class AdvancedSearchModal {
 
     async selectSeveralCategoriesAndTLDs(numbersOfCategories, numberOfTLDs) {
         let listOfTLDs = [];
-        await step(`Select in ${numbersOfCategories} categories ${numberOfTLDs} TLDs`, async () => {
+        await step(`In ${numbersOfCategories} categories select ${numberOfTLDs} TLDs`, async () => {
             const categories = 'abcdefghijklmnopqrstuvwxyz';
             const categoriesIndexArr = getRandomArray(categories.length, numbersOfCategories);
 
