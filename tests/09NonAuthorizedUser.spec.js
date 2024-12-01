@@ -15,6 +15,8 @@ import {
     SSL_CERTIFICATES_SUBSCRIPTIONS,
     RESET_PASSWORD,
     CONTACT_US_DROPDOWN,
+    SEARCH_DOMAIN,
+    LOGIN_PAGE_HEADER_TEXT,
 } from '../testData';
 import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
@@ -755,6 +757,33 @@ test.describe('Contact Us', async () => {
                     }
                 }
             );
+        });
+    });
+});
+
+test.describe('Unauthorised user Domain availability Page', () => {
+    test(`TC_09_04_04|  Verify unauthorised user must redirect to the login page from Domain availability Page`, async ({
+        page,
+        domainAvailabilityPage,
+        homePage,
+        pageTitleComponent,
+        loginPage,
+    }) => {
+        await tags('Unauthorized_user', 'Domains');
+        await severity('normal');
+        await description(`Verify unauthorised user must redirect to the login page from Domain availability Page`);
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}grun8oizo8vy`, 'ATC_09_04_04');
+        await epic('Unauthorized_user');
+
+        await page.goto('/');
+        await homePage.fillDomainSearchInput(SEARCH_DOMAIN);
+        await homePage.clickSearchButton();
+        await domainAvailabilityPage.clickBuyButton();
+
+        await step(`Verify Login Page Element Validation `, async () => {
+            await expect(pageTitleComponent.pageTitle).toHaveText(LOGIN_PAGE_HEADER_TEXT);
+            await expect(loginPage.loginButton).toBeVisible();
         });
     });
 });
