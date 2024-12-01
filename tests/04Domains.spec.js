@@ -43,7 +43,6 @@ test.describe('Search Hosted Zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}5rjp86ma9eyp`, 'ATC_04_02');
         await epic('Domains');
-        await feature('Hosted zone search');
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -115,7 +114,6 @@ test.describe('Search domains', () => {
         await issue(`${QASE_LINK}/01-9`, 'WHOIS');
         await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
         await epic('Domains');
-        await feature('Search registered domain');
 
         await loginUser(page, headerComponent, loginPage);
 
@@ -149,7 +147,6 @@ test.describe('Search domains', () => {
         await issue(`${QASE_LINK}/01-9`, 'Whois');
         await tms(`${GOOGLE_DOC_LINK}xsk1f76ggd2o`, 'ATC_04_09_02');
         await epic('Domains');
-        await feature('Search non-registered domain');
 
         await loginUser(page, headerComponent, loginPage);
 
@@ -187,7 +184,6 @@ test.describe('Hosted zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
         await tms(`${GOOGLE_DOC_LINK}mftezseekpm`, 'ATC_04_03_02');
         await epic('Domains');
-        await feature('Hosted Zones');
 
         let domainName;
 
@@ -246,7 +242,6 @@ test.describe('Hosted zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
         await tms(`${GOOGLE_DOC_LINK}3snf2ukx9ybc`, 'ATC_04_03_01');
         await epic('Domains');
-        await feature('Hosted Zones');
 
         const domainName = await getRandomDomainName();
 

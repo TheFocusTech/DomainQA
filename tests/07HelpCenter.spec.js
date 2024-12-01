@@ -39,7 +39,7 @@ test.describe('Help Center', () => {
         );
         await issue(`${QASE_LINK}/01-32`, 'Help Center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
-        await epic('HelpCenter');
+        await epic('Help сenter');
         test.slow();
 
         await loginUser(page, headerComponent, loginPage);

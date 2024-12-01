@@ -180,7 +180,7 @@ test.describe('My profile', () => {
             await issue(`${QASE_LINK}/01-26`, 'Currency selection');
             await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
             await epic('My profile');
-            await feature('Currency selection');
+            await feature('Currency');
 
             await step('Preconditions:', async () => {
                 await loginUser(page, headerComponent, loginPage);
@@ -583,6 +583,7 @@ test.describe('My profile', () => {
         await issue(`${QASE_LINK}/01-25`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}osrkpreooet0`, 'ATC_08_05');
         await epic('My profile');
+        await feature('Billing');
         test.slow();
 
         await loginUser(page, headerComponent, loginPage);
@@ -617,6 +618,8 @@ test.describe('My profile', () => {
         await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}bfo5k42mbcw4`, 'ATC_02_03');
         await epic('My profile');
+        await feature('Account settings');
+
         await loginUser(
             page,
             headerComponent,
@@ -624,8 +627,6 @@ test.describe('My profile', () => {
             `${process.env.EMAIL_PREFIX}qa.mail.template1${process.env.EMAIL_DOMAIN}`,
             `${process.env.USER_PASSWORD}`
         );
-
-        await loginUser(page, headerComponent, loginPage);
 
         await step('Verify that the 2FA verification form is shown.', async () => {
             await expect(loginPage.loginButton).toBeHidden({ timeout: 10000 });
@@ -684,6 +685,7 @@ test.describe('My profile. Section 2FA', () => {
         await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}heuetjbfz4nu`, 'ATC_08_02_03');
         await epic('My profile');
+        await feature('Account settings');
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
