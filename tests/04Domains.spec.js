@@ -2,7 +2,7 @@ import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
-import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
+import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
 import { deleteAllHostedZones } from '../helpers/postconditions';
 
