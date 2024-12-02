@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import { REQUIRED_FIELDS } from '../../abuseReportData';
 export default class StatusReportAbusePage {
     constructor(page) {
         this.page = page;
@@ -7,16 +8,14 @@ export default class StatusReportAbusePage {
         this.goToTrastnameButton = this.page.getByRole('button', { name: 'Go to Trustname' });
         this.thanksMessage = this.page.getByRole('heading', { name: 'Thank you!' });
         this.confirmationMessage = this.page.getByText('Your report has been');
-        this.reportAbuseButton = this.page.getByRole('link', { name: 'Report abuse', exact: true });
     }
-    async verifySuccessfulSubmission(email) {
+    async verifySuccessfulSubmission(yourEmail) {
+        const confirmationText = await this.confirmationMessage.textContent();
+        expect(confirmationText.toLowerCase()).toContain(yourEmail.toLowerCase());
+        await expect(this.confirmationMessage).toBeVisible();
         await expect(this.thanksMessage).toBeVisible();
-        await expect(this.confirmationMessage).toContainText(email);
         await expect(this.returnHomeButton).toBeVisible();
         await expect(this.goToTrastnameButton).toBeVisible();
     }
 
-    async clickReportAbuseButton() {
-        await this.reportAbuseButton.click();
-    }
 }
