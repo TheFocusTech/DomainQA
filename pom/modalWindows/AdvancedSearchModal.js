@@ -25,14 +25,18 @@ export default class AdvancedSearchModal {
         this.filterByTLDField = this.page.getByText('Filter by TLD');
         this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
-        this.abcSwipperButton = this.page.locator('[class^="tld-item_tld-item"]');
+        this.abcSwipperButton = this.page.locator('.swiper-wrapper button[type="button"]');
         this.defaultCategory = this.page.getByText('All TLDs');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
-        this.categoryList = this.page.locator('section[class^="tld-category-list_tld-category-list__item-wrapper"]');
+        this.categoryList = this.page.locator('section[class*="tld-category-list_tld-category-list__item-wrapper"]');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
         this.toggleInput = this.page.locator('input[name="hideRegistered"]');
         this.toggleControl = this.page.locator('div[class*="toggle_toggle-control"]');
+        this.letterButton = (letter) => this.page.locator(`button:has(span:text-is("${letter}"))`);
+        this.category = this.page.locator('input[name="tld"]+label');
+        this.categoryArea = this.page.locator('input[name="tld"]');
+        this.selectAllCategoryButton = this.page.locator('button').filter({ hasText: 'Select all Category' });
     }
 
     async selectCategory(category) {
@@ -120,6 +124,29 @@ export default class AdvancedSearchModal {
             if (value === 'false') {
                 await this.toggleControl.click();
             }
+        });
+    }
+
+    async clickLetterButton(letter) {
+        await step(`Click on "${letter.toUpperCase()}" button.`, async () => {
+            await this.letterButton(letter).click();
+        });
+    }
+
+    async getCategorysList() {
+        const categorys = await this.category.allTextContents();
+        return categorys;
+    }
+
+    async clickSelectAllCategoryButton() {
+        await step('Click on "Select All Category" button.', async () => {
+            await this.selectAllCategoryButton.click();
+        });
+    }
+
+    async clickСlearAllButton() {
+        await step('Click on "Select All Category" button.', async () => {
+            await this.clearAllButton.click();
         });
     }
 }
