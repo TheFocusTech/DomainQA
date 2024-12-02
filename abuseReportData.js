@@ -16,7 +16,7 @@ export const ABUSE_REPORT_TYPES = [
 
 export const REQUIRED_FIELDS = {
     'Date of Issue': '2024-11-27',
-    'Abuse subject': 'Fraudulent activity on website',
+    'Abuse subject': 'AUTOTST',
     'Details or Explanation': 'Unauthorized transactions occurred on the site due to a security breach.',
     'Your Email': 'test@example.com',
     'The offending domain name(s)': 'example.com',
