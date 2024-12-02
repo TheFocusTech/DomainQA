@@ -526,3 +526,7 @@ export const CONTACT_US_DROPDOWN = [
     },
 ];
 export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname';
+
+export const BLOG_SEARCH_RESULT_MESSAGE = {
+    noResult: 'No results for',
+};

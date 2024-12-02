@@ -41,7 +41,7 @@ export default class ContactDetailsPage {
                     DE: 'Germany',
                     CA: 'Canada',
                     KN: 'St. Kitts and Nevis',
-                    // Можно добавить остальные страны и их коды по необходимости
+                    // You can add other countries and their codes as needed.
                 };
                 actualData.country = countryCodeMap[countryCode] || 'UNKNOWN';
             } else {

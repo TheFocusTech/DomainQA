@@ -47,8 +47,8 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }) => {
-        test(`TC_09_01|  Verify that non authorized user can navigate through  ${linkName} page`, async ({
+    accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }, index) => {
+        test(`TC_09_01_0${index + 1}|  Verify that non authorized user can navigate through  ${linkName} page`, async ({
             page,
             headerComponent,
             pageTitleComponent,
@@ -251,7 +251,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    //Тест TC_09_03_05 будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
+    // TC_09_03_05 will be executed once availability data for purchase or registration status is received for each category across all TLDs.
     test.skip(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
         homePage,
         advancedSearchModal,
@@ -396,7 +396,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
         advancedSearchModal,
     }) => {
