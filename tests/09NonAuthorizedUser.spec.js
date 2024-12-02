@@ -14,10 +14,14 @@ import {
     HEADER_LINKS,
     SSL_CERTIFICATES_SUBSCRIPTIONS,
     RESET_PASSWORD,
+    CONTACT_US_DROPDOWN,
+    SEARCH_DOMAIN,
+    LOGIN_PAGE_HEADER_TEXT,
 } from '../testData';
 import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
+import { faker } from '@faker-js/faker';
 import { ABUSE_REPORT_TYPES, REQUIRED_FIELDS } from '../abuseReportData';
 
 const nonAuthUserAccessiblePageActions = {
@@ -44,8 +48,8 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }) => {
-        test(`TC_09_01|  Verify that non authorized user can navigate through  ${linkName} page`, async ({
+    accessiblePageRedirectCases.forEach(({ linkName, expectedTitle, action }, index) => {
+        test(`TC_09_01_0${index + 1}|  Verify that non authorized user can navigate through  ${linkName} page`, async ({
             page,
             headerComponent,
             pageTitleComponent,
@@ -56,7 +60,7 @@ test.describe('Unauthorized user', () => {
             await description(`Verify that ${linkName} page is accessible for non authorized user`);
             await issue(`${QASE_LINK}/01-16`, 'Redirect to available pages');
             await tms(`${GOOGLE_DOC_LINK}jcvsnakk56kb`, 'ATC_09_01');
-            await epic('Non_authorized_user');
+            await epic('Unauthorized_user');
 
             await action({ headerComponent, footerComponent });
             await step(`Verify user is on ${linkName} page`, async () => {
@@ -131,7 +135,7 @@ test.describe('Unauthorized user', () => {
         );
     });
 
-    test('TC_09_05_01 | Verify "Forgot Password" page elements and "Back to Log in" functionality.', async ({
+    test('TC_09_05_01 | Verify "Forgot Password" page elements and "Back to Log in" functionality', async ({
         page,
         loginPage,
         headerComponent,
@@ -182,7 +186,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test('TC_09_05_02 | Verify "Check email" form elements and "Back to Forgot password" functionality.', async ({
+    test('TC_09_05_02 | Verify "Check email" form elements and "Back to Forgot password" functionality', async ({
         page,
         loginPage,
         headerComponent,
@@ -221,11 +225,23 @@ test.describe('Unauthorized user', () => {
             await expect(forgotPasswordPage.codeInput).toBeEmpty();
         });
 
-        await step('Verify the presence of buttons', async () => {
-            await expect(forgotPasswordPage.continueButton).toBeVisible();
+        await step('Verify resend code button with countdown timer is visible', async () => {
             await expect(forgotPasswordPage.resendCodeButton).toBeVisible();
+            await expect(await forgotPasswordPage.resendCodeButton.textContent()).toMatch(
+                /Resend code \(0[0-1]:[0-5][0-9]\)/
+            );
+        });
+
+        await step('Verify the "Resend code" button is disabled', async () => {
+            await expect(forgotPasswordPage.resendCodeButton).toBeDisabled();
+        });
+
+        await step('Verify "Continue" button is visible', async () => {
+            await expect(forgotPasswordPage.continueButton).toBeVisible();
+        });
+
+        await step('Verify "Back to Password recovery" button is visible', async () => {
             await expect(forgotPasswordPage.backToPasswordRecoveryButton).toBeVisible();
-            await expect(forgotPasswordPage.closeButton).toBeVisible();
         });
 
         await forgotPasswordPage.clickBackToPasswordRecovery();
@@ -236,7 +252,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    //Тест TC_09_03_05 будет работать, когда в каждой категории по всем TLD будут приходить данные о доступности для покупки или занятости.
+    // TC_09_03_05 will be executed once availability data for purchase or registration status is received for each category across all TLDs.
     test.skip(`TC_09_03_05 | Verify unauthorized user can select TLD in different categories and see relevant search results`, async ({
         homePage,
         advancedSearchModal,
@@ -247,12 +263,14 @@ test.describe('Unauthorized user', () => {
         await description(
             `Verify unauthorized user can select TLD in different categories and see relevant search results`
         );
-        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await issue(`${QASE_LINK}/01-17`, 'Search domain with filters');
         await tms(`${GOOGLE_DOC_LINK}5vbs55mgoksg`, 'ATC_09_02_05');
         await epic('Unauthorized_user');
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        await step(`Verify that modal window has title ${ADVANCED_SEARCH_MODAL_TITLE}`, async () => {
+            expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        });
 
         const numberOfCategories = 3;
         const numberOfTLDs = 2;
@@ -268,7 +286,9 @@ test.describe('Unauthorized user', () => {
         );
 
         await advancedSearchModal.clickApplyButton();
-        await expect(await homePage.filterApplyBadge).toBeVisible();
+        await step(`Verify the Filter button has badge indicator`, async () => {
+            await expect(await homePage.filterApplyBadge).toBeVisible();
+        });
 
         await homePage.clickSearchButton();
         await expect(await domainAvailabilityPage.resultsSection).toBeVisible();
@@ -290,13 +310,15 @@ test.describe('Unauthorized user', () => {
         await tags('Unauthorized_user', 'Search_domains');
         await severity('normal');
         await description(`Verify that user can select several TLDs and see relevant search results`);
-        await issue(`${QASE_LINK}case=17`, 'Search domain with filters');
+        await issue(`${QASE_LINK}/01-17`, 'Search domain with filters');
         await tms(`${GOOGLE_DOC_LINK}cba4s4hsjfkn`, 'ATC_09_03_06');
         await epic('Unauthorized_user');
 
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
-        expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        await step(`Verify that modal window has title ${ADVANCED_SEARCH_MODAL_TITLE}`, async () => {
+            expect(await advancedSearchModal.advancedSearchHeader).toHaveText(ADVANCED_SEARCH_MODAL_TITLE);
+        });
 
         const category = 'All';
         const numberOfTLDs = 5;
@@ -355,6 +377,7 @@ test.describe('Unauthorized user', () => {
 
         await homePage.clickFilterButton();
         const tldName = await advancedSearchModal.randomTLD(0).textContent();
+
         await step('Click on the choicebox “.com” (can be random TLD)', async () => {
             await advancedSearchModal.randomTLD(0).click();
         });
@@ -374,7 +397,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
+    test(`TC_09_03_01| Verify unauthorized user can open modal window with filters for advanced search`, async ({
         homePage,
         advancedSearchModal,
     }) => {
@@ -466,18 +489,25 @@ test.describe('Unauthorized user', () => {
         });
 
         let arrButtonNames = await homePage.getListCardButtonsName();
-        expect(arrButtonNames).toContain('Who owns?');
-        expect(arrButtonNames).toContain('Buy');
+
+        await step(
+            'Verify that both registered and unregistered domains are displayed in the search results',
+            async () => {
+                expect(arrButtonNames).toContain('Who owns?');
+                expect(arrButtonNames).toContain('Buy');
+            }
+        );
 
         await homePage.clickFilterButton();
 
-        await advancedSearchModal.clickToggleHideRegistered();
-        await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
-
-        await advancedSearchModal.clickApplyButton();
-        await expect(advancedSearchModal.toggleControl).not.toBeVisible();
+        await step('Activate the toggle "Hide registered".', async () => {
+            await advancedSearchModal.clickToggleHideRegistered();
+            await expect(advancedSearchModal.toggleInput).toHaveAttribute('value', 'true');
+        });
 
         await step('Verify the filter button has badge indicator', async () => {
+            await advancedSearchModal.clickApplyButton();
+            await expect(advancedSearchModal.toggleControl).not.toBeVisible();
             await expect(homePage.filterApplyBadge).toBeVisible();
         });
 
@@ -485,9 +515,11 @@ test.describe('Unauthorized user', () => {
             await homePage.searchButton.click();
         });
 
-        arrButtonNames = await homePage.getListCardButtonsName();
-        expect(arrButtonNames).not.toContain('Who owns?');
-        expect(arrButtonNames).toContain('Buy');
+        await step('Only unregistered domains that have BUY button are displayed in the search results', async () => {
+            arrButtonNames = await homePage.getListCardButtonsName();
+            expect(arrButtonNames).not.toContain('Who owns?');
+            expect(arrButtonNames).toContain('Buy');
+        });
 
         await homePage.clickFilterButton();
 
@@ -576,7 +608,7 @@ test.describe('Unauthorized user', () => {
 
     const sslCertificatesSubscription = Object.values(SSL_CERTIFICATES_SUBSCRIPTIONS);
     sslCertificatesSubscription.forEach((subscription) => {
-        test(`TC_09_04_02 | Verify unauthorised user will be redirected to the Login Page from SSL Сertificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`, async ({
+        test(`TC_09_04_02 | Verify unauthorised user is redirected to the Login Page from the ${subscription} subscription SSL Сertificates`, async ({
             headerComponent,
             sslCertificatesPage,
             loginPage,
@@ -584,7 +616,7 @@ test.describe('Unauthorized user', () => {
             await tags('Unauthorized user', 'Redirect to Login Page');
             await severity('normal');
             await description(
-                `Verify that an unauthorized user will be redirected to the Login Page from the Certificates Page after clicking the Select button`
+                `Verify that an unauthorized user is redirected to the Login Page from the Certificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`
             );
             await issue(`${QASE_LINK}/01-18`, 'Unauthorized user');
             await tms(`${GOOGLE_DOC_LINK}63m6yfip96dy`, 'ATC_09_04_02');
@@ -678,6 +710,97 @@ test.describe('Reset Password', () => {
             await loginPage.clickLogin();
             await page.waitForURL(process.env.URL);
             await expect(headerComponent.myProfileButton).toBeVisible();
+        });
+    });
+});
+
+test.describe('Contact Us', async () => {
+    CONTACT_US_DROPDOWN.forEach((item, index) => {
+        test(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
+            page,
+            footerComponent,
+            helpContactusPage,
+        }) => {
+            await tags('Unauthorized_user', 'Contact_us_form');
+            await severity('normal');
+            await description(`Verify unauthorized users can submit the "Contact Us" form`);
+            await issue(`${QASE_LINK}/01-19`, 'Contact Us form');
+            await tms(`${GOOGLE_DOC_LINK}u35mzacv094r`, 'ATC_09_06');
+            await epic('Unauthorized_user');
+
+            await step('Navigate to Home page.', async () => {
+                await page.goto('/');
+            });
+
+            const email = faker.internet.email().toLowerCase();
+            await footerComponent.clickContactUsLink();
+            await step('Wait for full loading page', async () => {
+                await page.waitForURL(process.env.URL + URL_ENDPOINT.ContactUs);
+                await page.waitForLoadState('networkidle');
+            });
+            await helpContactusPage.fillEmailInput(email);
+            await helpContactusPage.clickTypeDropdown();
+            await helpContactusPage.chooseTypeOption(item.name);
+            if (item.subcategories.length > 0) {
+                await helpContactusPage.clickRequestTypeDropdown();
+                const randomSubcategory = Math.floor(Math.random() * item.subcategories.length);
+                await helpContactusPage.chooseTypeOption(item.subcategories[randomSubcategory]);
+            }
+            await helpContactusPage.fillSubjectInput('AUTOTST');
+            await helpContactusPage.fillDescriptionInput(faker.lorem.lines(2));
+            await helpContactusPage.clickSubmitButton();
+            await step('Verify header has "Thank you!" text ', async () => {
+                await helpContactusPage.heading.waitFor({ state: 'visible' });
+                expect(await helpContactusPage.heading).toHaveText('Thank you!');
+            });
+            await step('Verify text after successful submit.', async () => {
+                expect(await helpContactusPage.successMessage).toHaveText(
+                    `Your report has been successfully submitted. We will send you a reply to ${email}`
+                );
+            });
+            await step('Verify "Return Home" and "Go To Trustname" buttons are visible after submit', async () => {
+                expect(await helpContactusPage.returnHomeButton).toBeVisible();
+                expect(await helpContactusPage.goToTrustnameButton).toBeVisible();
+            });
+            await step(
+                'Verify that randomly click on "Return Home" or "Go To Trustname" button redirect to correct page',
+                async () => {
+                    let randomNumber = Math.floor(Math.random() * 2);
+                    await helpContactusPage.randomlyClickButton(randomNumber);
+                    if (randomNumber === 0) {
+                        await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.HelpCenter);
+                    } else {
+                        await expect(page).toHaveURL(process.env.URL);
+                    }
+                }
+            );
+        });
+    });
+});
+
+test.describe('Unauthorised user Domain availability Page', () => {
+    test(`TC_09_04_04|  Verify unauthorised user must redirect to the login page from Domain availability Page`, async ({
+        page,
+        domainAvailabilityPage,
+        homePage,
+        pageTitleComponent,
+        loginPage,
+    }) => {
+        await tags('Unauthorized_user', 'Domains');
+        await severity('normal');
+        await description(`Verify unauthorised user must redirect to the login page from Domain availability Page`);
+        await issue(`${QASE_LINK}/01-30`, 'Search domain');
+        await tms(`${GOOGLE_DOC_LINK}grun8oizo8vy`, 'ATC_09_04_04');
+        await epic('Unauthorized_user');
+
+        await page.goto('/');
+        await homePage.fillDomainSearchInput(SEARCH_DOMAIN);
+        await homePage.clickSearchButton();
+        await domainAvailabilityPage.clickBuyButton();
+
+        await step(`Verify Login Page Element Validation `, async () => {
+            await expect(pageTitleComponent.pageTitle).toHaveText(LOGIN_PAGE_HEADER_TEXT);
+            await expect(loginPage.loginButton).toBeVisible();
         });
     });
 });

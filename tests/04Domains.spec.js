@@ -2,7 +2,7 @@ import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { createHostedZoneAPI, deleteHostedZoneAPI, getHostedZonesAPI } from '../helpers/apiCalls';
 import { getCookies, getRandomDomainName } from '../helpers/utils';
-import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
+import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { loginUser } from '../helpers/preconditions';
 import { deleteAllHostedZones } from '../helpers/postconditions';
 
@@ -43,7 +43,6 @@ test.describe('Search Hosted Zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}5rjp86ma9eyp`, 'ATC_04_02');
         await epic('Domains');
-        await feature('Hosted zone search');
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
@@ -115,7 +114,6 @@ test.describe('Search domains', () => {
         await issue(`${QASE_LINK}/01-9`, 'WHOIS');
         await tms(`${GOOGLE_DOC_LINK}txgklyjggrmv`, 'ATC_04_09_01');
         await epic('Domains');
-        await feature('Search registered domain');
 
         await loginUser(page, headerComponent, loginPage);
 
@@ -149,7 +147,6 @@ test.describe('Search domains', () => {
         await issue(`${QASE_LINK}/01-9`, 'Whois');
         await tms(`${GOOGLE_DOC_LINK}xsk1f76ggd2o`, 'ATC_04_09_02');
         await epic('Domains');
-        await feature('Search non-registered domain');
 
         await loginUser(page, headerComponent, loginPage);
 
@@ -187,7 +184,6 @@ test.describe('Hosted zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
         await tms(`${GOOGLE_DOC_LINK}mftezseekpm`, 'ATC_04_03_02');
         await epic('Domains');
-        await feature('Hosted Zones');
 
         let domainName;
 
@@ -246,7 +242,6 @@ test.describe('Hosted zones', () => {
         await issue(`${QASE_LINK}/01-7`, 'Hosted Zones');
         await tms(`${GOOGLE_DOC_LINK}3snf2ukx9ybc`, 'ATC_04_03_01');
         await epic('Domains');
-        await feature('Hosted Zones');
 
         const domainName = await getRandomDomainName();
 
@@ -320,7 +315,7 @@ test.describe('DNSSEC', () => {
         await severity('normal');
         await description('To verify DNSSEC can be enabled');
         await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
-        await tms(`${GOOGLE_DOC_LINK}gu0m5ch4yg2x`, 'ATC_04_08');
+        await tms(`${GOOGLE_DOC_LINK}lljlr5vp8gu`, 'ATC_04_08');
         await epic('Domains');
 
         await page.waitForSelector('button:has-text("Enable DNSSEC")', { state: 'visible' });
@@ -331,7 +326,7 @@ test.describe('DNSSEC', () => {
             await expect(hostedZonesDetailPage.notUsingDnssecWarning).toBeVisible();
         });
 
-        await hostedZonesDetailPage.enableDnssecButton.click();
+        await hostedZonesDetailPage.clickEnableDnssecButton();
 
         await step('Validate "Enable DNSSEC" modal UI.', async () => {
             await expect(enableDnssecModal.dialog).toBeVisible();
@@ -396,7 +391,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_13 | Dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
+    test(`TC_04_13 | Visual Test: Verify text in dialog "Create hosted zone".`, async ({ page, hostedZonesPage }) => {
         await tags('Visual Test', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Create hosted zone"');
@@ -411,8 +406,10 @@ test.describe('DNS Records', () => {
             await expect(hostedZonesPage.createHostedZoneModal).toBeVisible();
         });
 
-        const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
-        expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
+        await step('Compare two snapshots with text are same.', async () => {
+            const dialogText = await hostedZonesPage.createHostedZoneModal.textContent();
+            expect(dialogText).toMatchSnapshot('text-create-hosted-zone.txt');
+        });
     });
 
     test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
@@ -563,7 +560,7 @@ test.describe('DNS Records', () => {
                 await hostedZonesDetailPage.clickAddRecordButton();
             });
 
-            await step(`Fill form for ${dnsType}`, async () => {
+            await step(`Fill form for ${dnsType}, ignore description field`, async () => {
                 dnsObj = await dnsRecordModal.fillForm(dnsType, false);
             });
 
@@ -667,7 +664,10 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_14 | Dialog "Add new DNS-record".`, async ({ page, hostedZonesDetailPage }) => {
+    test(`TC_04_14 | Visual Test: Verify text in dialog "Add new DNS-record".`, async ({
+        page,
+        hostedZonesDetailPage,
+    }) => {
         await tags('Visual Test', 'Positive');
         await severity('normal');
         await description('Visual tests: Dialog "Add new DNS-record"');
@@ -684,10 +684,13 @@ test.describe('DNS Records', () => {
             await hostedZonesDetailPage.clickAddRecordButton();
         });
 
-        await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
+        await step('Compare two snapshots with text are same.', async () => {
+            await expect(hostedZonesDetailPage.hostedZoneModal).toBeVisible();
 
-        const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
-        const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
-        expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
+            const dialogText = await hostedZonesDetailPage.hostedZoneModal.textContent();
+            const onlyStaticNames = dialogText.replace(/api-\d+\.\w+/, '');
+
+            expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
+        });
     });
 });

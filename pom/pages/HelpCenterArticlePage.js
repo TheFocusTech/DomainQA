@@ -26,13 +26,13 @@ export default class HelpCenterArticlePage {
         await this.hiddenHeaderButton.click();
     }
     async allInnerTextsHeaderArticles() {
-        await step('Expand the subheadings and find their titles.', async () => {
-            await this.headerArticles.first().waitFor({ state: 'visible' });
-        });
+        await this.headerArticles.first().waitFor({ state: 'visible' });
         return await this.headerArticles.allInnerTexts();
     }
     async allInnerTextsSubheadings() {
-        return await this.subheadings.allInnerTexts();
+        return await step('Expand the hidden subheadings and get name all subheading.', async () => {
+            return await this.subheadings.allInnerTexts();
+        });
     }
     async countSubheadings() {
         return await this.subheadings.count();
