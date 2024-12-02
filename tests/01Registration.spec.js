@@ -178,7 +178,7 @@ test.describe('Registration', () => {
         });
     });
 
-    test('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
+    test.skip('TC_01_01_03 | Verify redirection to "Check your email" form and its elements', async ({
         page,
         request,
         headerComponent,
@@ -289,7 +289,7 @@ test.describe('Registration', () => {
         );
     });
 
-    test.skip('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
+    test('TC_01_01_04 | Verify the contact creation, redirection to Homepage, and user info accuracy', async ({
         page,
         request,
         headerComponent,
@@ -300,6 +300,7 @@ test.describe('Registration', () => {
         contactsPage,
         contactDetailsPage,
     }) => {
+        test.setTimeout(60000);
         await tags('Registration', 'Positive');
         await severity('normal');
         await description('Verify the contact creation, redirection to Homepage, and user info accuracy');

@@ -101,7 +101,7 @@ test.describe('Delete Account', () => {
         });
     });
 
-    test.skip('TC_02_04 | Account Deletion Without 2FA', async ({
+    test('TC_02_04 | Account Deletion Without 2FA', async ({
         page,
         loginPage,
         headerComponent,
@@ -140,10 +140,6 @@ test.describe('Delete Account', () => {
         await step('Click on "Delete account":', async () => {
             await settingsGeneralPage.clickDeleteAccountButton();
         });
-
-        //await step('Verify that the deletion modal opens.', async () => {
-        // await expect(accountDeletionModal.modal).toBeVisible();
-        //});
 
         await step('Verify modal contents:', async () => {
             await expect(accountDeletionModal.consentCheckbox).toBeVisible();

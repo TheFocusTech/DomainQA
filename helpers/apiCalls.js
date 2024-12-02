@@ -150,9 +150,11 @@ export async function getResponseHelpSearchAPI(request, idAllCategories, key) {
 }
 
 export async function signInRequest(request, email, password) {
+    let signInResponse;
+
     await step('Precondition: Sign In to collect tokens', async () => {
         try {
-            const signInResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.login}`, {
+            signInResponse = await request.post(`${process.env.API_URL}${API_ENDPOINT.login}`, {
                 data: {
                     email: email,
                     password: password,
@@ -160,7 +162,10 @@ export async function signInRequest(request, email, password) {
             });
 
             if (!signInResponse.ok()) {
-                throw new Error(`Failed to login: ${signInResponse.statusText()}`);
+                const error = await signInResponse.text();
+                console.warn(`Failed to login: ${error}`);
+
+                return signInResponse;
             }
 
             const signInData = await signInResponse.json();
@@ -169,12 +174,12 @@ export async function signInRequest(request, email, password) {
             process.env.ACCESS_TOKEN = signInData.accessToken;
             process.env.CSRF_TOKEN = signInData.csrfToken;
 
-            console.log('Access Token:', process.env.ACCESS_TOKEN);
-            console.log('CSRF Token:', process.env.CSRF_TOKEN);
+            return signInResponse;
         } catch (error) {
             console.error(`An error occurred during login: ${error.message}`);
         }
     });
+    return signInResponse;
 }
 
 export async function getVerificationCodeRequest(request) {
@@ -295,6 +300,64 @@ export async function confirmEmailRequest(request, verificationCode) {
             console.log('Email confirmed successfully with the code ' + verificationCode);
         } catch (error) {
             console.error(`An error occurred during email confirmation: ${error.message}`);
+        }
+    });
+}
+
+export async function disable2FA(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.profile}${API_ENDPOINT.otpDisable}`;
+    try {
+        const response = await request.post(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`Failed to disable OTP: ${response.status()}`);
+        }
+        const res = (await response.json()).result;
+        return res.otpEnabled;
+    } catch (error) {
+        console.error(`Failed to disable OTP: ${error.message}`);
+        return null;
+    }
+}
+
+export async function getProfileData(request, headers) {
+    const authHeaders = getAuthHeaders(headers);
+    const url = `${process.env.API_URL}${API_ENDPOINT.profile}`;
+    try {
+        const response = await request.get(url, { headers: authHeaders });
+        if (!response.ok()) {
+            throw new Error(`Failed to get profile data: ${response.status()}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error(`Failed to get profile data: ${error.message}`);
+        return null;
+    }
+}
+
+export async function changePasswordRequest(request, currentPassword, newPassword) {
+    await step('Change passwword', async () => {
+        try {
+            if (!process.env.ACCESS_TOKEN || !process.env.CSRF_TOKEN) {
+                throw new Error('Tokens are not set. Please sign in first.');
+            }
+
+            const response = await request.post(`${process.env.API_URL}${API_ENDPOINT.changePassword}`, {
+                headers: {
+                    Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+                    'x-csrf-token': process.env.CSRF_TOKEN,
+                },
+                data: {
+                    password: newPassword,
+                    prevPassword: currentPassword,
+                },
+            });
+            if (!response.ok()) {
+                throw new Error(`Failed to change password: ${response.statusText()}`);
+            }
+            console.log('Password changed successfully');
+        } catch (error) {
+            console.error(`An error occurred during changing password: ${error.message}`);
         }
     });
 }

@@ -27,6 +27,7 @@ export const URL_ENDPOINT = {
     helpCategoryEmails: '/help/category/202000049478-emails',
     helpCategorySsl: '/help/category/202000049483-ssl',
     helpCategoryLegal: '/help/category/202000029056-legal',
+    billing: '/billing',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -51,6 +52,7 @@ export const TOAST_MESSAGE = {
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
     dnsRecordDeleted: 'DNS-record deleted',
+    failedToAddCard: 'Failed to add card',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -72,6 +74,9 @@ export const API_ENDPOINT = {
     signUp: '/users/auth/sign-up',
     confirmEmail: '/users/auth/email-confirmation/confirm',
     blogSearchResultsPage: '/blog/search',
+    profile: '/users/profile',
+    otpDisable: '/otp/disable',
+    changePassword: '/users/profile/change-password',
 };
 
 export const DNS_TYPE = {
@@ -93,6 +98,8 @@ export const CORRECT_DOMAIN = 'PURRWEB.COM';
 export const OCCUPIED_DOMAIN = 'purrweb';
 
 export const AVAILABLE_DOMAIN = 'strain123';
+
+export const SEARCH_DOMAIN = 'dffdrtg.com';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
@@ -409,6 +416,8 @@ export const INPUT_SEARCH = {
     a: 'a',
 };
 
+export const SECRET_KEY_2FA = 'IVNDKWCHJVFU2UCCJ5LESTSKGNFUKN2TJM3DERKNJIZEGU2TIJMUOWSQIU3DOS2PJRHDGR2HGNKFOSSWGJIQ';
+
 export const HELP_PAGE_CATEGORY = [
     { title: 'Domains', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryDomains}` },
     { title: 'Hosting', url: `${process.env.URL}${URL_ENDPOINT.helpCategoryHosting}` },
@@ -418,3 +427,106 @@ export const HELP_PAGE_CATEGORY = [
 ];
 
 export const HELP_CATEGORY_SEARCH = 'Refund Policy';
+
+export const SSL_CERTIFICATES_SUBSCRIPTIONS = {
+    subscription1: 'Free',
+    subscription2: 'DV',
+    subscription3: 'OV',
+    subscription4: 'EV',
+};
+
+export const RESET_PASSWORD = {
+    email: `${process.env.EMAIL_PREFIX}qa.mail.template2${process.env.EMAIL_DOMAIN}`,
+    defaultPassword: process.env.USER_PASSWORD,
+    newPassword: `${process.env.USER_PASSWORD}0`,
+    codePattern: /^[0-9]{6}$/,
+};
+
+export const CONTACT_US_DROPDOWN = [
+    {
+        name: 'Account Management & Access',
+        subcategories: ['Password Reset', 'Credentials/Username Issues', '2FA Issues', 'Other'],
+    },
+    {
+        name: 'Payment, Sales & Billing Issues',
+        subcategories: ['Order Status', 'Declined Payment', 'Refund', 'Invoice', 'Other'],
+    },
+    {
+        name: 'Domains',
+        subcategories: [
+            'Nameserver Changes',
+            'DNSSEC',
+            'DNS Records',
+            'Transfer to Trustname',
+            'Transfer from Trustname',
+            'Transfer Disputes',
+            'Domain Contact Issue',
+            'Whois Verification',
+            'Web Forwarding',
+            'Renewal',
+            'Other',
+        ],
+    },
+    {
+        name: 'Pre-Sales',
+        subcategories: ['Domains', 'Hosting', 'SSL', 'Other'],
+    },
+    {
+        name: 'Hosting',
+        subcategories: [
+            'Database',
+            'File Transfer',
+            'Server Creation',
+            'VPS & Dedicated Servers',
+            'Blocked Server',
+            'Attach to a Domain',
+            'Change the Owner',
+            'Renewal, Credentials/Access Issues',
+            'Other',
+        ],
+    },
+    {
+        name: 'SSL',
+        subcategories: ['Revocation', 'Other'],
+    },
+    {
+        name: 'Private Email',
+        subcategories: [
+            'Mailbox Suspended',
+            'Configuration',
+            'Problems Sending Emails',
+            'Problems Receiving Emails',
+            'Suspicious Phishing/Hacked Mails',
+            'Other',
+        ],
+    },
+    {
+        name: 'Affiliate',
+        subcategories: [],
+    },
+    {
+        name: 'Bug/Technical Issue',
+        subcategories: [],
+    },
+    {
+        name: 'Feature/Product Request',
+        subcategories: [],
+    },
+    {
+        name: 'Commercial Matters',
+        subcategories: [],
+    },
+    {
+        name: 'Media Inquiries',
+        subcategories: [],
+    },
+    {
+        name: 'Feedback',
+        subcategories: [],
+    },
+];
+export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname';
+
+export const BLOG_SEARCH_RESULT_MESSAGE = {
+    noResult: 'No results for',
+};
