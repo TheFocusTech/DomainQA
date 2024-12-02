@@ -128,25 +128,25 @@ export default class HeaderComponent {
     }
 
     async clickButton(name) {
-        await step(`Click on the ${name} button in Hearder.`, async () => {
+        await step(`Click on the ${name} button in the Header.`, async () => {
             await this.page.getByRole('button', { name: name, exact: true }).click();
         });
     }
 
     async clickLink(name) {
-        await step(`Click on the ${name} link in Hearder.`, async () => {
+        await step(`Click on the ${name} link in the Header.`, async () => {
             await this.page.getByRole('link', { name: name, exact: true }).click();
         });
     }
 
     async clickLogo() {
-        await step('Click on the Logo in Hearder.', async () => {
+        await step('Click on the Logo in the Header.', async () => {
             await this.logo.click();
         });
     }
 
     async clickRegisteredDomainsButton() {
-        await step('Click on the "Registered Domains" button in Hearder.', async () => {
+        await step('Click on the "Registered Domains" button in the Header.', async () => {
             await this.domainsButton.click();
             await this.registeredDomainsButton.click();
         });
@@ -197,7 +197,7 @@ export default class HeaderComponent {
     }
 
     async clickHostingButton() {
-        await step('Click on the "Hosting" button in Hearder.', async () => {
+        await step('Click on the "Hosting" button in the Header.', async () => {
             await this.productsButton.click();
             await this.hostingButton.click();
         });
