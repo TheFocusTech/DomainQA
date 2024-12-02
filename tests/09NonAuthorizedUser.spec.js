@@ -607,7 +607,7 @@ test.describe('Unauthorized user', () => {
 
     const sslCertificatesSubscription = Object.values(SSL_CERTIFICATES_SUBSCRIPTIONS);
     sslCertificatesSubscription.forEach((subscription) => {
-        test(`TC_09_04_02 | Verify unauthorised user will be redirected to the Login Page from SSL Сertificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`, async ({
+        test(`TC_09_04_02 | Verify unauthorised user is redirected to the Login Page from the ${subscription} subscription SSL Сertificates`, async ({
             headerComponent,
             sslCertificatesPage,
             loginPage,
@@ -615,7 +615,7 @@ test.describe('Unauthorized user', () => {
             await tags('Unauthorized user', 'Redirect to Login Page');
             await severity('normal');
             await description(
-                `Verify that an unauthorized user will be redirected to the Login Page from the Certificates Page after clicking the Select button`
+                `Verify that an unauthorized user is redirected to the Login Page from the Certificates Page after clicking the Select button of the ${subscription} subscription SSL Сertificates`
             );
             await issue(`${QASE_LINK}/01-18`, 'Unauthorized user');
             await tms(`${GOOGLE_DOC_LINK}63m6yfip96dy`, 'ATC_09_04_02');
