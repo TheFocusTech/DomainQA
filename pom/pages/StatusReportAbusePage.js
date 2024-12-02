@@ -1,5 +1,4 @@
 import { expect } from '@playwright/test';
-import { REQUIRED_FIELDS } from '../../abuseReportData';
 export default class StatusReportAbusePage {
     constructor(page) {
         this.page = page;
@@ -17,5 +16,4 @@ export default class StatusReportAbusePage {
         await expect(this.returnHomeButton).toBeVisible();
         await expect(this.goToTrastnameButton).toBeVisible();
     }
-
 }
