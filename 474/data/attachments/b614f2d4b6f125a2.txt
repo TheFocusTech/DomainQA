@@ -1,0 +1,8 @@
+Filling field: Target of the attack* with value: Website login system
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Unauthorized transactions occurred on the site due to a security breach.
+Filling field: Your Email*  with value: test@example.com
+Filling field: The offending domain name(s)* with value: example.com
+Filling field: Country your IP address belongs to* with value: United States
+Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36
+Filling field: Support Code #*  with value: 123456
