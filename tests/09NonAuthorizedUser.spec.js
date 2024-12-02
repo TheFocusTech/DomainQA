@@ -22,6 +22,7 @@ import { signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 import { authorize, getVerificationCodeFromEmail } from '../index';
 import { delay } from '../helpers/utils';
 import { faker } from '@faker-js/faker';
+import { ABUSE_REPORT_TYPES, REQUIRED_FIELDS } from '../abuseReportData';
 
 const nonAuthUserAccessiblePageActions = {
     Transfer: async ({ headerComponent }) => await headerComponent.clickTransferLink(),
@@ -800,6 +801,54 @@ test.describe('Unauthorised user Domain availability Page', () => {
         await step(`Verify Login Page Element Validation `, async () => {
             await expect(pageTitleComponent.pageTitle).toHaveText(LOGIN_PAGE_HEADER_TEXT);
             await expect(loginPage.loginButton).toBeVisible();
+        });
+    });
+});
+
+test.describe('Report Abuse submission for each type of report', () => {
+    test.beforeEach(async ({ page, footerComponent, reportAbusePage }) => {
+        await step('Open Home page as Non authorized user', async () => {
+            await page.goto('/');
+        });
+        await step('Click on "Report Abuse" link in Footer', async () => {
+            await footerComponent.clickReportAbuseLink();
+        });
+        await step('Click on  "Abuse type" dropdown', async () => {
+            await reportAbusePage.clickAbuseTypeDropdown();
+        });
+    });
+
+    ABUSE_REPORT_TYPES.forEach((abuseType, index) => {
+        test(`TC_09_07_0${index + 1}| Verify unauthorized user can submit the "Report Abuse" form for ${abuseType}`, async ({
+            reportAbusePage,
+            statusReportAbusePage,
+        }) => {
+            await tags('Unauthorized_user');
+            await severity('normal');
+            await description(
+                'Verify unauthorized user can submit the "Report Abuse" form for each Abuse type by filling in required fields'
+            );
+            await issue(`${QASE_LINK}/01-20`, 'Submit Report Abuse form;');
+            await tms(`${GOOGLE_DOC_LINK}u4qa48p3hb3p`, 'ATC_09_07');
+            await epic('Unauthorized_user');
+
+            await step('Select Abuse type from dropdown', async () => {
+                await reportAbusePage.selectAbuseType(abuseType);
+            });
+            await step('Fill in required fields', async () => {
+                await reportAbusePage.fillRequiredFields();
+            });
+            await step('Accept all requiredcheckboxes', async () => {
+                await reportAbusePage.acceptAllCheckboxes();
+            });
+
+            await step('Submit the form', async () => {
+                await reportAbusePage.submitForm();
+            });
+            await step('Verify thanks message is visible and contains corresponding email ', async () => {
+                const yourEmail = REQUIRED_FIELDS['Your Email'];
+                await statusReportAbusePage.verifySuccessfulSubmission(yourEmail);
+            });
         });
     });
 });
