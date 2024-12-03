@@ -1,0 +1,5 @@
+User was successfully deleted
+****************** Messages received within the last minute:  2
+Verification code is: 614580
+****************** Messages received within the last minute:  1
+Verification code is: 486001
