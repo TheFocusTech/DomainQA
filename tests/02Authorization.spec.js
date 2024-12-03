@@ -3,6 +3,7 @@ import { test } from '../fixtures';
 import { description, tags, severity, epic, step, tms, issue } from 'allure-js-commons';
 import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, INVALID_CREDS_AUTH, COLORS } from '../testData';
 import { loginUser } from '../helpers/preconditions';
+import { delay } from '../helpers/utils';
 
 test.describe('Authorization', () => {
     test('TC_02_02 |  Verify user can login into their account without 2FA.', async ({
@@ -176,6 +177,7 @@ test.describe('Delete Account', () => {
         await step('Verify that the text input field and buttons are present:', async () => {
             await expect(acDeleteConfirmationModal.deleteInput).toBeVisible();
             await expect(acDeleteConfirmationModal.cancelButton).toBeVisible();
+            await delay(5000);
             await expect(acDeleteConfirmationModal.closeButton).toBeVisible();
             await expect(acDeleteConfirmationModal.deleteButton).toBeVisible();
         });
