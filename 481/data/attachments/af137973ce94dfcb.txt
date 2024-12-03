@@ -1,0 +1,9 @@
+Filling field: Complainant* with value: Javier Klein
+Filling field: Respondent* with value: Edna Lehner
+Filling field: Arbitrator Email Address* with value: Marcia_Collins32@yahoo.com
+Filling field: Arbitrator Organization* with value: McClure and Sons
+Filling field: Date of Issue* with value: 2024-09-10
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Tabernus damno arbor. Ago trepide comitatus cura admoveo vallum. Apostolus adulatio solvo maiores demergo cariosus desino deleo tempore.
+Filling field: Your Email*  with value: Niko93@gmail.com
+Filling field: The offending domain name(s)* with value: pleased-hovercraft.com
