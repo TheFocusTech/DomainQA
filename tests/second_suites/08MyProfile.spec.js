@@ -1,12 +1,7 @@
 import { test } from '../../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import {
-    QASE_LINK,
-    GOOGLE_DOC_LINK,
-    URL_ENDPOINT,
-    SECRET_KEY_2FA,
-} from '../../testData';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, SECRET_KEY_2FA } from '../../testData';
 import { loginUser } from '../../helpers/preconditions';
 import { generateVerificationCode } from '../../helpers/utils';
 
@@ -63,4 +58,3 @@ test.describe('My profile', () => {
         });
     });
 });
-
