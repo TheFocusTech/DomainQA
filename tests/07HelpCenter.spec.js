@@ -277,7 +277,7 @@ test.describe('Help Center', () => {
         headerComponent,
         helpCenterPage,
         helpCategoryPage,
-        helpSearchResultsPage,
+        helpCenterArticlePage,
     }) => {
         await tags('Help center', 'Positive');
         await severity('normal');
@@ -295,44 +295,37 @@ test.describe('Help Center', () => {
         await page.waitForURL(URL_ENDPOINT.HelpCenter);
 
         for (const { title, url } of HELP_PAGE_CATEGORY) {
-            await step('Navigate to "${title}" section', async () => {
+            await step(`Navigate to ${title} section`, async () => {
                 await helpCenterPage.clickKnowledgeHeader(title);
+                await page.waitForTimeout(3000);
                 await expect(page).toHaveURL(url);
             });
 
-            await step('Verify that the correct section header for "${title}" appears', async () => {
+            await step(`Verify that the correct section header for ${title} appears`, async () => {
                 await expect(helpCategoryPage.mainHeading).toHaveText(title);
             });
 
-            await step('Verify the list of categories related  to corresponding title are displayed.', async () => {
-                await expect(helpCategoryPage.mainHeading).toBeVisible();
-                await expect(helpCategoryPage.mainHeading).toHaveText(title);
-            });
-
-            // const accordionLoaded = await helpSearchResultsPage.accordionByCategoryButton.allInnerTexts();
-            // console.log(accordionLoaded);
-            //await helpSearchResultsPage.locator(accordionByCategoryButton).allIsVisible();
-
-            await step('Verify the user is redirected to the article page and see relevant article', async () => {
-                await helpSearchResultsPage.clickAccordionButton();
-                await helpSearchResultsPage.clickAccordionArticleHeader();
-
-                //const articleHeader = await helpSearchResultsPage.accordionArticleHeader.allInnerTexts();
-                await expect(helpSearchResultsPage.accordionArticleHeader).toBeVisible();
-                //await expect(helpSearchResultsPage.accordionArticleHeader).includes(articleHeader);
-            });
-
-            await step('Verify that dropdown is closed', async () => {
-                await helpSearchResultsPage.clickAccordionButton();
-                await expect(helpSearchResultsPage.accordionArticleHeader).not.toBeVisible();
-            });
-
-            const noResultsVisible = await helpCategoryPage.helpSearchPopupAlert.isVisible();
+            const noResultsVisible = await helpCategoryPage.noResultsAlert.isVisible();
             if (noResultsVisible) {
                 await headerComponent.clickHelpCenterButton();
                 continue;
             }
-            // await headerComponent.clickHelpCenterButton();
+
+            await step('Verify the list of categories related to corresponding title is displayed.', async () => {
+                expect(await helpCategoryPage.category.count()).toBeGreaterThan(0);
+            });
+
+            await step('Verify the user is redirected to the article page and see relevant article', async () => {
+                await helpCategoryPage.clickAccordionButton();
+                const articleHeader = await helpCategoryPage.accordionArticleHeader.first().textContent();
+                await helpCategoryPage.clickFirstArticleHeader();
+
+                await expect(helpCenterArticlePage.activeArticleHeader).toBeVisible();
+                expect(await helpCenterArticlePage.activeArticleHeader.textContent()).toBe(articleHeader);
+                expect(await helpCenterArticlePage.headerH1.textContent()).toBe(articleHeader);
+            });
+
+            await headerComponent.clickHelpCenterButton();
         }
     });
 });
