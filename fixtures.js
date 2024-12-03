@@ -42,6 +42,10 @@ import BlogSearchResultsPage from './pom/pages/BlogSearchResultsPage';
 import HelpCategoryPage from './pom/pages/HelpCategoryPage';
 import HelpCenterArticlePage from './pom/pages/HelpCenterArticlePage';
 import HelpContactUsPage from './pom/pages/HelpContactUsPage';
+import BillingPage from './pom/pages/BillingPage';
+import CheckoutStripePage from './pom/pages/CheckoutStripePage';
+import ReportAbusePage from './pom/pages/ReportAbusePage';
+import StatusReportAbusePage from './pom/pages/StatusReportAbusePage';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -217,5 +221,21 @@ export const test = base.extend({
     /** @type { HelpContactUsPage } */
     helpContactusPage: async ({ page }, use) => {
         await use(new HelpContactUsPage(page));
+    },
+    /** @type { BillingPage } */
+    billingPage: async ({ page }, use) => {
+        await use(new BillingPage(page));
+    },
+    /** @type { CheckoutStripePage } */
+    checkoutStripePage: async ({ page }, use) => {
+        await use(new CheckoutStripePage(page));
+    },
+    /** @type { ReportAbusePage } */
+    reportAbusePage: async ({ page }, use) => {
+        await use(new ReportAbusePage(page));
+    },
+    /** @type { StatusReportAbusePage } */
+    statusReportAbusePage: async ({ page }, use) => {
+        await use(new StatusReportAbusePage(page));
     },
 });

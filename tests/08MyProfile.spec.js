@@ -180,7 +180,7 @@ test.describe('My profile', () => {
             await issue(`${QASE_LINK}/01-26`, 'Currency selection');
             await tms(`${GOOGLE_DOC_LINK}pfzmnyprwi28`, 'ATC_08_06');
             await epic('My profile');
-            await feature('Currency selection');
+            await feature('Currency');
 
             await step('Preconditions:', async () => {
                 await loginUser(page, headerComponent, loginPage);
@@ -387,6 +387,7 @@ test.describe('My profile', () => {
         loginPage,
         headerComponent,
         billingModal,
+        billingPage,
     }) => {
         await tags('My profile', 'Billing');
         await severity('normal');
@@ -403,7 +404,7 @@ test.describe('My profile', () => {
         await headerComponent.clickMyProfileButton();
         await headerComponent.clickBillingLink();
 
-        await billingModal.clickTopUpButton();
+        await billingPage.clickTopUpButton();
         await billingModal.clickByBankCardButton();
 
         await step('Verify Modal Window “Top Up - by Bank Card” opens with Relevant detailes.', async () => {
@@ -415,7 +416,6 @@ test.describe('My profile', () => {
             await expect(billingModal.labelOfCurrencyInputField).toBeVisible();
 
             await expect(billingModal.cancelButton).toBeVisible();
-            await expect(billingModal.topUpButton).toBeVisible();
         });
     });
 
@@ -566,6 +566,46 @@ test.describe('My profile', () => {
         });
     });
 
+    test('TC_08_05 | Verify the user is able to see a Wallet balance and Top-Up button options in the Billing section', async ({
+        page,
+        loginPage,
+        headerComponent,
+        billingModal,
+        billingPage,
+        checkoutStripePage,
+        toastComponent,
+    }) => {
+        await tags('My profile', 'Positive', 'Billing');
+        await severity('normal');
+        await description(
+            'Verify the user is able to see a Wallet balance and Top-Up button options in the Billing section'
+        );
+        await issue(`${QASE_LINK}/01-25`, 'My profile');
+        await tms(`${GOOGLE_DOC_LINK}osrkpreooet0`, 'ATC_08_05');
+        await epic('My profile');
+        await feature('Billing');
+        test.slow();
+
+        await loginUser(page, headerComponent, loginPage);
+
+        await headerComponent.clickMyProfileButton();
+        await headerComponent.clickBillingLink();
+        await step('Verify that the wallet balanse is shown.', async () => {
+            expect(billingPage.walletBalance).toBeVisible();
+        });
+
+        await billingPage.clickTopUpButton();
+        await billingModal.clickByBankCardButton();
+        await billingModal.clickAddNewCardButton();
+        await checkoutStripePage.clickBackButton();
+        await step('Verify that the Error toast message "Failed to add card" is shown.', async () => {
+            expect(await toastComponent.toastBody.first()).toContainText(TOAST_MESSAGE.failedToAddCard);
+        });
+        await step('Verify that user redirect to Billing page', async () => {
+            await expect(page).toHaveURL(process.env.URL + URL_ENDPOINT.billing);
+        });
+    });
+
     test.skip('TC_02_03 | User Authorization with 2FA: Use predefined user', async ({
         page,
         loginPage,
@@ -578,6 +618,8 @@ test.describe('My profile', () => {
         await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}bfo5k42mbcw4`, 'ATC_02_03');
         await epic('My profile');
+        await feature('Account settings');
+
         await loginUser(
             page,
             headerComponent,
@@ -585,8 +627,6 @@ test.describe('My profile', () => {
             `${process.env.EMAIL_PREFIX}qa.mail.template1${process.env.EMAIL_DOMAIN}`,
             `${process.env.USER_PASSWORD}`
         );
-
-        await loginUser(page, headerComponent, loginPage);
 
         await step('Verify that the 2FA verification form is shown.', async () => {
             await expect(loginPage.loginButton).toBeHidden({ timeout: 10000 });
@@ -645,43 +685,51 @@ test.describe('My profile. Section 2FA', () => {
         await issue(`${QASE_LINK}/01-24`, 'My profile');
         await tms(`${GOOGLE_DOC_LINK}heuetjbfz4nu`, 'ATC_08_02_03');
         await epic('My profile');
+        await feature('Account settings');
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
 
-        await step('Navigate to page Account Settings', async () => {
+        await step('Navigate to page Account Settings.', async () => {
             await page.goto(`${process.env.URL}${URL_ENDPOINT.accountSettings}`, {
                 waitUntil: 'networkidle',
             });
         });
 
-        await step('Enable 2FA by clicking on toggle', async () => {
+        await step('Enable 2FA by clicking on toggle.', async () => {
             await settingsGeneralPage.clickTwoFAToggle();
+        });
+
+        await step('2FA modal dialog opened.', async () => {
             await expect(twoFactorAuthModal.dialog).toBeVisible();
         });
 
-        await step('Generate verification code', async () => {
+        await step('Copy secret key and generate verification code.', async () => {
             secretKey = await twoFactorAuthModal.getSecretKey();
+            code = generateVerificationCode(secretKey);
         });
 
-        await step('Set verification code to 2FA input', async () => {
-            code = generateVerificationCode(secretKey);
+        await step('Set verification code to 2FA input.', async () => {
             await twoFactorAuthModal.enterVerificationCode(code.otp);
         });
 
-        await step('Click button Enable 2FA in dialog', async () => {
+        await step('Click button Enable 2FA in dialog.', async () => {
             await twoFactorAuthModal.enableButton.click();
             await expect(twoFactorAuthModal.dialog).not.toBeVisible();
         });
 
-        await expect(settingsGeneralPage.checkbox).toBeChecked();
-        await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+        await step('Verify toggle is checked.', async () => {
+            await expect(settingsGeneralPage.checkbox).toBeChecked();
+            await expect(settingsGeneralPage.enableTooltip).toBeVisible();
+        });
 
-        await step('Disable 2FA', async () => {
+        await step('Disable 2FA.', async () => {
             await settingsGeneralPage.clickTwoFAToggle();
         });
 
-        await expect(settingsGeneralPage.checkbox).not.toBeChecked();
-        await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+        await step('Verify toggle is unchecked.', async () => {
+            await expect(settingsGeneralPage.checkbox).not.toBeChecked();
+            await expect(settingsGeneralPage.disableTooltip).toBeVisible();
+        });
     });
 });
