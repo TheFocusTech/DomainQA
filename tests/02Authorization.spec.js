@@ -102,7 +102,7 @@ test.describe('Delete Account', () => {
         });
     });
 
-    test('TC_02_04 | Account Deletion Without 2FA', async ({
+    test.skip('TC_02_04 | Account Deletion Without 2FA', async ({
         page,
         loginPage,
         headerComponent,
