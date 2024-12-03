@@ -20,6 +20,7 @@ export default class HelpCenterArticlePage {
             'div[class*="accordion-slice_accordion-slice__"] div[class*="accordion-slice_accordion-slice-body__a8TY_ accordion-slice_accordion-slice-body--active__"] a'
         );
         this.headerH1 = this.page.locator('article[class*="article_article__"] h1');
+        this.activeArticleHeader = page.locator('[class*="button-article--m button-article_button-article--active"]');
     }
 
     async clickHiddenHeaderButton() {
