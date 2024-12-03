@@ -1,9 +1,9 @@
-import { test } from '../../fixtures';
+import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 import { description, tags, severity, epic, step, tms, issue, feature } from 'allure-js-commons';
-import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, SECRET_KEY_2FA } from '../../testData';
-import { loginUser } from '../../helpers/preconditions';
-import { generateVerificationCode } from '../../helpers/utils';
+import { QASE_LINK, GOOGLE_DOC_LINK, URL_ENDPOINT, SECRET_KEY_2FA } from '../testData';
+import { loginUser } from '../helpers/preconditions';
+import { generateVerificationCode } from '../helpers/utils';
 
 test.describe('My profile', () => {
     test.skip('TC_02_03 | User Authorization with 2FA: Use predefined user', async ({
