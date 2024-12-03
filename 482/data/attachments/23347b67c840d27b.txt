@@ -1,0 +1,2 @@
+User was successfully deleted
+****************** Messages received within the last minute:  0
