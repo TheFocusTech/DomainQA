@@ -13,7 +13,6 @@ import {
     SETTING_GENERAL_HEADINGS,
     CONFIRMATION_WORD,
     NOTIFICATIONS_CONTENT,
-    SECRET_KEY_2FA,
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode, getCookies } from '../helpers/utils';
