@@ -1,0 +1,9 @@
+Filling field: Complainant* with value: Dr. Alice Paucek
+Filling field: Respondent* with value: Lloyd Grady
+Filling field: Arbitrator Email Address* with value: Maryam9@gmail.com
+Filling field: Arbitrator Organization* with value: Rosenbaum - Trantow
+Filling field: Date of Issue* with value: 2024-04-01
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Sint ter admoneo bene nemo aufero. Colo dens decumbo. Denego conor ciminatio congregatio coaegresco vitiosus voluptatibus despecto.
+Filling field: Your Email*  with value: Trey48@yahoo.com
+Filling field: The offending domain name(s)* with value: variable-custom.org
