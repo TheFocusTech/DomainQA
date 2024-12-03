@@ -49,4 +49,16 @@ export default class HelpCategoryPage {
             await this.accordionArticleHeader.first().click();
         });
     }
+
+    async handleNoResults(headerComponent) {
+        const result = await step('If no results are found, return to "Help Center" page.', async () => {
+            const noResultsVisible = await this.noResultsAlert.isVisible();
+            if (noResultsVisible) {
+                await headerComponent.clickHelpCenterButton();
+                return true;
+            }
+            return false;
+        });
+        return result;
+    }
 }

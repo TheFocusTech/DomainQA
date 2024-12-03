@@ -320,9 +320,8 @@ test.describe('Help Center', () => {
                 await expect(helpCategoryPage.mainHeading).toHaveText(title);
             });
 
-            const noResultsVisible = await helpCategoryPage.noResultsAlert.isVisible();
-            if (noResultsVisible) {
-                await headerComponent.clickHelpCenterButton();
+            const noResults = await helpCategoryPage.handleNoResults(headerComponent);
+            if (noResults) {
                 continue;
             }
 
