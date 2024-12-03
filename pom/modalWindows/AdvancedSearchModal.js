@@ -25,7 +25,7 @@ export default class AdvancedSearchModal {
         this.filterByTLDField = this.page.getByText('Filter by TLD');
         this.clearAllButton = this.page.locator('button').filter({ hasText: 'Clear all' });
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
-        this.abcSwipperButton = this.page.locator('[class^="tld-item_tld-item"]');
+        this.abcSwipperButton = this.page.locator('button[class*="tld-item_tld-item"]');
         this.defaultCategory = this.page.getByText('All TLDs');
         this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
         this.categoryList = this.page.locator('section[class^="tld-category-list_tld-category-list__item-wrapper"]');
@@ -44,7 +44,7 @@ export default class AdvancedSearchModal {
 
     async selectTLDs(category, numberOfTLDs) {
         const listOfTLD = [];
-        await step(`Select in ${category} category ${numberOfTLDs} TLDs`, async () => {
+        await step(`In ${category} category select ${numberOfTLDs} TLDs`, async () => {
             const count = await this.TLDsList.count();
             let listOfTLDIndex = getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
@@ -58,7 +58,7 @@ export default class AdvancedSearchModal {
 
     async selectSeveralCategoriesAndTLDs(numbersOfCategories, numberOfTLDs) {
         let listOfTLDs = [];
-        await step(`Select in ${numbersOfCategories} categories ${numberOfTLDs} TLDs`, async () => {
+        await step(`In ${numbersOfCategories} categories select ${numberOfTLDs} TLDs`, async () => {
             const categories = 'abcdefghijklmnopqrstuvwxyz';
             const categoriesIndexArr = getRandomArray(categories.length, numbersOfCategories);
 

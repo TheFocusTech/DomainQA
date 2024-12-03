@@ -27,6 +27,7 @@ export const URL_ENDPOINT = {
     helpCategoryEmails: '/help/category/202000049478-emails',
     helpCategorySsl: '/help/category/202000049483-ssl',
     helpCategoryLegal: '/help/category/202000029056-legal',
+    billing: '/billing',
 };
 
 export const INVALID_CREDS_AUTH = [
@@ -51,6 +52,7 @@ export const TOAST_MESSAGE = {
     dnssecEnabled: 'DNSSEC enabled',
     loggedOut: 'You have been logged out',
     dnsRecordDeleted: 'DNS-record deleted',
+    failedToAddCard: 'Failed to add card',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -96,6 +98,8 @@ export const CORRECT_DOMAIN = 'PURRWEB.COM';
 export const OCCUPIED_DOMAIN = 'purrweb';
 
 export const AVAILABLE_DOMAIN = 'strain123';
+
+export const SEARCH_DOMAIN = 'dffdrtg.com';
 
 export const ACCESSIBLE_PAGE_TITLE = {
     Transfer: 'Transfer your .com domain to Trustname for $12.99',
@@ -521,3 +525,8 @@ export const CONTACT_US_DROPDOWN = [
         subcategories: [],
     },
 ];
+export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname';
+
+export const BLOG_SEARCH_RESULT_MESSAGE = {
+    noResult: 'No results for',
+};

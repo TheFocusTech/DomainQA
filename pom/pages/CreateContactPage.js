@@ -17,7 +17,7 @@ export default class CreateContactPage {
     }
 
     async fillFirstNameInputIfEmpty(firstName) {
-        await step('Fill in "First name" input field.', async () => {
+        await step(`Fill in "First name" input field with: ${firstName}`, async () => {
             const value = await this.firstNameInput.inputValue();
             if (!value) {
                 await this.firstNameInput.fill(firstName);
@@ -26,7 +26,7 @@ export default class CreateContactPage {
     }
 
     async fillLastNameInputIfEmpty(lastName) {
-        await step('Fill in "Last name" input field.', async () => {
+        await step(`Fill in "Last name" input field with: ${lastName}`, async () => {
             const value = await this.lastNameInput.inputValue();
             if (!value) {
                 await this.lastNameInput.fill(lastName);
@@ -35,26 +35,26 @@ export default class CreateContactPage {
     }
 
     async fillAddressLine1Input(address) {
-        await step('Fill in "Address line1" input field.', async () => {
+        await step(`Fill in "Address line1" input field with: ${address}`, async () => {
             await this.addressLine1Input.fill(address);
         });
     }
 
     async fillCityInput(city) {
-        await step('Fill in "City" input field.', async () => {
+        await step(`Fill in "City" input field with: ${city}`, async () => {
             await this.cityInput.fill(city);
         });
     }
 
     async selectCountryByName(country) {
-        await step('Click on "Country" dropdown and select a country {country}', async () => {
+        await step(`Click on "Country" dropdown and select a country: ${country}`, async () => {
             await this.countryInput.click();
             await this.page.getByRole('option', { name: country }).click();
         });
     }
 
     async fillPhoneNumberInput(phoneNumber) {
-        await step('Fill in "Phone number" input field.', async () => {
+        await step(`Fill in "Phone number" input field with: ${phoneNumber}`, async () => {
             await this.phoneNumberInput.fill(phoneNumber);
         });
     }

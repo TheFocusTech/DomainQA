@@ -23,9 +23,6 @@ import {
 } from '../helpers/utils';
 
 test.describe('Help Center', () => {
-    //test.use({ viewport: { width: 1600, height: 1200 } });
-    // test.describe.configure({ retries: 2, timeout: 60000 });
-
     test('TC_07_01_01 | Verify the user can search articles in the Help Center with random characters', async ({
         page,
         headerComponent,
@@ -39,7 +36,7 @@ test.describe('Help Center', () => {
         );
         await issue(`${QASE_LINK}/01-32`, 'Help Center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
-        await epic('HelpCenter');
+        await epic('Help center');
         test.slow();
 
         await loginUser(page, headerComponent, loginPage);
@@ -106,7 +103,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify the user can switch between categories and hide categories.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -118,8 +115,8 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();
-        await step('Go to the result search page.', async () => {
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
+        await step('Click search button.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
         await step('Verify search for the input query is visible on the search results page.', async () => {
@@ -128,8 +125,12 @@ test.describe('Help Center', () => {
 
         await helpSearchResultsPage.allCategoriesButton.waitFor({ state: 'visible' });
 
-        const categName = await getCategoriesHelpSearchAPI(request, 'name');
-        const categId = await getCategoriesHelpSearchAPI(request, 'id');
+        let categName;
+        let categId;
+        await step('API requests to get categories names and IDs.', async () => {
+            categName = await getCategoriesHelpSearchAPI(request, 'name');
+            categId = await getCategoriesHelpSearchAPI(request, 'id');
+        });
 
         await step(
             'Verify category "All Categories" contains only names categories from the list of categories in the articles.',
@@ -147,8 +148,8 @@ test.describe('Help Center', () => {
             await expect((await resultCountCategoriesSearch(page, helpSearchResultsPage)).toString()).toEqual('true');
         });
 
+        await helpSearchResultsPage.clickAccordionByCategoryLabel();
         await step('Verify Dropdown “By Category” is hidden.', async () => {
-            await helpSearchResultsPage.clickAccordionByCategoryLabel();
             await expect(helpSearchResultsPage.accordionByCategoryButton).not.toHaveClass(
                 /accordion-slice_accordion-slice-header__trigger--active/
             );
@@ -159,9 +160,11 @@ test.describe('Help Center', () => {
         page,
         loginPage,
         headerComponent,
+        helpCenterPage,
+        helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -170,6 +173,15 @@ test.describe('Help Center', () => {
 
         await loginUser(page, headerComponent, loginPage);
         await page.waitForURL(process.env.URL);
+        await headerComponent.clickHelpCenterButton();
+        await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
+        await step('Click search button.', async () => {
+            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+        });
+        await step('Verify search for the input query is visible on the search results page.', async () => {
+            await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
+        });
 
         await step(`Verify all articles contain a search query ${NAME_SEARCH}.`, async () => {
             await expect((await resultPageContainQuerySearch(request)).toString()).toEqual('true');
@@ -236,7 +248,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         helpCenterArticlePage,
     }) => {
-        await tags('Help center', 'Positive');
+        await tags('Help center', 'Positive', 'Bug');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -247,8 +259,8 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton();
-        await step('Go to the result search page.', async () => {
+        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
+        await step('Click search button.', async () => {
             await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
         await step('Verify search for the input query is visible on the search results page.', async () => {
@@ -260,15 +272,18 @@ test.describe('Help Center', () => {
             await expect(helpCenterArticlePage.breadcrumbs).toContainText(`${nameArticle}`);
         });
 
-        await page.waitForTimeout(2000);
-        let text = await getNameHeaders(helpCenterArticlePage);
+        await page.waitForTimeout(2500);
+        const text = await getNameHeaders(helpCenterArticlePage);
 
-        const countH = await helpCenterArticlePage.countSubheadings();
-        await step('Verify clicking on a heading takes you to the name of the heading in the article.', async () => {
-            await expect(
-                (await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()
-            ).toEqual('true');
-        });
+        await step(
+            'Verify that clicking on a heading takes you to the name of the heading in the article.',
+            async () => {
+                const countH = await helpCenterArticlePage.countSubheadings();
+                await expect(
+                    (await resultComparisonsHeaders(countH, page, helpCenterArticlePage, text)).toString()
+                ).toEqual('true');
+            }
+        );
     });
 
     test('TC_07_02_02 | Verify the user can navigate through the articles', async ({
