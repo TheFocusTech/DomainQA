@@ -27,7 +27,8 @@ export default class AdvancedSearchModal {
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
         this.abcSwipperButton = this.page.locator('.swiper-wrapper button[type="button"]');
         this.defaultCategory = this.page.getByText('All TLDs');
-        this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
+        // this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
+        this.nextArrow = this.page.locator('button:has(path[d="m9 6 6 6-6 6"])');
         this.categoryList = this.page.locator('section[class*="tld-category-list_tld-category-list__item-wrapper"]');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
@@ -148,5 +149,8 @@ export default class AdvancedSearchModal {
         await step('Click on "Select All Category" button.', async () => {
             await this.clearAllButton.click();
         });
+    }
+    async clickNextArrowButton() {
+        await this.nextArrow.click();
     }
 }
