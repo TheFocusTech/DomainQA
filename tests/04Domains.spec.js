@@ -635,7 +635,7 @@ test.describe('DNS Records', () => {
         await tags('Domains', 'Positive');
         await severity('normal');
         await description('Delete DNS record in hosted zone');
-        await issue(`${QASE_LINK}suite=3&case=7`, 'Hosted-Zones');
+        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
         await tms(`${GOOGLE_DOC_LINK}ymzx7lwf5592`, 'ATC_04_07');
         await epic('Domains');
 
