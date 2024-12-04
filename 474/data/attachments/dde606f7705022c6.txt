@@ -1,5 +1,0 @@
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Unauthorized transactions occurred on the site due to a security breach.
-Filling field: Your Email*  with value: test@example.com
-Filling field: The offending domain name(s)* with value: example.com
-Filling field: Support Code #* with value: 123456
