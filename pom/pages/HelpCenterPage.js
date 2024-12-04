@@ -1,5 +1,4 @@
 import { step } from 'allure-js-commons';
-import { getRandomCharacters } from '../../helpers/utils';
 import { expect } from '@playwright/test';
 
 export default class HelpCenterPage {
@@ -13,21 +12,14 @@ export default class HelpCenterPage {
         this.helpSearchPopupAlert = this.page.locator('h2[class*="alert-base"]');
         this.mainHeading = this.page.locator('main h1');
         this.knowledgeCategoryHeaders = this.page.locator('button[class*="card-folder_card-folder"]');
+        this.rescentSearchHeading = this.page.locator('div[class*="search-result"] h3');
+        this.clearAllButton = this.helpSearchPopup.getByRole('button', { name: 'Clear all' });
     }
 
     async fillHelpSearchInput(name) {
         await step('Fill the keyword into the Help Center search input field.', async () => {
             await this.helpCenterPlaceholder.fill(name);
         });
-    }
-
-    async fillSearchInput() {
-        await step('Fill the Help Center input.', async () => {
-            this.randomString = await getRandomCharacters(10);
-            await this.helpCenterPlaceholder.waitFor({ state: 'visible' });
-            await this.helpCenterPlaceholder.fill(this.randomString);
-        });
-        return this.randomString;
     }
 
     async waitForPopupToBeVisible() {
@@ -59,6 +51,12 @@ export default class HelpCenterPage {
     async clickKnowledgeHeader(title) {
         await step('Click on Knowledge base category headers', async () => {
             this.knowledgeCategoryHeaders.filter({ hasText: title }).click();
+        });
+    }
+
+    async clickClearAllButton() {
+        await step('Click on "Clear all" button', async () => {
+            this.clearAllButton.click();
         });
     }
 }
