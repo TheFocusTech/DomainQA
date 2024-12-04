@@ -1,5 +1,4 @@
 import { step } from 'allure-js-commons';
-import { getRandomCharacters } from '../../helpers/utils';
 import { expect } from '@playwright/test';
 
 export default class HelpCenterPage {
@@ -21,15 +20,6 @@ export default class HelpCenterPage {
         await step('Fill the keyword into the Help Center search input field.', async () => {
             await this.helpCenterPlaceholder.fill(name);
         });
-    }
-
-    async fillSearchInput() {
-        await step('Fill the Help Center input.', async () => {
-            this.randomString = await getRandomCharacters(10);
-            await this.helpCenterPlaceholder.waitFor({ state: 'visible' });
-            await this.helpCenterPlaceholder.fill(this.randomString);
-        });
-        return this.randomString;
     }
 
     async waitForPopupToBeVisible() {
