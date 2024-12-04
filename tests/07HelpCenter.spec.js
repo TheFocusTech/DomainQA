@@ -46,7 +46,8 @@ test.describe('Help Center', () => {
             await headerComponent.clickHelpCenterButton();
             await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
-        //const randomString = await helpCenterPage.fillSearchInput();
+
+        const randomString = await helpCenterPage.fillSearchInput();
 
         await step('Verify the user gets popup alert-message and empty list after input.', async () => {
             await helpCenterPage.fillSearchInput();
@@ -54,14 +55,14 @@ test.describe('Help Center', () => {
             await expect(helpCenterPage.helpSearchPopupAlert).toHaveText(HELP_SEARCH_POPUP_ALERT);
         });
 
-        //await step('Verify the user redirects to search page and gets alert-message.', async () => {
-        //    await helpCenterPage.clickHelpCenterSearchButton();
-        // const expectedSearchURL = `${process.env.URL}${URL_ENDPOINT.HelpCenterSearch}?search=${randomString}`;
-        // await expect(page).toHaveURL(expectedSearchURL);
-        //   const alertText = await helpCenterPage.helpSearchPopupAlert.innerText();
-        //   const alertNormalizedText = alertText.replace(/“|”/g, '"');
-        //  expect(alertNormalizedText).toContain(`No results for "${randomString}"`);
-        //});
+        await step('Verify the user redirects to search page and gets alert-message.', async () => {
+            await helpCenterPage.clickHelpCenterSearchButton();
+            const expectedSearchURL = `${process.env.URL}${URL_ENDPOINT.HelpCenterSearch}?search=${randomString}`;
+            await expect(page).toHaveURL(expectedSearchURL);
+            const alertText = await helpCenterPage.helpSearchPopupAlert.innerText();
+            const alertNormalizedText = alertText.replace(/“|”/g, '"');
+            expect(alertNormalizedText).toContain(`No results for "${randomString}"`);
+        });
     });
 
     test('TC_07_01_03 | Verify Autocomplete Suggestions Displayed for Partial and Empty Search Input in Help Center', async ({
@@ -97,7 +98,7 @@ test.describe('Help Center', () => {
 
         await step('Click "Search" button.', async () => {
             await helpCenterPage.clickHelpCenterSearchButton();
-            await page.goto(`${process.env.URL}/help/search?search=${INPUT_SEARCH_PART}`);
+            // await page.goto(`${process.env.URL}/help/search?search=${INPUT_SEARCH_PART}`);
         });
         await page.waitForLoadState('networkidle');
         await helpSearchResultsPage.clickHelpCenterBreadcrumbs();
@@ -135,9 +136,10 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
+
         await step('Click search button.', async () => {
-            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+            await helpCenterPage.clickHelpCenterSearchButton();
+            // await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
         await step('Verify search for the input query is visible on the search results page.', async () => {
             await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
@@ -195,9 +197,9 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
         await step('Click search button.', async () => {
-            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+            await helpCenterPage.clickHelpCenterSearchButton();
+            // await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
         await step('Verify search for the input query is visible on the search results page.', async () => {
             await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);
@@ -279,9 +281,9 @@ test.describe('Help Center', () => {
         await page.waitForURL(process.env.URL);
         await headerComponent.clickHelpCenterButton();
         await helpCenterPage.fillHelpSearchInput(`${NAME_SEARCH}`);
-        // await helpCenterPage.clickHelpCenterSearchButton(); BUG: fix search button
         await step('Click search button.', async () => {
-            await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
+            await helpCenterPage.clickHelpCenterSearchButton();
+            // await page.goto(`${process.env.URL}/help/search?search=${NAME_SEARCH}`);
         });
         await step('Verify search for the input query is visible on the search results page.', async () => {
             await expect(helpSearchResultsPage.headerText).toContainText(`${NAME_SEARCH}`);

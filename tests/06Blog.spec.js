@@ -48,7 +48,7 @@ test.describe('Blog', () => {
         );
 
         await blogPage.clickSearchButton();
-        await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH_PART}`);
+        await page.waitForURL(`${process.env.URL}/blog/search?search=${INPUT_SEARCH_PART}`);
         await blogSearchResultsPage.clickBlogBreadcrumbs();
         await page.waitForURL(`${process.env.URL}/blog`);
         await blogPage.fillBlogSearchInput('');
@@ -119,7 +119,7 @@ test.describe('Blog', () => {
         await page.waitForURL(URL_ENDPOINT.blogPage);
         await blogPage.fillBlogSearchInput(INPUT_SEARCH.a);
         await blogPage.clickSearchButton();
-        await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH.a}`);
+        // await page.goto(`${process.env.URL}/blog/search?search=${INPUT_SEARCH.a}`);
 
         await step('Verify title of By category is on the page.', async () => {
             await expect(blogSearchResultsPage.header).toBeVisible();
@@ -271,7 +271,7 @@ test.describe('Blog', () => {
         await blogPage.clickSearchButton();
 
         await step('Wait for load page with search results', async () => {
-            await page.goto(`${process.env.URL}/blog/search?search=${randomString}`);
+            // await page.goto(`${process.env.URL}/blog/search?search=${randomString}`);
             await page.waitForLoadState('load');
         });
 
