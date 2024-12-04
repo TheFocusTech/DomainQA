@@ -1,0 +1,4 @@
+User logged in successfully with id 29ba4281-4a00-4032-9b0d-af5941444eb4
+Password changed successfully
+****************** Messages received within the last minute:  1
+Verification code is: 795610
