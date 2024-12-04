@@ -637,7 +637,7 @@ test.describe('Unauthorized user', () => {
     const abc = ALL_ABC.slice(1);
 
     for (let letter of abc) {
-        test(`TC_09_03_04_${letter} | Verify switch to "${letter}" categories  and select/clear all TLDs , if this the list of the category is not empty`, async ({
+        test(`TC_09_03_04 | Verify switch to "${letter}" categories  and select/clear all TLDs , if this the list of the category is not empty`, async ({
             homePage,
             advancedSearchModal,
         }) => {
