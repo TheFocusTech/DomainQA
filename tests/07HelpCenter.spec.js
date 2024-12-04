@@ -125,7 +125,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive', 'Bug');
+        await tags('Help center', 'Positive');
         await severity('normal');
         await description('Verify the user can switch between categories and hide categories.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -187,7 +187,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         request,
     }) => {
-        await tags('Help center', 'Positive', 'Bug');
+        await tags('Help center', 'Positive');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
@@ -271,7 +271,7 @@ test.describe('Help Center', () => {
         helpSearchResultsPage,
         helpCenterArticlePage,
     }) => {
-        await tags('Help center', 'Positive', 'Bug');
+        await tags('Help center', 'Positive');
         await severity('normal');
         await description('Verify that relevant articles are displayed.');
         await issue(`${QASE_LINK}/01-32`, 'Help center');
