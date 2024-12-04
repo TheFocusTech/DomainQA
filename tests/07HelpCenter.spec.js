@@ -65,16 +65,17 @@ test.describe('Help Center', () => {
         //});
     });
 
-    test('TC_07_01_03 | Verify  the autocomplete suggestions displayed correspond to the entered letters in Help Center', async ({
+    test('TC_07_01_03 | Verify Autocomplete Suggestions Displayed for Partial and Empty Search Input in Help Center', async ({
         page,
         loginPage,
         headerComponent,
         helpCenterPage,
+        helpSearchResultsPage,
     }) => {
         await tags('Help center', 'Positive');
         await severity('normal');
         await description(
-            'Verify that user can see autocomplete suggestions correspond to the entered letters in Help Center'
+            'Verify that user can see autocomplete suggestions that correspond to the entered letters in the Help center search, as well as previous search history when the search field is empty.'
         );
         await issue(`${QASE_LINK}/01-32`, 'Help center');
         await tms(`${GOOGLE_DOC_LINK}t0sf9gst04b3`, 'ATC_07_01_03');
@@ -85,15 +86,34 @@ test.describe('Help Center', () => {
 
         await headerComponent.clickHelpCenterButton();
         await page.waitForURL(URL_ENDPOINT.HelpCenter);
+        await helpCenterPage.fillHelpSearchInput(INPUT_SEARCH_PART);
+        await helpCenterPage.waitForPopupToBeVisible();
 
         await step(
             'Verify that  autocomplete suggestions that match the input are displayed in popup search window',
             async () => {
-                await helpCenterPage.fillHelpSearchInput(INPUT_SEARCH_PART);
-                await helpCenterPage.waitForPopupToBeVisible();
                 await expect(helpCenterPage.helpSearchPopup).toContainText(new RegExp(INPUT_SEARCH_PART, 'i'));
             }
         );
+
+        await step('Click "Search" button.', async () => {
+            await helpCenterPage.clickHelpCenterSearchButton();
+            await page.goto(`${process.env.URL}/help/search?search=${INPUT_SEARCH_PART}`);
+        });
+        await page.waitForLoadState('networkidle');
+        await helpSearchResultsPage.clickHelpCenterBreadcrumbs();
+        await page.waitForURL(`${process.env.URL}/help`);
+        await helpCenterPage.fillHelpSearchInput('');
+        await helpCenterPage.waitForPopupToBeVisible();
+
+        await step('Verify that "Recent Searches" are displayed in popup search window', async () => {
+            await expect(helpCenterPage.rescentSearchHeading.first()).toHaveText('Recent Searches');
+        });
+
+        await helpCenterPage.clickClearAllButton();
+        await step('Verify that "Recent Searches" are not displayed in popup search window', async () => {
+            await expect(helpCenterPage.rescentSearchHeading.filter({ hasText: 'Recent Searches' })).not.toBeVisible();
+        });
     });
 
     test('TC_07_01_05 | Verify the user can switch between categories', async ({

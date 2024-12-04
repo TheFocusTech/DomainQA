@@ -13,6 +13,7 @@ export default class HelpSearchResultsPage {
         this.headerTextVisible = this.page.locator('div[class*="search-results_search-results__content"]');
         this.headerText = this.page.locator('h2[class*="search-results_search-results__title"]');
         this.articlesList = this.page.locator('.article-snippet__title > a');
+        this.helpCenterBreadcrumbs = this.page.locator('span[class*="breadcrumbs-link__text"]');
     }
 
     async allInnerTextsCategoriesButtons() {
@@ -38,6 +39,12 @@ export default class HelpSearchResultsPage {
             const nameArticle = await this.articlesList.nth(randomIndex).innerText();
             await this.articlesList.nth(randomIndex).click();
             return nameArticle;
+        });
+    }
+
+    async clickHelpCenterBreadcrumbs() {
+        await step('Click on "Help center" link in breadcrumbs', async () => {
+            await this.helpCenterBreadcrumbs.first().click();
         });
     }
 }
