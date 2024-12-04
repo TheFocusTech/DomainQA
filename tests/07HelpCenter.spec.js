@@ -34,7 +34,7 @@ test.describe('Help Center', () => {
         await description(
             'To verify the user gets alert-message when searches in the Help Center with random characters.'
         );
-        await issue(`${QASE_LINK}/01-32`, 'Help center');
+        await issue(`${QASE_LINK}/01-32`, 'Help Center');
         await tms(`${GOOGLE_DOC_LINK}zg8gtwoz9y8t`, 'ATC_07_01_01');
         await epic('Help center');
         test.slow();
@@ -46,7 +46,6 @@ test.describe('Help Center', () => {
             await headerComponent.clickHelpCenterButton();
             await expect(page).toHaveURL(URL_ENDPOINT.HelpCenter);
         });
-
         //const randomString = await helpCenterPage.fillSearchInput();
 
         await step('Verify the user gets popup alert-message and empty list after input.', async () => {
@@ -305,5 +304,62 @@ test.describe('Help Center', () => {
                 ).toEqual('true');
             }
         );
+    });
+
+    test('TC_07_02_02 | Verify the user can navigate through the articles', async ({
+        page,
+        loginPage,
+        headerComponent,
+        helpCenterPage,
+        helpCategoryPage,
+        helpCenterArticlePage,
+    }) => {
+        await tags('Help center', 'Positive');
+        await severity('normal');
+        await description('Verify the user can navigate through the articles');
+        await issue(`${QASE_LINK}/01-33`, 'Help center');
+        await tms(`${GOOGLE_DOC_LINK}zr98ob9xnls`, 'ATC_07_02_02');
+        await epic('Help center');
+
+        test.slow();
+
+        await loginUser(page, headerComponent, loginPage);
+        await page.waitForURL(process.env.URL);
+
+        await headerComponent.clickHelpCenterButton();
+        await page.waitForURL(URL_ENDPOINT.HelpCenter);
+
+        for (const { title, url } of HELP_PAGE_CATEGORY) {
+            await step(`Navigate to ${title} section`, async () => {
+                await helpCenterPage.clickKnowledgeHeader(title);
+                await page.waitForTimeout(3000);
+                await expect(page).toHaveURL(url);
+            });
+
+            await step(`Verify that the correct section header for ${title} appears`, async () => {
+                await expect(helpCategoryPage.mainHeading).toHaveText(title);
+            });
+
+            const noResults = await helpCategoryPage.handleNoResults(headerComponent);
+            if (noResults) {
+                continue;
+            }
+
+            await step('Verify the list of categories related to corresponding title is displayed.', async () => {
+                expect(await helpCategoryPage.category.count()).toBeGreaterThan(0);
+            });
+
+            await step('Verify the user is redirected to the article page and see relevant article', async () => {
+                await helpCategoryPage.clickAccordionButton();
+                const articleHeader = await helpCategoryPage.accordionArticleHeader.first().textContent();
+                await helpCategoryPage.clickFirstArticleHeader();
+
+                await expect(helpCenterArticlePage.activeArticleHeader).toBeVisible();
+                expect(await helpCenterArticlePage.activeArticleHeader.textContent()).toBe(articleHeader);
+                expect(await helpCenterArticlePage.headerH1.textContent()).toBe(articleHeader);
+            });
+
+            await headerComponent.clickHelpCenterButton();
+        }
     });
 });

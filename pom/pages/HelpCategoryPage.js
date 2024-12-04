@@ -8,6 +8,10 @@ export default class HelpCategoryPage {
         this.helpCategoryInput = this.page.getByRole('button', { name: 'Enter the search term' });
         this.helpCategoryPlaceholder = this.page.getByPlaceholder('Enter the search term');
         this.helpCategorySearchPopup = this.page.locator('div[class*="search-result"]');
+        this.accordionButton = this.page.locator('[class*="accordion-slice_accordion-slice__"] button');
+        this.accordionArticleHeader = this.page.locator('div[class*="accordion-segment_accordion-segment__"] a');
+        this.category = page.locator('header div[class^="accordion-slice_accordion-slice-header"]');
+        this.noResultsAlert = page.getByRole('heading', { name: 'No results' });
     }
 
     async clickHelpCategorySearchInput() {
@@ -32,5 +36,29 @@ export default class HelpCategoryPage {
         await step('Closing modal window by clicking outside.', async () => {
             await this.page.locator('body').click({ position: { x: 0, y: 0 } });
         });
+    }
+
+    async clickAccordionButton() {
+        await step('Click on category button.', async () => {
+            await this.accordionButton.first().click({ force: true });
+        });
+    }
+
+    async clickFirstArticleHeader() {
+        await step('Click on the first article header.', async () => {
+            await this.accordionArticleHeader.first().click();
+        });
+    }
+
+    async handleNoResults(headerComponent) {
+        const result = await step('If no results are found, return to "Help Center" page.', async () => {
+            const noResultsVisible = await this.noResultsAlert.isVisible();
+            if (noResultsVisible) {
+                await headerComponent.clickHelpCenterButton();
+                return true;
+            }
+            return false;
+        });
+        return result;
     }
 }

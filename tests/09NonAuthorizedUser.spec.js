@@ -633,8 +633,94 @@ test.describe('Unauthorized user', () => {
             });
         });
     });
-});
 
+    const abc = ALL_ABC.slice(1);
+
+    for (let letter of abc) {
+        test(`TC_09_03_04 | Verify switch to "${letter}" categories  and select/clear all TLDs , if this the list of the category is not empty`, async ({
+            homePage,
+            advancedSearchModal,
+        }) => {
+            await tags('Unauthorized_user', 'Search_domains');
+            await severity('normal');
+            await description(
+                `Verify that user can switch between categories, select all TLDs in the category and clear all TLDs`
+            );
+            await issue(`${QASE_LINK}case=30`, 'Search domain');
+            await tms(`${GOOGLE_DOC_LINK}lg4vntkzbngo`, 'ATC_09_03_04');
+            await epic('Unauthorized_user');
+
+            await step(`Verify that the form “Search domain” is visible`, async () => {
+                await expect(homePage.domainSearchInput).toBeVisible();
+                await expect(homePage.domainSearchInput).toHaveAttribute('placeholder', 'Search domain');
+                await expect(homePage.filterButton).toBeVisible();
+            });
+
+            await homePage.clickFilterButton();
+
+            await advancedSearchModal.category.first().waitFor({ timeout: 10000 });
+            const allCategorysList = await advancedSearchModal.getCategorysList();
+            const filteredCategorysList = allCategorysList.filter((el) => el.substring(0, 2) == `.${letter}`);
+            if (letter === 'z') {
+                await step(`Go to the end of ABC`, async () => {
+                    for (let j = 0; j < 9; j++) {
+                        await advancedSearchModal.clickNextArrowButton();
+                    }
+                });
+            }
+            await advancedSearchModal.clickLetterButton(letter);
+
+            if (filteredCategorysList.length == 0) {
+                await step(`Verify there is no any category, starting from "${letter}"`, async () => {
+                    await expect(advancedSearchModal.categoryArea).not.toBeAttached();
+                });
+            } else {
+                await step(`Verify that all chosen boxes have TLD, starting from "${letter}"`, async () => {
+                    await advancedSearchModal.category.first().waitFor({ timeout: 10000 });
+                    const categorysList = await advancedSearchModal.getCategorysList();
+                    expect(categorysList).toEqual(filteredCategorysList);
+                });
+
+                await advancedSearchModal.clickSelectAllCategoryButton();
+
+                await step(`Verify that "${letter}" button is active (has badge)`, async () => {
+                    await expect(advancedSearchModal.letterButton(letter)).toHaveClass(/tld-item--selected/);
+                });
+
+                await step(`Verify that all choiceboxes are selected `, async () => {
+                    for (const el of await advancedSearchModal.categoryArea.all()) {
+                        await expect(el).toBeChecked();
+                    }
+                });
+
+                await step(`Verify that Filter by TLD displaies the number of selected TLD `, async () => {
+                    const categorysList = await advancedSearchModal.getCategorysList();
+                    const selectedTLDNumber = categorysList.length;
+                    await expect(advancedSearchModal.filterHeader).toHaveText(
+                        'Selected (' + selectedTLDNumber + ') TLDs'
+                    );
+                    console.log(selectedTLDNumber);
+                });
+
+                await advancedSearchModal.clickСlearAllButton();
+
+                await step(`Verify that "${letter}" button is unactive (has not badge)`, async () => {
+                    await expect(advancedSearchModal.letterButton(letter)).not.toHaveClass(/tld-item--selected/);
+                });
+
+                await step(`Verify that all choiceboxes are not selected `, async () => {
+                    for (const el of await advancedSearchModal.categoryArea.all()) {
+                        await expect(el).not.toBeChecked();
+                    }
+                });
+
+                await step(`Verify that Filter by TLD displaies 0 `, async () => {
+                    await expect(advancedSearchModal.filterHeader).toHaveText('Selected (0) TLDs');
+                });
+            }
+        });
+    }
+});
 test.describe('Reset Password', () => {
     test('TC_09_05_03 | Verify password recovery process', async ({
         page,
