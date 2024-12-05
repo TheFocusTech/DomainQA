@@ -29,7 +29,7 @@ jobs:
           CI_RUN: true
 
       - name: Run Playwright Safari tests
-        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results_safari.json npx playwright test -c playwright.config.webkit.js --reporter=allure-playwright,json
+        run: npm run test:webkit:CI
         env:
           URL: ${{ secrets.URL}}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
@@ -82,11 +82,4 @@ jobs:
         if: always()
         with:
           report-file: results.json
-          icon-style: 'emojis'
-
-      - name: Add Github Actions report for Safari
-        uses: daun/playwright-report-summary@v3
-        if: always()
-        with:
-          report-file: results_safari.json
           icon-style: 'emojis'
