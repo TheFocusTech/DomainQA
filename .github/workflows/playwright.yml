@@ -28,6 +28,17 @@ jobs:
           EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
           CI_RUN: true
 
+      - name: Run Playwright Safari tests
+        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test -c playwright.config.webkit.js --reporter=allure-playwright,json
+        env:
+          URL: ${{ secrets.URL}}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          API_URL: ${{ secrets.API_URL }}
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
+          CI_RUN: true
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
