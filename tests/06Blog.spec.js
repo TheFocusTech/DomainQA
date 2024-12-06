@@ -200,7 +200,7 @@ test.describe('Blog', () => {
         await headerComponent.clickBlogButton();
         await page.waitForURL(URL_ENDPOINT.blogPage);
 
-        await step('Open a random article:', async () => {
+        await step('Click on the random article from the list of articles', async () => {
             await blogPage.articlesList.first().waitFor({ state: 'visible' });
             const articleCount = await blogPage.articlesList.count();
             const randomIndex = Math.floor(Math.random() * articleCount);
@@ -212,37 +212,53 @@ test.describe('Blog', () => {
 
         for (let i = 0; i < buttonCount; i++) {
             const expectedText = await blogArticlePage.buttonsArticleList.nth(i).textContent();
-            const actualHeading = await blogArticlePage.subArticlesList.nth(i).getByRole('heading');
-            expect(actualHeading).toContainText(expectedText);
-            await blogArticlePage.buttonsArticleList.nth(i).click();
+            await step(
+                `Click on "${expectedText}" button in sidebar menu and verify the corresponding header position`,
+                async () => {
+                    await blogArticlePage.clickButtonsArticleList(i);
 
-            await actualHeading.waitFor({ state: 'visible' });
+                    const actualHeading = await blogArticlePage.subArticlesList.nth(i).getByRole('heading');
+                    let headingPosition;
+                    await step(
+                        `Verify that the "${expectedText}" with the corresponding header on the page`,
+                        async () => {
+                            expect(actualHeading).toContainText(expectedText);
+                        }
+                    );
 
-            await page.waitForTimeout(1000);
+                    await actualHeading.waitFor({ state: 'visible' });
+                    await page.waitForTimeout(1000);
 
-            const headingPosition = await page.evaluate(
-                (element) => {
-                    const rect = element.getBoundingClientRect();
-                    return { top: rect.top, bottom: rect.bottom };
-                },
-                await actualHeading.elementHandle()
+                    await step('Get header position', async () => {
+                        headingPosition = await page.evaluate(
+                            (element) => {
+                                const rect = element.getBoundingClientRect();
+                                return { top: rect.top, bottom: rect.bottom };
+                            },
+                            await actualHeading.elementHandle()
+                        );
+                    });
+
+                    await step(
+                        'Verify that the corresponding header is positioned near the top of the screen',
+                        async () => {
+                            const fixedHeaderHeight = 58;
+                            expect(headingPosition.top).toBeGreaterThanOrEqual(fixedHeaderHeight);
+                            expect(headingPosition.top).toBeLessThanOrEqual(fixedHeaderHeight + 30);
+
+                            const isOverlapping = await page.evaluate(
+                                ({ element, headerHeight }) => {
+                                    const rect = element.getBoundingClientRect();
+                                    return rect.top < headerHeight;
+                                },
+                                { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight }
+                            );
+
+                            expect(isOverlapping).toBe(false);
+                        }
+                    );
+                }
             );
-
-            const fixedHeaderHeight = 58;
-            console.log(`Heading position for index ${i}:`, headingPosition);
-
-            expect(headingPosition.top).toBeGreaterThanOrEqual(fixedHeaderHeight);
-            expect(headingPosition.top).toBeLessThanOrEqual(fixedHeaderHeight + 30);
-
-            const isOverlapping = await page.evaluate(
-                ({ element, headerHeight }) => {
-                    const rect = element.getBoundingClientRect();
-                    return rect.top < headerHeight;
-                },
-                { element: await actualHeading.elementHandle(), headerHeight: fixedHeaderHeight }
-            );
-
-            expect(isOverlapping).toBe(false);
         }
     });
 
