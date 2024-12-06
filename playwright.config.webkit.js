@@ -45,11 +45,13 @@ export default defineConfig({
             },
         ],
     ],
+    timeout: 60000,
     /* Save visual comparisons screnshots*/
     snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
 
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
+        viewport: { width: 1920, height: 1080 },
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: process.env.URL,
 
