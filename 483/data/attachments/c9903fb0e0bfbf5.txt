@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: validus
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Administratio centum crepusculum voluptatum. Comis arca corpus terminatio. Perspiciatis inflammatio teres.
-Filling field: Your Email*  with value: Alena_Goldner24@hotmail.com
-Filling field: The offending domain name(s)* with value: infinite-eyebrow.info
-Filling field: Country your IP address belongs to* with value: Ghana
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (X11; Linux i686 AppleWebKit/538.0.0 (KHTML, like Gecko) Chrome/37.0.890.0 Safari/538.0.0
-Filling field: Support Code #*  with value: 701474
