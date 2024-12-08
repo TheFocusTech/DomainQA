@@ -46,6 +46,7 @@ import BillingPage from './pom/pages/BillingPage';
 import CheckoutStripePage from './pom/pages/CheckoutStripePage';
 import ReportAbusePage from './pom/pages/ReportAbusePage';
 import StatusReportAbusePage from './pom/pages/StatusReportAbusePage';
+import CreateRequestWhois from './pom/modalWindows/CreateRequestWhois';
 
 export const test = base.extend({
     /** @type { HomePage } */
@@ -237,5 +238,9 @@ export const test = base.extend({
     /** @type { StatusReportAbusePage } */
     statusReportAbusePage: async ({ page }, use) => {
         await use(new StatusReportAbusePage(page));
+    },
+    /** @type { CreateRequestWhois } */
+    createRequestWhois: async ({ page }, use) => {
+        await use(new CreateRequestWhois(page));
     },
 });

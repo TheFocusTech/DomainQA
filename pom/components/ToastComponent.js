@@ -9,6 +9,7 @@ export default class ToastComponent {
         this.promptHZCreated = this.page.getByText('Hosted zone created');
         this.accountDeleted = this.page.getByText('The account will be deleted in 30 days');
         this.accountDeletionCanceled = this.page.getByText('Deletion was cancelled successfully');
+        this.requestWhoisToast = this.page.getByText('The request was sent');
     }
 
     async waitForToastText() {
