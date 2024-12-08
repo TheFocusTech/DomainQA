@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 export const QASE_LINK = ' https://app.qase.io/case';
 export const GOOGLE_DOC_LINK =
     'https://docs.google.com/document/d/1ff46TvvPYvH_AZfc4Ilqv6Dbo9Jxp31GQh-IJhrr0wc/edit?tab=t.0#heading=h.';
@@ -53,6 +55,7 @@ export const TOAST_MESSAGE = {
     loggedOut: 'You have been logged out',
     dnsRecordDeleted: 'DNS-record deleted',
     failedToAddCard: 'Failed to add card',
+    requestWhoisSent: 'The request was sent successfully',
 };
 
 export const NEGATIVE_EMAIL_DATA_SET = [
@@ -529,4 +532,14 @@ export const LOGIN_PAGE_HEADER_TEXT = 'Welcome to Trustname';
 
 export const BLOG_SEARCH_RESULT_MESSAGE = {
     noResult: 'No results for',
+};
+
+export const WHOIS_REQUEST_FORM = {
+    fullName: 'AUTOTST',
+    email: faker.internet.email(),
+    phone: '+1 234 567 8901',
+    country: faker.location.country(),
+    postalCode: faker.location.zipCode(),
+    street: faker.location.streetAddress(),
+    city: faker.location.city(),
 };

@@ -10,7 +10,7 @@ export default class WhoisSearchResultPage {
         this.noMatchText = this.page.getByText(`No match for "${ERROR_DOMAIN}."`);
         this.resultSearch = this.page.locator('div[class*="card-domain-body"] p:last-child');
     }
-    async clickfullInfoButton() {
+    async clickFullInfoButton() {
         await step('Click on "Get full info" button.', async () => {
             await this.fullInfoButton.click();
         });
