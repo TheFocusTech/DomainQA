@@ -143,7 +143,7 @@ test.describe('Search domains', () => {
         });
 
         await createRequestWhois.clickCancelButton();
-        await step('Verify that modal window to request info about domain is appears', async () => {
+        await step('Verify that modal window to request info about domain is closed', async () => {
             await expect(createRequestWhois.createRequestWhoisTitle).not.toBeVisible();
         });
 

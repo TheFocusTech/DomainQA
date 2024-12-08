@@ -37,7 +37,7 @@ export default class createRequestWhois {
     }
 
     async fillStreetInput(address) {
-        await step(`Fill street input field`, async () => {
+        await step(`Fill in "Street" input field`, async () => {
             await this.streetInput.fill(address);
         });
     }
