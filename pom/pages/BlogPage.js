@@ -13,6 +13,7 @@ export default class BlogPage {
         this.blogSearchButton = this.page.getByRole('button', { name: 'Search' });
         this.rescentSearchHeading = this.page.locator('div[class*="search-result"] h3');
         this.searchResultMessage = this.page.locator('h2:has-text("results for")');
+        this.clearAllButton = this.blogSearchPopup.getByRole('button', { name: 'Clear all' });
     }
 
     async verifyBlogPage(heading, buttons) {
@@ -48,6 +49,12 @@ export default class BlogPage {
     async clickSearchButton() {
         await step('Click on Search button', async () => {
             await this.blogSearchButton.first().click({ force: true });
+        });
+    }
+
+    async clickClearAllButton() {
+        await step('Click on "Clear all" button', async () => {
+            this.clearAllButton.click();
         });
     }
 }

@@ -64,6 +64,7 @@ test.describe('Blog', () => {
         headerComponent,
         loginPage,
         blogPage,
+        blogSearchResultsPage,
     }) => {
         await tags('Blog', 'Positive');
         await severity('normal');
@@ -94,6 +95,20 @@ test.describe('Blog', () => {
                 const containsSearchTerm = new RegExp(INPUT_SEARCH_RELEVANT_NAME, 'i').test(text);
                 expect(containsSearchTerm).toBe(true);
             }
+        });
+        await blogPage.clickSearchButton();
+        await page.waitForURL(`${process.env.URL}/blog/search?search=${INPUT_SEARCH_RELEVANT_NAME}`);
+        await blogSearchResultsPage.clickBlogBreadcrumbs();
+        await page.waitForURL(`${process.env.URL}/blog`);
+        await blogPage.fillBlogSearchInput('');
+        await blogPage.waitForBlogSearchPopup();
+
+        await step('Verify that "Recent Searches" are displayed in popup search window', async () => {
+            await expect(blogPage.rescentSearchHeading.first()).toHaveText('Recent Searches');
+        });
+        await blogPage.clickClearAllButton();
+        await step('Verify that "Recent Searches" are not displayed in popup search window', async () => {
+            await expect(blogPage.rescentSearchHeading.filter({ hasText: 'Recent Searches' })).not.toBeVisible();
         });
     });
 
