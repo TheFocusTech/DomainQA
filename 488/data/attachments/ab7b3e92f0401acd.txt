@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: comburo
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Sit vel conor casso. Sono repudiandae timor cohors virga catena abbas nostrum. Deporto tredecim barba capitulus truculenter aeger corpus aperiam.
-Filling field: Your Email*  with value: Destini_Champlin53@yahoo.com
-Filling field: The offending domain name(s)* with value: grubby-forager.name
-Filling field: Country your IP address belongs to* with value: Tokelau
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_0 rv:6.0; FJ) AppleWebKit/536.1.2 (KHTML, like Gecko) Version/4.1.1 Safari/536.1.2
-Filling field: Support Code #*  with value: 887025
