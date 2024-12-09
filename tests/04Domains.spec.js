@@ -15,6 +15,7 @@ import {
     WHOIS_SEARCH_RESULT_TITLES,
     TOAST_MESSAGE,
     MODAL_WINDOW_DELETE_HOSTED_ZONE,
+    WHOIS_REQUEST_FORM,
 } from '../testData';
 
 let headers;
@@ -107,6 +108,8 @@ test.describe('Search domains', () => {
         whoisPage,
         headerComponent,
         whoisSearchResultPage,
+        createRequestWhois,
+        toastComponent,
     }) => {
         await tags('Domains', 'WhoIs');
         await severity('normal');
@@ -131,6 +134,35 @@ test.describe('Search domains', () => {
             for (const title of WHOIS_SEARCH_RESULT_TITLES) {
                 await expect(whoisSearchResultPage.resultSearch).toContainText(title);
             }
+        });
+
+        await whoisSearchResultPage.clickFullInfoButton();
+        await step('Verify that modal window to request info about domain is appears', async () => {
+            await expect(createRequestWhois.createRequestWhoisTitle).toBeVisible();
+            await expect(createRequestWhois.createRequestWhoisText).toContainText(CORRECT_DOMAIN);
+        });
+
+        await createRequestWhois.clickCancelButton();
+        await step('Verify that modal window to request info about domain is closed', async () => {
+            await expect(createRequestWhois.createRequestWhoisTitle).not.toBeVisible();
+        });
+
+        await whoisSearchResultPage.clickFullInfoButton();
+        await step('Verify that modal window to request info about domain is appears', async () => {
+            await expect(createRequestWhois.createRequestWhoisTitle).toBeVisible();
+        });
+
+        await createRequestWhois.fillFullNameInput(WHOIS_REQUEST_FORM.fullName);
+        await createRequestWhois.fillPhoneNumberInput(WHOIS_REQUEST_FORM.phone);
+        await createRequestWhois.fillZipCodeInput(WHOIS_REQUEST_FORM.postalCode);
+        await createRequestWhois.fillCityInput(WHOIS_REQUEST_FORM.city);
+        await createRequestWhois.fillEmailInput(WHOIS_REQUEST_FORM.email);
+        await createRequestWhois.selectCountryByName('United States of America');
+        await createRequestWhois.fillStreetInput(WHOIS_REQUEST_FORM.street);
+        await createRequestWhois.clickSubmitButton();
+
+        await step('Verify toast notification about successful submitting the form.', async () => {
+            await expect(toastComponent.requestWhoisToast).toHaveText(TOAST_MESSAGE.requestWhoisSent);
         });
     });
 
