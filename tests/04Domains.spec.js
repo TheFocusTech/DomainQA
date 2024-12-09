@@ -184,7 +184,9 @@ test.describe('Search domains', () => {
 
         await headerComponent.clickDomainsButton();
         await headerComponent.clickWhoisButton();
-        await whoisPage.fillWhoisSearchInput(ERROR_DOMAIN);
+        await step('Fill Search input field with non-existing domain name', async () => {
+            await whoisPage.fillWhoisSearchInput(ERROR_DOMAIN);
+        });
         await whoisPage.clickWhoisSearchButton();
 
         await step('Verify that title "WHOIS Search results" is appears', async () => {
@@ -234,12 +236,14 @@ test.describe('Hosted zones', () => {
         await hostedZonesPage.clickBreadcrumbMenuHostedZone();
         await hostedZonesPage.clickDeleteButton();
 
-        const textFormModalWindow = await deleteHostedZoneModal.formModalWindow.textContent();
-        MODAL_WINDOW_DELETE_HOSTED_ZONE.forEach((expectedText) => {
-            expect(textFormModalWindow).toContain(expectedText);
-        });
+        await step('Verify that the modal window to delete the hosted zone is opening.', async () => {
+            const textFormModalWindow = await deleteHostedZoneModal.formModalWindow.textContent();
+            MODAL_WINDOW_DELETE_HOSTED_ZONE.forEach((expectedText) => {
+                expect(textFormModalWindow).toContain(expectedText);
+            });
 
-        expect(textFormModalWindow).toContain(domainName);
+            expect(textFormModalWindow).toContain(domainName);
+        });
 
         await deleteHostedZoneModal.clickCancelButton();
         await hostedZonesPage.clickBreadcrumbMenuHostedZone();
