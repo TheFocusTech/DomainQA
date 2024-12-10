@@ -30,20 +30,16 @@ test.describe('Registration', () => {
             await page.goto('/');
         });
         await headerComponent.clickSignup();
-        await step('Verify user is on Sign up page.', async () => {
+        await step('User is on Sign up page.', async () => {
             await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
         });
-        await step('Verify the filling existing Email Address.', async () => {
+        await step('Filling existing Email Address.', async () => {
             await signupPage.fillEmailAddressInput(process.env.USER_EMAIL);
         });
-        await step('Verify the select of check box to receive emails.', async () => {
-            await signupPage.selectCheckboxReceiveEmails();
-        });
-        await step('Verify the click the "Create account" button.', async () => {
-            await signupPage.clickCreateAccount();
-        });
+        await signupPage.selectCheckboxReceiveEmails();
+        await signupPage.clickCreateAccount();
         await step('Verify the registration is failed.', async () => {
-            await signupPage.errorMessageEmail.isVisible();
+            await expect(signupPage.errorMessageEmail).toBeVisible();
         });
     });
     NEGATIVE_EMAIL_DATA_SET.forEach((typeEmailField) => {
@@ -63,10 +59,10 @@ test.describe('Registration', () => {
                 await page.goto('/');
             });
             await headerComponent.clickSignup();
-            await step('Verify user is on Sign up page.', async () => {
+            await step('User is on Sign up page.', async () => {
                 await page.waitForURL(process.env.URL + URL_ENDPOINT.signup);
             });
-            await step('Verify the filling invalid Email Address.', async () => {
+            await step('Filling invalid Email Address.', async () => {
                 await signupPage.fillEmailAddressInput(typeEmailField[1]);
             });
             await step('Verify the error message.', async () => {

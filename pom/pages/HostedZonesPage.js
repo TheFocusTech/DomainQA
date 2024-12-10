@@ -50,7 +50,7 @@ export default class HostedZonesPage {
     }
 
     async clickDeleteButton() {
-        await step('Click on "Create hosted zone" button.', async () => {
+        await step('Click on "Delete hosted zone" button.', async () => {
             await this.deleteButton.click();
         });
     }
