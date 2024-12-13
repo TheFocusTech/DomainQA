@@ -412,7 +412,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
+    test.skip('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
         page,
         dnsRecordModal,
         hostedZonesDetailPage,

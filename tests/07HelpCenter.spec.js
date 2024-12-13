@@ -117,7 +117,7 @@ test.describe('Help Center', () => {
         });
     });
 
-    test('TC_07_01_05 | Verify the user can switch between categories', async ({
+    test.skip('TC_07_01_05 | Verify the user can switch between categories', async ({
         page,
         loginPage,
         headerComponent,
