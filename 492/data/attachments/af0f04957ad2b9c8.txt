@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: arceo
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Vel testimonium ager tamquam dolores utique texo. Adfero tabula eos sed tabernus demoror. Demoror temeritas ulterius accendo atqui.
-Filling field: Your Email*  with value: Thomas28@yahoo.com
-Filling field: The offending domain name(s)* with value: fine-numeric.com
-Filling field: Country your IP address belongs to* with value: Cape Verde
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (Windows; U; Windows NT 5.3)AppleWebKit/538.2.1 (KHTML, like Gecko) Version/5.1.10 Safari/538.2.1
-Filling field: Support Code #*  with value: 135047
