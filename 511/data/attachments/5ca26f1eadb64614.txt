@@ -1,0 +1,1 @@
+An error occurred while deleting all hosted zones: Cannot destructure property 'dr.token' of 'headers' as it is undefined.
