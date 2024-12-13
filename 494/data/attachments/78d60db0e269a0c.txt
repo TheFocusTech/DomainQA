@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: sperno
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Ullam tripudio arca suspendo. Earum tricesimus claro arma. Crur coniuratio ager atque sint auditor adhuc tandem.
-Filling field: Your Email*  with value: Cletus.Bradtke14@yahoo.com
-Filling field: The offending domain name(s)* with value: wee-yak.org
-Filling field: Country your IP address belongs to* with value: Reunion
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.0; Trident/7.0; .NET CLR 2.5.74603.8)
-Filling field: Support Code #*  with value: 881793
