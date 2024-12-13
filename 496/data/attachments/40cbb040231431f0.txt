@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: cauda
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Vir terra vis modi cohaero tabgo textus cubicularis. Desidero vacuus studio verbera aut compello suggero. Tabella caritas vinum.
-Filling field: Your Email*  with value: Muriel_Stroman39@hotmail.com
-Filling field: The offending domain name(s)* with value: breakable-clamp.biz
-Filling field: Country your IP address belongs to* with value: Finland
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.2; Trident/5.0; .NET CLR 4.8.34858.5)
-Filling field: Support Code #*  with value: 988827
