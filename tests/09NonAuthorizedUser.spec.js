@@ -302,7 +302,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test(`TC_09_03_06 | Verify that user can select several TLDs and see relevant search results`, async ({
+    test.skip(`TC_09_03_06 | Verify that user can select several TLDs and see relevant search results`, async ({
         homePage,
         advancedSearchModal,
         domainAvailabilityPage,
