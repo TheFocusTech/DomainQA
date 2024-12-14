@@ -138,7 +138,8 @@ export async function resultComparisonsHeaders(countH, page, helpCenterArticlePa
 
         await page.waitForTimeout(1500);
         let h1 = await helpCenterArticlePage.innerTextHeaderH1();
-        if (h1.includes(`${text[i]}`) === true) {
+
+        if (h1.includes(text[i].trim())) {
             result = 'true';
         } else {
             result = 'false';
