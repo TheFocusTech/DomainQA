@@ -93,17 +93,17 @@ test.describe('Unauthorized user', () => {
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickSearchButton();
 
-        await step(`Verify that search result contains the domain, price and button "Buy" `, async () => {
+        await step('Verify that search result contains the domain, price and button "Add to cart"', async () => {
             await expect(domainAvailabilityPage.resultSearch).toContainText(AVAILABLE_DOMAIN);
 
             const elementText = await domainAvailabilityPage.resultSearch.textContent();
             const regex = /\.(com|net|org)/;
             expect(regex.test(elementText)).toBe(true);
             await expect(domainAvailabilityPage.resultSearch).toContainText('Renewal');
-            await expect(domainAvailabilityPage.buyButton).toBeVisible();
+            await expect(domainAvailabilityPage.addToCartButton).toBeVisible();
         });
 
-        await domainAvailabilityPage.clickBuyButton();
+        await domainAvailabilityPage.clickAddToCartButton();
     });
 
     test(`TC_09_02_02|  Verify unauthorized user can search occupied domains (no filters)`, async ({
@@ -494,7 +494,7 @@ test.describe('Unauthorized user', () => {
             'Verify that both registered and unregistered domains are displayed in the search results',
             async () => {
                 expect(arrButtonNames).toContain('Who owns?');
-                expect(arrButtonNames).toContain('Buy');
+                expect(arrButtonNames).toContain('Add to cart');
             }
         );
 
@@ -515,11 +515,14 @@ test.describe('Unauthorized user', () => {
             await homePage.searchButton.click();
         });
 
-        await step('Only unregistered domains that have BUY button are displayed in the search results', async () => {
-            arrButtonNames = await homePage.getListCardButtonsName();
-            expect(arrButtonNames).not.toContain('Who owns?');
-            expect(arrButtonNames).toContain('Buy');
-        });
+        await step(
+            'Only unregistered domains that have the "Add to cart" button are displayed in the search results',
+            async () => {
+                arrButtonNames = await homePage.getListCardButtonsName();
+                expect(arrButtonNames).not.toContain('Who owns?');
+                expect(arrButtonNames).toContain('Add to cart');
+            }
+        );
 
         await homePage.clickFilterButton();
 
@@ -876,7 +879,7 @@ test.describe('Unauthorised user Domain availability Page', () => {
         await page.goto('/');
         await homePage.fillDomainSearchInput(SEARCH_DOMAIN);
         await homePage.clickSearchButton();
-        await domainAvailabilityPage.clickBuyButton();
+        await domainAvailabilityPage.clickAddToCartButton();
 
         await step(`Verify Login Page Element Validation `, async () => {
             await expect(pageTitleComponent.pageTitle).toHaveText(LOGIN_PAGE_HEADER_TEXT);

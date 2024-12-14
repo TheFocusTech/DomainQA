@@ -64,7 +64,9 @@ export async function resultCountCategoriesSearch(page, helpSearchResultsPage) {
     for (let str of textButtons) {
         textButtons1.push(str.replace('(', '').replace(')', '').split('\n'));
     }
-    for (let text of textButtons1) {
+    const filteredTexts = textButtons1.map((innerArray) => innerArray.filter((text) => text.trim() !== ''));
+
+    for (let text of filteredTexts) {
         if (text[1] == 0) continue;
         else {
             await page.getByRole('button', { name: `${text[0]}` }).click({ force: true });
@@ -136,7 +138,8 @@ export async function resultComparisonsHeaders(countH, page, helpCenterArticlePa
 
         await page.waitForTimeout(1500);
         let h1 = await helpCenterArticlePage.innerTextHeaderH1();
-        if (h1.includes(`${text[i]}`) === true) {
+
+        if (h1.includes(text[i].trim())) {
             result = 'true';
         } else {
             result = 'false';
