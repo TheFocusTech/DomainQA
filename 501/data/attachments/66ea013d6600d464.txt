@@ -1,9 +1,0 @@
-Filling field: Complainant* with value: Santiago Kunze
-Filling field: Respondent* with value: Anne Boyle
-Filling field: Arbitrator Email Address* with value: Emil.Kuhlman72@gmail.com
-Filling field: Arbitrator Organization* with value: Rice Inc
-Filling field: Date of Issue* with value: 2024-03-31
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Aranea sulum magni acer officiis autem molestiae usitas vox amo. Cohibeo urbanus carpo absque solitudo acerbitas adamo. Vorax ulciscor cui laudantium abeo peccatus asporto.
-Filling field: Your Email*  with value: Sofia90@hotmail.com
-Filling field: The offending domain name(s)* with value: closed-scaffold.info
