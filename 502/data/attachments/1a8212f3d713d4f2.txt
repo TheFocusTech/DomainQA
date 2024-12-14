@@ -1,8 +1,0 @@
-Filling field: Target of the attack* with value: totidem
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Aqua eveniet suggero deinde agnosco defetiscor deficio. Vestigium ciminatio depraedor aequus conculco curriculum somnus triduana denego. Adfectus beneficium vomica virtus mollitia censura deorsum calamitas.
-Filling field: Your Email*  with value: Roel_Koch58@yahoo.com
-Filling field: The offending domain name(s)* with value: superficial-place.info
-Filling field: Country your IP address belongs to* with value: Rwanda
-Filling field: User-agent (mobile phone, PC) and browser* with value: Mozilla/5.0 (Macintosh; PPC Mac OS X 10_8_3 rv:6.0; SQ) AppleWebKit/536.2.0 (KHTML, like Gecko) Version/4.0.1 Safari/536.2.0
-Filling field: Support Code #*  with value: 634654
