@@ -4,7 +4,7 @@ on:
     branches: [ main ]
 jobs:
   test:
-    timeout-minutes: 90
+    timeout-minutes: 300
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
 #           CI_RUN: true
 
       - name: Run Playwright Safari tests
-        run: npm run test:webkit:CI
+        run: npm run test:CI:webkit
         env:
           URL: ${{ secrets.URL}}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}

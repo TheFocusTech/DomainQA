@@ -16,7 +16,7 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "report-create": "allure generate allure-results -o allure-report --clean",
     "report-open": "npm run report-create && allure open allure-report",
-    "test:webkit:CI": "npx playwright test -c playwright.config.webkit.js"
+    "test:CI:webkit": "npx playwright test -c playwright.config.webkit.js"
   },
   "keywords": [],
   "author": "",
