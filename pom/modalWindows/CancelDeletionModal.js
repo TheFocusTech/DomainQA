@@ -10,6 +10,7 @@ export default class CancelDeletionModal {
 
     async clickAcceptButton() {
         await step('Click on the "Accept" button.', async () => {
+            await this.acceptButton.waitFor({ state: 'visible' });
             await this.acceptButton.click();
         });
     }
