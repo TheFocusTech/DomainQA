@@ -18,7 +18,7 @@ jobs:
 
       - name: Run Playwright Chrome tests
 #        run: npm test
-        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=allure-playwright,json
+        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=list,allure-playwright,json
         env:
           URL: ${{ secrets.URL}}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
