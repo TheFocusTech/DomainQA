@@ -21,7 +21,7 @@ export default class ReportAbusePage {
     }
 
     async clickAbuseTypeDropdown() {
-        await this.abuseTypeDropdown.click();
+        await this.abuseTypeDropdown.click({ force: true });
     }
     async selectAbuseType(abuseType) {
         await this.abuseTypeOption(abuseType).click();
@@ -44,7 +44,7 @@ export default class ReportAbusePage {
             const fieldLocator = this.fieldLocator(label);
             const normalizedLabel = label.replace('*', '').trim();
             if (DROPDOWN_FIELDS.includes(normalizedLabel)) {
-                await fieldLocator.click();
+                await fieldLocator.click({ force: true });
                 const options = await this.dropdownOptions;
                 const randomIndex = Math.floor(Math.random() * (await options.count()));
                 await options.nth(randomIndex).click();
