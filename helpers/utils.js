@@ -64,7 +64,9 @@ export async function resultCountCategoriesSearch(page, helpSearchResultsPage) {
     for (let str of textButtons) {
         textButtons1.push(str.replace('(', '').replace(')', '').split('\n'));
     }
-    for (let text of textButtons1) {
+    const filteredTexts = textButtons1.map((innerArray) => innerArray.filter((text) => text.trim() !== ''));
+
+    for (let text of filteredTexts) {
         if (text[1] == 0) continue;
         else {
             await page.getByRole('button', { name: `${text[0]}` }).click({ force: true });
