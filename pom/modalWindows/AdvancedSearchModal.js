@@ -129,6 +129,13 @@ export default class AdvancedSearchModal {
     }
 
     async clickLetterButton(letter) {
+        if (letter === 'z') {
+            await step(`Go to the end of ABC`, async () => {
+                for (let j = 0; j < 9; j++) {
+                    await this.nextArrow.click();
+                }
+            });
+        }
         await step(`Click on "${letter.toUpperCase()}" button.`, async () => {
             await this.letterButton(letter).click();
         });
@@ -149,8 +156,5 @@ export default class AdvancedSearchModal {
         await step('Click on "Select All Category" button.', async () => {
             await this.clearAllButton.click();
         });
-    }
-    async clickNextArrowButton() {
-        await this.nextArrow.click();
     }
 }

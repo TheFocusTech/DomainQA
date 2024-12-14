@@ -97,6 +97,7 @@ test.describe('Authorization', () => {
 test.describe('Delete Account', () => {
     test.afterEach(async ({ settingsGeneralPage, cancelDeletionModal }) => {
         await step('Postconditions: Cancel deletion', async () => {
+            await settingsGeneralPage.cancelDeletionButton.waitFor({ state: 'visible' });
             await settingsGeneralPage.clickCancelDeletionButton();
             await cancelDeletionModal.clickAcceptButton();
         });

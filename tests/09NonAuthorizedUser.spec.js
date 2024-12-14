@@ -404,7 +404,7 @@ test.describe('Unauthorized user', () => {
         await tags('Unauthorized_user', 'Search_domains');
         await severity('normal');
         await description(`Verify unauthorized user can open modal window with filters for advanced search`);
-        await issue(`${QASE_LINK}case=30`, 'Search domain');
+        await issue(`${QASE_LINK}/01-17`, 'Search domain');
         await tms(`${GOOGLE_DOC_LINK}jgxijwpv69l3`, 'ATC_09_03_01');
         await epic('Unauthorized_user');
 
@@ -646,7 +646,7 @@ test.describe('Unauthorized user', () => {
             await description(
                 `Verify that user can switch between categories, select all TLDs in the category and clear all TLDs`
             );
-            await issue(`${QASE_LINK}case=30`, 'Search domain');
+            await issue(`${QASE_LINK}/01-17`, 'Search domain');
             await tms(`${GOOGLE_DOC_LINK}lg4vntkzbngo`, 'ATC_09_03_04');
             await epic('Unauthorized_user');
 
@@ -661,13 +661,7 @@ test.describe('Unauthorized user', () => {
             await advancedSearchModal.category.first().waitFor({ timeout: 10000 });
             const allCategorysList = await advancedSearchModal.getCategorysList();
             const filteredCategorysList = allCategorysList.filter((el) => el.substring(0, 2) == `.${letter}`);
-            if (letter === 'z') {
-                await step(`Go to the end of ABC`, async () => {
-                    for (let j = 0; j < 9; j++) {
-                        await advancedSearchModal.clickNextArrowButton();
-                    }
-                });
-            }
+
             await advancedSearchModal.clickLetterButton(letter);
 
             if (filteredCategorysList.length == 0) {
