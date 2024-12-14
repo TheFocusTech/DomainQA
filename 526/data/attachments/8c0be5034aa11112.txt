@@ -1,0 +1,9 @@
+Filling field: Complainant* with value: Jenna Kerluke
+Filling field: Respondent* with value: Ben Kris
+Filling field: Arbitrator Email Address* with value: Obie0@gmail.com
+Filling field: Arbitrator Organization* with value: Bogisich, Hills and Donnelly
+Filling field: Date of Issue* with value: 2024-03-03
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Correptius curto ab. Cogo caterva constans tollo. Porro vorax adimpleo cornu utpote volup asperiores comis undique terebro.
+Filling field: Your Email*  with value: Yasmeen.Parker97@gmail.com
+Filling field: The offending domain name(s)* with value: fortunate-tooth.biz

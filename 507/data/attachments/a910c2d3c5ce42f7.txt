@@ -1,9 +1,0 @@
-Filling field: Complainant* with value: Betsy Sipes
-Filling field: Respondent* with value: Miss Bobbie Schroeder
-Filling field: Arbitrator Email Address* with value: Gerald48@gmail.com
-Filling field: Arbitrator Organization* with value: Pacocha LLC
-Filling field: Date of Issue* with value: 2024-10-03
-Filling field: Abuse subject* with value: AUTOTST
-Filling field: Details or Explanation* with value: Capitulus aestus dapifer cursus. Culpo vaco caries voluptas soleo arcesso trepide vespillo succedo. Absque asporto desipio curriculum allatus.
-Filling field: Your Email*  with value: Zora_Mann@hotmail.com
-Filling field: The offending domain name(s)* with value: troubled-barge.biz
