@@ -8,7 +8,7 @@ export default class DomainAvailabilityPage {
         this.titleSearch = this.page.getByRole('heading', { name: 'WHOIS Search results' });
         this.resultSearch = this.page.locator('div[class*="card-domain-purchase"]').nth(0);
         this.domainTakenText = this.page.getByText('This domain is already taken').first();
-        this.buyButton = this.page.locator('div').filter({ hasText: /^Buy$/ }).first();
+        this.addToCartButton = this.page.getByRole('button', { name: 'Add to cart' }).first();
         this.costDomain = this.page.locator('text=/\\$\\d+\\.\\d{2}\\/yearRenewal/').first();
         this.fullInfoDomain = this.page.getByText('/^.+.(com|net|org)$d+.d{2}/yearRenewal: $d+.d{2}Buy$/');
         this.resultSearchList = this.page.locator('p[class*="card-domain-purchase"]');
@@ -19,9 +19,9 @@ export default class DomainAvailabilityPage {
             await this.whoOwnsButton.click();
         });
     }
-    async clickBuyButton() {
-        await step('Click on "Buy" button.', async () => {
-            await this.buyButton.click();
+    async clickAddToCartButton() {
+        await step('Click on "Add to cart" button.', async () => {
+            await this.addToCartButton.click();
         });
     }
 }
