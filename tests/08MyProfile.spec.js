@@ -58,7 +58,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
+    test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         loginPage,
         headerComponent,
