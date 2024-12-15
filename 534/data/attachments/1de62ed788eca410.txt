@@ -1,0 +1,9 @@
+Filling field: Complainant* with value: Kelly Lynch
+Filling field: Respondent* with value: Erin Hoppe
+Filling field: Arbitrator Email Address* with value: Barbara.Stokes68@hotmail.com
+Filling field: Arbitrator Organization* with value: Thompson Inc
+Filling field: Date of Issue* with value: 2024-04-15
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Deorsum bibo arceo coerceo cerno alienus. Fuga testimonium terminatio cornu vespillo dedecor ad studio. Carcer amplitudo denique verecundia.
+Filling field: Your Email*  with value: Paige.Daugherty22@hotmail.com
+Filling field: The offending domain name(s)* with value: dental-scholarship.biz
