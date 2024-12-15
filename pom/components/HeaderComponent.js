@@ -160,13 +160,13 @@ export default class HeaderComponent {
 
     async clickCurrencyTypeDropdown(type) {
         return await step(`Click ${type} type currency dropdown.`, async () => {
-            await this.page.getByRole('button', { name: `${type}` }).click();
+            await this.page.getByRole('button', { name: `${type}`, exact: true }).click();
         });
     }
 
     async isCurrencyTypeSet(type) {
         return await step('Get currency type value.', async () => {
-            return (await this.currencyButton.innerText()) === `Currency ${type}`;
+            return (await this.currencyButton.textContent()) === `Currency ${type}`;
         });
     }
 
