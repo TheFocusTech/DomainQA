@@ -31,7 +31,7 @@ export default class HelpContactUsPage {
 
     async chooseTypeOption(name) {
         await step(`Choose ${name} from dropdown list.`, async () => {
-            await this.page.getByRole('option', { name: name }).waitFor({ state: 'visible' });
+            await this.page.getByRole('option', { name: name , exact: true }).waitFor({ state: 'visible' });
             await this.page.getByRole('option', { name: name }).click();
         });
     }
