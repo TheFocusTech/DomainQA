@@ -70,7 +70,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
+    test('TC_09_02_01|  Verify unauthorized user can search available domains (no filters)', async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -94,6 +94,7 @@ test.describe('Unauthorized user', () => {
         await homePage.clickSearchButton();
 
         await step('Verify that search result contains the domain, price and button "Add to cart"', async () => {
+            await domainAvailabilityPage.resultSearch.isVisible();
             await expect(domainAvailabilityPage.resultSearch).toContainText(AVAILABLE_DOMAIN);
 
             const elementText = await domainAvailabilityPage.resultSearch.textContent();
@@ -106,7 +107,7 @@ test.describe('Unauthorized user', () => {
         await domainAvailabilityPage.clickAddToCartButton();
     });
 
-    test.skip(`TC_09_02_02|  Verify unauthorized user can search occupied domains (no filters)`, async ({
+    test('TC_09_02_02|  Verify unauthorized user can search occupied domains (no filters)', async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -128,6 +129,7 @@ test.describe('Unauthorized user', () => {
         await step(
             `Verify that search results contain name of the searching domain, text 'This domain is already taken' and text 'Who owns?'`,
             async () => {
+                await domainAvailabilityPage.resultSearch.isVisible();
                 await expect(domainAvailabilityPage.resultSearch).toContainText(OCCUPIED_DOMAIN);
                 await expect(domainAvailabilityPage.resultSearch).toContainText('This domain is already taken');
                 await expect(domainAvailabilityPage.resultSearch).toContainText('Who owns?');
