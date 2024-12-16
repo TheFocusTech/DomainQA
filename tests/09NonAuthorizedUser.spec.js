@@ -70,7 +70,7 @@ test.describe('Unauthorized user', () => {
         });
     });
 
-    test.skip(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
+    test(`TC_09_02_01|  Verify unauthorized user can search available domains (no filters)`, async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -106,7 +106,7 @@ test.describe('Unauthorized user', () => {
         await domainAvailabilityPage.clickAddToCartButton();
     });
 
-    test.skip(`TC_09_02_02|  Verify unauthorized user can search occupied domains (no filters)`, async ({
+    test(`TC_09_02_02|  Verify unauthorized user can search occupied domains (no filters)`, async ({
         domainAvailabilityPage,
         homePage,
     }) => {
@@ -799,7 +799,7 @@ test.describe('Reset Password', () => {
 
 test.describe('Contact Us', async () => {
     CONTACT_US_DROPDOWN.forEach((item, index) => {
-        test.skip(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
+        test(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
             page,
             footerComponent,
             helpContactusPage,
