@@ -799,7 +799,7 @@ test.describe('Reset Password', () => {
 
 test.describe('Contact Us', async () => {
     CONTACT_US_DROPDOWN.forEach((item, index) => {
-        test.skip(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
+        test(`TC_09_06_${String(index + 1).padStart(2, '0')} | Verify unauthorized users can submit the "Contact Us" form for "${item.name}" Type`, async ({
             page,
             footerComponent,
             helpContactusPage,
