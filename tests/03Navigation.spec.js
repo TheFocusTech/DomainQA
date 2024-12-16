@@ -70,7 +70,7 @@ test.describe('Navigation', () => {
     HEADER_LINKS.forEach((link) => {
         if (link.type === 'direct') {
             testNumber++;
-            test.skip(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${link.name}`, async ({
+            test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${link.name}`, async ({
                 page,
                 headerComponent,
                 blogPage,
@@ -109,7 +109,7 @@ test.describe('Navigation', () => {
         } else if (link.type === 'dropdown') {
             link.links.forEach((dropdownLink) => {
                 testNumber++;
-                test.skip(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
+                test(`TC_03_01_${String(testNumber).padStart(2, '0')} |  Verify that user can navigate through Header links ${dropdownLink.name}`, async ({
                     page,
                     headerComponent,
                     registeredDomainsPage,
@@ -153,7 +153,7 @@ test.describe('Navigation', () => {
     });
 
     Object.entries(navigationToHomePageActions).forEach(([name, action], index) => {
-        test.skip(`TC_03_02_0${index + 1} | Verify navigation to Home page from ${name}`, async ({
+        test(`TC_03_02_0${index + 1} | Verify navigation to Home page from ${name}`, async ({
             page,
             headerComponent,
             footerComponent,
