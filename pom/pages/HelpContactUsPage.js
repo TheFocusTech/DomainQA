@@ -25,20 +25,20 @@ export default class HelpContactUsPage {
 
     async clickTypeDropdown() {
         await step('Open the "Type" dropdown list.', async () => {
-            this.typeDropdown.click();
+            this.typeDropdown.click({ force: true });
         });
     }
 
     async chooseTypeOption(name) {
         await step(`Choose ${name} from dropdown list.`, async () => {
-            await this.page.getByRole('option', { name: name }).waitFor({ state: 'visible' });
+            await this.page.getByRole('option', { name: name, exact: true }).waitFor({ state: 'visible' });
             await this.page.getByRole('option', { name: name }).click();
         });
     }
 
     async clickRequestTypeDropdown() {
         await step('Open the "Nature of Request" dropdown list.', async () => {
-            this.requestTypeDropdown.click();
+            this.requestTypeDropdown.click({ force: true });
         });
     }
 

@@ -48,7 +48,7 @@ export default class CreateContactPage {
 
     async selectCountryByName(country) {
         await step(`Click on "Country" dropdown and select a country: ${country}`, async () => {
-            await this.countryInput.click();
+            await this.countryInput.click({ force: true });
             await this.page.getByRole('option', { name: country }).click();
         });
     }

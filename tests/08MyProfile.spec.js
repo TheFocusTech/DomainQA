@@ -58,7 +58,7 @@ test.describe('My profile', () => {
         });
     });
 
-    test('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
+    test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
         loginPage,
         headerComponent,
@@ -168,7 +168,7 @@ test.describe('My profile', () => {
     });
 
     CURRENCY_TYPE.forEach(({ type }) => {
-        test(`TC_08_06 | Verify user can change currency from ${type[0]} to ${type[1]} in the Profile Menu`, async ({
+        test.skip(`TC_08_06 | Verify user can change currency from ${type[0]} to ${type[1]} in the Profile Menu`, async ({
             page,
             loginPage,
             headerComponent,

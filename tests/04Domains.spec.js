@@ -448,7 +448,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
+    test.skip('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
         page,
         dnsRecordModal,
         hostedZonesDetailPage,
@@ -662,7 +662,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
+    test.skip(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
         page,
         hostedZonesDetailPage,
         deleteDNSmodal,

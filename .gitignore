@@ -9,3 +9,4 @@ package-lock.json
 /allure-results/
 /allure-report/
 .idea/
+results.json
