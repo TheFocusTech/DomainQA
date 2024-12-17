@@ -16,7 +16,7 @@ import {
 } from '../testData';
 import { loginUser } from '../helpers/preconditions';
 import { generateVerificationCode, getCookies } from '../helpers/utils';
-import { disable2FA, getProfileData } from '../helpers/apiCalls';
+import { disable2FA, getProfileData, signInRequest, changePasswordRequest } from '../helpers/apiCalls';
 
 test.describe('My profile', () => {
     test('TC_08_01 | Verify the Profile Dropdown Menu is displayed on "My Profile" Button Click', async ({
@@ -58,8 +58,9 @@ test.describe('My profile', () => {
         });
     });
 
-    test.skip('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
+    test('TC_08_02_02 | Verify user can change Password when 2FA is disabled', async ({
         page,
+        request,
         loginPage,
         headerComponent,
         settingsGeneralPage,
@@ -77,6 +78,17 @@ test.describe('My profile', () => {
         const email = `${process.env.EMAIL_PREFIX}500${process.env.EMAIL_DOMAIN}`;
         const currentPassword = `${process.env.USER_PASSWORD}`;
         const newPassword = `NEW_${process.env.USER_PASSWORD}`;
+
+        await step(
+            'Preconditions: Attempt to sign in with the new password, and once signed in, change it back to the default.',
+            async () => {
+                const response = await signInRequest(request, email, newPassword);
+
+                if (response.ok()) {
+                    await changePasswordRequest(request, newPassword, currentPassword);
+                }
+            }
+        );
 
         await loginUser(page, headerComponent, loginPage, email, currentPassword);
 
