@@ -448,35 +448,40 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test.skip('TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.', async ({
-        page,
-        dnsRecordModal,
-        hostedZonesDetailPage,
-    }) => {
-        await tags('Domains', 'Positive');
-        await severity('normal');
-        await description('Verify copy button works properly.');
-        await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
-        await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
-        await epic('Domains');
+    test.skip(
+        'TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.',
+        {
+            annotation: {
+                type: 'issue',
+                description: 'webkit does not support navigator.clipboard.',
+            },
+        },
+        async ({ page, dnsRecordModal, hostedZonesDetailPage }) => {
+            await tags('Domains', 'Positive');
+            await severity('normal');
+            await description('Verify copy button works properly.');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+            await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
+            await epic('Domains');
 
-        await step('Open modal "Add new DNS-record".', async () => {
-            await hostedZonesDetailPage.clickAddRecordButton();
-        });
+            await step('Open modal "Add new DNS-record".', async () => {
+                await hostedZonesDetailPage.clickAddRecordButton();
+            });
 
-        await step('Verify "Add new DNS-record" modal is visible.', async () => {
-            await expect(dnsRecordModal.dialog).toBeVisible();
-        });
+            await step('Verify "Add new DNS-record" modal is visible.', async () => {
+                await expect(dnsRecordModal.dialog).toBeVisible();
+            });
 
-        await step('Click copy button', async () => {
-            await dnsRecordModal.copyButton.click();
-        });
+            await step('Click copy button', async () => {
+                await dnsRecordModal.copyButton.click();
+            });
 
-        await step('Read text from clipboard and validate.', async () => {
-            const copiedText = await page.evaluate('navigator.clipboard.readText()');
-            expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
-        });
-    });
+            await step('Read text from clipboard and validate.', async () => {
+                const copiedText = await page.evaluate('navigator.clipboard.readText()');
+                expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
+            });
+        }
+    );
 
     test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({
         dnsRecordModal,
@@ -662,7 +667,7 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test.skip(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
+    test(`TC_04_07 | Verify user can delete DNS record in hosted zone`, async ({
         page,
         hostedZonesDetailPage,
         deleteDNSmodal,

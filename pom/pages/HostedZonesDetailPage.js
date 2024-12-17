@@ -101,6 +101,8 @@ export default class HostedZonesDetailPage {
                 await menu.click();
                 if (await this.isDeleteLinkVisible()) {
                     return true;
+                } else {
+                    await menu.click();
                 }
             }
             return false;
