@@ -5,7 +5,10 @@ export default class HelpContactUsPage {
         this.page = page;
 
         this.emailInput = this.page.getByPlaceholder('Enter your email');
-        this.typeDropdown = this.page.getByRole('combobox');
+        this.typeDropdown = this.page
+            .locator('div')
+            .filter({ hasText: /^Type\*Choose type$/ })
+            .locator('svg'); //locator('.css-nlz5p3') //this.page.getByRole('combobox');
         this.requestTypeDropdown = this.page.getByRole('combobox').nth(1);
         this.subjectInput = this.page.locator('input[name="emailSubject"]');
         this.descriptionInput = this.page.locator('textarea[name="description"]');
