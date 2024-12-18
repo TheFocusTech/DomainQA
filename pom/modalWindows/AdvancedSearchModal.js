@@ -33,7 +33,7 @@ export default class AdvancedSearchModal {
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
         this.toggleInput = this.page.locator('input[name="hideRegistered"]');
-        this.toggleControl = this.page.locator('div[class*="toggle_toggle-control"]');
+        this.toggleControl = this.page.locator('label div'); //locator('div[class*="toggle_toggle-control"]');//locator('label div')
         this.letterButton = (letter) => this.page.locator(`button:has(span:text-is("${letter}"))`);
         this.category = this.page.locator('input[name="tld"]+label');
         this.categoryArea = this.page.locator('input[name="tld"]');
