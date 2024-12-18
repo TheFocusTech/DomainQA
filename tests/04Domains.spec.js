@@ -448,41 +448,6 @@ test.describe('DNS Records', () => {
         });
     });
 
-    test.skip(
-        'TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.',
-        {
-            annotation: {
-                type: 'issue',
-                description: 'webkit does not support navigator.clipboard.',
-            },
-        },
-        async ({ page, dnsRecordModal, hostedZonesDetailPage }) => {
-            await tags('Domains', 'Positive');
-            await severity('normal');
-            await description('Verify copy button works properly.');
-            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
-            await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
-            await epic('Domains');
-
-            await step('Open modal "Add new DNS-record".', async () => {
-                await hostedZonesDetailPage.clickAddRecordButton();
-            });
-
-            await step('Verify "Add new DNS-record" modal is visible.', async () => {
-                await expect(dnsRecordModal.dialog).toBeVisible();
-            });
-
-            await step('Click copy button', async () => {
-                await dnsRecordModal.copyButton.click();
-            });
-
-            await step('Read text from clipboard and validate.', async () => {
-                const copiedText = await page.evaluate('navigator.clipboard.readText()');
-                expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
-            });
-        }
-    );
-
     test('TC_04_12 | "Add new DNS-record modal - verify info tooltip appeared.', async ({
         dnsRecordModal,
         hostedZonesDetailPage,
@@ -734,4 +699,57 @@ test.describe('DNS Records', () => {
             expect(onlyStaticNames).toMatchSnapshot('text-add-new-dns-record.txt');
         });
     });
+});
+
+test.describe('DNS Records - Verify copy button adds text to clipboard', () => {
+    test(
+        'TC_04_11 | "Add new DNS-record modal - verify copy button adds text to clipboard.',
+        {
+            annotation: {
+                type: 'issue',
+                description: 'webkit does not support navigator.clipboard.',
+            },
+        },
+        async ({ page, dnsRecordModal, hostedZonesDetailPage, headerComponent, loginPage, request, browserName }) => {
+            test.skip(browserName !== 'chromium');
+            await loginUser(page, headerComponent, loginPage);
+            await page.waitForURL(process.env.URL);
+
+            await step('Create hosted zones via API.', async () => {
+                headers = await getCookies(page);
+                const response = await createHostedZoneAPI(request, headers);
+                hostedZoneId = response.id;
+
+                await page.goto(`${process.env.URL}${URL_ENDPOINT.hostedZones}/${hostedZoneId}`, {
+                    waitUntil: 'networkidle',
+                });
+            });
+
+            await tags('Domains', 'Positive');
+            await severity('normal');
+            await description('Verify copy button works properly.');
+            await issue(`${QASE_LINK}/01-7`, 'Hosted-Zones');
+            await tms(`${GOOGLE_DOC_LINK}8qehz9q2sggw`, 'ATC_04_11');
+            await epic('Domains');
+
+            await step('Open modal "Add new DNS-record".', async () => {
+                await hostedZonesDetailPage.clickAddRecordButton();
+            });
+
+            await step('Verify "Add new DNS-record" modal is visible.', async () => {
+                await expect(dnsRecordModal.dialog).toBeVisible();
+            });
+
+            await step('Click copy button', async () => {
+                await dnsRecordModal.copyButton.click();
+            });
+
+            await step('Read text from clipboard and validate.', async () => {
+                const copiedText = await page.evaluate('navigator.clipboard.readText()');
+                expect(await dnsRecordModal.getRootDomainName()).toEqual(copiedText);
+            });
+
+            await deleteHostedZoneAPI(request, hostedZoneId, headers);
+        }
+    );
 });
