@@ -1,0 +1,9 @@
+Filling field: Complainant* with value: Carol Kris
+Filling field: Respondent* with value: Dora Balistreri
+Filling field: Arbitrator Email Address* with value: Vincenzo_Gutkowski@yahoo.com
+Filling field: Arbitrator Organization* with value: Anderson LLC
+Filling field: Date of Issue* with value: 2024-09-12
+Filling field: Abuse subject* with value: AUTOTST
+Filling field: Details or Explanation* with value: Audentia alius claro minus pauper cariosus verecundia vereor. Veritas solutio optio patrocinor. Cunae comis clarus.
+Filling field: Your Email*  with value: Angel94@gmail.com
+Filling field: The offending domain name(s)* with value: ill-extension.com
