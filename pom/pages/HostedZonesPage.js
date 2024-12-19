@@ -93,6 +93,7 @@ export default class HostedZonesPage {
 
     async verifyHostedZonesPage(heading, title, description, buttons) {
         await step(`Verify that Hosted Zones page has "${heading}" heading.`, async () => {
+            await this.mainHeading.waitFor({ state: 'visible' });
             await expect(this.mainHeading).toContainText(heading);
         });
         await step(`Verify that Hosted Zones page has "${title}" text.`, async () => {

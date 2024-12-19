@@ -27,13 +27,12 @@ export default class AdvancedSearchModal {
         this.allSwipper = this.page.locator('button').filter({ hasText: /^All$/ });
         this.abcSwipperButton = this.page.locator('.swiper-wrapper button[type="button"]');
         this.defaultCategory = this.page.getByText('All TLDs');
-        // this.nextArrow = this.page.locator('path[d="m9 6 6 6-6 6"]');
         this.nextArrow = this.page.locator('button:has(path[d="m9 6 6 6-6 6"])');
         this.categoryList = this.page.locator('section[class*="tld-category-list_tld-category-list__item-wrapper"]');
         this.resetButton = this.page.locator('button').filter({ hasText: 'Reset' });
         this.closeButton = this.page.getByLabel('Button');
         this.toggleInput = this.page.locator('input[name="hideRegistered"]');
-        this.toggleControl = this.page.locator('label div'); //locator('div[class*="toggle_toggle-control"]');//locator('label div')
+        this.toggleControl = this.page.locator('label div');
         this.letterButton = (letter) => this.page.locator(`button:has(span:text-is("${letter}"))`);
         this.category = this.page.locator('input[name="tld"]+label');
         this.categoryArea = this.page.locator('input[name="tld"]');
@@ -50,10 +49,12 @@ export default class AdvancedSearchModal {
     async selectTLDs(category, numberOfTLDs) {
         const listOfTLD = [];
         await step(`In ${category} category select ${numberOfTLDs} TLDs`, async () => {
+            await this.TLDsList.last().waitFor({ state: 'visible' });
             const count = await this.TLDsList.count();
             let listOfTLDIndex = getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
                 const randomTLD = await this.randomTLD(index);
+                await this.randomTLD(index).waitFor({ state: 'visible' });
                 await randomTLD.click();
                 listOfTLD.push(await randomTLD.textContent());
             }
