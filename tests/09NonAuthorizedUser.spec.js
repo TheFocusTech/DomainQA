@@ -315,6 +315,7 @@ test.describe('Unauthorized user', () => {
         await issue(`${QASE_LINK}/01-17`, 'Search domain with filters');
         await tms(`${GOOGLE_DOC_LINK}cba4s4hsjfkn`, 'ATC_09_03_06');
         await epic('Unauthorized_user');
+        test.slow();
 
         await homePage.fillDomainSearchInput(AVAILABLE_DOMAIN);
         await homePage.clickFilterButton();
@@ -353,6 +354,7 @@ test.describe('Unauthorized user', () => {
         await expect(await domainAvailabilityPage.resultsSection).toBeVisible();
 
         await step(`Verify that search result contains selected domains: ${selectedTLDs}`, async () => {
+            await domainAvailabilityPage.resultSearchList.last().waitFor({ state: 'visible' });
             await expect(await domainAvailabilityPage.resultSearchList).toHaveCount(selectedTLDs.length);
             let resultsList = await domainAvailabilityPage.resultSearchList;
             for (let i = 0; i < resultsList.length; i++) {

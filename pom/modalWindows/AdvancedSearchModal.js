@@ -50,10 +50,12 @@ export default class AdvancedSearchModal {
     async selectTLDs(category, numberOfTLDs) {
         const listOfTLD = [];
         await step(`In ${category} category select ${numberOfTLDs} TLDs`, async () => {
+            await this.TLDsList.last().waitFor({ state: 'visible' });
             const count = await this.TLDsList.count();
             let listOfTLDIndex = getRandomArray(count, numberOfTLDs);
             for (const index of listOfTLDIndex) {
                 const randomTLD = await this.randomTLD(index);
+                await this.randomTLD(index).waitFor({ state: 'visible' });
                 await randomTLD.click();
                 listOfTLD.push(await randomTLD.textContent());
             }
