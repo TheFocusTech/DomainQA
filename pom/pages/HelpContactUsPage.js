@@ -8,7 +8,7 @@ export default class HelpContactUsPage {
         this.typeDropdown = this.page
             .locator('div')
             .filter({ hasText: /^Type\*Choose type$/ })
-            .locator('svg'); //locator('.css-nlz5p3') //this.page.getByRole('combobox');
+            .locator('svg');
         this.requestTypeDropdown = this.page.getByRole('combobox').nth(1);
         this.subjectInput = this.page.locator('input[name="emailSubject"]');
         this.descriptionInput = this.page.locator('textarea[name="description"]');
