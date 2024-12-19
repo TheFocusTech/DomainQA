@@ -112,7 +112,7 @@ test.describe('Blog', () => {
         });
     });
 
-    test.skip('TC_06_04 | Verify switching between Blog articles By category', async ({
+    test('TC_06_04 | Verify switching between Blog articles By category', async ({
         page,
         headerComponent,
         loginPage,
@@ -171,6 +171,7 @@ test.describe('Blog', () => {
                     let categoryCount = count.replace(')', '');
                     await blogSearchResultsPage.subCategories.nth(i).click();
                     await blogSearchResultsPage.searchResultHeader.waitFor({ state: 'visible' });
+                    await page.waitForLoadState('networkidle');
                     const searchResultHeaderText = await blogSearchResultsPage.searchResultHeader.allTextContents();
                     let headerCount = searchResultHeaderText[0].match(/\d+/)[0];
 
